@@ -1,0 +1,2 @@
+  GET /api/dataypes/sniffers
+  Return a list of sniffers
