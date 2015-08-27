@@ -1,0 +1,2 @@
+GET /api/datasets/{encoded_dataset_id}
+Displays information about and/or content of a dataset (metadata)
