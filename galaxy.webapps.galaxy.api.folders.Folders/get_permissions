@@ -1,0 +1,2 @@
+GET /api/folders/{id}/permissions
+Load all permissions for the given folder id and return it
