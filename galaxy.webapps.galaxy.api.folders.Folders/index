@@ -1,0 +1,2 @@
+GET /api/folders/ 
+This would normally display a list of folders. However, that would be across multiple libraries, so it's not implemented
