@@ -1,0 +1,1 @@
+PUT /api/folders/{encoded_folder_id}
