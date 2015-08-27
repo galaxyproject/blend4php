@@ -1,0 +1,2 @@
+GET /api/genomes/{id}
+Returns information about build <id>
