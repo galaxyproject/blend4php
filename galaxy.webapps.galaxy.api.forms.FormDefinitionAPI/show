@@ -1,0 +1,2 @@
+GET /api/forms/{encoded_form_id}
+Displays information about a form
