@@ -1,0 +1,2 @@
+GET /api/groups/{encoded_group_id}/roles/{encoded_role_id}
+Displays information about a group role
