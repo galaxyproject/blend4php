@@ -1,0 +1,2 @@
+POST /api/folders/{encoded_id}/contents
+create a new library file form an HDA
