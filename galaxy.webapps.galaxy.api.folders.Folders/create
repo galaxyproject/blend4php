@@ -1,0 +1,2 @@
+POST /api/folders/{encoded_parent_folder_id}
+Create a new folder object underneath the one specified in the parameters
