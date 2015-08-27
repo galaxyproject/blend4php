@@ -1,0 +1,2 @@
+GET /api/datatypes
+Return an object containing upload datatypes
