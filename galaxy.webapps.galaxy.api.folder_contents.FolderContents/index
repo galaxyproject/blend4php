@@ -1,0 +1,4 @@
+GET /api/folders/{encoded_folder_id}/contents
+Displays a collection of a folder's contents. Encoded folder ID is prepended with 'F' if it is a folder as opposed
+to a data set which does not have it. Full path is provided in response as a sepearate object providing data for
+breadcrumb path building.
