@@ -1,0 +1,2 @@
+DELETE /api/groups/{encoded_group_id}/roles/{encoded_role_id}
+Removes a role from a group
