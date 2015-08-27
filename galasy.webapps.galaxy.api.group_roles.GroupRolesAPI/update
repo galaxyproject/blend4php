@@ -1,0 +1,2 @@
+PUT /api/groups/{encoded_group_id}/roles/{encoded_role_id}
+Adds a role to a group
