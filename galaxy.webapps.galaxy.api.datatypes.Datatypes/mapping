@@ -1,0 +1,2 @@
+GET /api/datatypes/mapping 
+Return a dictionary of class to class mappings
