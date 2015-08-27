@@ -1,0 +1,2 @@
+DELETE /api/folders/{id}
+marks the folder with the given id as deleted (or removes the deleted mark if the undelete param is true)
