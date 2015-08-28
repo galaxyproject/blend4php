@@ -1,0 +1,2 @@
+DELETE /api/histories/{history_id}/contents/{id}
+Delete the HDA with the given id
