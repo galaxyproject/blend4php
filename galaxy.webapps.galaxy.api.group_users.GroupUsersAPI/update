@@ -1,0 +1,2 @@
+PUT /api/groups/{encoded_group_id}/users/{encoded_user_id}
+Adds a user to a group
