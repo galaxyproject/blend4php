@@ -1,0 +1,5 @@
+GET /api/histories/{id}/exports/{jeha_id}
+if ready and available, return raw contents of exported history.
+Note** Use PUT /api/histories/{id}/exports to initiate the creation of such export
+when ready that route will return 200 status code (instead of 202) with a JSON dictionary containing a download_url
+(should we attempt to emulate this in PHP? Ask Stephen about the mechanics)
