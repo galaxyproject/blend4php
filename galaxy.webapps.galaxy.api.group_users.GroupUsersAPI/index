@@ -1,0 +1,2 @@
+GET /api/groups/{encoded_group_id}/users
+Displays a collection of groups
