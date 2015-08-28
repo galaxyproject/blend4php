@@ -1,0 +1,2 @@
+GET /api/groups/{encoded_group_id}/users/{encoded_user_id}
+Displays information about a group user
