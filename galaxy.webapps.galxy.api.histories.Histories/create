@@ -1,0 +1,2 @@
+POST /api/histories
+Create a new history
