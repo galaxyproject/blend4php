@@ -1,0 +1,2 @@
+GET /api/histories
+Return undeleted histories for the current user
