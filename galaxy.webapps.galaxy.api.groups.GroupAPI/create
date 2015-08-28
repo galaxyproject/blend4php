@@ -1,0 +1,2 @@
+POST /api/groups
+Creates a new group
