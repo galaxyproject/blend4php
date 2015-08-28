@@ -1,0 +1,2 @@
+PUT /api/histories/{id}/exports
+start job (if needed) to create history export for corresponding history
