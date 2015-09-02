@@ -14,6 +14,20 @@ class AUTHENTICATION {
   }
   
   public function get_api_key($username, $password){
+  	$opts = array('http' =>
+  			array(
+  					'method'  => 'POST',
+  					'header'  => "Content-Type: text/xml\r\n".
+  					"Authorization: Basic ".base64_encode("$username:$password")."\r\n",
+  					'content' => $body,
+  					'timeout' => 60
+  			)
+  	);
+  	 
+  	$context  = stream_context_create($opts);
+  	$url = 'https://'.$https_server;
+  	$result = file_get_contents($url, false, $context, -1, 40000);
+  	 
   
   }
   
