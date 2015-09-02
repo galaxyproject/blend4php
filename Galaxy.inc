@@ -1,12 +1,16 @@
 <?php
 
 class Galaxy {
-  private host;
-  private port;
+  private $host;
+  private $port;
   
-  public __construct() {
+  function __construct($hostname, $port) {
+  	$this->host = $hostname;
+  	$this->port = $port;
+  	
   }
   
-  public getURL() {
+  public function getURL() {
+  	return "http://". $this->host .":". $this->port;
   }
 }
