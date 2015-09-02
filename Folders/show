@@ -1,2 +1,0 @@
-GET /api/folders/{encoded_folder_id}
-Displays information about a folder

@@ -1,2 +1,0 @@
-POST /api/histories/deleted/{id}/undelete
-Undelete history (that hasn't been purged) with the given id

@@ -1,2 +1,0 @@
-GET /api/histories/{encoded_history_id}/contents/{encoded_content_id}/display 
-Displays history content (dataset)

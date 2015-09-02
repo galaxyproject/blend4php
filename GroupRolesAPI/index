@@ -1,2 +1,0 @@
-GET /api/groups/{encoded_group_id}/roles
-Displays a collection of groups

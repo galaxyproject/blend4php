@@ -1,2 +1,0 @@
-GET /api/datasets/{dataset_id}/converted/{ext}
-return information about datasets made by converting this dataset to a new format

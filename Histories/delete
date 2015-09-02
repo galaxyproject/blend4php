@@ -1,2 +1,0 @@
-DELETE /api/histories/{id}
-Delete the history with the given id

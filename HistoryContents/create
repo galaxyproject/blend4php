@@ -1,2 +1,0 @@
-POST /api/histories/{history_id}/contents/{type}
-Create a new HDA by copying an accessible LibraryDataset

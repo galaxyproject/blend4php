@@ -1,8 +1,0 @@
-GET /api/histories/{id}
-Return the history with id
-
-GET /api/histories/deleted/{id}
-Return the deleted history with id
-
-GET /api/histories/most_recently_used
-Return the most recently used history

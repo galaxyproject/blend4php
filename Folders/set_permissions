@@ -1,1 +1,0 @@
-POST /api/folders/{encoded_folder_id}/permissions

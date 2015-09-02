@@ -1,2 +1,0 @@
-PUT /api/histories/{id}
-Updates the values for the history with the given id

@@ -1,5 +1,0 @@
-GET /api/histories
-Return undeleted histories for the current user
-
-GET /api/histories/deleted
-Return deleted histories for the current user

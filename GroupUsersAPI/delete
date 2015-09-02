@@ -1,2 +1,0 @@
-DELETE /api/groups/{encoded_group_id}/users/{encoded_user_id}
-Removes a user from a group

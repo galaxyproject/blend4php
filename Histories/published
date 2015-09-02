@@ -1,2 +1,0 @@
-GET /api/histories/published
-Return all histories that are published

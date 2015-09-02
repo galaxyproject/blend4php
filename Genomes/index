@@ -1,2 +1,0 @@
-GET /api/genomes
-returns a list of installed genomes

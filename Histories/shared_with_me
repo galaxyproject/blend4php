@@ -1,2 +1,0 @@
-GET /api/histories/shared_with_me
-Return all histories that are shared with the current user
