@@ -18,6 +18,27 @@ class WorkflowClient {
 	 */
 	public function delete_workflow($workflow_id) {
 		
+          // Set the POST data
+          $postdata = http_build_query(
+            array(
+              'key' => $this->galaxy->getAPIKey(),
+            )
+          );
+          
+	  // Set the POST options
+          $opts = array('http' => 
+            array (
+              'method' => 'DELETE',
+              'content' => $postdata
+            )
+          );
+          
+          // Create the POST context
+          $context  = stream_context_create($opts);
+	
+          // POST the data to an api
+          $url = $this->galaxy->getURL() . '/api/workflows/' . base64_encode($workflow_id);
+          $result = file_get_contents($url, false, $context);	
 	}
 	
 	/**
@@ -64,12 +85,10 @@ class WorkflowClient {
 	}
 	
 	/**
-	 * Get workflows and/or filter specific one(s) providing $name or $workflow_id
 	 * 
 	 * @param $workflow_id
 	 * @param $name
 	 * @param $published
-	 * Last Edited: @timestamp Sep 3, 2015 10:55:09 AM
 	 */
 	public function get_workflows($workflow_id = NULL, $name = NULL, $published = FALSE) {
 		
