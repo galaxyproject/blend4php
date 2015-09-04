@@ -64,10 +64,12 @@ class WorkflowClient {
 	}
 	
 	/**
+	 * Get workflows and/or filter specific one(s) providing $name or $workflow_id
 	 * 
 	 * @param $workflow_id
 	 * @param $name
 	 * @param $published
+	 * Last Edited: @timestamp Sep 3, 2015 10:55:09 AM
 	 */
 	public function get_workflows($workflow_id = NULL, $name = NULL, $published = FALSE) {
 		
