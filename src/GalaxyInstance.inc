@@ -17,6 +17,7 @@ class GalaxyInstance {
   //  The API Key for the user connection.
   private $api_key;
   
+  private $debug = true; 
   /**
    * Implements a constructor.
    * 
@@ -56,6 +57,9 @@ class GalaxyInstance {
     $context  = stream_context_create($opts);
     $url = $this->galaxy->getURL() . '/api/authenticate/baseauth';
     $result = file_get_contents($url, false, $context, -1, 40000);
+    
+    if($debug)
+    print ($result);	
     
     // TODO: make sure we get a correct result.
     $this->api_key = $result['api_key'];
