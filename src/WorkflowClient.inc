@@ -125,11 +125,13 @@ class WorkflowClient {
 		// Or should I use this?
 		// We can use readfile
 		
+		// Piecemeal
+		
 		// hopefully this will pull up the location of the selected workflow
 		$file = $this->galaxy->getURL() . '/api/workflows/' . base64_encode($workflow_id);
 		
 		// This was copied from http://php.net/manual/en/function.readfile.php
-		// TODO; This needs to be reformatted in the http_build_query style 
+		// TODO: This needs to be reformatted in the http_build_query style 
 		if (file_exists($file)) {
 			header('Content-Description: File Transfer');
 			header('Content-Type: application/octet-stream');
