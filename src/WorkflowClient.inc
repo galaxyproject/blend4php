@@ -21,6 +21,10 @@ class WorkflowClient {
           // Set the POST data
           $postdata = http_build_query(
             array(
+
+            	// TODO: We should return something to the user saying that
+            	// the delete was successful or not successful in 
+            	// deleting the workflow
               'key' => $this->galaxy->getAPIKey(),
             )
           );
@@ -50,6 +54,41 @@ class WorkflowClient {
 	 *   Dict representing the workflow requested.
 	 */
 	public function export_workflow_json($workflow_id) {
+		// I do not know what a Dict is
+		$dict = 'potato';
+		// Based off of some reading this should be a put not a post
+		// http://stackoverflow.com/questions/630453/put-vs-post-in-rest
+		
+		      $putdata = http_build_query(
+				    array(
+				    	// I'm not sure if this is right
+				    	// I'm copying what Stephen had developed in 
+				    	// the function above
+				    	// TODO: Exporting a workflow involves making url for 
+				    	// that resource so this should be included...
+						  'key' => $this->galaxy->getAPIKey(),
+				    	// It probably doesn't work this way but I'm going to 
+				    	// put it here for now so Stephen can at least see it
+				    	// and attempt to make sense of it
+				    	/** I want this URL to be visible to the end user*/
+							'url' => $this->galaxy->getURL() . '/api/workflows/' . base64_encode($workflow_id),
+				    )
+			    );
+	  // Set the PUT options
+	 			  $opts = array('http' =>
+	 			  		array (
+	 			  				'method' => 'PUT',
+	 			  				'content' => $putdata
+	 			  		)
+	 			  );
+    // Create the PUT context
+	  $context  = stream_context_create($opts);
+	 			  
+	 	// PUT the data to an api
+	  $url = $this->galaxy->getURL() . '/api/workflows/' . base64_encode($workflow_id);
+	  $result = file_get_contents($url, false, $context);
+	  
+	  return $dict;
 		
 	}
 	
@@ -70,7 +109,12 @@ class WorkflowClient {
 	 *  full file path including filename.
 	 */
 	public function export_workflow_to_local_path($workflow_id, $file_local_path, $use_default_filename =  TRUE) {
-		
+		// How to you send a resource to local machine? how would that be 
+		// an HTTP request?
+		// Can you PUT/POST into a user local path?
+		// http://stackoverflow.com/questions/386845/http-headers-for-file-downloads
+		// This says to "offer" to put the data in a file
+		// 
 	}
 	
 	

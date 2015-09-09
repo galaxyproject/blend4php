@@ -35,6 +35,8 @@ class GalaxyInstance {
     $this->host = $hostname;
     $this->port = $port;
     $this->use_https  = $use_https;
+    
+    // where's the return?
   }
   
   
@@ -43,6 +45,8 @@ class GalaxyInstance {
    * 
    * @param $username
    * @param $password
+   * 
+   * 
    */
   public function authenticate($username, $password) {
     $opts = array(
@@ -86,9 +90,22 @@ class GalaxyInstance {
   
   /**
    * Sets the API Key for this Galaxy instance.
-   * @param unknown $api_key
+   * @param string $api_key
    */
   public function setAPIKey($api_key) {
   	$this->api_key = $api_key;
+  }
+  
+  /**
+   * Acquires the API key
+   * FIXME: I have no idea if this is right, it seems too simple
+   * @timestamp Sep 8, 2015 5:56:24 PM
+   * @param void
+   * 
+   * @return string 
+   *    The API key that authorizes a user to certain actions
+   */
+  public function getAPIKey(){
+    return $this->api_key;
   }
 }
