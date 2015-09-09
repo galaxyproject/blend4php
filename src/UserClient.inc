@@ -17,7 +17,8 @@ class UserClient{
 	function create_local_user($username, $user_email, $password) {
 		//POST /api/users 
 		if($debug)
-		print ("Im on line 19");
+		print ("Im on line 19"); // That's a lie! @author cwytko
+
 		
 		$data = array(
 			'username' => $username,

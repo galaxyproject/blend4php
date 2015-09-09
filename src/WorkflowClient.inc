@@ -114,10 +114,35 @@ class WorkflowClient {
 		// Can you PUT/POST into a user local path?
 		// http://stackoverflow.com/questions/386845/http-headers-for-file-downloads
 		// This says to "offer" to put the data in a file
-		// 
+		
+		// Found on http://yagudaev.com/posts/resolving-php-relative-path-problem/
+		// Supposedly we could run a script into the local filesystem of our end
+		// user that is we run a script that will transfer the specified workflow
+		// to the user's downloading area
+		// include (dirname (__FILE__) . "");
+		
+		// http://php.net/manual/en/function.readfile.php
+		// Or should I use this?
+		// We can use readfile
+		
+		// hopefully this will pull up the location of the selected workflow
+		$file = $this->galaxy->getURL() . '/api/workflows/' . base64_encode($workflow_id);
+		
+		// This was copied from http://php.net/manual/en/function.readfile.php
+		// TODO; This needs to be reformatted in the http_build_query style 
+		if (file_exists($file)) {
+			header('Content-Description: File Transfer');
+			header('Content-Type: application/octet-stream');
+			header('Content-Disposition: attachment; filename="'.basename($file).'"');
+			header('Expires: 0');
+			header('Cache-Control: must-revalidate');
+			header('Pragma: public');
+			header('Content-Length: ' . filesize($file));
+			readfile($file);
+		
+	  }
+	
 	}
-	
-	
 	/**
 	 * 
 	 * @param $workflow_id
