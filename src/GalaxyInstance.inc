@@ -41,7 +41,6 @@ class GalaxyInstance {
 	 * @param $password
 	 */
 	public function authenticate($username, $password) {
-
 		$opts = array('http' =>
 				array(
 						'method'  => 'GET',
@@ -58,8 +57,6 @@ class GalaxyInstance {
 			print ($result);
 
 		$this->setAPIKey($result);
-
-
 	}
 
 	/**
@@ -93,3 +90,5 @@ class GalaxyInstance {
 		return $this->api_key;
 	}
 }
+
+?>
