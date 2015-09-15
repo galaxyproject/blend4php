@@ -79,7 +79,7 @@ class GalaxyInstance {
 
 	/**
 	 * Sets the API Key for this Galaxy instance.
-	 * @param unknown $api_key from json array
+	 * @param unknown $api_key 
 	 */
 	public function setAPIKey($api_key) {
 		$temp = json_decode($api_key, TRUE);
