@@ -4,6 +4,7 @@
  * 
  */
 class GalaxyInstance {
+
 	// The hostname where the Galaxy server is located.
 	private $host;
 	// The port on which the remote Galaxy instance is runinng.
@@ -31,6 +32,7 @@ class GalaxyInstance {
 		$this->host = $hostname;
 		$this->port = $port;
 		$this->use_https  = $use_https;
+		// construct does not have a return 
 	}
 
 
@@ -91,4 +93,4 @@ class GalaxyInstance {
 	}
 }
 
-?>
+
