@@ -93,7 +93,6 @@ class UserClient{
 	 * config/galaxy.ini configuration file.
 	 */
 	function create_local_user($username, $user_email, $password) {
-<<<<<<< HEAD
 		//POST /api/users
 
 		$url = $this->galaxy->getURL() . '/api/users'. "?key=" . $this->galaxy->getAPIKey();
@@ -118,40 +117,6 @@ class UserClient{
 		{
 			curl_exec($ch);
 		}
-=======
-		//POST /api/users 
-		if($debug)
-		print ("Im on line 19"); // That's a lie! @author cwytko
-
-		
-		$data = array(
-			'username' => $username,
-			'email' => $user_email,
-			'password'=> $password,			
-		);
-		
-		$opts = array(
-			'http' => array(
-				'headers' => ''	,
-				'method'  => 'POST',
-				'content' => http_build_query($data),
-				'timeout' => 60
-			)
-		);
-		if($debug) 
-		print ("Im on line 35");
-		
-		$context  = stream_context_create($opts);
-		$url = $this->galaxy->getURL() . '/api/users';
-		
-		if($debug)
-		print ("Im on line 36");
-		$result = file_get_contents($url, false, $context);
-		
-		return $result; 
-	}
-	
->>>>>>> ea6b15b3dac2194bec4303a973f0dd4054cbb0c9
 		
 		if($ch === FALSE)
 		{
