@@ -19,32 +19,52 @@ class WorkflowClient {
    * @param $workflow_id
    */
   public function delete_workflow($workflow_id) {
-    // TODO: We should return something to the user saying that
-    // the delete was successful or not successful in
-    // deleting the workflow
 
-    // Set the POST data
-    $postdata = http_build_query(array(
-      'key' => $this->galaxy->getAPIKey()
-    ));
+  	$i = curl_init();
+  	 
+  	curl_setopt($i, CURLOPT_URL, $this->galaxy->getURL() . '/api/workflows/' . $workflow_id);
+    curl_setopt($i, CURLOPT_CUSTOMREQUEST, "DELETE");
+    //curl_setopt($i, CURLOPT_POSTFIELDS, $json);
+    curl_setopt($i, CURLOPT_RETURNTRANSFER, true);
+  	 
+  	$result = curl_exec($i);
+  	$info = curl_getinfo($i);
+  	
+  	if (!$result)
+  	{
+  		echo "Problem encountered\n";
+  	}
+  	else
+  	{
+  		//$result = json_decode($result);
+  		print_r($info);
+  		print_r($result);
+  	}
+  	curl_close($i);
+//     // TODO: We should return something to the user saying that
+//     // the delete was successful or not successful in
+//     // deleting the workflow
 
-    // Set the POST options
-    $opts = array(
-      'http' => array(
-        'method' => 'DELETE',
-        'content' => $postdata,
-      	'header' => "Content-type: application/x-www-form-urlencoded\r\n"
-      			
-      	
-      )
-    );
+//     // Set the POST data
+//     $postdata = http_build_query(array(
+//       'key' => $this->galaxy->getAPIKey()
+//     ));
 
-    // Create the POST context
-    $context = stream_context_create($opts);
+//     // Set the POST options
+//     $opts = array(
+//       'http' => array(
+//         'method' => 'DELETE',
+//         'content' => $postdata,
+//       	'header' => "Content-type: application/x-www-form-urlencoded\r\n"
+//       )
+//     );
 
-    // POST the data to an api
-    $url = $this->galaxy->getURL() . '/api/workflows/' . $workflow_id;
-    $result = file_get_contents($url, false, $context);
+//     // Create the POST context
+//     $context = stream_context_create($opts);
+
+//     // POST the data to an api
+//     $url = $this->galaxy->getURL() . '/api/workflows/' . base64_encode($workflow_id);
+//     $result = file_get_contents($url, false, $context);
   }
 
   /**
@@ -56,39 +76,32 @@ class WorkflowClient {
    *   Dict representing the workflow requested.
    */
   public function export_workflow_json($workflow_id) {
-    // I do not know what a Dict is
-    $dict = 'potato';
-    // Based off of some reading this should be a put not a post
-    // http://stackoverflow.com/questions/630453/put-vs-post-in-rest
-
-    $putdata = http_build_query(array(
-      // I'm not sure if this is right
-      // I'm copying what Stephen had developed in
-      // the function above
-      // TODO: Exporting a workflow involves making url for
-      // that resource so this should be included...
-      'key' => $this->galaxy->getAPIKey(),
-      // It probably doesn't work this way but I'm going to
-      // put it here for now so Stephen can at least see it
-      // and attempt to make sense of it
-      /**
-       * I want this URL to be visible to the end user
-       */
-      'url' => $this->galaxy->getURL() . '/api/workflows/' . base64_encode($workflow_id)
-    ));
-    // Set the PUT options
-    $opts = array(
-      'http' => array('method' => 'PUT','content' => $putdata
-      )
-    );
-    // Create the PUT context
-    $context = stream_context_create($opts);
-
-    // PUT the data to an api
-    $url = $this->galaxy->getURL() . '/api/workflows/' . base64_encode($workflow_id);
-    $result = file_get_contents($url, false, $context);
-
-    return $dict;
+  	$postdata = http_build_query(
+  			array(
+  					'var1' => 'some content',
+  					'var2' => 'doh'
+  			)
+  	);
+  	
+  	$opts = array('http' =>
+  			array(
+  					'method'  => 'POST',
+  					'header'  => 'Content-type: application/x-www-form-urlencoded\r\n',
+  					'content' => $postdata
+  			)
+  	);
+  	
+  	$context  = stream_context_create($opts);
+  	$url = $this->galaxy->getURL();
+  	$result = file_get_contents($url, false, $context, -1, 40000);
+  	
+  	print $result;
+  }
+  
+  public function test ()
+  {
+  	echo "hello\n";
+  	
   }
 
   /**

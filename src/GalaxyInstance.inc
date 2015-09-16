@@ -38,7 +38,7 @@ class GalaxyInstance {
     
     // where's the return?
   }
-  
+
   
   /**
    * Authenticates a user with the remote Galaxy instance.
@@ -49,24 +49,27 @@ class GalaxyInstance {
    * 
    */
   public function authenticate($username, $password) {
-    $opts = array(
-     'http' => array(
-        'method'  => 'GET',
-        'header'  => "Authorization: Basic " . base64_encode("$username:$password"),
-        'content' => '',
-        'timeout' => 60
-      )
-    );
-  
-    $context  = stream_context_create($opts);
-    $url = $this->getURL() . '/api/authenticate/baseauth';
-    $result = file_get_contents($url, false, $context, -1, 40000);
-    
-//     if($debug)
-//     print ($result);	
-    
-    // TODO: make sure we get a correct result.
-    $this->api_key = $result;
+  	
+  	$i = curl_init();
+  	
+  	curl_setopt($i, CURLOPT_URL, $this->getURL() . '/api/authenticate/baseauth');
+  	curl_setopt($i, CURLOPT_RETURNTRANSFER, true);
+  	//curl_setopt($i, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
+  	curl_setopt($i, CURLOPT_USERPWD, $username . ':' . $password);
+  	
+  	$output = curl_exec($i);
+  	$info = curl_getinfo($i);
+
+  	if (!$output)
+  	{
+  		echo "Problem encountered\n";
+  	}
+  	else 
+  	{
+  		print_r($info);
+  		print_r($output);
+  	}
+  	curl_close($i);
     
   }
   
