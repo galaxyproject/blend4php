@@ -58,10 +58,8 @@ class GalaxyInstance {
   	curl_setopt($i, CURLOPT_USERPWD, $username . ':' . $password);
 
   	$output = curl_exec($i);
-  	// What kind of variable in api_key?
-  	$type = gettype($this->api_key);
-  	echo "Type is:" . $type;
-  	$output = json_decode($output);
+
+  	$output = json_decode($output, true);
   	$output = $output['apikey'];
   	$this->api_key = $output;
   	//$info = curl_getinfo($i);

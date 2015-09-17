@@ -11,7 +11,7 @@ class WorkflowClient {
    *
    * @param GalaxyInstance $galaxy
    */
-  function __construct(GalaxyInstance $galaxy) {
+  function __construct($galaxy) {
     $this->galaxy = $galaxy;
   }
 
@@ -217,5 +217,18 @@ class WorkflowClient {
    *    }
    */
   public function show_workflow($workflow_id) {
+  	$ch = curl_init();
+  	curl_setopt($ch,CURLOPT_URL,$this->galaxy->getURL() . '/api/workflows/' );
+  	curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
+  	curl_setopt($ch, CURLOPT_SSLVERSION,3);
+  	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 1);
+  	$output = curl_exec($ch);
+  	
+  	if($output === FALSE) {
+  		return 'Curl error: ' . curl_error($ch);
+  	}
+  	
+  	return $output;
+  	
   }
 }

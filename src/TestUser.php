@@ -1,6 +1,7 @@
 <?php
 include 'UserClient.inc';
 include 'GalaxyInstance.inc';
+include 'WorkflowClient.inc';
 
 
 
@@ -8,9 +9,11 @@ include 'GalaxyInstance.inc';
  $galaxy = new GalaxyInstance('localhost', '8080');
  $galaxy-> authenticate('brian@yahoo.com', 'password');
  $user= new UserClient($galaxy);
+ $workflow = new WorkflowClient($galaxy);
+ 
  
  print 'I have started the test';
- print ($user->create_user_apikey('briangffraer'));
+ print $workflow->show_workflow('f2db41e1fa331b3e');
 
 
 ?>
