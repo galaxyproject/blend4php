@@ -1,6 +1,8 @@
 <?php
 require_once "GalaxyInstance.inc";
 
+
+
 class WorkflowClient {
   private $galaxy = NULL;
 
@@ -21,14 +23,16 @@ class WorkflowClient {
   public function delete_workflow($workflow_id) {
 
   	$i = curl_init();
-  	 
-  	curl_setopt($i, CURLOPT_URL, $this->galaxy->getURL() . '/api/workflows/' . $workflow_id);
+    $api_key = $this->galaxy->getAPIKey();
+    
+  	$url = $this->galaxy->getURL() . '/api/workflows/' . $workflow_id . '?key=' . $api_key[api_key];
+  	curl_setopt($i, CURLOPT_URL, $url);
     curl_setopt($i, CURLOPT_CUSTOMREQUEST, "DELETE");
-    //curl_setopt($i, CURLOPT_POSTFIELDS, $json);
     curl_setopt($i, CURLOPT_RETURNTRANSFER, true);
   	 
   	$result = curl_exec($i);
   	$info = curl_getinfo($i);
+  	print_r($result);
   	
   	if (!$result)
   	{

@@ -56,19 +56,16 @@ class GalaxyInstance {
   	curl_setopt($i, CURLOPT_RETURNTRANSFER, true);
   	//curl_setopt($i, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
   	curl_setopt($i, CURLOPT_USERPWD, $username . ':' . $password);
-  	
-  	$output = curl_exec($i);
-  	$info = curl_getinfo($i);
 
-  	if (!$output)
-  	{
-  		echo "Problem encountered\n";
-  	}
-  	else 
-  	{
-  		print_r($info);
-  		print_r($output);
-  	}
+  	$output = curl_exec($i);
+  	// What kind of variable in api_key?
+  	$type = gettype($this->api_key);
+  	echo "Type is:" . $type;
+  	$this->api_key = $output;
+  	//$info = curl_getinfo($i);
+  	print_r ($output);
+  	//print_r($info);
+ 
   	curl_close($i);
     
   }
@@ -101,8 +98,11 @@ class GalaxyInstance {
   
   /**
    * Acquires the API key
-   * FIXME: I have no idea if this is right, it seems too simple
-   * @timestamp Sep 8, 2015 5:56:24 PM
+   *  Initially the format of the api_key will look like this:
+   * {
+   *   "api_key" :  
+   *  
+   *  
    * @param void
    * 
    * @return string 
