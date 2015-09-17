@@ -8,8 +8,15 @@ class UserClient{
 	}
 	
 	
+	/*
+	 * Accepts a user name, retuns the new api key, 
+	 * Upon calling this function, the server should already have the 
+	 * new api key for the user
+	 * calls: 
+	 * POST /api/users/{encoded_user_id}/api_key
+	 */
 	function create_user_apikey($username) {
-		// POST /api/users/{encoded_user_id}/api_key
+		
 		$user_id = $this->obtain_user_id($username);
 		if($user_id === FALSE) {
 			return "Error obtianing user id, have you entered the correct username?";
@@ -26,8 +33,34 @@ class UserClient{
 			print 'Curl error: ' . curl_error($ch);
 		}
 			
-		
+		// This should be the newly created api (already apopended to the site)
 			return $message;
+	}
+	
+	/*
+	 * Shows the contents of a user based on given string username 
+	 * returns a json array or error message string if not successful 
+	 * calls: 
+	 * GET /api/users/{encoded_user_id} GET /api/users/deleted/{encoded_user_id} GET /api/users/current
+	 */
+	function show_user($username) {
+		
+		$user_id = $this->obtain_user_id($username);
+		if($user_id === FALSE) {
+			return "Error obtianing user id, have you entered the correct username?";
+		}
+		
+		$url = $this->galaxy->getURL() . '/api/users/'. $user_id ."/api_key/?key=" . $this->galaxy->getAPIKey();
+		$ch = curl_init();
+		
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_POST, 1);
+		$message = curl_exec($ch);
+		
+		if($message === FALSE) {
+			print 'Curl error: ' . curl_error($ch);
+		}		
+		
 	}
 	
 	

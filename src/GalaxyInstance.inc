@@ -61,6 +61,8 @@ class GalaxyInstance {
   	// What kind of variable in api_key?
   	$type = gettype($this->api_key);
   	echo "Type is:" . $type;
+  	$output = json_decode($output);
+  	$output = $output['apikey'];
   	$this->api_key = $output;
   	//$info = curl_getinfo($i);
   	print_r ($output);
@@ -93,6 +95,7 @@ class GalaxyInstance {
    * @param string $api_key
    */
   public function setAPIKey($api_key) {
+  	
   	$this->api_key = $api_key;
   }
   
