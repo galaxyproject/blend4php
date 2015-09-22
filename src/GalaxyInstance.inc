@@ -31,7 +31,7 @@ class GalaxyInstance {
    * @return Galaxy 
    *   
    */
-  function __construct($hostname, $port, $use_https = TRUE) {
+  function __construct($hostname, $port, $use_https = False) {
     $this->host = $hostname;
     $this->port = $port;
     $this->use_https  = $use_https;
@@ -58,12 +58,15 @@ class GalaxyInstance {
   	curl_setopt($i, CURLOPT_USERPWD, $username . ':' . $password);
 
   	$output = curl_exec($i);
-
+ 
+  	if($output === FALSE) {
+  		return "Error: " . curl_error($i);
+  	}
   	$output = json_decode($output, true);
-  	$output = $output['apikey'];
+  	$output = $output['api_key'];
   	$this->api_key = $output;
   	//$info = curl_getinfo($i);
-  	print_r ($output);
+
   	//print_r($info);
  
   	curl_close($i);

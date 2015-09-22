@@ -201,8 +201,11 @@ class WorkflowClient {
    */
   public function run_workflow($workflow_id, $dataset_map = None, $params = NULL, $history_id = NULL,
     $history_name = NULL, $import_inputs_to_history = FALSE, $replacement_params = NULL) {
+  	
+  	
   }
   /**
+   * COMPLETE
    * Display information needed to run a workflow.
    *
    * @param $workflow_id
@@ -218,15 +221,15 @@ class WorkflowClient {
    */
   public function show_workflow($workflow_id) {
   	$ch = curl_init();
-  	curl_setopt($ch,CURLOPT_URL,$this->galaxy->getURL() . '/api/workflows/' );
+  	$URL = $this->galaxy->getURL() . '/api/workflows/' .$workflow_id. '/?key=' . $this->galaxy->getAPIKey(); 
+  	curl_setopt($ch,CURLOPT_URL,$URL);
   	curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
-  	curl_setopt($ch, CURLOPT_SSLVERSION,3);
-  	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 1);
+
   	$output = curl_exec($ch);
-  	
   	if($output === FALSE) {
   		return 'Curl error: ' . curl_error($ch);
   	}
+  	curl_close($ch);
   	
   	return $output;
   	
