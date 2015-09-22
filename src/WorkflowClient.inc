@@ -172,6 +172,7 @@ class WorkflowClient {
    *          workflow ID
    */
   public function import_shared_workflow($workflow_id) {
+  	
   }
 
   /**
@@ -180,16 +181,22 @@ class WorkflowClient {
    *          $file_local_path
    */
   public function import_workflow_from_local_path($file_local_path) {
+  
   }
+  
   /**
    *
    * @param
    *          $workflow_json
    */
   public function import_workflow_json($workflow_json) {
+  	
+  	
+  	
   }
+  
   /**
-   *
+   *	COMPLETE
    * @param $workflow_id
    *   Encoded workflow ID
    * @param $dataset_map
@@ -232,7 +239,8 @@ class WorkflowClient {
   }
   
   
-  /* Custom Function 
+  /* COMPLETE 
+   * Custom Function 
    * Obtains a workflow baswed ona a given workflow name/annotation  
    * 
    * returns workflow_id if successful
