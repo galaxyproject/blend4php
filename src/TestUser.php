@@ -13,7 +13,8 @@ include 'WorkflowClient.inc';
  
  
  print 'I have started the test';
- print $workflow->show_workflow('f2db41e1fa331b3e');
-
-
+ //print $user->obtain_user_id('anotherbrian');
+ #print $workflow->show_workflow('f2db41e1fa331b3e');
+ #print $workflow->run_workflow('f2db41e1fa331b3e'); 
+ print $workflow->obtainWorkflow_id('connor');
 ?>
