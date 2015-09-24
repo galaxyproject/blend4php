@@ -25,89 +25,61 @@ class WorkflowClient {
   	$i = curl_init();
     $api_key = $this->galaxy->getAPIKey();
     
-  	$url = $this->galaxy->getURL() . '/api/workflows/' . $workflow_id . '?key=' . $api_key[api_key];
+    
+  	$url = $this->galaxy->getURL() . '/api/workflows/' . $workflow_id . '?key=' . $api_key;
   	curl_setopt($i, CURLOPT_URL, $url);
     curl_setopt($i, CURLOPT_CUSTOMREQUEST, "DELETE");
     curl_setopt($i, CURLOPT_RETURNTRANSFER, true);
   	 
   	$result = curl_exec($i);
   	$info = curl_getinfo($i);
+  	// print_r ($info);
   	print_r($result);
-  	
-  	if (!$result)
-  	{
-  		echo "Problem encountered\n";
-  	}
-  	else
-  	{
-  		//$result = json_decode($result);
-  		print_r($info);
-  		print_r($result);
-  	}
+
   	curl_close($i);
-//     // TODO: We should return something to the user saying that
-//     // the delete was successful or not successful in
-//     // deleting the workflow
-
-//     // Set the POST data
-//     $postdata = http_build_query(array(
-//       'key' => $this->galaxy->getAPIKey()
-//     ));
-
-//     // Set the POST options
-//     $opts = array(
-//       'http' => array(
-//         'method' => 'DELETE',
-//         'content' => $postdata,
-//       	'header' => "Content-type: application/x-www-form-urlencoded\r\n"
-//       )
-//     );
-
-//     // Create the POST context
-//     $context = stream_context_create($opts);
-
-//     // POST the data to an api
-//     $url = $this->galaxy->getURL() . '/api/workflows/' . base64_encode($workflow_id);
-//     $result = file_get_contents($url, false, $context);
   }
 
   /**
    * Exports a workflow
-   *
+   * Reference Material: 
+   * http://bioblend.readthedocs.org/en/latest/api_docs/galaxy/docs.html#export-or-import-a-workflow
+   * 
    * @param $workflow_id
    *   Encoded workflow ID.
    * @return
    *   Dict representing the workflow requested.
+   *   This "Dict" is synonymous with metadata
    */
   public function export_workflow_json($workflow_id) {
-  	$postdata = http_build_query(
-  			array(
-  					'var1' => 'some content',
-  					'var2' => 'doh'
-  			)
-  	);
   	
-  	$opts = array('http' =>
-  			array(
-  					'method'  => 'POST',
-  					'header'  => 'Content-type: application/x-www-form-urlencoded\r\n',
-  					'content' => $postdata
-  			)
-  	);
+  	// I'm not sure if this is properly exported 
+  	// I need to know how the exporting aspect works
+  	// I have a feeling I'm close, the metadata is in json form 
+  	// but is this information enough to "export" it somewhere
+  	// I need to ask Stephen about this 
+  	$i = curl_init();
+  	$api_key = $this->galaxy->getAPIKey();
   	
-  	$context  = stream_context_create($opts);
-  	$url = $this->galaxy->getURL();
-  	$result = file_get_contents($url, false, $context, -1, 40000);
+  	$url = $this->galaxy->getURL() . '/api/workflows/' . $workflow_id . '?key=' . $api_key;
   	
-  	print $result;
+  	curl_setopt($i, CURLOPT_URL, $url);
+  	curl_setopt($i, CURLOPT_CUSTOMREQUEST, "GET");
+  	curl_setopt($i, CURLOPT_RETURNTRANSFER, true);
+ 
+  	$result = curl_exec($i);
+  	
+  	$info = curl_getinfo($i);
+  	//print "\n\nResult\n\n";
+  	//print_r($result);
+  	
+  	
+  	//print "\n\nInfo\n\n";
+  	//print_r ($info);
+  	 
+  	curl_close($i);
+
   }
   
-  public function test ()
-  {
-  	echo "hello\n";
-  	
-  }
-
   /**
    * Exports a workflow in json format to a given local path.
    *
@@ -115,7 +87,8 @@ class WorkflowClient {
    *   Encoded workflow ID
    * @param $file_local_path Local
    *   Path to which the exported file will be saved. (Should not contain
-   *   filename if use_default_name=True).
+   *   filename if use_default_name=True). It must be the full path to which
+   *   the object is to be saved
    * @param $use_default_filename
    *   If the use_default_name parameter is True, the exported file will be saved
    *   as file_local_path/Galaxy-Workflow-%s.ga, where %s is the workflow name.
@@ -124,6 +97,33 @@ class WorkflowClient {
    */
   public function export_workflow_to_local_path($workflow_id, $file_local_path,
     $use_default_filename = TRUE) {
+  	$i = curl_init();
+  	$api_key = $this->galaxy->getAPIKey();
+  	 
+  	$url = $this->galaxy->getURL() . '/api/workflows/' . $workflow_id . '?key=' . $api_key;
+  	 
+  	curl_setopt($i, CURLOPT_URL, $url);
+  	curl_setopt($i, CURLOPT_CUSTOMREQUEST, "GET");
+  	curl_setopt($i, CURLOPT_RETURNTRANSFER, true);
+  	
+  	$result = curl_exec($i);
+  	 
+  	$info = curl_getinfo($i);
+  	//print "\n\nResult\n\n";
+  	//print_r($result);
+  	 
+  	//print "\n\nInfo\n\n";
+  	//print_r ($info);
+  	$array = json_decode($result, true);
+  	 
+  	if ($use_default_filename == TRUE){
+  		
+  	  $success = file_put_contents($file_local_path . '/' . 'Galaxy-Workflow-' . $array['name'] . '.ga', $result);
+  	}
+  	else {
+  		$success = file_put_contents($file_local_path, $result);
+  	}
+  	curl_close($i);
 
 
   }
@@ -146,23 +146,6 @@ class WorkflowClient {
    *          $published
    */
   public function get_workflows($workflow_id = NULL, $name = NULL, $published = FALSE) {
-  	$opts = array(
-  			'http' => array(
-  					'method'  => 'GET',
-  					'content' => '',
-  					'timeout' => 60
-  			)
-  	);
-  	
-  	$context  = stream_context_create($opts);
-  	$url = $this->getURL() . '/api/workflows?';
-  	$result = file_get_contents($url, false, $context, -1, 40000);
-  	
-  	//     if($debug)
-  		//     print ($result);
-  	
-  		// TODO: make sure we get a correct result.
-  		$this->api_key = $result;
   
   }
 
