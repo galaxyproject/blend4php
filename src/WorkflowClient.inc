@@ -51,12 +51,6 @@ class WorkflowClient {
    *   This "Dict" is synonymous with metadata
    */
   public function export_workflow_json($workflow_id) {
-  	
-  	// I'm not sure if this is properly exported 
-  	// I need to know how the exporting aspect works
-  	// I have a feeling I'm close, the metadata is in json form 
-  	// but is this information enough to "export" it somewhere
-  	// I need to ask Stephen about this 
   	$i = curl_init();
   	$api_key = $this->galaxy->getAPIKey();
   	
@@ -69,12 +63,9 @@ class WorkflowClient {
   	$result = curl_exec($i);
   	
   	$info = curl_getinfo($i);
-  	//print "\n\nResult\n\n";
-  	//print_r($result);
+  	print "\n\nResult\n\n";
+  	print_r($result);
   	
-  	
-  	//print "\n\nInfo\n\n";
-  	//print_r ($info);
   	 
   	curl_close($i);
 
@@ -109,11 +100,7 @@ class WorkflowClient {
   	$result = curl_exec($i);
   	 
   	$info = curl_getinfo($i);
-  	//print "\n\nResult\n\n";
-  	//print_r($result);
-  	 
-  	//print "\n\nInfo\n\n";
-  	//print_r ($info);
+
   	$array = json_decode($result, true);
   	 
   	if ($use_default_filename == TRUE){
@@ -134,6 +121,39 @@ class WorkflowClient {
    * @param $label
    */
   public function get_workflow_inputs($workflow_id, $label) {
+  	
+  	$i = curl_init();
+  	$api_key = $this->galaxy->getAPIKey();
+  	
+  	$url = $this->galaxy->getURL() . '/api/workflows/' . $workflow_id . '?key=' . $api_key;
+  	
+  	curl_setopt($i, CURLOPT_URL, $url);
+  	curl_setopt($i, CURLOPT_CUSTOMREQUEST, "GET");
+  	curl_setopt($i, CURLOPT_RETURNTRANSFER, true);
+  	 
+  	$result = curl_exec($i);
+  	
+  	$info = curl_getinfo($i);
+  	
+  	$array = json_decode($result, true);
+
+  	$inputs = $array['inputs'];
+  	
+  	$found = 0;
+  	foreach ($inputs as &$templabel){
+  		$labelArray = $templabel;
+  		if ($labelArray['label'] == $label){
+  			print ($labelArray['label']) . " is a workflow input\n";
+  			$found = 1;
+  		}
+  	}
+
+  	if ($found == 0){
+  		print "No workflow inputs of this label found\n";
+  	}
+  	 
+  	curl_close($i);
+  	 
   }
 
   /**
