@@ -37,7 +37,7 @@ class UserClient{
 			return $message;
 	}
 	
-	/*
+	/* 	NOTE COMPLETE
 	 * Shows the contents of a user based on given string username 
 	 * returns a json array or error message string if not successful 
 	 * calls: 
@@ -96,6 +96,7 @@ class UserClient{
 		
 			// If we have reached the end of the user, time to evaluate him
 			if($char == '}') {
+				//print ($current_string);
 				$current_string = json_decode($current_string, TRUE);
 				if($current_string['username'] == $username) {
 					$good = TRUE;

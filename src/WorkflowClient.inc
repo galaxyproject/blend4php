@@ -11,7 +11,7 @@ class WorkflowClient {
    *
    * @param GalaxyInstance $galaxy
    */
-  function __construct(GalaxyInstance $galaxy) {
+  function __construct($galaxy) {
     $this->galaxy = $galaxy;
   }
 
@@ -155,6 +155,7 @@ class WorkflowClient {
    *          workflow ID
    */
   public function import_shared_workflow($workflow_id) {
+  	
   }
 
   /**
@@ -163,16 +164,22 @@ class WorkflowClient {
    *          $file_local_path
    */
   public function import_workflow_from_local_path($file_local_path) {
+  
   }
+  
   /**
    *
    * @param
    *          $workflow_json
    */
   public function import_workflow_json($workflow_json) {
+  	
+  	
+  	
   }
+  
   /**
-   *
+   *	COMPLETE
    * @param $workflow_id
    *   Encoded workflow ID
    * @param $dataset_map
@@ -181,11 +188,106 @@ class WorkflowClient {
    * @param $history_name
    * @param $import_inputs_to_history
    * @param $replacement_params
+   *   	// POST /api/workflows/{encoded_workflow_id}/invocations
    */
-  public function run_workflow($workflow_id, $dataset_map = None, $params = NULL, $history_id = NULL,
+  public function run_workflow($workflow_id, $dataset_map = NULL, $params = NULL, $history_id = NULL,
     $history_name = NULL, $import_inputs_to_history = FALSE, $replacement_params = NULL) {
+  	
+  	$url = $this->galaxy->getURL() . '/api/workflows/' .$workflow_id. '/invocations/?key=' . $this->galaxy->getAPIKey(); 
+  	$ch = curl_init();
+  	
+  	curl_setopt($ch, CURLOPT_URL, $url);
+  	curl_setopt($ch, CURLOPT_POST, 1);
+  	curl_setopt($ch, CURLOPT_POSTFIELDS,
+  			http_build_query(array(
+  					'dataset_map' => $dataset_map,
+  					'params' => $params,
+  					'history_id' => $history_id,
+  					'history_name'=>$history_name,
+  					'import_inputs_to_history' => $import_inputs_to_history,
+  					'replacement_params' => $replacement_params, 
+  			)));
+  	$message = '';
+  	// receive server response ...
+  	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  	$message = curl_exec($ch);
+  	
+  	if($message === FALSE) {
+  		return 'Error ' . curl_error($ch);
+  	}
+
+  	return $message;
+  	
+  	
   }
+  
+  
+  /* COMPLETE 
+   * Custom Function 
+   * Obtains a workflow baswed ona a given workflow name/annotation  
+   * 
+   * returns workflow_id if successful
+   * returns False otherwise 
+   * 
+   * 
+   */
+  public function obtainWorkflow_id($name) {
+  	
+  	$workflow_id = "Nothing happened";
+  	$ch = curl_init();
+  	curl_setopt_array($ch, array(
+  			CURLOPT_RETURNTRANSFER => 1,
+  			CURLOPT_URL => $this->galaxy->getURL(). '/api/workflows/?key='. $this->galaxy->getAPIKey(),
+  	));
+  	$message = curl_exec($ch);
+
+  	if($ch === FALSE){
+  		print 'Curl error: ' . curl_error($ch);
+  		return FALSE ;
+  	}
+  	curl_close ($ch);
+  	//print 'I am on line 258'; 
+  	$message = str_replace(array('[',']', " "), "", $message);
+  	$message = str_replace(array('false'), '"false"', $message);
+  	$message = str_replace('"tags":,', '', $message);
+  	$len = strlen($message);
+  	$good = FALSE;
+  	$current_string = "";
+  	// Break all the users intp json arrays, find the appropriate id
+  	for($i = 0; $i<= $len; $i++) {
+  		$char = substr($message, $i, 1);
+  		$current_string .= $char;
+  	
+  		// If we have reached the end of the workflow, time to evaluate it
+  		if($char == '}') {	
+  			//print (json_decode($current_string,true));
+  			//print("I am on line 270, current string is: ". $current_string);
+  			$current_string = json_decode($current_string, true);
+  			//print ($blah);
+  			if($current_string['name'] == $name) {
+  				$good = TRUE;
+  				$workflow_id = $current_string["id"];
+  				break;
+  			}
+  			// i++ to escape the comma
+  			$i++;
+  			$current_string = "";
+  		}
+  	
+  	}
+  	
+  	//print ('And the workflow is' . $workflow_id);
+  	
+  	if(!$good) {
+  		return FALSE;
+  	}
+  	
+  	return $workflow_id;
+  }
+  
+  
   /**
+   * COMPLETE
    * Display information needed to run a workflow.
    *
    * @param $workflow_id
@@ -200,5 +302,18 @@ class WorkflowClient {
    *    }
    */
   public function show_workflow($workflow_id) {
+  	$ch = curl_init();
+  	$URL = $this->galaxy->getURL() . '/api/workflows/' .$workflow_id. '/?key=' . $this->galaxy->getAPIKey(); 
+  	curl_setopt($ch,CURLOPT_URL,$URL);
+  	curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
+
+  	$output = curl_exec($ch);
+  	if($output === FALSE) {
+  		return 'Curl error: ' . curl_error($ch);
+  	}
+  	curl_close($ch);
+  	
+  	return $output;
+  	
   }
 }
