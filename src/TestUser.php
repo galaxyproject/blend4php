@@ -13,8 +13,8 @@ include 'WorkflowClient.inc';
  
  
  print 'I have started the test';
- //print $user->obtain_user_id('anotherbrian');
- #print $workflow->show_workflow('f2db41e1fa331b3e');
- #print $workflow->run_workflow('f2db41e1fa331b3e'); 
- print $workflow->obtainWorkflow_id('connor');
+
+ $workflow_id = $workflow->obtainWorkflow_id('connor');
+ print $workflow->create(NULL, NULL, NULL, NULL, NULL, NULL, "5969b1f7201f12ae", NULL, NULL, NULL, 'I hope this works');
+
 ?>

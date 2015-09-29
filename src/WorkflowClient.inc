@@ -5,6 +5,9 @@ require_once "GalaxyInstance.inc";
 
 class WorkflowClient {
   private $galaxy = NULL;
+  
+  // A variable to set to true if debugging, Toggles print statements 
+  private $debug = True;
 
   /**
    * Implements the constructor.
@@ -34,7 +37,7 @@ class WorkflowClient {
   	$result = curl_exec($i);
   	$info = curl_getinfo($i);
   	// print_r ($info);
-  	print_r($result);
+  	//print_r($result);
 
   	curl_close($i);
   }
@@ -218,6 +221,7 @@ class WorkflowClient {
     $history_name = NULL, $import_inputs_to_history = FALSE, $replacement_params = NULL) {
   	
   	$url = $this->galaxy->getURL() . '/api/workflows/' .$workflow_id. '/invocations/?key=' . $this->galaxy->getAPIKey(); 
+  	//print $url;
   	$ch = curl_init();
   	
   	curl_setopt($ch, CURLOPT_URL, $url);
@@ -256,6 +260,9 @@ class WorkflowClient {
    * 
    */
   public function obtainWorkflow_id($name) {
+  	if($this->debug) {
+  	print $this->galaxy->getURL(). '/api/workflows/?key='. $this->galaxy->getAPIKey();
+  	}
   	
   	$workflow_id = "Nothing happened";
   	$ch = curl_init();
@@ -340,4 +347,103 @@ class WorkflowClient {
   	return $output;
   	
   }
-}
+  
+  
+  /***
+   * Build a new workflow or edit an existing workflow
+   * 
+   * POST /api/workflows
+   * 
+   * Parameters: 
+   * 
+            -	workflow_id (str): An existing workflow id. Either workflow_id, 
+            	installed_repository_file or from_history_id must be specified
+            
+            -	parameters (python dictionary): If workflow_id is set - see _update_step_parameters()
+            
+            -	ds_map (python dictionary dict): If workflow_id is set - a dictionary mapping each input step id to a dictionary with 2 keys: 
+           	    ‘src’ (which can be ‘ldda’, ‘ld’ or ‘hda’) and ‘id’ (which should be the id of a LibraryDatasetDatasetAssociation, LibraryDataset or HistoryDatasetAssociation respectively)
+            
+            -	no_add_to_history (str):  If workflow_id is set - if present in the payload with any value, 
+            	the input datasets will not be added to the selected history
+            
+            -	history (str): If workflow_id is set - optional history where to run the workflow, 
+            	either the name of a new history or “hist_id=HIST_ID” where HIST_ID is the id of an existing history. 
+            	If not specified, the workflow will be run a new unnamed history
+            
+            -	replacement_params (python dictionary): If workflow_id is set - an optional dictionary used when renaming datasets
+            
+            -	from_history_id (str): Id of history to extract a workflow from. Either workflow_id, 
+            	installed_repository_file or from_history_id must be specified
+            
+            -	job_ids (str): If from_history_id is set - optional list of jobs to include when extracting a workflow from history
+            
+            -	dataset_ids (str): If from_history_id is set - optional list of HDA `hid`s corresponding 
+            	to workflow inputs when extracting a workflow from history
+            
+            -	dataset_collection_ids (str): If from_history_id is set - optional list of HDCA 
+            	`hid`s corresponding to workflow inputs when extracting a workflow from history
+            
+            -	workflow_name (str): If from_history_id is set - name of the workflow to create when extracting a workflow from history
+            
+            -	allow_tool_state_corrections (bool): If set to True, any Tool parameter changes will not prevent running workflow, defaults to False
+
+    
+How the Galaxy Python code looks at this:
+
+        ways_to_create = set( [
+            'workflow_id',
+            'installed_repository_file',
+            'from_history_id',
+            'shared_workflow_id',
+            'workflow',
+        ] )
+
+   
+   **/
+   
+ public function create_workflow($workflow_id = NULL, $parameters = NULL, $ds_map = NULL,
+  		$no_add_to_history = True, $history =NULL, $replacement_params = NULL, 
+  		$from_history_id=NULL, $job_ids = NULL, $dataset_ids = NULL, $dataset_collection_ids=NULL,
+  		$workflow_name = NULL, $allow_tool_state_corrections = NULL ) {
+  	
+  	$url = $this->galaxy->getURL() . '/api/workflows/?key=' . $this->galaxy->getAPIKey();
+  	//print $url;
+  	$ch = curl_init();
+  	 
+  	curl_setopt($ch, CURLOPT_URL, $url);
+  	curl_setopt($ch, CURLOPT_POST, 1);
+  	curl_setopt($ch, CURLOPT_POSTFIELDS,
+  			http_build_query(array(
+  					'workflow_id' => $workflow_id, 
+  					'from_history_id' => $from_history_id, 
+  					'parameters' => $parameters, 
+  					'ds_map'=>$ds_map,
+  					'no_add_to_history'=>$no_add_to_history, 
+  					'history' =>$history,
+  					'replacement_params' => $replacement_params,
+  					'from_history_id' => $from_history_id,
+  					'jobs_id'=>$job_ids,
+  					'dataset_ids'=>$dataset_ids,
+  					'dataset_collection_ids'=>$dataset_collection_ids,
+  					'workflow_name'=>$workflow_name,
+  					'allow_tool_state_corrections' => $allow_tool_state_corrections,
+  			)));
+  	
+  	$message = '';
+  	// receive server response ...
+  	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  	$message = curl_exec($ch);
+  	 
+  	if($message === FALSE) {
+  		return 'Error ' . curl_error($ch);
+  	}
+  	
+  	return $message;
+  	
+  	
+  	
+  }
+  
+  
+}// End CLass 
