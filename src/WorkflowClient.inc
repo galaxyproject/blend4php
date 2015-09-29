@@ -153,6 +153,10 @@ class WorkflowClient {
    *
    * @param $workflow_id Encoded
    *          workflow ID
+   *          
+   *         !! The Online docuementation for this function says its deprecated !!
+   *         	We will have to look at the sourcecode from github if we want to find
+   *         	the most recent version.  
    */
   public function import_shared_workflow($workflow_id) {
   	
