@@ -166,7 +166,44 @@ class WorkflowClient {
    *          $published
    */
   public function get_workflows($workflow_id = NULL, $name = NULL, $published = FALSE) {
-  
+  	$i = curl_init();
+  	$api_key = $this->galaxy->getAPIKey();
+  	
+  	if (!empty($workflow_id) && !empty($name)){
+  		print "Cannot filter results by both input parameters\nPlease select only one filter\n";
+  	}
+  	
+  	if ($workflow_id == NULL){
+  		$url = $this->galaxy->getURL() . '/api/workflows/' . '?key=' . $api_key;
+  	}
+  	else{
+  		$url = $this->galaxy->getURL() . '/api/workflows/' . $workflow_id .'?key=' . $api_key;
+  	}
+
+  	curl_setopt($i, CURLOPT_URL, $url);
+  	curl_setopt($i, CURLOPT_CUSTOMREQUEST, "GET");
+  	curl_setopt($i, CURLOPT_RETURNTRANSFER, true);
+  	 
+  	$result = curl_exec($i);
+  	
+  	$info = curl_getinfo($i);
+  	
+  	$array = json_decode($result, true);
+  	
+  	if (!empty($name)){
+   		foreach ($array as &$temp){
+   			  if ($temp['name'] == $name){
+   			  $foundworkflow = $temp;
+   	    }
+ 		  }
+   		print_r ($foundworkflow);
+   	}
+  	
+  	else{
+  		print_r ($result);
+  	}
+  	
+  	curl_close($i);
   }
 
   /**
@@ -175,6 +212,18 @@ class WorkflowClient {
    *          workflow ID
    */
   public function import_shared_workflow($workflow_id) {
+  	$target_url = 'http://127.0.0.1:8080/workflow/imp?id=' . $workflow_id;
+  	
+  	
+  	$ch = curl_init();
+  	curl_setopt($ch, CURLOPT_URL,$target_url);
+  	curl_setopt($i, CURLOPT_CUSTOMREQUEST, "POST");
+  	curl_setopt($ch, CURLOPT_POST,1);
+  	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  	$result=curl_exec ($ch);
+  	echo $result;
+  	curl_close ($ch);
+  	
   	
   }
 
