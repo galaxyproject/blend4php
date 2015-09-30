@@ -31,7 +31,7 @@ class GalaxyInstance {
    * @return Galaxy 
    *   
    */
-  function __construct($hostname, $port, $use_https = TRUE) {
+  function __construct($hostname, $port, $use_https = FALSE) {
     $this->host = $hostname;
     $this->port = $port;
     $this->use_https  = $use_https;
@@ -67,7 +67,7 @@ class GalaxyInstance {
   	$this->api_key = $output;
   	//$info = curl_getinfo($i);
 
-  	//print_r($info);
+  	print_r($this->api_key);
  
   	curl_close($i);
     
