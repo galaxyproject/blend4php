@@ -1,6 +1,89 @@
 <?php
 require_once "GalaxyInstance.inc";
 
+// I'm going to write all the functions that are currently
+// in the workflows.py file
+// this will be a temp list to refer to to make sure we include all of the 
+// proper functions
+ 
+// index GET /api/workflows (display collection of workflows can show published)
+// input param (isPublished = FALSE)
+
+//show GET /api/workflows/{encoded_workflow_id} Displays information needed to
+// run a workflow from the command line
+// input param workflowID
+
+// create POST /api/workflows  Run or create workflows from the api
+// If installed_repository_file or from_history_id is specified a new
+// workflow will be created for this user. Otherwise, workflow_id MUST be
+// specified and this API method will cause a workflow to execute
+// input param installed_repository_file 
+// BRIAN HAS DONE this already
+
+// workflow_dict GET /api/workflows/{encoded_workflow_id}/download
+// Returns a selected workflow as a json dictionary
+// input param workflow_id
+
+// delete DELETE /api/workflows/{encoded_workflow_id}
+// deletes a specified workflow 
+// input param workflow_id
+
+// IF the function is labeled as deprecated I'm not going replicate that
+// function (I'll ask Stephen about this tomorrow)
+
+
+// update PUT /api/workflows/{workflow_id}
+// updates the workflow stored with the given id
+// returns a dictionary containing any or all of the workflow json 
+// description of the workflow as would be produced by 
+// GET workflows/{id}/download or given to 'POST workflows'
+// input param workflow_id
+
+// build_module POST /api/workflows/build_module
+// Builds module details including a tool model for the workflow editor
+// I'M not sure what this one does (I'll ask Stephen or I'll try and figure it
+// out tomorrow)
+
+// invoke POST /api/workflows/{encoded_workflow_id}/invocations
+// schedule the workflow specified by 'workflow_id' to run
+// There's an extra note about how to fix this code to make it work
+// better
+// I'm not sure what this function does either (I'll need to ask Stephen or look
+// at additional documentation)
+
+// index_invocations GET /api/workflows/{workflow_id}/invocations
+// Get the list of the workflow invocations
+// input param workflow_id
+
+// show_invocations GET /api/workflows/{workflow_id}/invocations/{invocation_id}
+// Get details description of workflow invocation
+// input param workflow_id
+//						 invocation_id
+
+// cancel_invocation 
+// DELETE /api/workflows/{workflow_id}/invocations/{invocation_id}
+// Cancel the specified workflow invocation
+// input param workflow_id
+// 				     invocation_id
+
+// invocation_step 
+// GET /api/workflows/{workflow_id}/invocations/{invocation_id}/steps/{step_id}
+// input param workflow_id (string)
+// 						 invocation_id (string)
+// 			       encoded_id of the workflow invocation step (string)
+
+// update_invocation_step 
+// PUT /api/workflows/{workflow_id}/invocations/{invocation_id}/steps/{step_id}
+// Update state of running workflow step invocation 
+// to be used for 'stuff like confirming paused steps that need to proceed'
+// input param workflow_id (string)
+// 						 invocation_id (string)
+// 			       encoded_id of the workflow invocation step (string)
+
+
+// END OF LIST OF FUNCTIONS FOR workflows.py
+
+
 
 
 class WorkflowClient {
