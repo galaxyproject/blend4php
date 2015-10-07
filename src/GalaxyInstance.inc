@@ -67,7 +67,7 @@ class GalaxyInstance {
   	$this->api_key = $output;
   	//$info = curl_getinfo($i);
 
-  	print_r($this->api_key);
+  	//print_r($this->api_key);
  
   	curl_close($i);
     

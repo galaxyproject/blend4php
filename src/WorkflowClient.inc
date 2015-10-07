@@ -1,43 +1,10 @@
 <?php
 require_once "GalaxyInstance.inc";
 
-// I'm going to write all the functions that are currently
-// in the workflows.py file
-// this will be a temp list to refer to to make sure we include all of the 
-// proper functions
- 
-// index GET /api/workflows (display collection of workflows can show published)
-// input param (isPublished = FALSE)
-
-//show GET /api/workflows/{encoded_workflow_id} Displays information needed to
-// run a workflow from the command line
-// input param workflowID
-
-// create POST /api/workflows  Run or create workflows from the api
-// If installed_repository_file or from_history_id is specified a new
-// workflow will be created for this user. Otherwise, workflow_id MUST be
-// specified and this API method will cause a workflow to execute
-// input param installed_repository_file 
-// BRIAN HAS DONE this already
-
-// workflow_dict GET /api/workflows/{encoded_workflow_id}/download
-// Returns a selected workflow as a json dictionary
-// input param workflow_id
-
-// delete DELETE /api/workflows/{encoded_workflow_id}
-// deletes a specified workflow 
-// input param workflow_id
-
 // IF the function is labeled as deprecated I'm not going replicate that
 // function (I'll ask Stephen about this tomorrow)
 
 
-// update PUT /api/workflows/{workflow_id}
-// updates the workflow stored with the given id
-// returns a dictionary containing any or all of the workflow json 
-// description of the workflow as would be produced by 
-// GET workflows/{id}/download or given to 'POST workflows'
-// input param workflow_id
 
 // build_module POST /api/workflows/build_module
 // Builds module details including a tool model for the workflow editor
@@ -102,7 +69,51 @@ class WorkflowClient {
   }
 
   /**
+   * index GET /api/workflows (display collection of workflows can show published)
+   * input param (isPublished = FALSE)
+   *
+   */
+
+  public function index ($is_published = NULL){
+  	
+  	$i = curl_init();
+  	$api_key = $this->galaxy->getAPIKey();	
+ 
+  	$url = $this->galaxy->getURL() . '/api/workflows/' . '?key=' . $api_key;
+  	
+  	curl_setopt($i, CURLOPT_URL, $url);
+  	curl_setopt($i, CURLOPT_CUSTOMREQUEST, "GET");
+  	curl_setopt($i, CURLOPT_RETURNTRANSFER, true);
+  	 
+  	$result = curl_exec($i);
+  	
+  	$info = curl_getinfo($i);
+  	
+  	$array = json_decode($result, true);
+  	
+  	if (!empty($is_published)){
+  		$foundworkflows = array ();
+   		foreach ($array as &$temp){
+   			  //print_r ($temp['published']);
+   			  if (!empty($temp['published'])){
+   			  array_push($foundworkflows , $temp);
+   	    }
+ 		  }
+   		print_r ($foundworkflows);
+   	}
+  	
+  	else{
+  		print_r ($result);
+  	}
+  	
+  	curl_close($i);
+  }
+  
+
+
+  /**
    * Delete a workflow identified by workflow_id.
+   * 
    *
    * @param $workflow_id
    */
@@ -127,14 +138,15 @@ class WorkflowClient {
 
   /**
    * Exports a workflow
-   * Reference Material: 
-   * http://bioblend.readthedocs.org/en/latest/api_docs/galaxy/docs.html#export-or-import-a-workflow
    * 
    * @param $workflow_id
    *   Encoded workflow ID.
    * @return
    *   Dict representing the workflow requested.
    *   This "Dict" is synonymous with metadata
+   *   
+   *   This function designed for simply seeing the entities of the Workflow
+   *   without seeing it through the browser 
    */
   public function export_workflow_json($workflow_id) {
   	$i = curl_init();
@@ -171,8 +183,13 @@ class WorkflowClient {
    *   as file_local_path/Galaxy-Workflow-%s.ga, where %s is the workflow name.
    *   If use_default_name is False, file_local_path is assumed to contain the
    *   full file path including filename.
+   *   
+   *   This is an what the newest code says
+   *   workflow_dict GET /api/workflows/{encoded_workflow_id}/download
+	 *	 Returns a selected workflow as a json dictionary
+	 *	 input param workflow_id
    */
-  public function export_workflow_to_local_path($workflow_id, $file_local_path,
+  public function workflow_dict($workflow_id, $file_local_path,
     $use_default_filename = TRUE) {
   	$i = curl_init();
   	$api_key = $this->galaxy->getAPIKey();
@@ -200,6 +217,7 @@ class WorkflowClient {
 
 
   }
+  
   /**
    *
    * @param $workflow_id Encoded
@@ -293,49 +311,49 @@ class WorkflowClient {
   }
 
   /**
-   *
-   * @param $workflow_id Encoded
-   *          workflow ID
-   *          
-   *         !! The Online docuementation for this function says its deprecated !!
-   *         	We will have to look at the sourcecode from github if we want to find
-   *         	the most recent version.  
-   */
-  public function import_shared_workflow($workflow_id) {
-  	$target_url = 'http://127.0.0.1:8080/workflow/imp?id=' . $workflow_id;
-  	
-  	
-  	$ch = curl_init();
-  	curl_setopt($ch, CURLOPT_URL,$target_url);
-  	curl_setopt($i, CURLOPT_CUSTOMREQUEST, "POST");
-  	curl_setopt($ch, CURLOPT_POST,1);
-  	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-  	$result=curl_exec ($ch);
-  	echo $result;
-  	curl_close ($ch);
-  	
-  	
-  }
-
-  /**
+   * TODO: Finish this
    *
    * @param
    *          $file_local_path
    */
   public function import_workflow_from_local_path($file_local_path) {
-  
+  	
+  	
+  	// we are going to assume that the file that you wish to upload is of *.ga
+  	// type (we will check) if it is not we will display an error and not upload
+  	// the file
+  	
+  	if (!preg_match("!\.ga$!", $file_local_path)){
+  		print "Cannot upload a workflow that does not have the '.ga' extension\n";
+  	}
+  	 
+  	else{
+  		print_r ($file_local_path);
+  		print "\n";
+  	}
+  	
+  	// I do not know how to generate an encoded Id so I'll ask for help when 
+  	// Stephen is available
+  	 
+  	// here is where a base64 encoded string would be created for this workflow
+  	// it will need 16 characters (so the first 16 characters of the name? and
+  	// then encode that? and if there's not 16 generate the rest of the letters
+  	// randomly)
+  	
+//   	$target_url = 'http://127.0.0.1:8080/workflow/imp?id=' . $workflow_id;
+  	
+  	
+//   	$ch = curl_init();
+//   	curl_setopt($ch, CURLOPT_URL,$target_url);
+//   	curl_setopt($i, CURLOPT_CUSTOMREQUEST, "POST");
+//   	curl_setopt($ch, CURLOPT_POST,1);
+//   	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+//   	$result=curl_exec ($ch);
+//   	echo $result;
+//   	curl_close ($ch);
+  	 
   }
   
-  /**
-   *
-   * @param
-   *          $workflow_json
-   */
-  public function import_workflow_json($workflow_json) {
-  	
-  	
-  	
-  }
   
   /**
    *	COMPLETE
