@@ -30,4 +30,4 @@ $wfc = new WorkflowClient($galaxy);
  
 //$wfc -> import_shared_workflow();
 
-$wfc -> import_workflow_from_local_path ('/home/cwytko/Downloads/Galaxy-Workflow-RNAseqTRAPLINE.ga');
+//$wfc -> import_workflow_from_local_path ('/home/cwytko/Downloads/Galaxy-Workflow-RNAseqTRAPLINE.ga');
