@@ -158,15 +158,6 @@ private $debug = True;
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }// End tool class 
 
 

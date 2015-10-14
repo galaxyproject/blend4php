@@ -18,6 +18,6 @@ include 'ToolClient.inc';
 // print $workflow->create(NULL, NULL, NULL, NULL, NULL, NULL, "5969b1f7201f12ae", NULL, NULL, NULL, 'I hope this works');
 //$tool_id = $tool->obtainTool_id("HbVar");
 //print $tool_id;
-//print $tool->get_tools($tool_id); 
+print $tool->get_tools(); 
 
 ?>
