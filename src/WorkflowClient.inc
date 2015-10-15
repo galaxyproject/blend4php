@@ -392,7 +392,7 @@ class WorkflowClient {
   	// receive server response ...
   	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
   	$message = curl_exec($ch);
-  	
+  	curl_close($ch);
   	if($message === FALSE) {
   		return 'Error ' . curl_error($ch);
   	}
@@ -587,7 +587,7 @@ How the Galaxy Python code looks at this:
   	// receive server response ...
   	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
   	$message = curl_exec($ch);
-  	 
+  	 curl_close($ch);
   	if($message === FALSE) {
   		return 'Error ' . curl_error($ch);
   	}

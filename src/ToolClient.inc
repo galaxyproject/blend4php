@@ -37,12 +37,94 @@ private $debug = True;
  	curl_close($ch);
  	 
  	return $output;
+ 		
+ }
+ 
+ 
+ /*Functional! 
+  * Calls upon 
+  * GET /api/tools/{tool_id}/diagnostics 
+  * Return diagnostic information to help debug panel and dependency related problems.
+  */
+ 
+ public function diagnostics($tool_id){
+ 	$ch = curl_init();
+ 	$URL = $this->galaxy->getURL() . '/api/tools/'. $tool_id . '/diagnostics/?key=' . $this->galaxy->getAPIKey();
+ 	
+	
+ 	curl_setopt($ch,CURLOPT_URL,$URL);
+ 	curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
+ 	
+ 	$output = curl_exec($ch);
+ 	if($output === FALSE) {
+ 		return 'Curl error: ' . curl_error($ch);
+ 	}
+ 	
+ 	curl_close($ch);		
+ 	return $output; 		
+ }
+ 
+ 
+ /*	FUNCTIONAL
+  * calls upon 
+  * GET /api/tools/{tool_id}/reload 
+  * Reload specified tool.
+  */
+ public function reload($tool_id){
+ 	$ch = curl_init();
+ 	$URL = $this->galaxy->getURL() . '/api/tools/'. $tool_id . '/reload/?key=' . $this->galaxy->getAPIKey();
  	
  	
+ 	curl_setopt($ch,CURLOPT_URL,$URL);
+ 	curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
+ 	
+ 	$output = curl_exec($ch);
+ 	if($output === FALSE) {
+ 		return 'Curl error: ' . curl_error($ch);
+ 	}
+ 	
+ 	curl_close($ch);
+ 	return $output;
+ }
+ 
+ 
+ 
+ 
+ 
+ /* !!WARNING!!: Currently not functional. when called it asks for a history id, though it shouldn't need one.
+  *  
+  * Utilizes Python's 'build' method through Rest command 
+  * GET /api/tools/{tool_id}/build 
+  * Returns a tool model including dynamic parameters and updated values, repeats block etc.
+  * 
+  * Not completely certain of its practical use but it seems simple enough to implement so I will do so
+  */
+ public function build_tool($tool_id){
+ 	$ch = curl_init();
+ 	
+ 	$URL = $this->galaxy->getURL() . '/api/tools/'. $tool_id . '/build/?key=' . $this->galaxy->getAPIKey();
+ 	//$URL = $this->galaxy->getURL() . '/api/tools/thisisntrealtest';
+ 	//print $URL;
+ 	
+ 	curl_setopt($ch,CURLOPT_URL,$URL);
+ 	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+ 	curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
+ 	
+ 	//var_dump(curl_getinfo($ch));
+ 	$output = curl_exec($ch);
+ 	
+ 		
+ 	if($output === FALSE) {
+ 		return 'Curl error: ' . curl_error($ch);
+ 	}
+ 	curl_close($ch);
+ 		
+ 	return $output;
  }
  
  
  /*
+  * FUNCTION FINALLY WORKS! 
   * Utilizises python's 'create' method through Rest command
   * POST /api/tools 
   *       Executes tool using specified inputs and returns tool's outputs.
@@ -82,9 +164,9 @@ private $debug = True;
  	// receive server response ...
  	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
  	$message = curl_exec($ch);
- 	 
+ 	 curl_close($ch);
  	if($message === FALSE) {
- 		print "I have failed";
+ 		print "I have failed ";
  		return 'Error ' . curl_error($ch);
  	}
  	
@@ -95,7 +177,7 @@ private $debug = True;
  
  
  
- /* Incomplete 
+ /* Function currently does not work
   * Custom Function
   * Obtains a tool id baswed ona a given tool name/annotation
   *
