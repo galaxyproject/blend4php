@@ -3,6 +3,7 @@ include 'UserClient.inc';
 include 'GalaxyInstance.inc';
 include 'WorkflowClient.inc';
 include 'ToolClient.inc';
+include 'HistoryClient.inc';
 
 
  $galaxy = new GalaxyInstance('localhost', '8080');
@@ -10,6 +11,7 @@ include 'ToolClient.inc';
  $user= new UserClient($galaxy);
  $workflow = new WorkflowClient($galaxy);
  $tool = new ToolClient($galaxy);
+ $history = new HistoryClient($galaxy);
  
  print 'I have started the test ';
 
@@ -19,9 +21,10 @@ include 'ToolClient.inc';
 //$tool_id = $tool->obtainTool_id("HbVar");
 //print $tool_id;
 //print $tool->get_tools(); 
-//print $tool->executeTool('genomespace_file_browser_prod', '1.01');
+print $tool->executeTool('genomespace_file_browser_prod', '1.01');
 //print $tool->build_tool('genomespace_file_browser_prod');
 //print $tool->diagnostics('genomespace_file_browser_prod');
-print $tool->reload('genomespace_file_browser_prod');
+//print $tool->reload('genomespace_file_browser_prod');
+//print $history->archive_download('df7a1f0c02a5b08e', 'df7a1f0c02a5b08e');
 
 ?>

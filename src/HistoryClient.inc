@@ -1,5 +1,5 @@
 <?php 
-require "GalaxyInstance.inc";
+require_once "GalaxyInstance.inc";
 
 
 class HistoryClient{
@@ -53,16 +53,55 @@ private $debug = True;
  	// receive server response ...
  	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
  	$message = curl_exec($ch);
- 		
+ 	curl_close($ch);
  	if($message === FALSE) {
  		print "I have failed";
  		return 'Error ' . curl_error($ch);
  	}
  	
  	return $message;
- 	
- 	
+ 	 	
  }
+ 
+ /* What is a immutable id??
+  * 
+  * GET /api/histories/{id}/exports/{jeha_id}:
+
+    If ready and available, return raw contents of 
+    exported history. 
+    Use/poll “PUT /api/histories/{id}/exports” to initiate the 
+    creation of such an export 
+    - when ready that route will return 200 status code 
+    (instead of 202) with a JSON dictionary containing a 
+    download_url.
+  * 
+  */
+ 
+ public function archive_download($history_id, $jeha_id){
+ 	$ch = curl_init();
+ 	$URL = $this->galaxy->getURL() . '/api/histories/'. $history_id . '/exports/' . $jeha_id .'/?key=' . $this->galaxy->getAPIKey();
+ 	
+ 	
+ 	curl_setopt($ch,CURLOPT_URL,$URL);
+ 	curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
+ 	
+ 	$output = curl_exec($ch);
+ 	if($output === FALSE) {
+ 		return 'Curl error: ' . curl_error($ch);
+ 	}
+ 	
+ 	curl_close($ch);
+ 	return $output;	
+ }
+ 
+ 
+ 
+ 
+ public function archive_export(){
+ 		
+ }
+ 
+ 
  
 }
  

@@ -1,16 +1,18 @@
 <?php 
 require_once "GalaxyInstance.inc";
+require_once "RESTManager.php";
 
 
 class ToolClient{
 private $galaxy = NULL; 
 private $debug = True;
-	
+private $rest;	
 	
 	
 	
  public function __construct($galaxy) {
 	$this->galaxy = $galaxy;
+	$this->rest = new RESTManager();
  }
  
  
@@ -20,21 +22,13 @@ private $debug = True;
   *uses GET /api/tools: returns a list of tools defined by parameters::
   */
  public function get_tools($tool_id = NULL) {
- 	$ch = curl_init();
  	if($tool_id === NULL) {
  		$URL = $this->galaxy->getURL() . '/api/tools/?key=' . $this->galaxy->getAPIKey();
  	}else {
  		$URL = $this->galaxy->getURL() . '/api/tools/'. $tool_id . '/?key=' . $this->galaxy->getAPIKey();
  	}
- 	
- 	curl_setopt($ch,CURLOPT_URL,$URL);
- 	curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
- 	
- 	$output = curl_exec($ch);
- 	if($output === FALSE) {
- 		return 'Curl error: ' . curl_error($ch);
- 	}
- 	curl_close($ch);
+	
+	$output = $this->rest->GET($URL);
  	 
  	return $output;
  		
@@ -48,19 +42,9 @@ private $debug = True;
   */
  
  public function diagnostics($tool_id){
- 	$ch = curl_init();
- 	$URL = $this->galaxy->getURL() . '/api/tools/'. $tool_id . '/diagnostics/?key=' . $this->galaxy->getAPIKey();
- 	
+ 	$URL = $this->galaxy->getURL() . '/api/tools/'. $tool_id . '/diagnostics/?key=' . $this->galaxy->getAPIKey();	
+	$this->rest->GET($URL);	
 	
- 	curl_setopt($ch,CURLOPT_URL,$URL);
- 	curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
- 	
- 	$output = curl_exec($ch);
- 	if($output === FALSE) {
- 		return 'Curl error: ' . curl_error($ch);
- 	}
- 	
- 	curl_close($ch);		
  	return $output; 		
  }
  
@@ -71,19 +55,8 @@ private $debug = True;
   * Reload specified tool.
   */
  public function reload($tool_id){
- 	$ch = curl_init();
  	$URL = $this->galaxy->getURL() . '/api/tools/'. $tool_id . '/reload/?key=' . $this->galaxy->getAPIKey();
- 	
- 	
- 	curl_setopt($ch,CURLOPT_URL,$URL);
- 	curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
- 	
- 	$output = curl_exec($ch);
- 	if($output === FALSE) {
- 		return 'Curl error: ' . curl_error($ch);
- 	}
- 	
- 	curl_close($ch);
+	$this->rest->GET($URL);
  	return $output;
  }
  
@@ -99,27 +72,12 @@ private $debug = True;
   * 
   * Not completely certain of its practical use but it seems simple enough to implement so I will do so
   */
- public function build_tool($tool_id){
- 	$ch = curl_init();
- 	
+ public function build_tool($tool_id){	
  	$URL = $this->galaxy->getURL() . '/api/tools/'. $tool_id . '/build/?key=' . $this->galaxy->getAPIKey();
- 	//$URL = $this->galaxy->getURL() . '/api/tools/thisisntrealtest';
- 	//print $URL;
- 	
- 	curl_setopt($ch,CURLOPT_URL,$URL);
- 	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
- 	curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
- 	
- 	//var_dump(curl_getinfo($ch));
- 	$output = curl_exec($ch);
- 	
- 		
- 	if($output === FALSE) {
- 		return 'Curl error: ' . curl_error($ch);
- 	}
- 	curl_close($ch);
+	$this->rest->GET($URL);
  		
  	return $output;
+ 	
  }
  
  
@@ -145,32 +103,19 @@ private $debug = True;
   */
  
  public function executeTool($tool_id, $tool_version, $inputs=NULL,  $history_id = NULL, $region = NULL,  $action = NULL ) {
- 	$url = $this->galaxy->getURL() . '/api/tools/?key=' . $this->galaxy->getAPIKey();
- 	//print $url;
- 	$ch = curl_init();
- 	 
- 	curl_setopt($ch, CURLOPT_URL, $url);
- 	curl_setopt($ch, CURLOPT_POST, 1);
- 	curl_setopt($ch, CURLOPT_POSTFIELDS,
- 			http_build_query(array(
- 					'tool_id' => $tool_id,
- 					'tool_version' => $tool_version,
- 					'inputs' => $inputs,
- 					'history_id'=>$history_id,
- 					'region' => $region,
- 					'action' => $action,
- 			)));
- 	$message = '';
- 	// receive server response ...
- 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
- 	$message = curl_exec($ch);
- 	 curl_close($ch);
- 	if($message === FALSE) {
- 		print "I have failed ";
- 		return 'Error ' . curl_error($ch);
- 	}
+ 	$URL = $this->galaxy->getURL() . '/api/tools/?key=' . $this->galaxy->getAPIKey();
+
+ 	$input = array(
+						'tool_id' => $tool_id,
+						'tool_version' => $tool_version,
+						'inputs' => $inputs,
+						'history_id'=>$history_id,
+						'region' => $region,
+						'action' => $action,
+				);
  	
- 	return $message;
+ 	
+ 	return $this->rest->POST($URL, $input);
  }
  
 
