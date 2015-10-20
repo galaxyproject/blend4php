@@ -102,6 +102,11 @@ private $debug = True;
  }
  
  
+ public function create_content(){
+ 	
+ }
+ 
+ 
  
 }
  

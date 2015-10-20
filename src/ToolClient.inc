@@ -16,7 +16,7 @@ private $rest;
  }
  
  
- /*
+ /**
   returns information about a tool specified, or all tools if no
   tool id is specified
   *uses GET /api/tools: returns a list of tools defined by parameters::
@@ -35,7 +35,7 @@ private $rest;
  }
  
  
- /*Functional! 
+ /**Functional! 
   * Calls upon 
   * GET /api/tools/{tool_id}/diagnostics 
   * Return diagnostic information to help debug panel and dependency related problems.
@@ -49,7 +49,7 @@ private $rest;
  }
  
  
- /*	FUNCTIONAL
+ /**	FUNCTIONAL
   * calls upon 
   * GET /api/tools/{tool_id}/reload 
   * Reload specified tool.
@@ -64,7 +64,7 @@ private $rest;
  
  
  
- /* !!WARNING!!: Currently not functional. when called it asks for a history id, though it shouldn't need one.
+ /** !!WARNING!!: Currently not functional. when called it asks for a history id, though it shouldn't need one.
   *  
   * Utilizes Python's 'build' method through Rest command 
   * GET /api/tools/{tool_id}/build 
@@ -81,7 +81,7 @@ private $rest;
  }
  
  
- /*
+ /**
   * FUNCTION FINALLY WORKS! 
   * Utilizises python's 'create' method through Rest command
   * POST /api/tools 
@@ -122,7 +122,7 @@ private $rest;
  
  
  
- /* Function currently does not work
+ /** Function currently does not work
   * Custom Function
   * Obtains a tool id baswed ona a given tool name/annotation
   *
