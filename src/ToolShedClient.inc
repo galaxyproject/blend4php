@@ -1,8 +1,22 @@
 <?php
+
 require_once "GalaxyInstance.inc";
 		
 
 class ToolShedClient{
+	
+	private $galaxy = NULL;
+	// A variable to set to true if debugging, Toggles print statements
+	private $debug = True;
+	
+	/**
+	 * Implements the constructor.
+	 *
+	 * @param GalaxyInstance $galaxy
+	 */
+	function __construct($galaxy) {
+		$this->galaxy = $galaxy;
+	}
 	
 	/**
 	 * Displays a list of dictionaries containing information about this tool
@@ -15,32 +29,102 @@ class ToolShedClient{
 	 * exported_workflows
 	 * 
 	 */
+	// TODO: the way to acquire the tools is an inconsistent interface, sometimes
+	// I need to browse the repository instead of the main tool shed repository
+	// I would like to know if there's a reason for that
   
 	public function exported_workflows ($tool_shed_repo_id){
+		$i = curl_init();
+		$api_key = $this->galaxy->getAPIKey();
+
+		$url = $this->galaxy->getURL() . '/api/tool_shed_repositories/' . $tool_shed_repo_id . '/exported_workflows'  .  '?key=' . $api_key;
 		
+		curl_setopt($i, CURLOPT_URL, $url);
+		curl_setopt($i, CURLOPT_CUSTOMREQUEST, "GET");
+		curl_setopt($i, CURLOPT_RETURNTRANSFER, true);
+		
+		$result = curl_exec($i);
+		 
+		$info = curl_getinfo($i);
+		 
+		$array = json_decode($result, true);
+		
+		// Do we want to print out our results? I would like to think so
+		print_r ($array);
+		 
+		curl_close($i);
 	}
 	
 	/**
-	 * Displays a list of dictionaries containing information about this tool
-	 * shed repository's exported workflows
+	 * Get the latest installable revision of a specified repository from a 
+	 * specified Tool Shed.
 	 *
 	 * @param $admin_api_key
 	 *	The current Galaxy admin user's API key
 	 *   
 	 * @param $tool_shed_url
-	 * 	The base URL of the Tool Shed from which to retrieve the Repo revision
-	 * 
+	 * 	The URL of the Tool Shed from which to retrieve the Repo revision
+	 *  This should be something similar to this:
+	 *  https://toolshed.g2.bx.psu.edu/repository?repository_id=253e22fdaf6a52c1
+
 	 * @param $name_of_repo
 	 * 	The name of the repository
 	 * 
 	 * @param $name_owner_of_repo
 	 * 	The name of the owner of the repository
 	 *
-	 * GET /api/tool_shed_repositories/{encoded_tool_shed_repository_id}/
-	 * exported_workflows
+	 *  POST /api/tool_shed_repositories/get_latest_installable_revision
+	 *  
+	 *  Basically what this api function will do is take the url and api_key to
+	 *  see if there is a new revision to the existing toolshed. While the user
+	 *  could do it themselves just as easy, this enables a bit less user
+	 *  interaction with the toolshed mechanics 
+	 * 
+	 *
+	 * This one will have to use something different from curl as javascript must
+	 * be read in to see the latest_installable_revision
+	 * I'll be looking at the use of phantomJS
+	 * TODO: Run this by Stephen and move on to the next function for now
+	 * 
 	 *
 	 */
 	public function get_latest_installable_revision ($admin_api_key, $tool_shed_url, $name_of_repo, $name_owner_of_repo){
+		$i = curl_init();
+		$api_key = $this->galaxy->getAPIKey();
+		
+		// After searching through the galaxy code it seems I only need the
+		// tool_shed_url and the name and owner are for checking that we have the
+		// right thing
+		
+		if ($admin_api_key == $api_key){
+			// the user will be validated and therefore will be able to update the 
+			// repository
+			//$url = $this->galaxy->getURL() . $tool_shed_url . '?key=' . $admin_api_key;
+			$url = $tool_shed_url;
+		}
+		
+		curl_setopt($i, CURLOPT_URL, $url);
+		curl_setopt($i, CURLOPT_CUSTOMREQUEST, "GET");
+		curl_setopt($i, CURLOPT_RETURNTRANSFER, true);
+		
+		$result = curl_exec($i);
+		
+		$scriptsfound = array ();
+		
+		if (strpos($result, '<string src') !== false){
+			
+			echo 'found';
+		}
+			
+		$info = curl_getinfo($i);
+			
+		//$array = json_decode($result, true);
+		
+		// Do we want to print out our results? I would like to think so
+		print_r ($result);
+		print_r ($info);
+		
+		curl_close($i);
 		
 	}
 	

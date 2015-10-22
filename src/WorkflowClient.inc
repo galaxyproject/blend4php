@@ -134,7 +134,7 @@ class WorkflowClient {
   	$result = curl_exec($i);
   	$info = curl_getinfo($i);
   	// print_r ($info);
-  	//print_r($result);
+  	print_r($result);
 
   	curl_close($i);
   }
