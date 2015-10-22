@@ -1,26 +1,28 @@
 <?php 
 require_once "GalaxyInstance.inc";
+require_once "RESTManager.php";
 
 
 class HistoryClient{
 private $galaxy = NULL; 
 private $debug = True;
+private $REST;
 	
 	
 
  public function __construct($galaxy) {
 	$this->galaxy = $galaxy;
+	$this->REST= new RESTManager();
  }
  
  
  
- /*TODO: Test this 
+ /**TODO: Test this 
   * Creates a new  history in a galaxy instance 
   * returns REST restuls
   * calls upon
   * POST /api/histories:
-  * 
-  * 
+  *  
   * 
   * Parameters:	(converted from a python dictionary)
     * name: the new history’s name 
@@ -35,35 +37,20 @@ private $debug = True;
   * 
   */
  public function create($name, $archive_source,  $archive_type='url', $all_datasets= True, $history_id = NULL) {
- 	$url = $this->galaxy->getURL() . '/api/histories/?key=' . $this->galaxy->getAPIKey();
- 	//print $url;
- 	$ch = curl_init();
- 		
- 	curl_setopt($ch, CURLOPT_URL, $url);
- 	curl_setopt($ch, CURLOPT_POST, 1);
- 	curl_setopt($ch, CURLOPT_POSTFIELDS,
- 			http_build_query(array(
- 					'name' => $name,
- 					'tool_version' => $archive_source,
- 					'archive_type' => $archive_type,
- 					'history_id'=>$history_id,
- 					'all_datasets' => $all_datasets,
- 			)));
- 	$message = '';
- 	// receive server response ...
- 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
- 	$message = curl_exec($ch);
- 	curl_close($ch);
- 	if($message === FALSE) {
- 		print "I have failed";
- 		return 'Error ' . curl_error($ch);
- 	}
- 	
- 	return $message;
- 	 	
+ 	$URL = $this->galaxy->getURL() . '/api/histories/?key=' . $this->galaxy->getAPIKey();
+
+ 	$input = array(
+ 		'name' => $name,
+ 		'tool_version' => $archive_source,
+ 		'archive_type' => $archive_type,
+ 		'history_id'=>$history_id,
+ 		'all_datasets' => $all_datasets,
+ 	);
+	
+ 	return $this->REST->POST($URL, $input);
  }
  
- /* What is a immutable id??
+ /** What is a immutable id??
   * 
   * GET /api/histories/{id}/exports/{jeha_id}:
 
@@ -76,29 +63,30 @@ private $debug = True;
     download_url.
   * 
   */
- 
  public function archive_download($history_id, $jeha_id){
- 	$ch = curl_init();
- 	$URL = $this->galaxy->getURL() . '/api/histories/'. $history_id . '/exports/' . $jeha_id .'/?key=' . $this->galaxy->getAPIKey();
- 	
- 	
- 	curl_setopt($ch,CURLOPT_URL,$URL);
- 	curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
- 	
- 	$output = curl_exec($ch);
- 	if($output === FALSE) {
- 		return 'Curl error: ' . curl_error($ch);
- 	}
- 	
- 	curl_close($ch);
- 	return $output;	
- }
+ 	$URL = $this->galaxy->getURL() . '/api/histories/'. $history_id . '/exports/' . $jeha_id .'/?key=' . $this->galaxy->getAPIKey(); 		
+ 	return $this->REST->GET($URL); 	
+}
  
+/**
+ * PUT /api/histories/{id}/exports:
+  start job (if needed) to create history export for corresponding history.
+@param  id:     the encoded id of the history to export
+
+@return url of download site
+
+*/
+ public function archive_export($history_id){
+ $URL = $this->galaxy->getURL() . '/api/histories/'. $history_id . '/exports/?key=' . $this->galaxy->getAPIKey();
+ $input = array('id' => $history_id); 
+ $output = $this->REST->PUT($URL, $input); 
+ $jsonArray = json_decode($output, true);
+ if($jsonArray != NULL) {
+ 	return $jsonArray["download_url"];
+ } 
  
- 
- 
- public function archive_export(){
- 		
+ return $output; 
+ 	
  }
  
  

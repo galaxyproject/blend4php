@@ -12,7 +12,7 @@ class UserClient{
 	}
 	
 	
-	/*
+	/**
 	 * Accepts a user name, retuns the new api key, 
 	 * Upon calling this function, the server should already have the 
 	 * new api key for the user
@@ -32,7 +32,7 @@ class UserClient{
 		
 	}
 	
-	/* 
+	/** 
 	 * Shows the contents of a user based on given string username 
 	 * returns a json array or error message string if not successful 
 	 * calls: 
@@ -51,7 +51,7 @@ class UserClient{
 	
 	
 	
-	/*
+	/**
 	 * Obtains the user id as a string
 	 * Returns False if it encounters an issue
 	 */
@@ -107,7 +107,7 @@ class UserClient{
 
 	
 	
-	/*
+	/**
 	 * Creates new galaxy user using
 	 * //POST /api/users
 	 * For this method to work, the Galaxy instance must have the allow_user_creation
