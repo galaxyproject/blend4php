@@ -1,48 +1,88 @@
 <?php 
 require_once "GalaxyInstance.inc";
+require_once "RESTManager.php";
 
 
 class ToolClient{
 private $galaxy = NULL; 
 private $debug = True;
-	
+private $rest;	
 	
 	
 	
  public function __construct($galaxy) {
 	$this->galaxy = $galaxy;
+	$this->rest = new RESTManager();
  }
  
  
- /*
+ /**
   returns information about a tool specified, or all tools if no
   tool id is specified
   *uses GET /api/tools: returns a list of tools defined by parameters::
   */
  public function get_tools($tool_id = NULL) {
- 	$ch = curl_init();
  	if($tool_id === NULL) {
  		$URL = $this->galaxy->getURL() . '/api/tools/?key=' . $this->galaxy->getAPIKey();
  	}else {
  		$URL = $this->galaxy->getURL() . '/api/tools/'. $tool_id . '/?key=' . $this->galaxy->getAPIKey();
  	}
- 	
- 	curl_setopt($ch,CURLOPT_URL,$URL);
- 	curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
- 	
- 	$output = curl_exec($ch);
- 	if($output === FALSE) {
- 		return 'Curl error: ' . curl_error($ch);
- 	}
- 	curl_close($ch);
+	
+	$output = $this->rest->GET($URL);
  	 
  	return $output;
- 	
+ 		
+ }
+ 
+ 
+ /**Functional! 
+  * Calls upon 
+  * GET /api/tools/{tool_id}/diagnostics 
+  * Return diagnostic information to help debug panel and dependency related problems.
+  */
+ 
+ public function diagnostics($tool_id){
+ 	$URL = $this->galaxy->getURL() . '/api/tools/'. $tool_id . '/diagnostics/?key=' . $this->galaxy->getAPIKey();	
+	$this->rest->GET($URL);	
+	
+ 	return $output; 		
+ }
+ 
+ 
+ /**	FUNCTIONAL
+  * calls upon 
+  * GET /api/tools/{tool_id}/reload 
+  * Reload specified tool.
+  */
+ public function reload($tool_id){
+ 	$URL = $this->galaxy->getURL() . '/api/tools/'. $tool_id . '/reload/?key=' . $this->galaxy->getAPIKey();
+	$this->rest->GET($URL);
+ 	return $output;
+ }
+ 
+ 
+ 
+ 
+ 
+ /** !!WARNING!!: Currently not functional. when called it asks for a history id, though it shouldn't need one.
+  *  
+  * Utilizes Python's 'build' method through Rest command 
+  * GET /api/tools/{tool_id}/build 
+  * Returns a tool model including dynamic parameters and updated values, repeats block etc.
+  * 
+  * Not completely certain of its practical use but it seems simple enough to implement so I will do so
+  */
+ public function build_tool($tool_id){	
+ 	$URL = $this->galaxy->getURL() . '/api/tools/'. $tool_id . '/build/?key=' . $this->galaxy->getAPIKey();
+	$this->rest->GET($URL);
+ 		
+ 	return $output;
  	
  }
  
  
- /*
+ /**
+  * FUNCTION FINALLY WORKS! 
   * Utilizises python's 'create' method through Rest command
   * POST /api/tools 
   *       Executes tool using specified inputs and returns tool's outputs.
@@ -63,39 +103,26 @@ private $debug = True;
   */
  
  public function executeTool($tool_id, $tool_version, $inputs=NULL,  $history_id = NULL, $region = NULL,  $action = NULL ) {
- 	$url = $this->galaxy->getURL() . '/api/tools/?key=' . $this->galaxy->getAPIKey();
- 	//print $url;
- 	$ch = curl_init();
- 	 
- 	curl_setopt($ch, CURLOPT_URL, $url);
- 	curl_setopt($ch, CURLOPT_POST, 1);
- 	curl_setopt($ch, CURLOPT_POSTFIELDS,
- 			http_build_query(array(
- 					'tool_id' => $tool_id,
- 					'tool_version' => $tool_version,
- 					'inputs' => $inputs,
- 					'history_id'=>$history_id,
- 					'region' => $region,
- 					'action' => $action,
- 			)));
- 	$message = '';
- 	// receive server response ...
- 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
- 	$message = curl_exec($ch);
- 	 
- 	if($message === FALSE) {
- 		print "I have failed";
- 		return 'Error ' . curl_error($ch);
- 	}
+ 	$URL = $this->galaxy->getURL() . '/api/tools/?key=' . $this->galaxy->getAPIKey();
+
+ 	$input = array(
+						'tool_id' => $tool_id,
+						'tool_version' => $tool_version,
+						'inputs' => $inputs,
+						'history_id'=>$history_id,
+						'region' => $region,
+						'action' => $action,
+				);
  	
- 	return $message;
+ 	
+ 	return $this->rest->POST($URL, $input);
  }
  
 
  
  
  
- /* Incomplete 
+ /** Function currently does not work
   * Custom Function
   * Obtains a tool id baswed ona a given tool name/annotation
   *
@@ -155,15 +182,6 @@ private $debug = True;
  	 print $tool_id;
  	return $tool_id;
  }
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	

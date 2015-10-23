@@ -1,10 +1,14 @@
 <?php 
+require_once 'RESTManager.php';
+
 class UserClient{
 	private $debug = True;
 	private $galaxy = NULL;
+	private $rest = NULL;
 
 	function __construct($galaxy) {
 		$this->galaxy = $galaxy;
+		$this->rest = new RESTManager();
 	}
 	
 	
@@ -22,22 +26,13 @@ class UserClient{
 			return "Error obtianing user id, have you entered the correct username?";
 		}
 
-		$url = $this->galaxy->getURL() . '/api/users/'. $user_id ."/api_key/?key=" . $this->galaxy->getAPIKey();
-		$ch = curl_init();
+		$URL = $this->galaxy->getURL() . '/api/users/'. $user_id ."/api_key/?key=" . $this->galaxy->getAPIKey();
 		
-		curl_setopt($ch, CURLOPT_URL, $url);
-		curl_setopt($ch, CURLOPT_POST, 1);
-		$message = curl_exec($ch);
+		$this->rest->GET($URL);
 		
-		if($message === FALSE) {
-			print 'Curl error: ' . curl_error($ch);
-		}
-			
-		// This should be the newly created api (already apopended to the site)
-			return $message;
 	}
 	
-	/* 	NOTE COMPLETE
+	/* 
 	 * Shows the contents of a user based on given string username 
 	 * returns a json array or error message string if not successful 
 	 * calls: 
@@ -50,17 +45,8 @@ class UserClient{
 			return "Error obtianing user id, have you entered the correct username?";
 		}
 		
-		$url = $this->galaxy->getURL() . '/api/users/'. $user_id ."/api_key/?key=" . $this->galaxy->getAPIKey();
-		$ch = curl_init();
-		
-		curl_setopt($ch, CURLOPT_URL, $url);
-		curl_setopt($ch, CURLOPT_POST, 1);
-		$message = curl_exec($ch);
-		
-		if($message === FALSE) {
-			print 'Curl error: ' . curl_error($ch);
-		}		
-		
+		$URL = $this->galaxy->getURL() . '/api/users/'. $user_id ."/api_key/?key=" . $this->galaxy->getAPIKey();
+		return $this->rest->GET($URL);
 	}
 	
 	
@@ -120,46 +106,25 @@ class UserClient{
 	}
 
 	
+	
 	/*
-	 * Creates new galaxy user
+	 * Creates new galaxy user using
+	 * //POST /api/users
 	 * For this method to work, the Galaxy instance must have the allow_user_creation
 	 * option set to True and use_remote_user option set to False in the
 	 * config/galaxy.ini configuration file.
 	 */
 	function create_local_user($username, $user_email, $password) {
-		//POST /api/users
+		
+		$URL = $this->galaxy->getURL() . '/api/users'. "?key=" . $this->galaxy->getAPIKey();
 
-		$url = $this->galaxy->getURL() . '/api/users'. "?key=" . $this->galaxy->getAPIKey();
-		//print $this->galaxy->getAPIKey();
-		$ch = curl_init();
-
-		curl_setopt($ch, CURLOPT_URL, $url);
-		curl_setopt($ch, CURLOPT_POST, 1);
-		curl_setopt($ch, CURLOPT_POSTFIELDS,
-				http_build_query(array(
+		$input = 		array(
 						'username' => $username,
 						'email' => $user_email,
 						'password' => $password,
-				)));
-		$message = '';
-		// receive server response ...
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		
-		if($this->debug){
-			print curl_exec($ch);
-		}else // Do not print if not in debug mode 
-		{
-			curl_exec($ch);
-		}
-		
-		if($ch === FALSE)
-		{
-			$message = 'Curl error: ' . curl_error($ch);
-		}else {
-			$message = $ch;
-		}
-		curl_close ($ch);
-		return $message;
+					);
+
+		return $this->rest->POST($URL, $input);
 	}
 }
 
