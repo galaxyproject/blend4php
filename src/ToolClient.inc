@@ -56,8 +56,8 @@ private $rest;
   */
  public function reload($tool_id){
  	$URL = $this->galaxy->getURL() . '/api/tools/'. $tool_id . '/reload/?key=' . $this->galaxy->getAPIKey();
-	$this->rest->GET($URL);
- 	return $output;
+
+ 	return 	$this->rest->GET($URL);
  }
  
  

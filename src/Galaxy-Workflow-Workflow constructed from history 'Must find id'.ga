@@ -1,0 +1,52 @@
+{
+    "annotation": null, 
+    "deleted": false, 
+    "id": "f597429621d6eb2b", 
+    "inputs": {
+        "3": {
+            "label": "Input Dataset", 
+            "value": ""
+        }
+    }, 
+    "latest_workflow_uuid": "bf1331a7-8230-4652-83c4-d73c7e1c148a", 
+    "model_class": "StoredWorkflow", 
+    "name": "Workflow constructed from history 'Must find id'", 
+    "owner": "anotherbrian", 
+    "published": false, 
+    "steps": {
+        "3": {
+            "annotation": null, 
+            "id": 3, 
+            "input_steps": {}, 
+            "tool_id": null, 
+            "tool_inputs": {
+                "name": "Input Dataset"
+            }, 
+            "tool_version": null, 
+            "type": "data_input"
+        }, 
+        "4": {
+            "annotation": null, 
+            "id": 4, 
+            "input_steps": {
+                "input": {
+                    "source_step": 3, 
+                    "step_output": "output"
+                }
+            }, 
+            "tool_id": "sort1", 
+            "tool_inputs": {
+                "chromInfo": "\"/home/johnbonham/galaxy/tool-data/shared/ucsc/chrom/hg38.len\"", 
+                "column": "{\"__class__\": \"UnvalidatedValue\", \"value\": \"1\"}", 
+                "column_set": "[]", 
+                "input": "null", 
+                "order": "\"DESC\"", 
+                "style": "\"num\""
+            }, 
+            "tool_version": null, 
+            "type": "tool"
+        }
+    }, 
+    "tags": [], 
+    "url": "/api/workflows/f597429621d6eb2b"
+}
