@@ -11,4 +11,5 @@ class GalaxyRequest {
   private $REST;
 
 
+
 }
