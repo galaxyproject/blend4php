@@ -89,6 +89,15 @@ private $REST;
  	
  }
  
+ /**
+  * calls DELETE /api/histories/id
+  * deletes the history with the given id
+  */
+ public function deleteHistory($history_id){
+ 	$URL = $this->galaxy->getURL() . '/api/histories/'. $history_id . '/?key=' . $this->galaxy->getAPIKey();
+ 	return $this->REST->Delete($URL);
+ }
+ 
  
  public function create_content(){
  	

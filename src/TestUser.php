@@ -16,6 +16,6 @@ include 'HistoryClient.inc';
  print 'I have started the test ';
 
 //print $workflow->get_workflows();
-print $history->archive_export("5969b1f7201f12ae");
-
+//print $history->archive_export("5969b1f7201f12ae");
+print $history->deleteHistory('df7a1f0c02a5b08e');
 ?>
