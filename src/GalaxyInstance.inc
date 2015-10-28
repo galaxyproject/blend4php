@@ -1,11 +1,12 @@
 <?php
 
 /**
- * 
+ * @file
+ *
  */
- 
+
 /**
- * 
+ *
  */
 class GalaxyInstance {
   // The hostname where the Galaxy server is located.
@@ -16,11 +17,12 @@ class GalaxyInstance {
   private $use_https;
   //  The API Key for the user connection.
   private $api_key;
-  
-  private $debug = true; 
+
+  private $debug = true;
+
   /**
    * Implements a constructor.
-   * 
+   *
    * @param $hostname
    *   The hostname where the Galaxy server is located.
    * @param $port
@@ -28,57 +30,57 @@ class GalaxyInstance {
    * @param $use_https
    *   Should be set to TRUE if the remote server uses HTTPS. Defaults
    *   to TRUE.
-   * @return Galaxy 
-   *   
+   * @return Galaxy
+   *
    */
   function __construct($hostname, $port, $use_https = FALSE) {
     $this->host = $hostname;
     $this->port = $port;
     $this->use_https  = $use_https;
-    
+
     // where's the return?
   }
 
-  
+
   /**
    * Authenticates a user with the remote Galaxy instance.
-   * 
+   *
    * @param $username
    * @param $password
-   * 
-   * 
+   *
+   *
    */
   public function authenticate($username, $password) {
-  	
-  	$i = curl_init();
-  	
-  	curl_setopt($i, CURLOPT_URL, $this->getURL() . '/api/authenticate/baseauth');
-  	curl_setopt($i, CURLOPT_RETURNTRANSFER, true);
-  	//curl_setopt($i, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
-  	curl_setopt($i, CURLOPT_USERPWD, $username . ':' . $password);
 
-  	$output = curl_exec($i);
- 
-  	if($output === FALSE) {
-  		return "Error: " . curl_error($i);
-  	}
-  	$output = json_decode($output, true);
-  	$output = $output['api_key'];
-  	$this->api_key = $output;
-  	//$info = curl_getinfo($i);
+    $i = curl_init();
 
-  	//print_r($this->api_key);
- 
-  	curl_close($i);
-    
+    curl_setopt($i, CURLOPT_URL, $this->getURL() . '/api/authenticate/baseauth');
+    curl_setopt($i, CURLOPT_RETURNTRANSFER, true);
+    //curl_setopt($i, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
+    curl_setopt($i, CURLOPT_USERPWD, $username . ':' . $password);
+
+    $output = curl_exec($i);
+
+    if($output === FALSE) {
+      return "Error: " . curl_error($i);
+    }
+    $output = json_decode($output, true);
+    $output = $output['api_key'];
+    $this->api_key = $output;
+    //$info = curl_getinfo($i);
+
+    //print_r($this->api_key);
+
+    curl_close($i);
+
   }
-  
+
   /**
    * Returns the URL for the remote Galaxy server.
-   * 
+   *
    * The URL returned will include the protocol (HTTP, HTTPS),
    * the hostname and the port.
-   * 
+   *
    * @return string
    *   The URL for the remote Galaxy instance.
    */
@@ -90,26 +92,26 @@ class GalaxyInstance {
       return "http://". $this->host .":". $this->port;
     }
   }
-  
+
   /**
    * Sets the API Key for this Galaxy instance.
    * @param string $api_key
    */
   public function setAPIKey($api_key) {
-  	
-  	$this->api_key = $api_key;
+
+    $this->api_key = $api_key;
   }
-  
+
   /**
    * Acquires the API key
    *  Initially the format of the api_key will look like this:
    * {
-   *   "api_key" :  
-   *  
-   *  
+   *   "api_key" :
+   *
+   *
    * @param void
-   * 
-   * @return string 
+   *
+   * @return string
    *    The API key that authorizes a user to certain actions
    */
   public function getAPIKey(){

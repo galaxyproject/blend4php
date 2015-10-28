@@ -3,7 +3,7 @@ include 'UserClient.inc';
 include 'GalaxyInstance.inc';
 include 'WorkflowClient.inc';
 include 'ToolClient.inc';
-include 'HistoryClient.inc';
+include 'Histories.inc';
 
 
  $galaxy = new GalaxyInstance('localhost', '8080');
@@ -11,11 +11,11 @@ include 'HistoryClient.inc';
  $user= new UserClient($galaxy);
  $workflow = new WorkflowClient($galaxy);
  $tool = new ToolClient($galaxy);
- $history = new HistoryClient($galaxy);
+ $history = new Histories($galaxy);
  
  print 'I have started the test ';
 
 //print $workflow->get_workflows();
-print $history->archive_export("5969b1f7201f12ae");
-
+//print $history->archive_export("5969b1f7201f12ae");
+print $history->deleteHistory('df7a1f0c02a5b08e');
 ?>
