@@ -81,49 +81,32 @@ class ToolShedClient{
 	 *  interaction with the toolshed mechanics 
 	 * 
 	 *
-	 * This one will have to use something different from curl as javascript must
-	 * be read in to see the latest_installable_revision
-	 * I'll be looking at the use of phantomJS
-	 * TODO: Run this by Stephen and move on to the next function for now
 	 * 
 	 *
 	 */
 	public function get_latest_installable_revision ($admin_api_key, $tool_shed_url, $name_of_repo, $name_owner_of_repo){
 		$i = curl_init();
 		$api_key = $this->galaxy->getAPIKey();
+
+		$url = $this->galaxy->getURL() . '/api/tool_shed_repositories/' . 'get_latest_installable_revision';
 		
-		// After searching through the galaxy code it seems I only need the
-		// tool_shed_url and the name and owner are for checking that we have the
-		// right thing
-		
-		if ($admin_api_key == $api_key){
-			// the user will be validated and therefore will be able to update the 
-			// repository
-			//$url = $this->galaxy->getURL() . $tool_shed_url . '?key=' . $admin_api_key;
-			$url = $tool_shed_url;
-		}
+		$data = array('key' => $api_key, 'tool_shed_url' => 'https://toolshed.g2.bx.psu.edu/repository?repository_id=253e22fdaf6a52c1', 'name' => 'codonlogo', 'owner' => 'davidmurphy'
+				);
 		
 		curl_setopt($i, CURLOPT_URL, $url);
-		curl_setopt($i, CURLOPT_CUSTOMREQUEST, "GET");
+		curl_setopt($i, CURLOPT_POSTFIELDS, $data);
+		curl_setopt($i, CURLOPT_CUSTOMREQUEST, "POST");
 		curl_setopt($i, CURLOPT_RETURNTRANSFER, true);
 		
 		$result = curl_exec($i);
-		
-		$scriptsfound = array ();
-		
-		if (strpos($result, '<string src') !== false){
-			
-			echo 'found';
-		}
-			
+		  
 		$info = curl_getinfo($i);
-			
-		//$array = json_decode($result, true);
+		 
+		$array = json_decode($result, true);
 		
 		// Do we want to print out our results? I would like to think so
-		print_r ($result);
-		print_r ($info);
-		
+		print_r ($array);
+		 
 		curl_close($i);
 		
 	}
