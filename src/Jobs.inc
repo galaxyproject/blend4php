@@ -3,7 +3,7 @@ require_once "GalaxyInstance.inc";
 require_once "RESTManager.php";
 
 
-class JobsClient{
+class Jobs{
 private $galaxy = NULL; 
 private $debug = True;
 private $REST;
