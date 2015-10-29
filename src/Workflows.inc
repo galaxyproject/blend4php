@@ -1,7 +1,3 @@
-
-
-
-
 <?php
 require_once "GalaxyInstance.inc";
 require_once "RESTManager.php";
@@ -16,11 +12,11 @@ require_once "RESTManager.php";
 
 // build_module POST /api/workflows/build_module
 // Builds module details includinga tool model for the workflow editor
-// I'M not sure what this one ssssssssssssssssssssssssssssssssssssdoes (I'll ask Stephen or I'll try and figure it
+// I'M not sure what this one does (I'll ask Stephen or I'll try and figure it
 // out tomorrow)
 
 // invoke POST /api/workflows/{encoded_workflow_id}/invocations
-//\;;;;;; schedule the workflow specified by 'workflow_id' to run
+// schedule the workflow specified by 'workflow_id' to run
 // There's an extra note about how to fix this code to make it work
 // better
 // I'm not sure what this function does either (I'll need to ask Stephen or look
@@ -28,11 +24,13 @@ require_once "RESTManager.php";
 
 // index_invocations GET /api/workflows/{workflow_id}/invocations
 // Get the list of the workflow invocations
-// input param wo
+// input param workflow_id
+
 // show_invocations GET /api/workflows/{workflow_id}/invocations/{invocation_id}
 // Get details description of workflow invocation
 // input param workflow_id
-//						 invocation_idsSSS
+//						 invocation_id
+
 // cancel_invocation 
 // DELETE /api/workflows/{workflow_id}/invocations/{invocation_id}
 // Cancel the specified workflow invocation
@@ -114,8 +112,10 @@ class WorkflowClient {
    * @param $workflow_id
    */
   public function delete_workflow($workflow_id) {
+
     $api_key = $this->galaxy->getAPIKey();
-     
+    
+    
   	$url = $this->galaxy->getURL() . '/api/workflows/' . $workflow_id . '?key=' . $api_key;
  	
 	return $this->REST->Delete($url);
@@ -227,6 +227,7 @@ class WorkflowClient {
    *          $published
    */
   public function get_workflows($workflow_id = NULL, $name = NULL, $published = FALSE) {
+  	$i = curl_init();
   	$api_key = $this->galaxy->getAPIKey();
   	
   	$url = "http://www.google.com";
@@ -315,7 +316,7 @@ class WorkflowClient {
    */
   public function run_workflow($workflow_id, $dataset_map = NULL, $params = NULL, $history_id = NULL,
     $history_name = NULL, $import_inputs_to_history = FALSE, $replacement_params = NULL) {
-	
+  	
   	$url = $this->galaxy->getURL() . '/api/workflows/' .$workflow_id. '/invocations/?key=' . $this->galaxy->getAPIKey(); 
   
   	$inputs = array(
@@ -340,6 +341,8 @@ class WorkflowClient {
    * 
    * returns workflow_id if successful
    * returns False otherwise 
+   * 
+   * 
    */
   public function obtainWorkflow_id($name) {
   	if($this->debug) {
@@ -505,5 +508,3 @@ How the Galaxy Python code looks at this:
   
   
 }// End CLass 
-
-?>
