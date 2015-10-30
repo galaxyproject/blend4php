@@ -1,14 +1,10 @@
 <?php 
-require_once 'RESTManager.php';
+require_once 'GalaxyRequest.inc';
 
-class UserClient{
-	private $debug = True;
-	private $galaxy = NULL;
-	private $rest = NULL;
+class Users extends GalaxyRequest{
 
 	function __construct($galaxy) {
-		$this->galaxy = $galaxy;
-		$this->rest = new RESTManager();
+		parent::__construct($galaxy);
 	}
 	
 	

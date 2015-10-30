@@ -8,8 +8,7 @@
  * https://github.com/galaxyproject/galaxy/blob/dev/lib/galaxy/webapps/galaxy/api/histories.py
  *
  */
-require_once "GalaxyInstance.inc";
-require_once "RESTManager.php";
+require_once 'GalaxyRequest.inc';
 
 
 /**
@@ -17,20 +16,14 @@ require_once "RESTManager.php";
  *
  */
 class Histories extends GalaxyRequest {
-  // A Galaxy instance.
-  private $galaxy = NULL;
-  private $debug = True;
-  private $REST;
 
 
   /**
    *
-   *
    * @param unknown $galaxy
    */
    public function __construct($galaxy) {
-    $this->galaxy = $galaxy;
-    $this->REST= new RESTManager();
+   	parent::__construct($galaxy);
    }
 
 
@@ -120,14 +113,6 @@ class Histories extends GalaxyRequest {
      $URL = $this->galaxy->getURL() . '/api/histories/'. $history_id . '/?key=' . $this->galaxy->getAPIKey();
      return $this->REST->Delete($URL);
    }
-
-   /**
-    *
-    */
-   public function create_content(){
-
-   }
-
 
 
 }

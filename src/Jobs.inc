@@ -1,23 +1,22 @@
 <?php 
-require_once "GalaxyInstance.inc";
-require_once "RESTManager.php";
+require_once 'GalaxyRequest.inc';
 
 
-class Jobs{
-private $galaxy = NULL; 
-private $debug = True;
-private $REST;
+class Jobs extends GalaxyRequest{
 
 
+/**
+ * public constructor 
+ * @param GalaxyInstance $galaxy
+ */
 public function __construct($galaxy){
-	$this-> galaxy = $galaxy; 
-	$this-> REST = new RESTManager();
+	parent::__construct($galaxy);
 }
 
 
 /**
  * Calls upon GET/api/jobs/id/build_for_rerun
- *
+ * @param string/int $job_id 
  **/
 public function build($job_id){
 	$URL = $this->galaxy->getURL() . '/api/jobs/' . $job_id . '/?key=' . $this->galaxy->getAPIKey();
@@ -27,9 +26,15 @@ public function build($job_id){
 
 public function create(){
 
-
-
 	
+}
+
+
+public function inputs(){
+	
+}
+
+
 }
 
 
