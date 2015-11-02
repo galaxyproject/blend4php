@@ -1,7 +1,7 @@
 <?php
 require_once './src/GalaxyInstance.inc';
-require_once './src/WorkflowClient.inc';
-require_once './src/ToolShedClient.inc';
+require_once './src/Workflows.inc';
+require_once './src/ToolShedRepositories.inc';
 
 // Connect and authenticate via galaxy.
 // Break all code down into logical blocks.
@@ -34,4 +34,4 @@ $wfc = new WorkflowClient($galaxy);
 $tsc = new ToolShedClient($galaxy);
 
 //$tsc->exported_workflows('3f5830403180d620');
-$tsc->get_latest_installable_revision('6d79393594d00b17c63806144311d492', 'https://toolshed.g2.bx.psu.edu/repository?repository_id=253e22fdaf6a52c1', 'po', 'ata');
+$tsc->get_latest_installable_revision(NULL, NULL, NULL, NULL);

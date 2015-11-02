@@ -90,11 +90,25 @@ class ToolShedClient{
 
 		$url = $this->galaxy->getURL() . '/api/tool_shed_repositories/' . 'get_latest_installable_revision';
 		
-		$data = array('key' => $api_key, 'tool_shed_url' => 'https://toolshed.g2.bx.psu.edu/repository?repository_id=253e22fdaf6a52c1', 'name' => 'codonlogo', 'owner' => 'davidmurphy'
-				);
+		$data = array(
+				
+				'tool_shed_url' => 'https://toolshed.g2.bx.psu.edu/repository?repository_id=253e22fdaf6a52c1', 
+				'name' => 'codonlogo',
+				'owner' => 'davidmurphy', 
+				'key' => $api_key
+				
+		);
+		$data_string = '';
+		foreach($data as $key=>$value) { 
+			$data_string .= $key.'='.$value.'&'; 
+		}
+		//rtrim($data_string, '&');
+		print($data_string);
+		print "\n";
 		
 		curl_setopt($i, CURLOPT_URL, $url);
-		curl_setopt($i, CURLOPT_POSTFIELDS, $data);
+		curl_setopt($i,CURLOPT_POST, count($data));
+		curl_setopt($i, CURLOPT_POSTFIELDS, $data_string);
 		curl_setopt($i, CURLOPT_CUSTOMREQUEST, "POST");
 		curl_setopt($i, CURLOPT_RETURNTRANSFER, true);
 		
