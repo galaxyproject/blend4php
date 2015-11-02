@@ -1,6 +1,5 @@
 <?php
-require_once "GalaxyInstance.inc";
-require_once "RESTManager.php";
+require_once 'GalaxyRequest.inc';
 
 // IF the function is labeled as deprecated I'm not going replicate that
 // function (I'll ask Stephen about this tomorrow)
@@ -57,11 +56,7 @@ require_once "RESTManager.php";
 
 
 
-class WorkflowClient {
-  private $galaxy = NULL;
-  private $REST;
-  // A variable to set to true if debugging, Toggles print statements 
-  private $debug = True;
+class Workflows extends GalaxyRequest{
 
   /**
    * Implements the constructor.
@@ -69,8 +64,7 @@ class WorkflowClient {
    * @param GalaxyInstance $galaxy
    */
   function __construct($galaxy) {
-    $this->galaxy = $galaxy;
-    $this->REST = new RESTManager();
+	parent::__construct($galaxy);
   }
 
   /**
@@ -85,7 +79,7 @@ class WorkflowClient {
   	$api_key = $this->galaxy->getAPIKey();	
  
   	$url = $this->galaxy->getURL() . '/api/workflows/' . '?key=' . $api_key;	 
-  	$result = $this->REST->GET($url); 
+  	$result = $this->rest->GET($url); 
   	$array = json_decode($result, true);
   	
   	if (!empty($is_published)){
@@ -118,7 +112,7 @@ class WorkflowClient {
     
   	$url = $this->galaxy->getURL() . '/api/workflows/' . $workflow_id . '?key=' . $api_key;
  	
-	return $this->REST->Delete($url);
+	return $this->rest->Delete($url);
   }
 
   /**
@@ -138,7 +132,7 @@ class WorkflowClient {
   	
   	$url = $this->galaxy->getURL() . '/api/workflows/' . $workflow_id . '?key=' . $api_key;
 
-	return $this->REST->GET($url);
+	return $this->rest->GET($url);
   }
   
   /**
@@ -168,7 +162,7 @@ class WorkflowClient {
   	 
   	$url = $this->galaxy->getURL() . '/api/workflows/' . $workflow_id . '?key=' . $api_key;
   	 
-  	$result = $this->REST->GET($url);
+  	$result = $this->rest->GET($url);
   	 
   	$array = json_decode($result, true);
   	 
@@ -195,7 +189,7 @@ class WorkflowClient {
   	
   	$url = $this->galaxy->getURL() . '/api/workflows/' . $workflow_id . '?key=' . $api_key;
  
-  	$result = $this->REST->GET($url);
+  	$result = $this->rest->GET($url);
   	
   	$array = json_decode($result, true);
 
@@ -238,7 +232,7 @@ class WorkflowClient {
   		$url = $this->galaxy->getURL() . '/api/workflows/' . $workflow_id .'?key=' . $api_key;
   	}
 
-  	$result = $this->REST->GET($url);
+  	$result = $this->rest->GET($url);
   	
  
   	$array = json_decode($result, true);
@@ -328,7 +322,7 @@ class WorkflowClient {
   		'replacement_params' => $replacement_params, 
   	);
 
-  	return  $this->REST->POST($url, $inputs);
+  	return  $this->rest->POST($url, $inputs);
   	
   	
   }
@@ -419,7 +413,7 @@ class WorkflowClient {
    */
   public function show_workflow($workflow_id) {
   	$URL = $this->galaxy->getURL() . '/api/workflows/' .$workflow_id. '/?key=' . $this->galaxy->getAPIKey(); 
-  	return $this->REST->GET($URL);
+  	return $this->rest->GET($URL);
   	
   }
   
@@ -501,7 +495,7 @@ How the Galaxy Python code looks at this:
   		'allow_tool_state_corrections' => $allow_tool_state_corrections,
   		);
   	
-  	return $this->REST->POST($url, $inputs);
+  	return $this->rest->POST($url, $inputs);
   	
   	
   }

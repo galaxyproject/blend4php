@@ -1,18 +1,13 @@
 <?php 
-require_once "GalaxyInstance.inc";
-require_once "RESTManager.php";
+require_once "GalaxyRequest.inc";
 
 
-class ToolClient{
-private $galaxy = NULL; 
-private $debug = True;
-private $rest;	
+class Tools extends GalaxyRequest{
+
 	
-	
-	
+
  public function __construct($galaxy) {
-	$this->galaxy = $galaxy;
-	$this->rest = new RESTManager();
+	parent ::__construct($galaxy);
  }
  
  
@@ -20,6 +15,7 @@ private $rest;
   returns information about a tool specified, or all tools if no
   tool id is specified
   *uses GET /api/tools: returns a list of tools defined by parameters::
+  *@param str $rool_id 
   */
  public function get_tools($tool_id = NULL) {
  	if($tool_id === NULL) {
@@ -39,6 +35,7 @@ private $rest;
   * Calls upon 
   * GET /api/tools/{tool_id}/diagnostics 
   * Return diagnostic information to help debug panel and dependency related problems.
+  *@param str $tool_id
   */
  
  public function diagnostics($tool_id){
@@ -49,14 +46,14 @@ private $rest;
  }
  
  
- /**	FUNCTIONAL
+ /**
   * calls upon 
   * GET /api/tools/{tool_id}/reload 
   * Reload specified tool.
+ 
   */
  public function reload($tool_id){
  	$URL = $this->galaxy->getURL() . '/api/tools/'. $tool_id . '/reload/?key=' . $this->galaxy->getAPIKey();
-
  	return 	$this->rest->GET($URL);
  }
  
@@ -71,18 +68,15 @@ private $rest;
   * Returns a tool model including dynamic parameters and updated values, repeats block etc.
   * 
   * Not completely certain of its practical use but it seems simple enough to implement so I will do so
+  * @param str $tool_id
   */
  public function build_tool($tool_id){	
  	$URL = $this->galaxy->getURL() . '/api/tools/'. $tool_id . '/build/?key=' . $this->galaxy->getAPIKey();
-	$this->rest->GET($URL);
- 		
- 	return $output;
- 	
+ 	return $this->rest->GET($URL); 	
  }
  
  
  /**
-  * FUNCTION FINALLY WORKS! 
   * Utilizises python's 'create' method through Rest command
   * POST /api/tools 
   *       Executes tool using specified inputs and returns tool's outputs.
@@ -91,15 +85,13 @@ private $rest;
   * there is little docuementation on the parameters however these are the ones
   * I've found through parsing the python code 
   * 
-  * action - string optional (indicat3es whther to rerun or not)
-  * tool_id - string  (tool_id to execute)
-  * tool_version - string  (I'm not entirely sure if this is optional but
+  * @param action - string optional (indicat3es whther to rerun or not)
+  * @param tool_id - string  (tool_id to execute)
+  * @param tool_version - string  (I'm not entirely sure if this is optional but
   * 						it is the tool version of the given tool id)
-  * history_id - string optional (Somehow this is optional )
-  * region - string optional (I'm not entirely sure what this does)
-  * inputs - string optional (I believe you can specify the inputs as files_ )
-  * 	It is still unclear the parameters of this file. I.e. where the file needs to be in order for the functino to
-  * 	call it. 
+  * @param history_id - string optional (Somehow this is optional )
+  * @param region - string optional (I'm not entirely sure what this does)
+  * @param inputs - string optional (I believe you can specify the inputs as files_ )
   */
  
  public function executeTool($tool_id, $tool_version, $inputs=NULL,  $history_id = NULL, $region = NULL,  $action = NULL ) {
@@ -128,8 +120,7 @@ private $rest;
   *
   * returns tool_id if successful
   * returns False otherwise
-  *
-  *
+  
   */
  public function obtainTool_id($name) {
  	 

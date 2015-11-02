@@ -22,13 +22,14 @@ class RESTManager {
    *@return curl server response
    */
   public function GET($URL){
+  	
     $ch = curl_init();
     curl_setopt($ch,CURLOPT_URL,$URL);
     curl_setopt($ch,CURLOPT_RETURNTRANSFER,True);
     $output = curl_exec($ch);
     if($output === FALSE) {
       return 'A Curl error has occured: ' . curl_error($ch);
-    }
+    }   
     curl_close($ch);
 
     return $output;
