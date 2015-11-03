@@ -1,4 +1,5 @@
 <?php
+require_once 'RequestError.php';
 /**
  * Here a lies a class responsible for distributing the appropriat rest commands for the galaxy functionality
  *
@@ -6,15 +7,15 @@
 
 class RESTManager {
 
-  /**
-   * Constructor, does anythign need to be here?
-   */
-  public   function __construct() {
+private $requestError = NULL;	
 
+  public   function __construct($requestError = NULL) {
+	if($requestError !==NULL){ $this->requestError = $requestError; }
+	else { $this->requestError = new RequestError(); }
   }
 
   /**
-   * Universal POST request
+   * Universal GET request
    *
    * @param array Input
    * @param str url
@@ -28,9 +29,14 @@ class RESTManager {
     curl_setopt($ch,CURLOPT_RETURNTRANSFER,True);
     $output = curl_exec($ch);
     if($output === FALSE) {
-      return 'A Curl error has occured: ' . curl_error($ch);
+    $this->requestError->set_RequestError('HTTP', curl_error($ch));  
+    return 'A Curl error has occured: ' . curl_error($ch);  
     }   
     curl_close($ch);
+    
+   if( $this->requestError->look_for_error($output) ) {
+   	$output = "There was Galaxy Error: ";
+   }
 
     return $output;
   }
@@ -53,10 +59,15 @@ class RESTManager {
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, True);
     $message = curl_exec($ch);
     if($message === FALSE) {
-
+     $this->requestError->set_RequestError('HTTP', curl_error($ch));
       return 'A Curl Error has occured: ' . curl_error($ch);
     }
     curl_close($ch);
+    
+    if( $this->requestError->look_for_error($output) ) {
+    	$output = "There was an Error ";
+    }
+    
     return $message;
   }
 
@@ -78,10 +89,15 @@ class RESTManager {
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, True);
     $message = curl_exec($ch);
     if($message === FALSE) {
-
+      $this->requestError->set_RequestError('HTTP', curl_error($ch));
       return 'A Curl Error has occured: ' . curl_error($ch);
     }
     curl_close($ch);
+    
+    if( $this->requestError->look_for_error($output) ) {
+    	$output = "There was an Error ";
+    }
+    
     return $message;
 
   }
@@ -103,12 +119,30 @@ class RESTManager {
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, True);
     $message = curl_exec($ch);
     if($message === FALSE) {
-
+      $this->requestError->set_RequestError('HTTP', curl_error($ch));
       return 'A Curl Error has occured: ' . curl_error($ch);
     }
     curl_close($ch);
+    
+    if( $this->requestError->look_for_error($output) ) {
+    	$output = "There was an Error ";
+    }
+    
     return $message;
-
+  }
+  
+  /**
+   * @return string error message from the server or CURL 
+   */
+  public function getError(){
+  	return $this->requestError->getErrorMessage();
+  }
+  
+ /**
+  * @return string error rtype either 'HTTP' or 'Galaxy' 
+  */
+  public function getErrorType(){
+  	return $this->requestError->getErrorType();
   }
 
 }

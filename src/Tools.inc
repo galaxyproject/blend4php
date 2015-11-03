@@ -1,5 +1,5 @@
 <?php 
-require_once "GalaxyRequest.inc";
+include "GalaxyRequest.inc";
 
 
 class Tools extends GalaxyRequest{
