@@ -35,15 +35,17 @@ class Histories extends GalaxyRequest {
     * POST /api/histories:
     *
     *
-    * Parameters:  (converted from a python dictionary)
-      * name: the new history’s name
-      * history_id: the id of the history to copy
-      * all_datasets: copy deleted hdas/hdcas?  ‘True’ or ‘False’, defaults to True
-      * archive_source: the url that will generate the archive to import
-       * archive_type: ‘url’ (default)
 
-      keys – same as the use of keys in the index function above
-      view – same as the use of view in the index function above
+    * @param string name: the new history’s name
+    * @param string history_id: the id of the history to copy
+    * @param string all_datasets: copy deleted hdas/hdcas?  ‘True’ or ‘False’, defaults to True
+    * @param string archive_source: the url that will generate the archive to import
+      @param string archive_type: ‘url’ (default)
+
+      @param string keys – same as the use of keys in the index function above
+      @param string view – same as the use of view in the index function above
+      
+      @return string/Json from server response 
 
     *
     */
@@ -68,10 +70,12 @@ class Histories extends GalaxyRequest {
       If ready and available, return raw contents of
       exported history.
       Use/poll “PUT /api/histories/{id}/exports” to initiate the
-      creation of such an export
-      - when ready that route will return 200 status code
-      (instead of 202) with a JSON dictionary containing a
-      download_url.
+
+      
+      @param string history_id
+      @param string jeha_id 
+      
+      @return string/Json from the server response
     *
     */
    public function archive_download($history_id, $jeha_id){
