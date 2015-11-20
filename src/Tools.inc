@@ -126,13 +126,4 @@ class Tools extends GalaxyRequest{
  	
 }// End tool class 
 
-
-
-
-
-
-
-
-
-
 ?>

@@ -1,7 +1,7 @@
 <?php
 
 require_once "GalaxyInstance.inc";
-		
+require_once 'GalaxyRequest.inc';
 
 class ToolShedClient{
 	
@@ -29,10 +29,6 @@ class ToolShedClient{
 	 * exported_workflows
 	 * 
 	 */
-	// TODO: the way to acquire the tools is an inconsistent interface, sometimes
-	// I need to browse the repository instead of the main tool shed repository
-	// I would like to know if there's a reason for that
-  
 	public function exported_workflows ($tool_shed_repo_id){
 		$i = curl_init();
 		$api_key = $this->galaxy->getAPIKey();
@@ -88,14 +84,14 @@ class ToolShedClient{
 		$i = curl_init();
 		$api_key = $this->galaxy->getAPIKey();
 
-		$url = $this->galaxy->getURL() . '/api/tool_shed_repositories/' . 'get_latest_installable_revision';
+		$url = $this->galaxy->getURL() . '/api/tool_shed_repositories/' . 'get_latest_installable_revision' . '?key=' . $api_key;
 		
 		$data = array(
 				
-				'tool_shed_url' => 'https://toolshed.g2.bx.psu.edu/repository?repository_id=253e22fdaf6a52c1', 
-				'name' => 'codonlogo',
-				'owner' => 'davidmurphy', 
-				'key' => $api_key
+				'tool_shed_url' => 'https://toolshed.g2.bx.psu.edu/repository?repository_id=f3d4583fe94434e9', 
+				'name' => 'blockclust_workflow',
+				'owner' => 'rnateam' 
+// 				'key' => $api_key
 				
 		);
 		$data_string = '';
@@ -104,10 +100,10 @@ class ToolShedClient{
 		}
 		//rtrim($data_string, '&');
 		print($data_string);
-		print "\n";
-		
+		print "\n\n\n";
+
 		curl_setopt($i, CURLOPT_URL, $url);
-		curl_setopt($i,CURLOPT_POST, count($data));
+		curl_setopt($i, CURLOPT_POST, count($data));
 		curl_setopt($i, CURLOPT_POSTFIELDS, $data_string);
 		curl_setopt($i, CURLOPT_CUSTOMREQUEST, "POST");
 		curl_setopt($i, CURLOPT_RETURNTRANSFER, true);
@@ -118,7 +114,6 @@ class ToolShedClient{
 		 
 		$array = json_decode($result, true);
 		
-		// Do we want to print out our results? I would like to think so
 		print_r ($array);
 		 
 		curl_close($i);
@@ -140,6 +135,41 @@ class ToolShedClient{
 	 * 
 	 */
 	public function import_workflow ($api_key_of_importer, $tool_shed_repo_id){
+		$i = curl_init();
+		$api_key = $this->galaxy->getAPIKey();
+		
+		$url = $this->galaxy->getURL() . '/api/tool_shed_repositories/' . 'import_workflow';
+		
+		print $url;
+		$data = array(
+		
+				'id' => '6cff3602def750d0',
+				'key' => $api_key
+		
+		);
+		$data_string = '';
+		foreach($data as $key=>$value) {
+			$data_string .= $key.'='.$value.'&';
+		}
+		rtrim($data_string, '&');
+		print($data_string);
+		print "\n";
+		
+		curl_setopt($i, CURLOPT_URL, $url);
+		curl_setopt($i,CURLOPT_POST, count($data));
+		curl_setopt($i, CURLOPT_POSTFIELDS, $data_string);
+		curl_setopt($i, CURLOPT_CUSTOMREQUEST, "POST");
+		//curl_setopt($i, CURLOPT_RETURNTRANSFER, true);
+		
+		$result = curl_exec($i);
+		
+		$info = curl_getinfo($i);
+			
+		$array = json_decode($result, true);
+		
+		print_r ($array);
+			
+		curl_close($i);
 		
 	}
 	
@@ -169,6 +199,24 @@ class ToolShedClient{
 	 *
 	 */
 	public function index (){
+		$i = curl_init();
+		$url = $this->galaxy->getURL() . '/api/tool_shed_repositories' . '?key=' . $this->galaxy->getAPIKey();
+		
+		
+		
+		curl_setopt($i, CURLOPT_CUSTOMREQUEST, "GET");
+		curl_setopt($i, CURLOPT_URL, $url);
+		curl_setopt($i, CURLOPT_RETURNTRANSFER, true);
+		
+		$result = curl_exec($i);
+		
+		//$info = curl_getinfo($i);
+			
+		$array = json_decode($result, true);
+		
+		print_r ($array);
+			
+		curl_close($i);
 		
 	}
 	
@@ -324,20 +372,6 @@ class ToolShedClient{
 	 *
 	 */
 	public function reset_metadata_on_installed_repositories ($admin_api_key){
-		
-	}
-	
-	/**
-	 * Display a dictionary containing information about a specified 
-	 * tool_shed_repository
-	 *
-	 * @param $id_of_repo
-	 *  The encoded id of the Tool Shed Repository object
-	 *
-	 * GET /api/tool_shed_repositories/{encoded_tool_shed_repository_id}
-	 *
-	 */
-	public function show ($id_of_repo){
 		
 	}
 	
