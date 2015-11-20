@@ -38,7 +38,6 @@ class GalaxyInstance {
     $this->port = $port;
     $this->use_https  = $use_https;
 
-    // where's the return?
   }
 
 
