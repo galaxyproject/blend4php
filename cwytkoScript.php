@@ -4,7 +4,6 @@ require_once './src/Workflows.inc';
 require_once './src/ToolShedRepositories.inc';
 require_once './src/Requests.inc';
 
-
 // Connect and authenticate via galaxy.
 // Break all code down into logical blocks.
 $galaxy = new GalaxyInstance('localhost','8080', FALSE);
@@ -36,8 +35,8 @@ $wfc = new Workflows($galaxy);
 $tsc = new ToolShedClient($galaxy);
 
 //$tsc->exported_workflows('3f5830403180d620');
-//$tsc->get_latest_installable_revision(NULL,NULL,NULL, NULL);
+$tsc->get_latest_installable_revision(NULL,NULL,NULL, NULL);
 
 
 $rec = new Requests($galaxy);
-$rec->index();
+// $rec->index();

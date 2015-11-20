@@ -1,7 +1,7 @@
 <?php
 
 require_once "GalaxyInstance.inc";
-require_once 'GalaxyRequest.inc';
+// require_once 'GalaxyRequest.inc';
 
 class ToolShedClient{
 	
@@ -101,11 +101,11 @@ class ToolShedClient{
 		//rtrim($data_string, '&');
 		print($data_string);
 		print "\n\n\n";
-
+		curl_setopt($i, CURLOPT_CUSTOMREQUEST, "POST");
 		curl_setopt($i, CURLOPT_URL, $url);
+		curl_setopt($i, CURLOPT_POSTFIELDS,http_build_query($data));
 		curl_setopt($i, CURLOPT_POST, count($data));
 		curl_setopt($i, CURLOPT_POSTFIELDS, $data_string);
-		curl_setopt($i, CURLOPT_CUSTOMREQUEST, "POST");
 		curl_setopt($i, CURLOPT_RETURNTRANSFER, true);
 		
 		$result = curl_exec($i);
