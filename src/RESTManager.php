@@ -30,12 +30,12 @@ private $requestError = NULL;
     $output = curl_exec($ch);
     if($output === FALSE) {
     $this->requestError->set_RequestError('HTTP', curl_error($ch));  
-    return 'A Curl error has occured: ' . curl_error($ch);  
+    return FALSE;  
     }   
     curl_close($ch);
     
    if( $this->requestError->look_for_error($output) ) {
-   	$output = "There was Galaxy Error: ";
+   	$output = FALSE;
    }
 
     return $output;
@@ -49,23 +49,26 @@ private $requestError = NULL;
   *
   *@return curl server response
   */
-  public function POST($URL, $input){
+  public function POST($URL, $input = NULL){
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $URL);
     curl_setopt($ch, CURLOPT_POST,1);
+    if($input !==NULL)
+    {
     curl_setopt($ch, CURLOPT_POSTFIELDS,http_build_query($input));
+    }
     $message = '';
     // receive server response ...
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, True);
     $message = curl_exec($ch);
+    curl_close($ch);
     if($message === FALSE) {
      $this->requestError->set_RequestError('HTTP', curl_error($ch));
-      return 'A Curl Error has occured: ' . curl_error($ch);
-    }
-    curl_close($ch);
+      return FALSE;
+    } 
     
-    if( $this->requestError->look_for_error($output) ) {
-    	$output = "There was an Error ";
+    if( $this->requestError->look_for_error($message) ) {
+    	return FALSE;
     }
     
     return $message;
@@ -90,12 +93,12 @@ private $requestError = NULL;
     $message = curl_exec($ch);
     if($message === FALSE) {
       $this->requestError->set_RequestError('HTTP', curl_error($ch));
-      return 'A Curl Error has occured: ' . curl_error($ch);
+      return FALSE;
     }
     curl_close($ch);
     
-    if( $this->requestError->look_for_error($output) ) {
-    	$output = "There was an Error ";
+    if( $this->requestError->look_for_error($message) ) {
+    	$message = FALSE;
     }
     
     return $message;
@@ -120,12 +123,12 @@ private $requestError = NULL;
     $message = curl_exec($ch);
     if($message === FALSE) {
       $this->requestError->set_RequestError('HTTP', curl_error($ch));
-      return 'A Curl Error has occured: ' . curl_error($ch);
+      return FALSE;
     }
     curl_close($ch);
     
-    if( $this->requestError->look_for_error($output) ) {
-    	$output = "There was an Error ";
+    if( $this->requestError->look_for_error($message) ) {
+    	$message = FALSE;
     }
     
     return $message;

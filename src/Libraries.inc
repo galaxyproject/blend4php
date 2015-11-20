@@ -1,5 +1,5 @@
 <?php 
-include "GalaxyRequest.inc";
+include_once "GalaxyRequest.inc";
 
 
 class Libraries extends GalaxyRequest{
@@ -31,6 +31,7 @@ class Libraries extends GalaxyRequest{
  	);
  	return $this->rest->POST($URL, $inputs);
  }
+ 
  
  public function get_permissions() {
  	
