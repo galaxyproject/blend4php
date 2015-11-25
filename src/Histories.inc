@@ -49,18 +49,25 @@ class Histories extends GalaxyRequest {
 
     *
     */
-   public function create($name, $archive_source,  $archive_type='url', $all_datasets= True, $history_id = NULL) {
+   public function create($name, $archive_source=NULL,  $archive_type=NULL, $all_datasets= True, $history_id = NULL) {
      $URL = $this->galaxy->getURL() . '/api/histories/?key=' . $this->galaxy->getAPIKey();
 
-     $input = array(
+     $inputs = array(
        'name' => $name,
        'tool_version' => $archive_source,
        'archive_type' => $archive_type,
        'history_id'=>$history_id,
        'all_datasets' => $all_datasets,
      );
+     
+     $notNullInputs = array();
+     foreach ($inputs as $inputName=>$input){
+     	if($input !== NULL){
+     		$notNullInputs[$inputName] = $input; 
+     	}
+     }
 
-     return $this->REST->POST($URL, $input);
+     return $this->REST->POST($URL, $notNullInputs);
    }
 
    /** What is a immutable id??
