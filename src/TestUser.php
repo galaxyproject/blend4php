@@ -1,7 +1,8 @@
 <?php
-//include 'Users.inc';
+include 'Users.inc';
 include_once 'GalaxyInstance.inc';
-include_once 'Workflows.inc';
+//include_once 'Workflows.inc';
+include_once 'DataTypes.inc';
 //include_once 'Tools.inc';
 //include_once 'Histories.inc';
 //include_once 'HistoryContents.inc';
@@ -9,24 +10,10 @@ include_once 'Workflows.inc';
 
 
  $galaxy = new GalaxyInstance('localhost', '8080');
- $galaxy-> authenticate('brian@yahoo.com', 'password');
- //$historyContent = new HistoryContents($galaxy); 
- //$user= new Users($galaxy);
- $workflow = new Workflows($galaxy);
- //$tool = new Tools($galaxy);
+ $galaxy-> authenticate('bob@gmail.com', 'password');
+ $datatype = new Datatypes($galaxy);
+ print $datatype->edam_formats();
+
 
 //print $historyContent->create('5969b1f7201f12ae');
-//print $historyContent->getErrorMessage();
-
- if ($workflow->run_workflow('f597429621d6eb2b')=== FALSE){
- 	print $workflow->run_workflow('f597429621d6eb2b');
- 	print $workflow->getErrorMessage();
- }
- 
-
- //print $tool->build_tool('Intervalfeaw2Maf_pairwise1');
- //print $tool->getErrorMessage();
-//print $workflow->get_workflows();
-//print $history->archive_export("5969b1f7201f12ae");
-//print $history->deleteHistory('df7a1f0c02a5b08e');
 ?>

@@ -36,7 +36,7 @@ class Datasets extends GalaxyRequest {
     */
    public function converted ($dataset_id, $extension) {
    	$URL = $this->galaxy->getURL() . '/api/datasets/' .$dataset_id .'/converted/'. $extension. '/?key=' . $this->galaxy->getAPIKey(); 	
-   	return $this->REST->GET($URL);
+   	return $this->rest->GET($URL);
    }
    
    
@@ -48,7 +48,7 @@ class Datasets extends GalaxyRequest {
     */
    public function display($hist_id, $hist_content_id){
    	$URL = $this->galaxy->getURL() . '/api/histories/' .$hist_id .'/contents/'. $hist_content_id. '/?key=' . $this->galaxy->getAPIKey();
-   	return $this->REST->GET($URL);
+   	return $this->rest->GET($URL);
    }
    
 	/**
@@ -56,7 +56,7 @@ class Datasets extends GalaxyRequest {
 	 */   
  	public function index(){
  	 $URL = $this->galaxy->getURL() . '/api/datasets/?key=' . $this->galaxy->getAPIKey();
- 	 return $this->REST->GET($URL); 		
+ 	 return $this->rest->GET($URL); 		
  	}
    
  	
@@ -67,6 +67,6 @@ class Datasets extends GalaxyRequest {
  	 */
  	public function show($dataset_id){
  	 $URL = $this->galaxy->getURL().'/api/datasets/'.$dataset_id.'/?key=' . $this->galaxy->getAPIKey();
- 	 return $this->REST->GET($URL); 		
+ 	 return $this->rest->GET($URL); 		
  	}
 }
