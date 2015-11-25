@@ -24,9 +24,9 @@
  	 * @return bool true if error was found, false otherwise  
  	 */
  	public function look_for_error($message){
- 		
+ 	
  		$newMessage = ''; 
- 		print $message;
+ 		//print $message;
  		// If we have a traceback element, we know the error originated from python, meaning the 
  		// Request successfully made it to python 
  		if (strpos($message, 'traceback') !== false ) {
@@ -48,14 +48,19 @@
  			$message = json_decode($message,true); 
  			
  			if($message!==NULL) {
- 			$message = $message['error']; 
- 			$newMessage = $message; 
- 			$this->set_RequestError('Galaxy', $newMessage);
- 			return True;
- 			} else {
- 				$this->set_RequestError('Galaxy', 'unkown error encountered');
- 				return True;
- 			}
+ 				
+ 			 if(array_key_exists('error', $message)){ 
+ 			  $message = $message['error']; 
+ 			  $newMessage = $message; 
+ 			  $this->set_RequestError('Galaxy', $newMessage);
+ 			  return True;
+ 			  } else {
+ 			  	return false;
+ 			  }
+ 			 } else {
+ 			 	$this->set_RequestError('Galaxy', 'unkown error encountered, error not json compatible');
+ 			 	return True;
+ 			 }
  		}
  		
  		return False; 

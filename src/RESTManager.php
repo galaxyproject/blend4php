@@ -82,11 +82,13 @@ private $requestError = NULL;
   *
   * @return curl server response
   */
-  public function PUT($URL, $input){
+  public function PUT($URL, $input=NULL){
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $URL);
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+    if($input !=NULL) {
     curl_setopt($ch, CURLOPT_POSTFIELDS,http_build_query($input));
+    }
     $message = '';
     // receive server response ...
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, True);
