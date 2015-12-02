@@ -5,15 +5,14 @@ include_once "GalaxyRequest.inc";
 class Tools extends GalaxyRequest{
 
 	
-
+/**
+ * Default constructor
+ * @param GalaxyInstance $galaxy
+*/ 
  public function __construct($galaxy) {
 	parent ::__construct($galaxy);
  }
  
- 
-
-
-
 /**
  * 	GET /api/tools: returns a list of tools defined by parameters
  * @param string $tool_id
@@ -34,7 +33,6 @@ class Tools extends GalaxyRequest{
  		
  }
 
- 
  /**
   * GET /api/tools/{tool_id}
 	Returns tool information, including parameters and inputs.
@@ -44,7 +42,6 @@ class Tools extends GalaxyRequest{
  public function show($tool_id){
  	$URL = $this->galaxy->getURL() . '/api/tools/' . $tool_id .'/'. $this->galaxy->getAPIKey();
  }
- 
  
  /**
   * GET /api/tools/{tool_id}/diagnostics 
@@ -59,7 +56,6 @@ class Tools extends GalaxyRequest{
  	return $output; 		
  }
  
- 
  /**
   * GET /api/tools/{tool_id}/reload 
   * Reload specified tool.
@@ -72,18 +68,21 @@ class Tools extends GalaxyRequest{
  }
  
 /**
+ * 
+ * TODO: it is unclear how the inputs parameter is supposed to be formatted, and what values it needs
  *  GET /api/tools/{tool_id}/build
 	Returns a tool model including dynamic parameters and updated values, repeats block etc.
  * 
- * @param unknown $tool_id
- * @param unknown $tool_version
+ * @param string $tool_id
+ * @param string optional $tool_version
+ * @param json_array inputs 
  */
- public function build($tool_id, $tool_version=NULL){	
+ public function build($tool_id, $tool_version=NULL, $inputs){	
  	
  	$URL = $this->galaxy->getURL() . '/api/tools/'. $tool_id . '/build';
  	if ($tool_version !=NULL){$URL = $URL . '/?tool_version='. $tool_version;}
  	$URL = $URL . '/?key=' . $this->galaxy->getAPIKey();	
- 	
+ 	return 	$this->rest->GET($URL);
  }
  
  /**
@@ -112,6 +111,8 @@ class Tools extends GalaxyRequest{
  
  
  /**
+  * TODO: it is unclear how inputs is suppoed to be formatted and what values it has
+  * 	  it is unclear what the history is used for
   * POST /api/tools 
   *       Executes tool using specified inputs and returns tool's outputs.
   *       
@@ -121,9 +122,8 @@ class Tools extends GalaxyRequest{
   * @param tool_version - string  OPTIONAL, specify specific tool version
   * @param history_id - string optional 
   * @param region - string optional (information on the region of the genome being rerun)
-  * @param inputs - string optional (specify the inputs as files_ )
+  * @param inputs - jsonArray (specify the inputs as files_ )
   */
- 
  public function create($tool_id, $history_id = NULL,$tool_version=NULL, $inputs=NULL, $region = NULL,  $action = NULL ) {
  	$URL = $this->galaxy->getURL() . '/api/tools/?key=' . $this->galaxy->getAPIKey();
 	
