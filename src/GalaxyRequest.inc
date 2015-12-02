@@ -1,12 +1,11 @@
 <?php
-
 require_once 'RESTManager.php';
 /**
  *
  */
 
 class GalaxyRequest {
-  // A Galaxy instance.o
+
   protected $galaxy = NULL;
   protected $debug = True;
   protected $rest = NULL;

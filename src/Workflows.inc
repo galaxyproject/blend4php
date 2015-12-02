@@ -101,7 +101,6 @@ class Workflows extends GalaxyRequest{
   
   /**
    * Delete a workflow identified by workflow_id.
-   * 
    *
    * @param $workflow_id
    */
