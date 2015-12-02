@@ -1,5 +1,5 @@
 <?php
-require_once 'GalaxyRequest.inc';
+include_once 'GalaxyRequest.inc';
 
 // IF the function is labeled as deprecated I'm not going replicate that
 // function (I'll ask Stephen about this tomorrow)
@@ -106,12 +106,8 @@ class Workflows extends GalaxyRequest{
    * @param $workflow_id
    */
   public function delete_workflow($workflow_id) {
-
     $api_key = $this->galaxy->getAPIKey();
-    
-    
   	$url = $this->galaxy->getURL() . '/api/workflows/' . $workflow_id . '?key=' . $api_key;
- 	
 	return $this->rest->Delete($url);
   }
 
@@ -297,40 +293,39 @@ class Workflows extends GalaxyRequest{
   
   
   /**
-   *	COMPLETE
    * @param $workflow_id
    *   Encoded workflow ID
    * @param $dataset_map
-   * @param $params
-   * @param $history_id
-   * @param $history_name
+   * @param string 'parameters'
+   * The params must be in the following format: ''{'blastn: 'evalue', 'value': '1e-06'}}'' 
+   * infromation taken from https://github.com/afgane/bioblend/tree/master/bioblend/galaxy/workflows/init.py
+   * @param associative array with a string containing hist_id={encoded_id}, used to specify
+   *     'history'
+   * @param bool  $allow_tool_state_corrections
    * @param $import_inputs_to_history
    * @param $replacement_params
    *   	// POST /api/workflows/{encoded_workflow_id}/invocations
    */
-  public function run_workflow($workflow_id, $dataset_map = NULL, $params = NULL, $history_id = NULL,
+  public function run_workflow($workflow_id, $dataset_map = NULL, $params = array(), $history_id = NULL,
     $history_name = NULL, $import_inputs_to_history = FALSE, $replacement_params = NULL) {
   	
   	$url = $this->galaxy->getURL() . '/api/workflows/' .$workflow_id. '/invocations/?key=' . $this->galaxy->getAPIKey(); 
   
+  	
   	$inputs = array(
-  		'dataset_map' => $dataset_map,
-  		'params' => $params,
-  		'history_id' => $history_id,
-  		'history_name'=>$history_name,
-  		'import_inputs_to_history' => $import_inputs_to_history,
-  		'replacement_params' => $replacement_params, 
+  		'parameters' =>  json_encode(array('blastn' => array('param' => 'evalue', 'value' => '1e-06'))),
+		'inputs' => json_encode(array (1=>array('src' => 'hda', 'id'=>'5969b1f7201f12ae', '3'=>'33b43b4e7093c91f'))), 
+  		'history'=> 'hist_id=5969b1f7201f12ae',
+  	    'inputs_by' =>  "step_id",	
+  			
   	);
 
   	return  $this->rest->POST($url, $inputs);
-  	
   	
   }
   
   
   /**
-   *  COMPLETE 
-   * Custom Function 
    * Obtains a workflow baswed ona a given workflow name/annotation  
    * 
    * returns workflow_id if successful
@@ -397,7 +392,6 @@ class Workflows extends GalaxyRequest{
   
   
   /**
-   * COMPLETE
    * Display information needed to run a workflow.
    *
    * @param $workflow_id

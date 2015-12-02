@@ -3,6 +3,7 @@ require_once './src/GalaxyInstance.inc';
 require_once './src/Workflows.inc';
 require_once './src/ToolShedRepositories.inc';
 require_once './src/Requests.inc';
+require_once './src/Folders.inc';
 
 // Connect and authenticate via galaxy.
 // Break all code down into logical blocks.
@@ -35,8 +36,15 @@ $wfc = new Workflows($galaxy);
 $tsc = new ToolShedClient($galaxy);
 
 //$tsc->exported_workflows('3f5830403180d620');
-$tsc->get_latest_installable_revision(NULL,NULL,NULL, NULL);
+//$tsc->get_latest_installable_revision(NULL,NULL,NULL, NULL);
 
 
 $rec = new Requests($galaxy);
 // $rec->index();
+
+$fol = new Folders($galaxy);
+// print_r($fol->show('1cd8e2f6b131e891'));
+//$fol->create('f2db41e1fa331b3e', 'Pickle', 'Troos_Value');
+print_r($fol->get_permissions('1cd8e2f6b131e891'));
+// $fol->set_permissions('1cd8e2f6b131e891', $modify = array('cgpwytko@gmail.com'));
+

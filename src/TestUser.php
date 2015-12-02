@@ -1,26 +1,20 @@
 <?php
-//include 'Users.inc';
-include 'GalaxyInstance.inc';
-//include 'Workflows.inc';
-include 'Tools.inc';
-include 'Histories.inc';
-include 'HistoryContents.inc';
+include 'Users.inc';
+include_once 'GalaxyInstance.inc';
+//include_once 'Workflows.inc';
+include_once 'DataTypes.inc';
+//include_once 'Tools.inc';
+include_once 'Histories.inc';
+//include_once 'HistoryContents.inc';
 
 
 
  $galaxy = new GalaxyInstance('localhost', '8080');
- $galaxy-> authenticate('brian@yahoo.com', 'password');
- $historyContent = new HistoryContents($galaxy); 
- //$user= new Users($galaxy);
- //$workflow = new Workflows($galaxy);
- //$tool = new Tools($galaxy);
+ $galaxy-> authenticate('bob@gmail.com', 'password');
+ $datatype = new Datatypes($galaxy);
+ //print $datatype->edam_formats();
+ $history = new Histories($galaxy);
+print $history->index(); 
 
-print $historyContent->create('5969b1f7201f12ae');
-print $historyContent->getErrorMessage();
 
- //print $tool->build_tool('Intervalfeaw2Maf_pairwise1');
- //print $tool->getErrorMessage();
-//print $workflow->get_workflows();
-//print $history->archive_export("5969b1f7201f12ae");
-//print $history->deleteHistory('df7a1f0c02a5b08e');
 ?>
