@@ -57,7 +57,7 @@ class Roles extends GalaxyRequest{
 		//create a list of input items that is not null
 		$notNullInputs = array();
 		foreach($inputs as $input=>$value) {
-			if($input != NULL) {
+			if($value != NULL && $value != "null") {
 				$notNullInputs[$input] = $value;
 			}
 		}
