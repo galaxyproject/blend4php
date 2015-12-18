@@ -52,7 +52,7 @@ class Folders extends GalaxyRequest {
     * POST /api/folders/{encoded_parent_folder_id}
     *  
     * @param string $parent_folder_id
-    * The folder that will house the folder that you are to create
+    * The id of the parent folder that this folder will be created under
     * @param string $name
     * The name of your folder
     * @param string $description
@@ -93,29 +93,70 @@ class Folders extends GalaxyRequest {
  	 * 3. Manage library permissions: Users can manage roles associated with
  	 * 	  permissions on this library item
  	 * 
- 	 * **NOTE** The options can all be universally manipulated if you have an 
- 	 * 					admin API key
+ 	 * **IMPORTANT**
+ 	 * 					The options inputted will wipe the previous users in that
+ 	 * 					permissions folder (does not append more users to the particular
+ 	 * 					permissions folder)
  	 *
  	 * @param string $folder_id
  	 * The folder you want to view permissions
- 	 * @param string $action
- 	 * Describes what action to be performed ('set_permissions')
- 	 * @param array $add_ids
+ 	 * @param list/string $add_ids
  	 * List of users that will have add item permission on the folder
- 	 * @param array $manage_ids
+ 	 * @param list/string $manage_ids
  	 * List of users that will have manage permission on the folder
- 	 * @param array $modify_ids
+ 	 * @param list/string $modify_ids
  	 * List of users that will have modify permission on the folder
  	 *
  	 */
- 	public function set_permissions($folder_id, $add_ids = NULL, $manage_ids = NULL, $modify_ids = NULL){
+ 	public function set_permissions($folder_id, $add_ids, $manage_ids, $modify_ids){
  		$URL = $this->galaxy->getURL() . '/api/folders/' . 'F' .$folder_id . '/permissions' .'?key=' . $this->galaxy->getAPIKey();
  		$postfields = array(
  				'action' => 'set_permissions',
- 				'add_ids' => $add_ids,
- 				'manage_ids' => $manage_ids,
- 				'modify_ids' => $modify_ids
+ 				'add_ids[]' => $add_ids,
+ 				'manage_ids[]' => $manage_ids,
+ 				'modify_ids[]' => $modify_ids
  		);
  		return $this->rest->POST($URL, $postfields);
  	}
+ 	
+ 	/**
+ 	 * DELETE /api/folders/{folder_id}/
+ 	 *
+ 	 * Mark the folder as 'deleted' or 'undeleted'.
+ 	 * 
+ 	 * Only admin users can delete/undelete folders
+ 	 *
+ 	 * @param string $folder_id
+ 	 * The folder you want to delete/undelete
+ 	 * @param bool $undelete
+ 	 * Specifying whether the item should be deleted or undeleted (default false)
+ 	 */
+ 	public function delete($folder_id, $undelete = FALSE){
+ 		if ($undelete == FALSE){
+ 		$URL = $this->galaxy->getURL() . '/api/folders/' . 'F' .$folder_id .'?key=' . $this->galaxy->getAPIKey();
+ 		return $this->rest->Delete($URL);
+ 		}
+ 		else{
+ 			$URL = $this->galaxy->getURL() . '/api/folders/' . 'F' .$folder_id  .'?key=' . $this->galaxy->getAPIKey(). '&undelete=True';
+ 			return $this->rest->Delete($URL);
+ 		}
+ 	}
+ 	
+ 	/**
+ 	 * PATCH /api/folders/{folder_id}/
+ 	 *
+ 	 * Updated the folder's name and description.
+ 	 *
+ 	 * Only admin users can update folders
+ 	 *
+ 	 * @param string $folder_id
+ 	 * The folder you want to update
+ 	 * @param  $array $payload
+ 	 * contains 'name' => [new_name] and 'description' => [can be null]
+ 	 */
+ 	public function update($folder_id, $payload){
+ 			$URL = $this->galaxy->getURL() . '/api/folders/' . 'F' .$folder_id .'?key=' . $this->galaxy->getAPIKey();
+ 			return $this->rest->PATCH($URL, $payload);
+ 	}
+ 	
 }

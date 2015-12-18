@@ -109,9 +109,8 @@ private $requestError = NULL;
 
 
   /**
-   * Universal POST request
+   * Universal Delete request
    *
-   * @param array Input
    * @param str url
    *
    *@return curl server response
@@ -121,6 +120,39 @@ private $requestError = NULL;
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $URL);
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, True);
+    $message = curl_exec($ch);
+    if($message === FALSE) {
+      $this->requestError->set_RequestError('HTTP', curl_error($ch));
+      return FALSE;
+    }
+    curl_close($ch);
+    
+    if( $this->requestError->look_for_error($message) ) {
+    	$message = FALSE;
+    }
+    
+    return $message;
+  }
+  
+  /**
+   * Universal PATCH request
+   *
+   * @param str url
+	 * @param array Input 
+   *
+   *@return curl server response
+   */
+  
+  public function PATCH($URL, $input = NULL){
+  	$ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $URL);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PATCH");
+    if($input != NULL) {
+    curl_setopt($ch, CURLOPT_POSTFIELDS,http_build_query($input));
+    }
+    $message = '';
+    // receive server response ...
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, True);
     $message = curl_exec($ch);
     if($message === FALSE) {
