@@ -14,7 +14,7 @@ include_once 'Histories.inc';
  $datatype = new Datatypes($galaxy);
  //print $datatype->edam_formats();
  $history = new Histories($galaxy);
-print $history->index(); 
+ print $datatype->index();
 
 
 ?>
