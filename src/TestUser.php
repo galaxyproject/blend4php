@@ -2,7 +2,7 @@
 include 'Users.inc';
 include_once 'GalaxyInstance.inc';
 include_once 'Roles.inc';
-//include_once 'Workflows.inc';
+include_once 'Workflows.inc';
 include_once 'DataTypes.inc';
 include_once 'Tools.inc';
 include_once 'Histories.inc';
@@ -11,11 +11,19 @@ include_once 'Users.inc';
 
 
  $galaxy = new GalaxyInstance('localhost', '8080');
+ $galaxy->authenticate('bob@gmail.com', 'password');
+ 
+ $workflow = new Workflows($galaxy);	
+
+
+
 
  
  
- print $users->index(true,"blarb@gmail.com",'bri',true);
- print $users->getErrorMessage();
+ //print $users->index(true,"blarb@gmail.com",'bri',true);
+ //print $users->getErrorMessage();
+ print $workflow->invoke('1cd8e2f6b131e891');
+ print $workflow->getErrorMessage();
 
  
 

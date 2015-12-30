@@ -56,8 +56,10 @@ private $requestError = NULL;
     if($input !==NULL)
     {
 	    curl_setopt($ch, CURLOPT_POSTFIELDS,http_build_query($input));
+    	//curl_setopt($ch, CURLOPT_POSTFIELDS,$input);
     }
     $message = '';
+   // print (http_build_query($input));
     // receive server response ...
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, True);
     $message = curl_exec($ch);

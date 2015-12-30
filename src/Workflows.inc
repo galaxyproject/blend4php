@@ -292,34 +292,56 @@ class Workflows extends GalaxyRequest{
   
   
   /**
-   * @param $workflow_id
-   *   Encoded workflow ID
-   * @param $dataset_map
-   * @param string 'parameters'
-   * The params must be in the following format: ''{'blastn: 'evalue', 'value': '1e-06'}}'' 
-   * infromation taken from https://github.com/afgane/bioblend/tree/master/bioblend/galaxy/workflows/init.py
-   * @param associative array with a string containing hist_id={encoded_id}, used to specify
-   *     'history'
-   * @param bool  $allow_tool_state_corrections
-   * @param $import_inputs_to_history
-   * @param $replacement_params
    *   	// POST /api/workflows/{encoded_workflow_id}/invocations
+   *   
+   
+   @param   workflow_id (str) – Encoded workflow ID
+   
+   @param 	dataset_map (str or dict) – A mapping of workflow inputs to datasets. 
+	   			The datasets source can be a LibraryDatasetDatasetAssociation (ldda), 
+	   			LibraryDataset (ld), or HistoryDatasetAssociation (hda). The map must be in the following format:
+	   		 	{'<input>': {'id': <encoded dataset ID>, 'src': '[ldda, ld, hda]'}} 
+	   		 	(e.g. {'23': {'id': '29beef4fadeed09f', 'src': 'ld'}})
+   
+   @param    params (str or dict) – A mapping of tool parameters that are non-datasets parameters. 
+       			The map must be in the following format: 
+       			{'blastn': {'param': 'evalue', 'value': '1e-06'}}
+   
+   @param    history_id (str) – The encoded history ID where to store the workflow output. 
+       			Alternatively, history_name may be specified to create a new history.
+   
+   @param    history_name (str) – Create a new history with the given name to store the workflow output. 
+       			If both history_id and history_name are provided, history_name is ignored. 
+       			If neither is specified, a new ‘Unnamed history’ is created.
+   
+   @param    import_inputs_to_history (bool) – If True, 
+           		used workflow inputs will be imported into the history. 
+           		If False, only workflow outputs will be visible in the given history. 
+           		
+   @param	replacement_params (dict) – pattern-based replacements for post-job actions (see below)
+   *   
    */
-  public function run_workflow($workflow_id, $dataset_map = NULL, $params = array(), $history_id = NULL,
+  public function invoke($workflow_id, $dataset_map = NULL, $params = array(), $history_id = NULL,
     $history_name = NULL, $import_inputs_to_history = FALSE, $replacement_params = NULL) {
   	
   	$url = $this->galaxy->getURL() . '/api/workflows/' .$workflow_id. '/invocations/?key=' . $this->galaxy->getAPIKey(); 
   
-  	
+  	//print ('{\'1\': {\'id\': \'f2db41e1fa331b3e\', \'src\': \'hda\'}}');
   	$inputs = array(
-  		'parameters' =>  json_encode(array('blastn' => array('param' => 'evalue', 'value' => '1e-06'))),
-		'inputs' => json_encode(array (1=>array('src' => 'hda', 'id'=>'5969b1f7201f12ae', '3'=>'33b43b4e7093c91f'))), 
-  		'history'=> 'hist_id=5969b1f7201f12ae',
-  	    'inputs_by' =>  "step_id",	
+  		'dataset_map'=> '{ 1:{"id": "f2db41e1fa331b3e", "src": "hda"}}',
+  		//'dataset_map' => '',
+  		'parameters' =>"{'blastn': {'param': '1', 'value': '1e-06'}}", 
+		//'dataset_map' => json_encode(array (1=>array('src' => 'hda', 'id'=>'f2db41e1fa331b3e'))), 
+  		'add_to_history'=>False,
+  		//'history_id'=>'0a248a1f62a0cc04',
+  		'import_inputs_to_history'=>False,	
+  		
+  		'history_name'=>'hooha',
+  	    //'inputs_by' =>  "step_id",	
   			
   	);
-
-  	return  $this->rest->POST($url, $inputs);
+	var_dump($inputs);
+  	return  $this->rest->POST($url,$inputs);
   	
   }
   
