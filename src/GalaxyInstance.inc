@@ -51,20 +51,23 @@ class GalaxyInstance {
 
     curl_setopt($i, CURLOPT_URL, $this->getURL() . '/api/authenticate/baseauth');
     curl_setopt($i, CURLOPT_RETURNTRANSFER, true);
-    //curl_setopt($i, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
     curl_setopt($i, CURLOPT_USERPWD, $username . ':' . $password);
 
     $output = curl_exec($i);
 
     if($output === FALSE) {
-      return "Error: " . curl_error($i);
+      	$output = "invalidusernameorpassword";
+    	return "Error: " . curl_error($i);
     }
+   
     $output = json_decode($output, true);
+    if($output ===NULL or !array_key_exists('api_key', $output)){
+    	$output = "invalidusernameorpassword";
+    	return "error";
+    }
     $output = $output['api_key'];
     $this->api_key = $output;
-    //$info = curl_getinfo($i);
 
-    //print_r($this->api_key);
 
     curl_close($i);
 
@@ -99,13 +102,6 @@ class GalaxyInstance {
 
   /**
    * Acquires the API key
-   *  Initially the format of the api_key will look like this:
-   * {
-   *   "api_key" :
-   *
-   *
-   * @param void
-   *
    * @return string
    *    The API key that authorizes a user to certain actions
    */

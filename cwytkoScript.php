@@ -3,7 +3,8 @@ require_once './src/GalaxyInstance.inc';
 require_once './src/Workflows.inc';
 require_once './src/ToolShedRepositories.inc';
 require_once './src/Requests.inc';
-
+require_once './src/Folders.inc';
+require_once './src/FolderContents.inc';
 
 // Connect and authenticate via galaxy.
 // Break all code down into logical blocks.
@@ -40,4 +41,23 @@ $tsc = new ToolShedClient($galaxy);
 
 
 $rec = new Requests($galaxy);
-$rec->index();
+// $rec->index();
+
+$fol = new Folders($galaxy);
+// print_r($fol->show('1cd8e2f6b131e891'));
+//$fol->create('f2db41e1fa331b3e', 'Pickle', 'Troos_Value');
+// print_r($fol->get_permissions('1cd8e2f6b131e891'));
+// $manage = array ('cgpwytko@gmail.com');
+// list ($stuff) = $manage;
+// $fol->set_permissions('1cd8e2f6b131e891', $add = NULL, $stuff, $modify = 'cgpwytko@gmail.com');
+//  print_r($fol->get_permissions('1cd8e2f6b131e891'));
+// $fol->delete('1cd8e2f6b131e891', TRUE);
+// print_r($fol->show('1cd8e2f6b131e891'));
+
+// $stuff = array ('name' => 'titanic', 'description' => 'allo');
+
+// $fol->update('1cd8e2f6b131e891', $stuff);
+// print_r($fol->show('1cd8e2f6b131e891'));
+
+$fc = new FolderContents($galaxy);
+print_r($fc->index('1cd8e2f6b131e891'));

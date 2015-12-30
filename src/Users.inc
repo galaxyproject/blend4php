@@ -7,26 +7,55 @@ class Users extends GalaxyRequest{
 		parent::__construct($galaxy);
 	}
 	
-	
+
 	/**
-	 * Accepts a user name, retuns the new api key, 
-	 * Upon calling this function, the server should already have the 
-	 * new api key for the user
-	 * calls: 
-	 * POST /api/users/{encoded_user_id}/api_key
+	 *  GET /api/users
+        GET /api/users/deleted
+        Displays a collection (list) of users.
+        
+
+        :param deleted: (optional) If true, show deleted users
+        :type  deleted: bool
+        :param f_email: (optional) An email address to filter on. (Non-admin
+                        users can only use this if ``expose_user_email`` is ``True`` in
+                        galaxy.ini)
+        :type  f_email: str
+        :param f_name: (optional) A username to filter on. (Non-admin users
+                       can only use this if ``expose_user_name`` is ``True`` in
+                       galaxy.ini)
+        :type  f_name: str
+        :param f_any: (optional) Filter on username OR email. (Non-admin users
+                       can use this, the email filter and username filter will
+                       only be active if their corresponding ``expose_user_*`` is
+                       ``True`` in galaxy.ini)
+        :type  f_any: str
+        
+        Note: the python implementation only allows to filter by email
+        currently 
+        
 	 */
-	function create_user_apikey($username) {
+	function index($deleted = false,$email=NULL, $username=NULL, $any=false) {
+		$endURL = "&key=" . $this->galaxy->getAPIKey();
+		$URL = $this->galaxy->getURL() . '/api/users'; 
+		$URL .= '/?deleted=' . $deleted;
+		if($username !=NULL) {
+			$URL .= '&f_name=' .$username;
+		}
 		
-		$user_id = $this->obtain_user_id($username);
-		if($user_id === FALSE) {
-			return "Error obtianing user id, have you entered the correct username?";
+		if($email !=NULL) {
+			$URL .= '&f_email=' .$email;
 		}
 
-		$URL = $this->galaxy->getURL() . '/api/users/'. $user_id ."/api_key/?key=" . $this->galaxy->getAPIKey();
+		if($any !=false) {
+			$URL .='&f_any=' .$any;
+		}
+		$URL .= $endURL;
+		//$URL2 = $this->galaxy->getURL() . '/api/users/deleted'. $user_id ."/api_key/?key=" . $this->galaxy->getAPIKey();
 		
-		$this->rest->GET($URL);
-		
+		return $this->rest->GET($URL);
+	
 	}
+	
 	
 	/** 
 	 * Shows the contents of a user based on given string username 
@@ -34,7 +63,7 @@ class Users extends GalaxyRequest{
 	 * calls: 
 	 * GET /api/users/{encoded_user_id} GET /api/users/deleted/{encoded_user_id} GET /api/users/current
 	 */
-	function show_user($username) {
+	function show($username) {
 		
 		$user_id = $this->obtain_user_id($username);
 		if($user_id === FALSE) {
@@ -46,7 +75,14 @@ class Users extends GalaxyRequest{
 	}
 	
 	
-	
+	/**POST /api/users/{encoded_user_id}/api_key
+	Creates a new API key for specified user.
+	*/
+	function api_key($user_id){
+		$URL = $this->galaxy->getURL() . '/api/users/'.$user_id. "/api_key/?key=" . $this->galaxy->getAPIKey();
+		return $this->rest->POST($URL);
+	}
+		
 	/**
 	 * Obtains the user id as a string
 	 * Returns False if it encounters an issue
@@ -110,9 +146,9 @@ class Users extends GalaxyRequest{
 	 * option set to True and use_remote_user option set to False in the
 	 * config/galaxy.ini configuration file.
 	 */
-	function create_local_user($username, $user_email, $password) {
+	function create($username, $user_email, $password) {
 		
-		$URL = $this->galaxy->getURL() . '/api/users'. "?key=" . $this->galaxy->getAPIKey();
+		$URL = $this->galaxy->getURL() . '/api/users/'. "?key=" . $this->galaxy->getAPIKey();
 
 		$input = 		array(
 						'username' => $username,
@@ -122,6 +158,35 @@ class Users extends GalaxyRequest{
 
 		return $this->rest->POST($URL, $input);
 	}
+	
+	
+	/**
+	 * The actual python implementation is not complete
+	 */
+	function update(){
+	
+	}
+	
+	/**
+	 * The actual python implementation is not complete
+	 */
+	function undelete(){
+	
+	}
+	
+
+	/**
+	 *  DELETE /api/users/{id}
+	 delete the user with the given ``id``
+	
+	 Python Method not implemented
+	 */
+	function delete($id, $purge= false){
+		$URL = $this->galaxy->getURL() . '/api/users/'.$id . "/?key=" . $this->galaxy->getAPIKey();
+		return $this->rest->Delete($URL);
+	}
+	
+	
 }
 
 

@@ -37,7 +37,7 @@ private $requestError = NULL;
    if( $this->requestError->look_for_error($output) ) {
    	$output = FALSE;
    }
-
+   
     return $output;
   }
 
@@ -55,18 +55,18 @@ private $requestError = NULL;
     curl_setopt($ch, CURLOPT_POST,1);
     if($input !==NULL)
     {
-    curl_setopt($ch, CURLOPT_POSTFIELDS,http_build_query($input));
+	    curl_setopt($ch, CURLOPT_POSTFIELDS,http_build_query($input));
     }
     $message = '';
     // receive server response ...
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, True);
     $message = curl_exec($ch);
-    curl_close($ch);
+    
     if($message === FALSE) {
      $this->requestError->set_RequestError('HTTP', curl_error($ch));
       return FALSE;
     } 
-    
+    curl_close($ch);
     if( $this->requestError->look_for_error($message) ) {
     	return FALSE;
     }
@@ -85,14 +85,16 @@ private $requestError = NULL;
   public function PUT($URL, $input=NULL){
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $URL);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
     if($input !=NULL) {
+    	print http_build_query($input);
     curl_setopt($ch, CURLOPT_POSTFIELDS,http_build_query($input));
     }
     $message = '';
-    // receive server response ...
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, True);
+
     $message = curl_exec($ch);
+  	//print "server response: " .$message;
     if($message === FALSE) {
       $this->requestError->set_RequestError('HTTP', curl_error($ch));
       return FALSE;
@@ -109,7 +111,7 @@ private $requestError = NULL;
 
 
   /**
-   * Universal POST request
+   * Universal DELETE request
    *
    * @param array Input
    * @param str url
@@ -117,15 +119,20 @@ private $requestError = NULL;
    *@return curl server response
    */
 
-  public function Delete($URL){
+  public function Delete($URL, $input = NULL){
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $URL);
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, True);
+    
+    if($input !=NULL) {
+    	curl_setopt($ch, CURLOPT_POSTFIELDS,http_build_query($input));
+    }
+    
     $message = curl_exec($ch);
     if($message === FALSE) {
       $this->requestError->set_RequestError('HTTP', curl_error($ch));
-      return FALSE;
+      return FALSE;	
     }
     curl_close($ch);
     
