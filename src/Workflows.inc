@@ -303,7 +303,7 @@ class Workflows extends GalaxyRequest{
 	   		 	{'<input>': {'id': <encoded dataset ID>, 'src': '[ldda, ld, hda]'}} 
 	   		 	(e.g. {'23': {'id': '29beef4fadeed09f', 'src': 'ld'}})
    
-   @param    params (str or dict) – A mapping of tool parameters that are non-datasets parameters. 
+   @param    parameters (str or dict) – A mapping of tool parameters that are non-datasets parameters. 
        			The map must be in the following format: 
        			{'blastn': {'param': 'evalue', 'value': '1e-06'}}
    
@@ -321,29 +321,56 @@ class Workflows extends GalaxyRequest{
    @param	replacement_params (dict) – pattern-based replacements for post-job actions (see below)
    *   
    */
-  public function invoke($workflow_id, $dataset_map = NULL, $params = array(), $history_id = NULL,
-    $history_name = NULL, $import_inputs_to_history = FALSE, $replacement_params = NULL) {
+  public function invoke($workflow_id) {
   	
   	$url = $this->galaxy->getURL() . '/api/workflows/' .$workflow_id. '/invocations/?key=' . $this->galaxy->getAPIKey(); 
   
-  	//print ('{\'1\': {\'id\': \'f2db41e1fa331b3e\', \'src\': \'hda\'}}');
-  	$inputs = array(
-  		'dataset_map'=> '{ 1:{"id": "f2db41e1fa331b3e", "src": "hda"}}',
-  		//'dataset_map' => '',
-  		'parameters' =>"{'blastn': {'param': '1', 'value': '1e-06'}}", 
-		//'dataset_map' => json_encode(array (1=>array('src' => 'hda', 'id'=>'f2db41e1fa331b3e'))), 
-  		'add_to_history'=>False,
-  		//'history_id'=>'0a248a1f62a0cc04',
+  	$elements = array(
+  		
+  		'inputs'=>json_encode(array('0' => array('id'=> 'f2db41e1fa331b3e4', 'src'=>'hda')),JSON_FORCE_OBJECT), 		
+  		//'parameters' => json_encode(array(blastn=>array('param'=>1,'value'=>'e1a8c58f-24da-43bd-a02f-ecdc2a30a54d'))), 
+  		'add_to_history'=>True,
   		'import_inputs_to_history'=>False,	
   		
-  		'history_name'=>'hooha',
-  	    //'inputs_by' =>  "step_id",	
-  			
+  		'history_name'=>'hooha',		
   	);
-	var_dump($inputs);
-  	return  $this->rest->POST($url,$inputs);
+	
+  	return  $this->rest->POST($url, $elements);
   	
   }
+  
+  
+  /**
+  public function invoke($workflow_id, $dataset_map = NULL, $params = array(), $history_id = NULL,
+  		$history_name = NULL, $import_inputs_to_history = FALSE, $replacement_params = NULL) {
+  			 
+  			$url = $this->galaxy->getURL() . '/api/workflows/' .$workflow_id. '/invocations/?key=' . $this->galaxy->getAPIKey();
+  
+  			//print ('{\'1\': {\'id\': \'f2db41e1fa331b3e\', \'src\': \'hda\'}}');
+  			$inputs = array(
+  					//'inputs' => json_encode(array()),
+  					'param_map'=>'',
+  					'inputs'=>json_encode(array('0' => array('id'=> 'f2db41e1fa331b3e', 'src'=>'hda')),JSON_FORCE_OBJECT),
+  					//Parameters will map to the 'param_map
+  					'parameters' => json_encode(array(blastn=>array('param'=>0,'value'=>'e1a8c58f-24da-43bd-a02f-ecdc2a30a54d'))),
+  					'add_to_history'=>False,
+  					//'history_id'=>'0a248a1f62a0cc04',
+  					'import_inputs_to_history'=>False,
+  
+  					'history_name'=>'hooha',
+  					//'inputs_by' =>  "step_id",
+  						
+  			);
+  			var_dump($inputs);
+  			return  $this->rest->POST($url,$inputs);
+  			 
+  }
+  **
+  */
+  
+  
+  
+  
   
   
   /**
