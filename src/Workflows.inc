@@ -292,53 +292,68 @@ class Workflows extends GalaxyRequest{
   
   
   /**
-   *   	// POST /api/workflows/{encoded_workflow_id}/invocations
-   *   
-   
-   @param   workflow_id (str) – Encoded workflow ID
-   
-   @param 	dataset_map (str or dict) – A mapping of workflow inputs to datasets. 
-	   			The datasets source can be a LibraryDatasetDatasetAssociation (ldda), 
-	   			LibraryDataset (ld), or HistoryDatasetAssociation (hda). The map must be in the following format:
-	   		 	{'<input>': {'id': <encoded dataset ID>, 'src': '[ldda, ld, hda]'}} 
-	   		 	(e.g. {'23': {'id': '29beef4fadeed09f', 'src': 'ld'}})
-   
-   @param    parameters (str or dict) – A mapping of tool parameters that are non-datasets parameters. 
-       			The map must be in the following format: 
-       			{'blastn': {'param': 'evalue', 'value': '1e-06'}}
-   
-   @param    history_id (str) – The encoded history ID where to store the workflow output. 
-       			Alternatively, history_name may be specified to create a new history.
-   
-   @param    history_name (str) – Create a new history with the given name to store the workflow output. 
-       			If both history_id and history_name are provided, history_name is ignored. 
-       			If neither is specified, a new ‘Unnamed history’ is created.
-   
-   @param    import_inputs_to_history (bool) – If True, 
-           		used workflow inputs will be imported into the history. 
-           		If False, only workflow outputs will be visible in the given history. 
-           		
-   @param	replacement_params (dict) – pattern-based replacements for post-job actions (see below)
-   *   
+   *   	 POST /api/workflows/{encoded_workflow_id}/invocations
+   *   	 There are a few more features supported by the galaxy invoke function not present in thid
+   *     But this function should allow for basic invokation of a workflow
+   *     
+   *    @param $input_dataset_ids (str array): the id's of the datasets to enter into the workflow
+   *     			These id's can be found under /api/histories/<history_id>/contents. For right now the dataset must come from a
+   *    			
+   *    @param $don't_add_to_history bool: defaults to false. Option to add inputs to the history
+   *    
+   *    @param $hist_name: the name of the history, if a new one is being created
+   *    
+   *    @param $hist_id : the id to export the results to. If a new history is not created
+   *     
    */
-  public function invoke($workflow_id) {
+  public function invoke($workflow_id, $input_dataset_ids=NULL, $hist_name=NULL,$hist_id=NULL,  
+  		$dont_add_to_history=FALSE) {
   	
   	$url = $this->galaxy->getURL() . '/api/workflows/' .$workflow_id. '/invocations/?key=' . $this->galaxy->getAPIKey(); 
   
   	$elements = array(
+  
   		
-  		'inputs'=>json_encode(array('0' => array('id'=> 'f2db41e1fa331b3e4', 'src'=>'hda')),JSON_FORCE_OBJECT), 		
+  		//  The inputs correspond to the history dataset that is being inputted...
+  		//  f2db41e1fa331b3e is the dataset id used for this workflow (it's USC Main Genome, something of the sort)
+  			// 846fb0a2a64137c0
+  			// f2db41e1fa331b3e
+  		'inputs'=>json_encode(array('0' => array('id'=> '846fb0a2a64137c0', 'src'=>'hda')),JSON_FORCE_OBJECT), 		
+  		'dataset_map'=>json_encode(array('0'=> array('id'=> '846fb0a2a64137c0', 'src'=> 'hda' )), JSON_FORCE_OBJECT),
+  		
   		//'parameters' => json_encode(array(blastn=>array('param'=>1,'value'=>'e1a8c58f-24da-43bd-a02f-ecdc2a30a54d'))), 
-  		'add_to_history'=>True,
-  		'import_inputs_to_history'=>False,	
   		
-  		'history_name'=>'hooha',		
+  		// To my knowledge, this parameter will add its inputs to the history
+  		'no_add_to_history'=>True,
+  		
+  		// This parameter indicates the name of the new history 
+	  	//'history'=>'Bob \'s Burgers',
+	  	//If we want the results posted on an already existing history, we must 
+	  	// begin the history parameter with 'hist_id' 
+	  	'history'=>'hist_id=846fb0a2a64137c0',
+  			
   	);
-	
-  	return  $this->rest->POST($url, $elements);
+  	return  $this->rest->POST($url, $elements);  	
+  }
+  
+  public function invoke2($workflow_id){
+  	$url = $this->galaxy->getURL() . '/api/workflows/' .$workflow_id. '/invocations/?key=' . $this->galaxy->getAPIKey();
+  	
+  	$elements = array(
+  			'inputs'=>json_encode(array('0' => array('id'=> 'f2db41e1fa331b3e', 'src'=>'hda')),JSON_FORCE_OBJECT),
+  			'dataset_map'=>json_encode(array('0'=> array('id'=> 'f2db41e1fa331b3e', 'src'=> 'hda' )), JSON_FORCE_OBJECT),
+  	);
   	
   }
   
+  /**
+   * This function is An attempt to make the invoke function more automated-like
+   * In other words, all the user needs to invoke a basic workflow is the
+   * user id
+   */
+  public function run_workflow($worflow_id) {
+  	
+  }
   
   /**
   public function invoke($workflow_id, $dataset_map = NULL, $params = array(), $history_id = NULL,
