@@ -9,6 +9,7 @@ include_once 'Histories.inc';
 include_once 'HistoryContents.inc';
 include_once 'Users.inc';
 include_once 'Search.inc';
+include_once 'Visualizations.inc';
 
 
  $galaxy = new GalaxyInstance('localhost', '8080');
@@ -16,15 +17,11 @@ include_once 'Search.inc';
  
  $workflow = new Workflows($galaxy);	
  $search = new Search($galaxy);
+$visualization = new Visualizations($galaxy);
 
+print $visualization->create('blob3','it worked again!','00112');
+print $visualization->getErrorMessage();
 
-
- 
- //print $search->create('SELECT * FROM HISTORIES WHERE ID = 290670ee50ab85f0');
- print $search -> create('select * from history where id = \'290670ee50ab85f0\'');
- print $search->getErrorMessage();
- 
- //'select'. trail: [expr]
 
  
 

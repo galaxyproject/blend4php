@@ -22,7 +22,7 @@ class Search extends GalaxyRequest{
 	 * Do a search oif the various elements in Galaxy
 
 	 * @param string $query, must be a valid SQL expression, lowercase example: 
-	 * 
+	 * 'select * from history where id = \'290670ee50ab85f0\''
 	 * @return json string results
 	 */
    function create($query) { 
