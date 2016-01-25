@@ -11,7 +11,7 @@ include_once 'Users.inc';
 
 
  $galaxy = new GalaxyInstance('localhost', '8080');
- $galaxy->authenticate('bob@gmail.com', 'password');
+ $galaxy->authenticate('brian@yahoo.com', 'password');
  
  $workflow = new Workflows($galaxy);	
 
@@ -22,7 +22,7 @@ include_once 'Users.inc';
  
  //print $users->index(true,"blarb@gmail.com",'bri',true);
  //print $users->getErrorMessage();
- print $workflow->invoke('1cd8e2f6b131e891');
+ print $workflow->invoke2('a799d38679e985db');
  //print $workflow->invoke('f597429621d6eb2b');
  print $workflow->getErrorMessage();
 
