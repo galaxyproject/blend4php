@@ -338,11 +338,6 @@ class Workflows extends GalaxyRequest{
   	return  $this->rest->POST($url, $elements);  	
   }
 
-
-  
-  
-  
-  
   /**
    * Obtains a workflow baswed ona a given workflow name/annotation  
    * 
