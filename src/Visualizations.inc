@@ -51,15 +51,44 @@ class Visualizations extends GalaxyRequest{
 	 * desires to import a visualization
 	 */
 	function create($type, $title, $dbkey, $import_id = NULL){
+		if($import_id != NULL) {
+			$url = $this->galaxy->getURL() . '/api/visualizations/?import_id=' . $import_id . '&key=' . $this->galaxy->getAPIKey();
+			return $this->rest->POST($url);
+		}
+		
 		$url = $this->galaxy->getURL() . '/api/visualizations/?key=' . $this->galaxy->getAPIKey();
 		$elements = array(
 			'type'=> $type,
 			'title'=>$title,
 			'dbkey'=>$dbkey,
 		);
-		$this->rest->POST($url, $elements);
+		return $this->rest->POST($url, $elements);
 	}
-	 /**
-	  * TODO: import existing visualization
-	  */
+	
+	
+    /**
+     * PUT /api/visualizations/<visualizations id>
+     * @param string $viz_id visual;iization id of the visualization to update
+     * @param string $title If we are changing the title, include the new title
+     * @param string $dbkey If we are changing the new db key, include the new dbkey
+     * @param string $config ??
+     */
+	function update($viz_id, $title=null, $dbkey=null, $config=null){
+		$url = $this->galaxy->getURL() . '/api/visualizations/' .$viz_id. '/?key=' . $this->galaxy->getAPIKey();
+		$inputs = array(
+			'title'=>$title,
+			'dbkey'=>$dbkey,
+			'config'=>$config, 	
+		);
+		//collect non-null inputs
+		$elements = array(); 
+		foreach($inputs as $input=>$value){
+			if($input !==null) {
+				$elements[$input]=$value;
+			}
+		}
+		
+		return $this->rest->PUT($url,$elements);
+		
+	}
 }
