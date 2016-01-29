@@ -135,7 +135,7 @@ Load all permissions for the given library id and return it.
  		'modify_ids[]'=>$modify_ids, 	
  	);
  	
- 	$this->rest->POST($URL, $elements);
+ 	return $this->rest->POST($URL, $elements);
  }
  
  
