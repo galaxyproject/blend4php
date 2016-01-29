@@ -9,6 +9,7 @@ require_once './src/FolderContents.inc';
 // Connect and authenticate via galaxy.
 // Break all code down into logical blocks.
 $galaxy = new GalaxyInstance('localhost','8080', FALSE);
+
 $galaxy->authenticate('cgpwytko@gmail.com', 'potato15');
 
 

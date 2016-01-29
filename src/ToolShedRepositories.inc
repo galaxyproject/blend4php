@@ -126,7 +126,7 @@ class ToolShedClient{
 	 * 
 	 * @param $api_key_of_importer
 	 * 	The API key of the Galaxy user with which the imported workflow will be
-	 * 	associated
+	 * 	associated (DELETED for now) @timestamp Jan 26, 2016 1:10:50 PM
 	 * 
 	 * @param $tool_shed_repo_id
 	 *   The encoded id of the Tool Shed Repository object
@@ -134,7 +134,7 @@ class ToolShedClient{
 	 * POST /api/tool_shed_repositories/import_workflow
 	 * 
 	 */
-	public function import_workflow ($api_key_of_importer, $tool_shed_repo_id){
+	public function import_workflow ($tool_shed_repo_id){
 		$i = curl_init();
 		$api_key = $this->galaxy->getAPIKey();
 		
@@ -143,7 +143,7 @@ class ToolShedClient{
 		print $url;
 		$data = array(
 		
-				'id' => '6cff3602def750d0',
+				'id' => $tool_shed_repo_id,
 				'key' => $api_key
 		
 		);
