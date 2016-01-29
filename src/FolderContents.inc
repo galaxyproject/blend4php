@@ -60,7 +60,7 @@ class FolderContents extends GalaxyRequest {
     * item
     * 
     */
-   public function create($parent_folder_id, $from_hda_id = NULL, $ldda_messge = NULL, $extented_metadata = NULL){
+   public function create($parent_folder_id, $from_hda_id = NULL, $ldda_message = NULL, $extended_metadata = NULL){
    	$URL = $this->galaxy->getURL() . '/api/folders/' . 'F' . $parent_folder_id . '/?key=' . $this->galaxy->getAPIKey();
    	$postfields = array(
    			'name' => $name,
