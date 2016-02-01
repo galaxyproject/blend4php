@@ -324,6 +324,7 @@ class Workflows extends GalaxyRequest{
     
     foreach($input_dataset_ids as &$input_dataset_id){
     	$input_ids[$i] = array('id'=> $input_dataset_id, 'src'=>'hda');
+    	$i++;
     }
     $history_input='';
     if($hist_id !== NULL) {$history_input = 'hist_id='.$hist_id; }

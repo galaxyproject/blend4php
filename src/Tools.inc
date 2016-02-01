@@ -68,16 +68,17 @@ class Tools extends GalaxyRequest{
  }
  
 /**
- * 
- * TODO: it is unclear how the inputs parameter is supposed to be formatted, and what values it needs
+ * It is unclear how inputs should be formated here. 
+
  *  GET /api/tools/{tool_id}/build
+ *  
 	Returns a tool model including dynamic parameters and updated values, repeats block etc.
  * 
  * @param string $tool_id
  * @param string optional $tool_version
  * @param json_array inputs 
  */
- public function build($tool_id, $tool_version=NULL, $inputs){	
+ public function build($tool_id, $inputs, $tool_version=NULL){	
  	
  	$URL = $this->galaxy->getURL() . '/api/tools/'. $tool_id . '/build';
  	if ($tool_version !=NULL){$URL = $URL . '/?tool_version='. $tool_version;}
@@ -87,6 +88,7 @@ class Tools extends GalaxyRequest{
  
  /**
   * GET /api/tools/{tool_id}/citations
+  * 
   * Obtains citations for a given tool
   * 
   * @param string $tool_id
@@ -99,6 +101,7 @@ class Tools extends GalaxyRequest{
  
  /**
   *  GET /api/tools/{tool_id}/download
+  *  
   *  by default this will give us a file in binary, to assure this is outputted in its correct form, simply
   *  input the download to a .gz file 
   *  Prompts user to download information on specified tool
@@ -111,35 +114,44 @@ class Tools extends GalaxyRequest{
  
  
  /**
-  * TODO: it is unclear how inputs is suppoed to be formatted and what values it has
-  * 	  it is unclear what the history is used for
+
   * POST /api/tools 
-  *       Executes tool using specified inputs and returns tool's outputs.
+  * 
+  * Executes tool using specified inputs and returns tool's outputs.
   *       
   * 
   * @param action - string optional 'rerun' to rerun the tool and not execute
   * @param tool_id - string  (tool_id to execute)
   * @param tool_version - string  OPTIONAL, specify specific tool version
-  * @param history_id - string optional 
+  * @param history_id - string history_id where tool is located
   * @param region - string optional (information on the region of the genome being rerun)
-  * @param inputs - jsonArray (specify the inputs as files_ )
+  * @param input_dataset_ds - array of dataset id's where the tool should grab the inputs from
+  * similar to workflow_invoke
   */
- public function create($tool_id, $history_id = NULL,$tool_version=NULL, $inputs=NULL, $region = NULL,  $action = NULL ) {
+ public function create($tool_id,  $input_dataset_ids, $history_id = NULL,$tool_version=NULL,
+ 		$region = NULL,  $action = NULL ) {
  	$URL = $this->galaxy->getURL() . '/api/tools/?key=' . $this->galaxy->getAPIKey();
 	
- 	$inputs = array(
+ 	$input_ids = array();
+ 	$i=0;
+ 	foreach($input_dataset_ids as &$input_dataset_id){
+ 		$input_ids[$i] = array('id'=> $input_dataset_id, 'src'=>'hda');
+ 		$i++;
+ 	}
+ 	
+ 	$elements = array(
 						'tool_id' => $tool_id,
 						'tool_version' => $tool_version,
-						'inputs' => $inputs,
+						'inputs' => json_encode($input_ids,JSON_FORCE_OBJECT),
 						'history_id'=>$history_id,
 						'region' => $region,
 						'action' => $action,
 				);
  	//create a list of input items that is not null
  	$notNullInputs = array();
- 	foreach($inputs as $input=>$value) {
- 		if($input != NULL) {
- 			$notNullInputs[$input] = $value;
+ 	foreach($elements as $element=>$value) {
+ 		if($value != NULL) {
+ 			$notNullInputs[$element] = $value;
  		}
  	}
  	

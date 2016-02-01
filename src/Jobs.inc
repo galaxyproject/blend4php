@@ -105,23 +105,63 @@ public function index($state, $tool_ids = null, $date_range_min = null, $date_ra
 
 /**
  * POST /api/tools
+ * 
+ * NOTE: Creating/submitting a job is actually run under tools.py in the
+ * Galaxy api
+
  */
 public function create(){
-	
+	return null;
 }
 
 
 /**
  * POST /api/jobs/search
- *
- * @param request info
+ * 
+   This method is designed to scan the list of previously run jobs and find 
+   records of jobs that had
+   the exact some input parameters and datasets. This can be used to minimize 
+   the amount of repeated work, and simplyrecycle the old results.
+   
+  * @param action - string optional 'rerun' to rerun the tool and not execute
+  * @param tool_id - string  (tool_id to execute)
+  * @param tool_version - string  OPTIONAL, specify specific tool version
+  * @param history_id - string history_id where tool is located
+  * @param region - string optional (information on the region of the genome being rerun)
+  * @param input_dataset_ds - array of dataset id's where the tool should grab the inputs from
+  * similar to workflow_invoke  
+ 
  */
-public function search(){
-	$elements = array(
-			'inputs' => null,
-			'tool_id'=> null,
-				
+public function search($tool_id=NULL,  $input_dataset_ids=array(), $history_id = NULL,$tool_version=NULL,
+ 		$region = NULL,  $action = NULL){
+ 	$URL = $this->galaxy->getURL() . '/api/jobs/search/?key=' . $this->galaxy->getAPIKey();
+ 			
+ 	$input_ids = array();
+ 	$i =0;
+ 	
+ 	foreach($input_dataset_ids as &$input_dataset_id){
+ 		$input_ids[$i] = array('id'=> $input_dataset_id, 'src'=>'hda');
+ 		$i++;
+ 	}
+ 			
+ 	$elements = array(
+		'tool_id' => $tool_id,
+		'tool_version' => $tool_version,
+ 		'inputs' => json_encode($input_ids,JSON_FORCE_OBJECT),
+ 		'history_id'=>$history_id,
+ 		'region' => $region,
+ 		'action' => $action,
 	);
+ 	//create a list of input items that is not null
+ 	$notNullInputs = array();
+ 	foreach($elements as $element=>$value) {
+ 		if($value != NULL) {
+ 			$notNullInputs[$element] = $value;
+ 		}
+ 	}
+ 			
+ 	return $this->rest->POST($URL, $notNullInputs);
+ 			
 }
 
 }
