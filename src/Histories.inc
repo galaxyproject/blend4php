@@ -35,7 +35,6 @@ class Histories extends GalaxyRequest {
     * POST /api/histories:
     *
     *
-
     * @param string name: the new history’s name
     * @param string history_id: the id of the history to copy
     * @param bool all_datasets: copy deleted hdas/hdcas?  ‘True’ or ‘False’, defaults to True

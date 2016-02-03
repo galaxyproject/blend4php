@@ -74,15 +74,18 @@ class Tools extends GalaxyRequest{
  *  
 	Returns a tool model including dynamic parameters and updated values, repeats block etc.
  * 
- * @param string $tool_id
+ * @param string $tool_id, tool_id of the tool to perform action on
+ * @param string history_id, history id of where to find the tool (I think?, in any case, it's needed to run)
  * @param string optional $tool_version
- * @param json_array inputs 
+ 
  */
- public function build($tool_id, $inputs, $tool_version=NULL){	
+ public function build($tool_id, $history_id, $tool_version=NULL){	
  	
  	$URL = $this->galaxy->getURL() . '/api/tools/'. $tool_id . '/build';
  	if ($tool_version !=NULL){$URL = $URL . '/?tool_version='. $tool_version;}
  	$URL = $URL . '/?key=' . $this->galaxy->getAPIKey();	
+ 	$URL .= '&history_id=' . $history_id;
+ 	
  	return 	$this->rest->GET($URL);
  }
  
@@ -105,6 +108,7 @@ class Tools extends GalaxyRequest{
   *  by default this will give us a file in binary, to assure this is outputted in its correct form, simply
   *  input the download to a .gz file 
   *  Prompts user to download information on specified tool
+  *  
   * @param string $tool_id
   */
  public function download($tool_id){
@@ -117,9 +121,8 @@ class Tools extends GalaxyRequest{
 
   * POST /api/tools 
   * 
-  * Executes tool using specified inputs and returns tool's outputs.
-  *       
-  * 
+  * Executes tool using specified inputs and returns tool's outputs.    
+  *  
   * @param action - string optional 'rerun' to rerun the tool and not execute
   * @param tool_id - string  (tool_id to execute)
   * @param tool_version - string  OPTIONAL, specify specific tool version
@@ -140,12 +143,12 @@ class Tools extends GalaxyRequest{
  	}
  	
  	$elements = array(
-						'tool_id' => $tool_id,
-						'tool_version' => $tool_version,
-						'inputs' => json_encode($input_ids,JSON_FORCE_OBJECT),
-						'history_id'=>$history_id,
-						'region' => $region,
-						'action' => $action,
+				'tool_id' => $tool_id,
+				'tool_version' => $tool_version,
+				'inputs' => json_encode($input_ids,JSON_FORCE_OBJECT),
+				'history_id'=>$history_id,
+				'region' => $region,
+				'action' => $action,
 				);
  	//create a list of input items that is not null
  	$notNullInputs = array();

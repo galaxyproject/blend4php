@@ -34,12 +34,13 @@ class HistoryContents extends GalaxyRequest {
           
    @param  string history_id: encoded id string of the new HDA's History
    @param  string  'source'  The source of the new dataset, either hda or library
-   @param  string  'content_id'  
+   @param  string  'content_id'  the content to add (dataset id's work) 
+   to find dataset id's go to:
+   			/api/histories/<history_id>/content  only 'ok' state datasets work
 */ 
 	public function create($history_id, $content_id,  $source='hda') {
 		$URL = $this->galaxy->getURL(). '/api/histories/'.$history_id .
 		'/contents/dataset/?key='. $this->galaxy->getAPIKey();
-		print($URL);
 		$elements = array(
 			'source' => $source,
 			'content'=> $content_id,
@@ -61,51 +62,54 @@ class HistoryContents extends GalaxyRequest {
 #complete
 	 GET /api/histories/{history_id}/contents/{id}
 	 
-	 @param hda_id: the encoded id of the HDA to return (History data association)
+	 @param content_id: the encoded id of the HDA to return (History data association)
 	 @param history_id: encoded id string of the HDA's History
-
 	 @return: dictionary containing detailed HDA information
 	 */
-	public function show($history_id, $hda_id) {
-		$URL = $this->galaxy->getURL() . '/api/histories/'.$history_id .'/contents/'. $hda_id .'/?key='. $this->galaxy->getAPIKey();
+	public function show($history_id, $content_id) {
+		$URL = $this->galaxy->getURL() . '/api/histories/'.$history_id .'/contents/'. $content_id .'/?key='. $this->galaxy->getAPIKey();
 		return $this->rest->GET($URL);
 	}
 
-	
-	/**
-	  TODO: What are the fileds in galaxy.mmodel.HistoryDatasetAssociation.to_dict? 
-	  Apparently these are the fields that must go into our function
-	 
-	 */
-	
-	public function update($history_id, $hda_id, $payload=NULL){
-		$URL = $this->galaxy->getURL() .'/api/histories/' .$history_id . '/contents/' . $hda_id .'/?key='. $this->galaxy->getAPIKey();
-		if($payload == null) {
-			$payload = array("Nothing"=>"Nothing to see here");
-		}
-		//$payload = array (json_encode($payload));
-		var_dump($payload);
-		//$payload = json_encode($payload,true);
-		//$payload = json_encode($payload,true);
-	
-		//var_dump($payload);
-	
-		return $this->rest->PUT($URL, $payload);
+/**
+ Some functionality from original python function is not available
+   PUT /api/histories/{history_id}/contents/{id}
+   
+   updates the values for the HDA with the given ``id``
+   
+ * @param string $history_id history id of the history to update
+ * @param string $content_id content id of the content to update the history with, can be a dataset
+ *   to find dataset id's go to:
+   			/api/histories/<history_id>/content, only 'ok' state datasets work 
+ * @param string $annotation annotation for the hda 
+ */
+	public function update($history_id, $content_id,  $annotation =''){
+		$URL = $this->galaxy->getURL() .'/api/histories/' .$history_id . '/contents/' 
+				. $content_id .'/?key='. $this->galaxy->getAPIKey();
+		$elements = array(
+			'annotation' => $annotation,	
+		);
+		return $this->rest->PUT($URL, $elements);
 	}
 	
-	
-	
-	/**
-	 * TODO:
-	 * 	
-
-	 */
-	public function delete($history_id, $hda_id, $purge = false){
-	 $URL = $this->galaxy->getURL() .'/api/histories/' .$history_id . '/contents/' . $hda_id .'/?key='. $this->galaxy->getAPIKey();
-	 //print $URL;
-	// $inputs = json_encode(array('purged' => $purge));
-	 return $this->rest->Delete($URL);
-		
+/**
+ *    DELETE /api/histories/{history_id}/contents/{id}
+       
+       delete the HDA with the given ``id``
+ * 
+ * @param string $history_id history id of the history to update
+ * @param string $content_id content id of the content to update the history with, can be a dataset
+ *   to find dataset id's go to:
+   			/api/histories/<history_id>/content, only 'ok' state datasets work 
+   @param bool purge
+ */
+	public function delete($history_id, $content_id, $purge = false){
+	 $URL = $this->galaxy->getURL() .'/api/histories/' .$history_id . '/contents/' . $content_id .'/?key='. $this->galaxy->getAPIKey();
+	 if($purge)
+	 {
+	 	$URL .= '&purge=true';
+	 }
+	 return $this->rest->Delete($URL);	
 	}
 	
 	
