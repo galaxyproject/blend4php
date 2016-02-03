@@ -36,7 +36,22 @@ class GalaxyInstance {
 
   }
 
-
+  /**
+   * Verify that the server hosting the galaxy services is live
+   * 
+   */
+  
+	public function verifyLive(){
+		$ch = curl_init ();
+		curl_setopt ( $ch, CURLOPT_URL, "$this->host" . ":" . "$this->port");
+		curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, True );
+		$output = curl_exec ( $ch );
+		if ($output == NULL)
+			return FALSE;
+		else
+			return TRUE;
+	}
+  
   /**
    * Authenticates a user with the remote Galaxy instance.
    *
