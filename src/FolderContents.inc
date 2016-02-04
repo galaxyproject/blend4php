@@ -155,7 +155,7 @@ class FolderContents extends GalaxyRequest {
  	 * @param  $array $payload
  	 * contains 'name' => [new_name] and 'description' => [can be null]
  	 */
- 	public function update($folder_id, $payload){
+ 	public function updateName($folder_id, $payload){
  			$URL = $this->galaxy->getURL() . '/api/folders/' . 'F' .$folder_id .'?key=' . $this->galaxy->getAPIKey();
  			return $this->rest->PATCH($URL, $payload);
  	}

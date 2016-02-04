@@ -69,4 +69,24 @@ class Test_GalaxyInstance extends PHPUnit_Framework_TestCase {
 		$galaxy = new GalaxyInstance($host, $port, $use_https);
 		$this->assertTrue($galaxy->verifyLive());
 	}
+	
+	/**
+	 * @timestamp Feb 4, 2016 9:45:20 AM
+	 * To check if the user is admin I'll need to look into the galaxy.ini
+	 * file and check on line 786 and see if the email of that user is there in
+	 * order to test this unit function
+	 * If so I'll run the function
+	 * 	NOTE***
+	 * 	The function will expect a user to exist I will need to ask the user for
+	 * 	their username and pass and then test the to see if authenticate works
+	 * 	I'm not sure if this is the proper way to test this function though,
+	 *  But to create a new user we would have to call the create() member
+	 *  function and then 
+	 * 
+	 */
+
+	
+	
+	
+	
 }
