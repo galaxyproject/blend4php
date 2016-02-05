@@ -5,15 +5,17 @@ require_once './src/ToolShedRepositories.inc';
 require_once './src/Requests.inc';
 require_once './src/Folders.inc';
 require_once './src/FolderContents.inc';
-
+require_once './src/Users.inc';
 // Connect and authenticate via galaxy.
 // Break all code down into logical blocks.
 $galaxy = new GalaxyInstance('localhost','8080', FALSE);
 
 $galaxy->authenticate('cgpwytko@gmail.com', 'potato15');
 
+$usr = new Users($galaxy);
 
-
+print $usr->index(false, 'cgpwytko@gmail.com', NULL, false);
+//$usr->show($username)
 
 
 
@@ -61,4 +63,4 @@ $fol = new Folders($galaxy);
 // print_r($fol->show('1cd8e2f6b131e891'));
 
 $fc = new FolderContents($galaxy);
-print_r($fc->index('1cd8e2f6b131e891'));
+//print_r($fc->index('1cd8e2f6b131e891'));
