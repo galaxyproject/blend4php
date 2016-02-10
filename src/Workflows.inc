@@ -16,7 +16,7 @@ class Workflows extends GalaxyRequest{
 
   
   /**
-   * index GET /api/workflows 
+   * GET /api/workflows 
    * 
    * (display collection of workflows can show published)
    *
@@ -76,6 +76,7 @@ class Workflows extends GalaxyRequest{
   }
 
   /**
+   * TODO: what workflow function does this map to? 
    * Exports a workflow
    * 
    * @param $workflow_id
@@ -97,7 +98,8 @@ class Workflows extends GalaxyRequest{
   }
   
   /**
-   * Exports a workflow in json format to a given local path.
+   * GET /api/workflows/{encoded_workflow_id}/download
+        Returns a selected workflow as a json dictionary.
    *
    * @param $workflow_id
    *   Encoded workflow ID
@@ -155,10 +157,12 @@ class Workflows extends GalaxyRequest{
   	return $this->rest->GET($url);
   }
   
+  
   /**
-   	POST /api/workflows/build_module
+   	 TODO
+   * POST /api/workflows/build_module
    	
-   	Builds module details including a tool model for the workflow editor.
+   	 Builds module details including a tool model for the workflow editor.
    
    * @param string $tool_id, the tool id to 
    * @param string $tool_version
@@ -198,6 +202,7 @@ class Workflows extends GalaxyRequest{
   }
   
  }
+ 
   
   /**
    * GET /api/workflows/{workflow_id}/invocations
@@ -212,10 +217,11 @@ class Workflows extends GalaxyRequest{
   	return $this->rest->GET($url);
   }
   
+  
   /**
- 	GET /api/workflows/{workflow_id}/invocation/{invocation_id}
+   * GET /api/workflows/{workflow_id}/invocation/{invocation_id}
  	
-    Get detailed description of workflow invocation
+     Get detailed description of workflow invocation
    * 
    * @param string $workflow_id
    * @param string $invocation_id
@@ -228,7 +234,7 @@ class Workflows extends GalaxyRequest{
  
  
  /**
-   DELETE /api/workflows/{workflow_id}/invocation/{invocation_id}
+  * DELETE /api/workflows/{workflow_id}/invocation/{invocation_id}
    
    Cancel the specified workflow invocation.
   *
@@ -241,8 +247,9 @@ class Workflows extends GalaxyRequest{
  	return $this->rest->Delete($url);
  }
  
+ 
  /**
-  GET /api/workflows/{workflow_id}/invocation/{invocation_id}/steps/{step_id}
+  * GET /api/workflows/{workflow_id}/invocation/{invocation_id}/steps/{step_id}
   * 
   * Returns the invocation steps for the url provided...
   * 
@@ -258,7 +265,7 @@ class Workflows extends GalaxyRequest{
  
  
  /**
-  PUT /api/workflows/{workflow_id}/invocation/{invocation_id}/steps/{step_id}
+  * PUT /api/workflows/{workflow_id}/invocation/{invocation_id}/steps/{step_id}
    
    Update state of running workflow step invocation - still very nebulous
    but this would be for stuff like confirming paused steps can proceed
@@ -277,7 +284,7 @@ class Workflows extends GalaxyRequest{
  
  
   /**
-   *
+   * Deprecated to... 
    * @param string $workflow_id Encoded
    * @param string  $label
    */
@@ -308,43 +315,6 @@ class Workflows extends GalaxyRequest{
   	 
   }
 
-  /**
-   *
-   *
-   * @param string   $workflow_id
-   * @param string   $name array
-   * @param string   $published
-   */
-  public function get_workflows($workflow_id = NULL, $name = NULL, $published = FALSE) {
-  	$i = curl_init();
-  	$api_key = $this->galaxy->getAPIKey();
-  	
-  	$url = "http://www.google.com";
-  	if ($workflow_id == NULL){
-  		$url = $this->galaxy->getURL() . '/api/workflows/' . '?key=' . $api_key;
-  	}
-  	else{
-  		$url = $this->galaxy->getURL() . '/api/workflows/' . $workflow_id .'?key=' . $api_key;
-  	}
-
-  	$result = $this->rest->GET($url);
-  	
- 
-  	$array = json_decode($result, true);
-  	
-  	if (!empty($name)){
-   		foreach ($array as &$temp){
-   			  if ($temp['name'] == $name){
-   			  $foundworkflow = $temp;
-   	    	  }
- 		}
-   		return $foundworkflow;
-   	}
-  	
-  return $result;
-  	
-  	
-  }
 
   /**
    * TODO: What function does this map to in worklow.py ???
@@ -436,148 +406,53 @@ class Workflows extends GalaxyRequest{
   	);
   	return  $this->rest->POST($url, $elements);  	
   }
-
-  /**
-   * Obtains a workflow baswed ona a given workflow name/annotation  
-   * 
-   * returns workflow_id if successful
-   * returns False otherwise 
-   * 
-   * 
-   */
-  public function obtainWorkflow_id($name) {
-  	if($this->debug) {
-  	print $this->galaxy->getURL(). '/api/workflows/?key='. $this->galaxy->getAPIKey();
-  	}
-  	
-  	$workflow_id = "Nothing happened";
-  	$ch = curl_init();
-  	curl_setopt_array($ch, array(
-  			CURLOPT_RETURNTRANSFER => 1,
-  			CURLOPT_URL => $this->galaxy->getURL(). '/api/workflows/?key='. $this->galaxy->getAPIKey(),
-  	));
-  	$message = curl_exec($ch);
-
-  	if($ch === FALSE){
-  		print 'Curl error: ' . curl_error($ch);
-  		return FALSE ;
-  	}
-  	curl_close ($ch);
-  	//print 'I am on line 258'; 
-  	$message = str_replace(array('[',']', " "), "", $message);
-  	$message = str_replace(array('false'), '"false"', $message);
-  	$message = str_replace('"tags":,', '', $message);
-  	$len = strlen($message);
-  	$good = FALSE;
-  	$current_string = "";
-  	// Break all the users intp json arrays, find the appropriate id
-  	for($i = 0; $i<= $len; $i++) {
-  		$char = substr($message, $i, 1);
-  		$current_string .= $char;
-  	
-  		// If we have reached the end of the workflow, time to evaluate it
-  		if($char == '}') {	
-  			//print (json_decode($current_string,true));
-  			//print("I am on line 270, current string is: ". $current_string);
-  			$current_string = json_decode($current_string, true);
-  			//print ($blah);
-  			if($current_string['name'] == $name) {
-  				$good = TRUE;
-  				$workflow_id = $current_string["id"];
-  				break;
-  			}
-  			// i++ to escape the comma
-  			$i++;
-  			$current_string = "";
-  		}
-  	
-  	}
-  	
-  	//print ('And the workflow is' . $workflow_id);
-  	
-  	if(!$good) {
-  		return FALSE;
-  	}
-  	
-  	return $workflow_id;
-  }
-  
-  
-  /**
-   * Display information needed to run a workflow.
-   *
-   * @param $workflow_id
-   *   Encoded workflow ID.
-   * @return
-   *   A description of the workflow and its inputs as a JSON object. For example:
-   *    {
-   *      u'id': u'92c56938c2f9b315',
-   *      u'inputs': {u'23': {u'label': u'Input Dataset', u'value': u''}},
-   *      u'name': u'Simple',
-   *      u'url': u'/api/workflows/92c56938c2f9b315'
-   *    }
-   */
-  public function show_workflow($workflow_id) {
-  	$URL = $this->galaxy->getURL() . '/api/workflows/' .$workflow_id. '/?key=' . $this->galaxy->getAPIKey(); 
-  	return $this->rest->GET($URL);
-  	
-  }
-  
   
   
   /***
+   * TODO
    * Build a new workflow or edit an existing workflow
    * 
    * POST /api/workflows
    * 
-   * Parameters: 
+     Build a new workflow or edit an existing workflow
    * 
-            -	workflow_id (str): An existing workflow id. Either workflow_id, 
+    
+   * 
+   @param	string workflow_id: An existing workflow id. Either workflow_id, 
             	installed_repository_file or from_history_id must be specified
             
-            -	parameters (python dictionary): If workflow_id is set - see _update_step_parameters()
+   @param   string array parameters: If workflow_id is set - see _update_step_parameters()
             
-            -	ds_map (python dictionary dict): If workflow_id is set - a dictionary mapping each input step id to a dictionary with 2 keys: 
+   @param   string array ds_map: If workflow_id is set - a dictionary mapping each input step id to a dictionary with 2 keys: 
            	    ‘src’ (which can be ‘ldda’, ‘ld’ or ‘hda’) and ‘id’ (which should be the id of a LibraryDatasetDatasetAssociation, LibraryDataset or HistoryDatasetAssociation respectively)
             
-            -	no_add_to_history (str):  If workflow_id is set - if present in the payload with any value, 
+   @param   string no_add_to_history:  If workflow_id is set - if present in the payload with any value, 
             	the input datasets will not be added to the selected history
             
-            -	history (str): If workflow_id is set - optional history where to run the workflow, 
+   @param	string history: If workflow_id is set - optional history where to run the workflow, 
             	either the name of a new history or “hist_id=HIST_ID” where HIST_ID is the id of an existing history. 
             	If not specified, the workflow will be run a new unnamed history
             
-            -	replacement_params (python dictionary): If workflow_id is set - an optional dictionary used when renaming datasets
+   @param	string array replacement_params: If workflow_id is set - an optional dictionary used when renaming datasets
             
-            -	from_history_id (str): Id of history to extract a workflow from. Either workflow_id, 
+   @param   string from_history_id: Id of history to extract a workflow from. Either workflow_id, 
             	installed_repository_file or from_history_id must be specified
             
-            -	job_ids (str): If from_history_id is set - optional list of jobs to include when extracting a workflow from history
+   @param	job_ids: If from_history_id is set - optional list of jobs to include when extracting a workflow from history
             
-            -	dataset_ids (str): If from_history_id is set - optional list of HDA `hid`s corresponding 
+   @param 	string dataset_ids: If from_history_id is set - optional list of HDA `hid`s corresponding 
             	to workflow inputs when extracting a workflow from history
             
-            -	dataset_collection_ids (str): If from_history_id is set - optional list of HDCA 
+   @param 	string dataset_collection_ids: If from_history_id is set - optional list of HDCA 
             	`hid`s corresponding to workflow inputs when extracting a workflow from history
             
-            -	workflow_name (str): If from_history_id is set - name of the workflow to create when extracting a workflow from history
+   @param 	string workflow_name: If from_history_id is set - name of the workflow to create when extracting a workflow from history
             
-            -	allow_tool_state_corrections (bool): If set to True, any Tool parameter changes will not prevent running workflow, defaults to False
+   @param 	bool allow_tool_state_corrections: If set to True, any Tool parameter changes will not prevent running workflow, defaults to False
 
     
-How the Galaxy Python code looks at this:
 
-        ways_to_create = set( [
-            'workflow_id',
-            'installed_repository_file',
-            'from_history_id',
-            'shared_workflow_id',
-            'workflow',
-        ] )
-
-   
-   **/
-   
+   **/ 
  public function create($workflow_id = NULL, $parameters = NULL, $ds_map = NULL,
   		$no_add_to_history = True, $history =NULL, $replacement_params = NULL, 
   		$from_history_id=NULL, $job_ids = NULL, $dataset_ids = NULL, $dataset_collection_ids=NULL,

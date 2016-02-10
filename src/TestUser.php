@@ -19,6 +19,8 @@ include_once 'Groups.inc';
  $galaxy->authenticate('brian@yahoo.com', 'password');
 	$workflow = new Workflows($galaxy);
 	//print $workflow->update("a799d38679e985db");
-	print $workflow->build_module('sort1',array('8a81cf6f989c4467'));
+	print $workflow->build_module('6505e875ddb66fd2',array('8a81cf6f989c4467'));
+	//print $workflow->invoke('ebfb8f50c6abde6d', array('33b43b4e7093c91f','3cc0effd29705aa3'));
+	
 	print $workflow->getErrorMessage();
 ?>
