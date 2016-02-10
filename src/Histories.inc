@@ -28,10 +28,7 @@ class Histories extends GalaxyRequest {
 
 
 
-   /**TODO: Test this
-
-    * returns rest restuls
-    * calls upon
+   /**
     * POST /api/histories:
     *
     *  Creates a new  history in a galaxy instance

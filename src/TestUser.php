@@ -17,9 +17,8 @@ include_once 'Groups.inc';
 
  $galaxy = new GalaxyInstance('localhost', '8080');
  $galaxy->authenticate('brian@yahoo.com', 'password');
- $history = new Histories($galaxy);
- //print $history->create('blah blah3', '5969b1f7201f12ae', "GOOBA" );
- print $history->archive_download('be0a27b9edd0db03', '3');
- print $history->getErrorMessage();
-
+	$workflow = new Workflows($galaxy);
+	//print $workflow->update("a799d38679e985db");
+	print $workflow->build_module('sort1',array('8a81cf6f989c4467'));
+	print $workflow->getErrorMessage();
 ?>
