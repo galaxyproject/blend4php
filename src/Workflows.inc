@@ -146,15 +146,44 @@ class Workflows extends GalaxyRequest{
    * TODO
    * PUT /api/workflows/{id}
      
-     updates the workflow stored with workflow_id 
+     updates the workflow stored with workflow_id    
    * 
    * @param string $workflow_id
    */
-  public function update($workflow_id, $update){
-  	$url = $this->galaxy->getURL() . '/api/workflows/' .
-  			$workflow_id . '/download/?key=' . $this->galaxy->getAPIKey();
+  public function update($workflow_id, $parameters = NULL, $ds_map = NULL,
+  		$no_add_to_history = TRUE, $history =NULL, $replacement_params = NULL, 
+  		$from_history_id=NULL, $job_ids = NULL, $dataset_ids = NULL, $dataset_collection_ids=NULL,
+  		$workflow_name = NULL, $allow_tool_state_corrections = NULL){
+  	
+  	$url = $this->galaxy->getURL() . '/api/workflows/'. $workflow_id . '/?key=' . $this->galaxy->getAPIKey();
 	
-  	return $this->rest->GET($url);
+  	$elements = array(
+  			'workflow_id' => $workflow_id,
+  			'description' => 'bob',
+  			'workflow' => 'bob',
+  			'from_history_id' => $from_history_id,
+  			'parameters' => $parameters,
+  			'ds_map'=>$ds_map,
+  			'no_add_to_history'=>$no_add_to_history,
+  			'history' =>$history,
+  			'replacement_params' => $replacement_params,
+  			'from_history_id' => $from_history_id,
+  			'jobs_id'=>$job_ids,
+  			'dataset_ids'=>$dataset_ids,
+  			'dataset_collection_ids'=>$dataset_collection_ids,
+  			'workflow_name'=>$workflow_name,
+  			'allow_tool_state_corrections' => $allow_tool_state_corrections,
+  	);
+  	 
+  	// Use only the elements that are not null
+  	$notNullInputs = array();
+  	foreach($elements as $element=>$value) {
+  		if($value != NULL ) {
+  			$notNullInputs[$element] = $value;
+  		}
+  	}
+  	var_dump($notNullInputs);
+  	return $this->rest->PUT($url, $notNullInputs);
   }
   
   
@@ -170,7 +199,8 @@ class Workflows extends GalaxyRequest{
    * 	dataset_ids can be found at /api/histories/history_id/content
    * @param string $annotation, annotation for the module
    */  
-  public function build_module($tool_id,$tool_input_ids=NULL, $tool_version=NULL,$annotation=NULL){
+  public function build_module($tool_id,$tool_input_ids=NULL, $tool_version=NULL,
+  		$annotation=NULL){
   	$url = $this->galaxy->getURL() . '/api/workflows/build_module/?key=' . $this->galaxy->getAPIKey();	
 	$i =0;
 	// Follow same formating at imputting ids as invoke 
@@ -265,6 +295,7 @@ class Workflows extends GalaxyRequest{
  
  
  /**
+  * TODO
   * PUT /api/workflows/{workflow_id}/invocation/{invocation_id}/steps/{step_id}
    
    Update state of running workflow step invocation - still very nebulous
@@ -277,11 +308,11 @@ class Workflows extends GalaxyRequest{
   */
  public function update_invocation_steps($workflow_id, $invocation_id, $step_id){
  	$url = $this->galaxy->getURL() . '/api/workflows/' .
- 			$workflow_id . 'invocations/'.$invocation_id.'/?key=' . $this->galaxy->getAPIKey();
+ 			$workflow_id . '/invocations/'.$invocation_id.'/steps/'
+ 					.$step_id . '/?key=' . $this->galaxy->getAPIKey();
  	return $this->rest->PUT($url); 	
  }
 
- 
  
   /**
    * Deprecated to... 
@@ -438,7 +469,7 @@ class Workflows extends GalaxyRequest{
    @param   string from_history_id: Id of history to extract a workflow from. Either workflow_id, 
             	installed_repository_file or from_history_id must be specified
             
-   @param	job_ids: If from_history_id is set - optional list of jobs to include when extracting a workflow from history
+   @param	string array job_ids: If from_history_id is set - optional list of jobs to include when extracting a workflow from history
             
    @param 	string dataset_ids: If from_history_id is set - optional list of HDA `hid`s corresponding 
             	to workflow inputs when extracting a workflow from history
@@ -451,7 +482,6 @@ class Workflows extends GalaxyRequest{
    @param 	bool allow_tool_state_corrections: If set to True, any Tool parameter changes will not prevent running workflow, defaults to False
 
     
-
    **/ 
  public function create($workflow_id = NULL, $parameters = NULL, $ds_map = NULL,
   		$no_add_to_history = True, $history =NULL, $replacement_params = NULL, 
