@@ -17,16 +17,11 @@ include_once 'Groups.inc';
 
  $galaxy = new GalaxyInstance('localhost', '8080');
  $galaxy->authenticate('brian@yahoo.com', 'password');
- $history = new HistoryContents($galaxy);
-// print $history->create('290670ee50ab85f0', '6505e875ddb66fd2');
- //print $history->update('290670ee50ab85f0', '33b43b4e7093c91f');
-
- /*print $history->getErrorMessage();
- print $history->delete('290670ee50ab85f0', '6505e875ddb66fd2');
- print $history->getErrorMessage();
- */
- $tool = new Tools($galaxy);
- $inputs = array('33b43b4e7093c91f');
- print $tool->build('sort1', $inputs);
- print $tool->getErrorMessage();
+	$workflow = new Workflows($galaxy);
+	//print $workflow->update("f2db41e1fa331b3e");
+	//print $workflow->build_module('6505e875ddb66fd2',array('8a81cf6f989c4467'));
+	//print $workflow->invoke('ebfb8f50c6abde6d', array('33b43b4e7093c91f','3cc0effd29705aa3'));
+	//print $workflow->create('f2db41e1fa331b3e');
+	print $workflow->update_invocation_steps('f2db41e1fa331b3e','f2db41e1fa331b3e','f597429621d6eb2b');
+	print $workflow->getErrorMessage();
 ?>

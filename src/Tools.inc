@@ -68,14 +68,13 @@ class Tools extends GalaxyRequest{
  }
  
 /**
- * It is unclear how inputs should be formated here. 
 
- *  GET /api/tools/{tool_id}/build
- *  
+ *  GET /api/tools/{tool_id}/build 
 	Returns a tool model including dynamic parameters and updated values, repeats block etc.
+	Note the original python function allows for an 'inputs' parameter, this is not supported
  * 
  * @param string $tool_id, tool_id of the tool to perform action on
- * @param string history_id, history id of where to find the tool (I think?, in any case, it's needed to run)
+ * @param string history_id, history id of where to place the built tool
  * @param string optional $tool_version
  
  */
