@@ -60,11 +60,17 @@ class GalaxyInstance {
    * Authenticates a user with the remote Galaxy instance.
    *
    * @param $username
+   *   The username of the user.
    * @param $password
+   *   The password for the user.
+   * @param $message
+   *   If authentication fails then this variable will be set to contain
+   *   the error message.
    *
-   *
+   * @return
+   *   TRUE if authentication was successful, FALSE otherwise.
    */
-  public function authenticate($username, $password) {
+  public function authenticate($username, $password, &$message = '') {
 
     $i = curl_init();
 
@@ -74,20 +80,23 @@ class GalaxyInstance {
 
     $output = curl_exec($i);
 
-    if($output === FALSE) {
+    if ($output === FALSE) {
         $output = "invalidusernameorpassword";
-      return "Error: " . curl_error($i);
+      $message = "ERROR: " . curl_error($i);
+      return FALSE;
     }
 
     $output = json_decode($output, true);
-    if($output === NULL or !array_key_exists('api_key', $output)){
+    if ($output === NULL or !array_key_exists('api_key', $output)) {
       $output = "invalidusernameorpassword";
-      return "Error";
+      $message = "ERROR: Invalid Username or Password";
+      return FALSE;
     }
     $output = $output['api_key'];
     $this->api_key = $output;
 
     curl_close($i);
+    return TRUE;
   }
 
   /**

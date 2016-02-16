@@ -22,6 +22,7 @@ class GalaxyInstanceTest extends PHPUnit_Framework_TestCase {
    *   Set to TRUE if the remote galaxy instance uses HTTPS and FALSE otherwise.
    */
   public function testGetURL() {
+
     // Test HTTP URL construction.
     $galaxy = new GalaxyInstance('localhost', '8080', FALSE);
     $this->assertEquals($galaxy->getURL(), 'http://localhost:8080');
@@ -47,18 +48,42 @@ class GalaxyInstanceTest extends PHPUnit_Framework_TestCase {
     // Test a connection to an instance that is properly instantiated.
     $galaxy = new GalaxyInstance('localhost', '8080', FALSE);
     $this->assertTrue($galaxy->checkConnection());
+
+    // Set the private galaxy class member object.
+    $this->galaxy = $galaxy;
+  }
+
+  /**
+   * Test the getAPIKey and setAPIKey functions.
+   *
+   * @depends testCheckConnection
+   */
+  public function testGetSetAPIKey() {
+     $galaxy = new GalaxyInstance('localhost', '8080', FALSE);
+     $galaxy->setAPIKey('XYZPDQ');
+     $this->assertEquals($galaxy->getAPIKey(), 'XYZPDQ');
   }
 
   /**
    * Tests the authenticate function.
    *
-   * Expects an example username and password are already set in the
-   * remote Galaxy instance.
+   * Tests that we can get an API Key during authentication.  Also tests that
+   * if the username/password is not correct that a proper error is set.
    *
-   * @depends testCheckConnection
+   * @depends testGetSetAPIKey
    */
   public function testAuthenticate () {
     $galaxy = new GalaxyInstance('localhost', '8080', FALSE);
-    $galaxy->authenticate('cgpwytko@gmail.com', 'potato15');
+
+    // Test a proper user authentcation. First check that the function
+    // will return true.
+    $retval = $galaxy->authenticate('cgpwytko@gmail.com', 'potato15');
+    $this->assertTRUE($retval);
+
+    // Next, test an incorrect username/password.
+    $retval = $galaxy->authenticate('cgpwytko@gmail.com', 'potato5');
+    $this->assertTRUE($retval);
+
   }
+
 }
