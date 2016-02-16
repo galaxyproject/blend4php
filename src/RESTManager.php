@@ -32,12 +32,12 @@ class RESTManager {
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, True);
     $output = curl_exec($ch);
     if ($output ===FALSE) {
-      $this->requestError->set_RequestError('HTTP', curl_error($ch));
+      $this->requestError->setError('HTTP', curl_error($ch));
       return FALSE;
     }
     curl_close($ch);
 
-    if ($this->requestError->look_for_error($output)) {
+    if ($this->requestError->parseCURLError($output)) {
       $output = FALSE;
     }
 
@@ -69,11 +69,11 @@ class RESTManager {
     $message = curl_exec($ch);
 
     if ($message ===FALSE) {
-      $this->requestError->set_RequestError('HTTP', curl_error($ch));
+      $this->requestError->setError('HTTP', curl_error($ch));
       return FALSE;
     }
     curl_close($ch);
-    if ($this->requestError->look_for_error($message)) {
+    if ($this->requestError->parseCURLError($message)) {
       return FALSE;
     }
 
@@ -104,12 +104,12 @@ class RESTManager {
     $message = curl_exec($ch);
     // print "server response: " .$message;
     if ($message ===FALSE) {
-      $this->requestError->set_RequestError('HTTP', curl_error($ch));
+      $this->requestError->setError('HTTP', curl_error($ch));
       return FALSE;
     }
     curl_close($ch);
 
-    if ($this->requestError->look_for_error($message)) {
+    if ($this->requestError->parseCURLError($message)) {
       $message = FALSE;
     }
 
@@ -119,12 +119,11 @@ class RESTManager {
   /**
    * Universal DELETE request
    *
-   * @param
-   *          array Input
-   * @param
-   *          str url
+   * @param $URL
+   * @param $input
    *
-   * @return curl server response
+   * @return
+   *   curl server response
    */
   public function delete($URL, $input = NULL) {
     $ch = curl_init();
@@ -138,12 +137,12 @@ class RESTManager {
 
     $message = curl_exec($ch);
     if ($message === FALSE) {
-      $this->requestError->set_RequestError('HTTP', curl_error($ch));
+      $this->requestError->setError('HTTP', curl_error($ch));
       return FALSE;
     }
     curl_close($ch);
 
-    if ($this->requestError->look_for_error($message)) {
+    if ($this->requestError->parseCURLError($message)) {
       $message = FALSE;
     }
 
