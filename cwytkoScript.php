@@ -14,7 +14,7 @@ $galaxy->authenticate('cgpwytko@gmail.com', 'potato15');
 
 $usr = new Users($galaxy);
 
-print $usr->index(false, 'cgpwytko@gmail.com', NULL, false);
+//print $usr->index(false, 'cgpwytko@gmail.com', NULL, false);
 //$usr->show($username)
 
 

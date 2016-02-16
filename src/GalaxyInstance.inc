@@ -76,9 +76,9 @@ class GalaxyInstance {
     }
    
     $output = json_decode($output, true);
-    if($output ===NULL or !array_key_exists('api_key', $output)){
+    if($output === NULL or !array_key_exists('api_key', $output)){
     	$output = "invalidusernameorpassword";
-    	return "error";
+    	return "Error";
     }
     $output = $output['api_key'];
     $this->api_key = $output;
@@ -87,6 +87,30 @@ class GalaxyInstance {
     curl_close($i);
 
   }
+  /**
+   * Helper function to phpunit that will either return a true or false if the
+   * curl sucessfully processes the credentials
+   * @param unknown $username
+   * @param unknown $password
+   */
+  public function verifyAuthenticate_And_getURL($username, $password){
+  	$i = curl_init();
+  	
+  	curl_setopt($i, CURLOPT_URL, $this->getURL() . '/api/authenticate/baseauth');
+  	curl_setopt($i, CURLOPT_RETURNTRANSFER, true);
+  	curl_setopt($i, CURLOPT_USERPWD, $username . ':' . $password);
+  	
+  	$output = curl_exec($i);
+  
+  	if($output === NULL or !array_key_exists('api_key', $output)){
+  		return FALSE;
+  	}
+  	else 
+  		return TRUE;
+  	
+  	curl_close($i);
+  }
+  
 
   /**
    * Returns the URL for the remote Galaxy server.
