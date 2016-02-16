@@ -1,7 +1,10 @@
 <?php
+
 require_once '../src/GalaxyInstance.inc';;
 
 /**
+ * @file
+ *
  * Testing to make sure the galaxy instance file will authenticate
  * and connect correctly
  */
