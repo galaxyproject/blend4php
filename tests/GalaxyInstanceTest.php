@@ -8,8 +8,6 @@ require_once '../src/GalaxyInstance.inc';;
 
 class GalaxyInstanceTest extends PHPUnit_Framework_TestCase {
 
-  private $galaxy;
-
   /**
    * Tests the getURL function.
    *
@@ -23,71 +21,43 @@ class GalaxyInstanceTest extends PHPUnit_Framework_TestCase {
    * @param $use_https
    *   Set to TRUE if the remote galaxy instance uses HTTPS and FALSE otherwise.
    */
-  public function testGetURL($host, $port, $use_https) {
+  public function testGetURL() {
     // Test HTTP URL construction.
     $galaxy = new GalaxyInstance('localhost', '8080', FALSE);
-    $this->assertEquals($galaxy->getURL() == 'http://localhost:8080');
+    $this->assertEquals($galaxy->getURL(), 'http://localhost:8080');
 
     // Test HTTPS URL construction.
     $galaxy = new GalaxyInstance('localhost', '8080', TRUE);
-    $this->assertEquals($galaxy->getURL() == 'https://localhost:8080');
+    $this->assertEquals($galaxy->getURL(), 'https://localhost:8080');
   }
 
   /**
-   * Tests the checkConnection() function.
+   * Tests checkConnection.
    *
-   * This performs two tests, one to check that a connection can be established
-   * and one to check what happens when a connection fails.
-   */
-  public function initializeCheckConnection() {
-    return array(
-      // These tests are purposusly supposed to fail
-      'Host/Port parameter switch' => array ('8080', 'localhost', FALSE, FALSE),
-      'Galaxy Test Instance' => array('localhost', '8080', FALSE, TRUE)
-    );
-  }
-
-  /**
-   * By default the user should have localhost selected and the port 8080
-   * opened w/no https for the a trial instance
+   * This test ensure that a galaxy instance can be connected to.  If not
+   * then all other tests will naturally fail.
    *
-   * I should have a prompt to ask if the information should be tested otherwise
-   * because how am I to elsewise know the connectivity?
-   *
-   * @dataProvider initializeCheckConnection
    * @depends testGetURL
    */
-  public function testCheckConnection($host, $port, $use_https, $expected) {
-    $galaxy = new GalaxyInstance($host, $port, $use_https);
-    if ($expected == FALSE) {
-      $this->assertFalse($galaxy->checkConnection());
-    }
-    if ($expected == TRUE) {
-      $this->assertTrue($galaxy->checkConnection());
-    }
+  public function testCheckConnection() {
+    // Test a connection to an instances that is improperly instantiated.
+    $galaxy = new GalaxyInstance('8080', 'localhost', FALSE);
+    $this->assertFalse($galaxy->checkConnection());
+
+    // Test a connection to an instance that is properly instantiated.
+    $galaxy = new GalaxyInstance('localhost', '8080', FALSE);
+    $this->assertTrue($galaxy->checkConnection());
   }
 
   /**
+   * Tests the authenticate function.
+   *
+   * Expects an example username and password are already set in the
+   * remote Galaxy instance.
+   *
    * @depends testCheckConnection
    */
-  public function initializeAuthenticate() {
-    return array(
-        'Default' => array ('localhost', '8080', FALSE),
-        'Host/Port parameter switch' => array ('8080', 'localhost', FALSE),
-        'Enabling HTTPS with default' => array ('localhost', '8080', TRUE),
-        'Custom Hostname' => array ('ExampleHostName.com', '80', TRUE)
-    );
-  }
-
-  /**
-   * Test
-   *
-   * I should have a prompt to ask if the information should be tested otherwise
-   * because how am I to elsewise know the connectivity?
-   *
-   * @dataProvider initializeAuthenticate
-   */
-  public function testAuthenticate ($hostname, $port) {
+  public function testAuthenticate () {
     $galaxy = new GalaxyInstance('localhost', '8080', FALSE);
     $galaxy->authenticate('cgpwytko@gmail.com', 'potato15');
   }

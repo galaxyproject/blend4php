@@ -49,7 +49,6 @@ class GalaxyInstance {
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
     $output = curl_exec($ch);
-    print $output;
 
     if ($output == NULL)
       return FALSE;
