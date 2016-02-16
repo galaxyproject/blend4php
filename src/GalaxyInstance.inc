@@ -17,7 +17,7 @@ class GalaxyInstance {
   private $debug = true;
 
   /**
-   * Implements a constructor.
+   * Implements the constructor.
    *
    * @param $hostname
    *   The hostname where the Galaxy server is located.
@@ -37,21 +37,26 @@ class GalaxyInstance {
   }
 
   /**
-   * Verify that the server hosting the galaxy services is live
-   * 
+   * Verify that the server hosting the galaxy services is live.
+   *
+   * @return
+   *   TRUE if a connection is succesfully established and FALSE otherwise.
    */
-  
-	public function verifyLive(){
-		$ch = curl_init ();
-		curl_setopt ( $ch, CURLOPT_URL, "$this->host" . ":" . "$this->port");
-		curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, True );
-		$output = curl_exec ( $ch );
-		if ($output == NULL)
-			return FALSE;
-		else
-			return TRUE;
-	}
-  
+  public function checkConnection() {
+
+    $ch = curl_init();
+    $url = $this->getURL();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+    $output = curl_exec($ch);
+    print $output;
+
+    if ($output == NULL)
+      return FALSE;
+    else
+      return TRUE;
+  }
+
   /**
    * Authenticates a user with the remote Galaxy instance.
    *
@@ -71,46 +76,20 @@ class GalaxyInstance {
     $output = curl_exec($i);
 
     if($output === FALSE) {
-      	$output = "invalidusernameorpassword";
-    	return "Error: " . curl_error($i);
+        $output = "invalidusernameorpassword";
+      return "Error: " . curl_error($i);
     }
-   
+
     $output = json_decode($output, true);
     if($output === NULL or !array_key_exists('api_key', $output)){
-    	$output = "invalidusernameorpassword";
-    	return "Error";
+      $output = "invalidusernameorpassword";
+      return "Error";
     }
     $output = $output['api_key'];
     $this->api_key = $output;
 
-
     curl_close($i);
-
   }
-  /**
-   * Helper function to phpunit that will either return a true or false if the
-   * curl sucessfully processes the credentials
-   * @param unknown $username
-   * @param unknown $password
-   */
-  public function verifyAuthenticate_And_getURL($username, $password){
-  	$i = curl_init();
-  	
-  	curl_setopt($i, CURLOPT_URL, $this->getURL() . '/api/authenticate/baseauth');
-  	curl_setopt($i, CURLOPT_RETURNTRANSFER, true);
-  	curl_setopt($i, CURLOPT_USERPWD, $username . ':' . $password);
-  	
-  	$output = curl_exec($i);
-  
-  	if($output === NULL or !array_key_exists('api_key', $output)){
-  		return FALSE;
-  	}
-  	else 
-  		return TRUE;
-  	
-  	curl_close($i);
-  }
-  
 
   /**
    * Returns the URL for the remote Galaxy server.
@@ -135,7 +114,6 @@ class GalaxyInstance {
    * @param string $api_key
    */
   public function setAPIKey($api_key) {
-
     $this->api_key = $api_key;
   }
 

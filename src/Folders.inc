@@ -28,36 +28,36 @@ class Folders extends GalaxyRequest {
 
    /**
     * GET /api/folders/{folder_id}
-    * 
+    *
     * Displays information about a folder
-    * 
+    *
     * The $folder_id must have an 'F' prefixing the id string
-    * 
+    *
     * @param str $folder_id
     * The folder that you would like to see
-    * 
+    *
     * One indirect way to find the folder id (in the browser environment at
     * least) would be to hover your cursor over the Edit information option on
     * the dropdown menu on a given folder and copy the last parameter on the url
     * (which would be the folder's id)
-    * 
+    *
     */
    public function show ($folder_id) {
-   	$URL = $this->galaxy->getURL() . '/api/folders/' . 'F' . $folder_id .'/?key=' . $this->galaxy->getAPIKey(); 	
+   	$URL = $this->galaxy->getURL() . '/api/folders/' . 'F' . $folder_id .'/?key=' . $this->galaxy->getAPIKey();
    	return $this->rest->GET($URL);
    }
-   
-   
+
+
    /**
     * POST /api/folders/{encoded_parent_folder_id}
-    *  
+    *
     * @param string $parent_folder_id
     * The id of the parent folder that this folder will be created under
     * @param string $name
     * The name of your folder
     * @param string $description
     * The description of your folder
-    * 
+    *
     */
    public function create($parent_folder_id, $name, $description){
    	$URL = $this->galaxy->getURL() . '/api/folders/' . 'F' . $parent_folder_id . '/?key=' . $this->galaxy->getAPIKey();
@@ -67,32 +67,32 @@ class Folders extends GalaxyRequest {
    	);
    	return $this->rest->POST($URL, $postfields);
    }
-   
+
 	/**
 	 * GET /api/folders/{folder_id}/permissions
-	 * 
+	 *
 	 * Load all permissions for the folder id.
-	 * 
+	 *
 	 * @param string $folder_id
 	 * The folder you want to view permissions
-	 * 
-	 */   
+	 *
+	 */
  	public function get_permissions($folder_id){
  	 $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' .$folder_id . '/permissions' .'?key=' . $this->galaxy->getAPIKey();
- 	 return $this->rest->GET($URL); 		
+ 	 return $this->rest->GET($URL);
  	}
- 	
+
  	/**
  	 * POST /api/folders/{folder_id}/permissions
  	 *
  	 * Set permissions for the folder id.
- 	 * 
+ 	 *
  	 * There are 3 options that can be manipulated:
  	 * 1. Modify library item: Users can modify this library ($folder_id) item
  	 * 2. Add library item: Users can add library items to this ($folder_id) item
  	 * 3. Manage library permissions: Users can manage roles associated with
  	 * 	  permissions on this library item
- 	 * 
+ 	 *
  	 * **IMPORTANT**
  	 * 					The options inputted will wipe the previous users in that
  	 * 					permissions folder (does not append more users to the particular
@@ -118,12 +118,12 @@ class Folders extends GalaxyRequest {
  		);
  		return $this->rest->POST($URL, $postfields);
  	}
- 	
+
  	/**
  	 * DELETE /api/folders/{folder_id}/
  	 *
  	 * Mark the folder as 'deleted' or 'undeleted'.
- 	 * 
+ 	 *
  	 * Only admin users can delete/undelete folders
  	 *
  	 * @param string $folder_id
@@ -134,14 +134,14 @@ class Folders extends GalaxyRequest {
  	public function delete($folder_id, $undelete = FALSE){
  		if ($undelete == FALSE){
  		$URL = $this->galaxy->getURL() . '/api/folders/' . 'F' .$folder_id .'?key=' . $this->galaxy->getAPIKey();
- 		return $this->rest->Delete($URL);
+ 		return $this->rest->delete($URL);
  		}
  		else{
  			$URL = $this->galaxy->getURL() . '/api/folders/' . 'F' .$folder_id  .'?key=' . $this->galaxy->getAPIKey(). '&undelete=True';
- 			return $this->rest->Delete($URL);
+ 			return $this->rest->delete($URL);
  		}
  	}
- 	
+
  	/**
  	 * PATCH /api/folders/{folder_id}/
  	 *
@@ -158,5 +158,5 @@ class Folders extends GalaxyRequest {
  			$URL = $this->galaxy->getURL() . '/api/folders/' . 'F' .$folder_id .'?key=' . $this->galaxy->getAPIKey();
  			return $this->rest->PATCH($URL, $payload);
  	}
- 	
+
 }

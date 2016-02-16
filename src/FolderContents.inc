@@ -28,37 +28,37 @@ class FolderContents extends GalaxyRequest {
 
    /**
     * GET /api/folders/{folder_id}/contents
-    * 
+    *
     * Displays the contents of a folder
-    * 
+    *
     * The $folder_id must have an 'F' prefixing the id string
-    * 
+    *
     * @param str $folder_id
     * The folder's contents that you would like to see
-    * 
+    *
     */
    public function index ($folder_id) {
-   	$URL = $this->galaxy->getURL() . '/api/folders/' . 'F' . $folder_id . '/contents' .'/?key=' . $this->galaxy->getAPIKey(); 	
+   	$URL = $this->galaxy->getURL() . '/api/folders/' . 'F' . $folder_id . '/contents' .'/?key=' . $this->galaxy->getAPIKey();
    	return $this->rest->GET($URL);
    }
-   
-   
+
+
    /**
     * POST /api/folders/{folder_id}/contents
-    *  
+    *
     *  Create a new library file from an HDA (History Dataset Association)
-    *  
+    *
     * @param string $parent_folder_id
     * The parent folder of the new item
     * @param string $from_hda_id (optional)
     * The id of an accessible HDA to into the library
-    * @param string $ldda_messge (optional) 
+    * @param string $ldda_messge (optional)
     * ldda - LibraryDatasetDatasetAssociation
     * The new message attribute of the LDDA created
     * @param $extented_metadata (optional)
     * Sub-dictionary containing any extended metadata to associate with the
     * item
-    * 
+    *
     */
    public function create($parent_folder_id, $from_hda_id = NULL, $ldda_message = NULL, $extended_metadata = NULL){
    	$URL = $this->galaxy->getURL() . '/api/folders/' . 'F' . $parent_folder_id . '/?key=' . $this->galaxy->getAPIKey();
@@ -68,32 +68,32 @@ class FolderContents extends GalaxyRequest {
    	);
    	return $this->rest->POST($URL, $postfields);
    }
-   
+
 	/**
 	 * GET /api/folders/{folder_id}/permissions
-	 * 
+	 *
 	 * Load all permissions for the folder id.
-	 * 
+	 *
 	 * @param string $folder_id
 	 * The folder you want to view permissions
-	 * 
-	 */   
+	 *
+	 */
  	public function show($folder_id){
  	 $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' .$folder_id . '/permissions' .'?key=' . $this->galaxy->getAPIKey();
- 	 return $this->rest->GET($URL); 		
+ 	 return $this->rest->GET($URL);
  	}
- 	
+
  	/**
  	 * POST /api/folders/{folder_id}/permissions
  	 *
  	 * Set permissions for the folder id.
- 	 * 
+ 	 *
  	 * There are 3 options that can be manipulated:
  	 * 1. Modify library item: Users can modify this library ($folder_id) item
  	 * 2. Add library item: Users can add library items to this ($folder_id) item
  	 * 3. Manage library permissions: Users can manage roles associated with
  	 * 	  permissions on this library item
- 	 * 
+ 	 *
  	 * **IMPORTANT**
  	 * 					The options inputted will wipe the previous users in that
  	 * 					permissions folder (does not append more users to the particular
@@ -119,12 +119,12 @@ class FolderContents extends GalaxyRequest {
  		);
  		return $this->rest->POST($URL, $postfields);
  	}
- 	
+
  	/**
  	 * DELETE /api/folders/{folder_id}/
  	 *
  	 * Mark the folder as 'deleted' or 'undeleted'.
- 	 * 
+ 	 *
  	 * Only admin users can delete/undelete folders
  	 *
  	 * @param string $folder_id
@@ -135,14 +135,14 @@ class FolderContents extends GalaxyRequest {
  	public function delete($folder_id, $undelete = FALSE){
  		if ($undelete == FALSE){
  		$URL = $this->galaxy->getURL() . '/api/folders/' . 'F' .$folder_id .'?key=' . $this->galaxy->getAPIKey();
- 		return $this->rest->Delete($URL);
+ 		return $this->rest->delete($URL);
  		}
  		else{
  			$URL = $this->galaxy->getURL() . '/api/folders/' . 'F' .$folder_id  .'?key=' . $this->galaxy->getAPIKey(). '&undelete=True';
- 			return $this->rest->Delete($URL);
+ 			return $this->rest->delete($URL);
  		}
  	}
- 	
+
  	/**
  	 * PATCH /api/folders/{folder_id}/
  	 *
@@ -159,5 +159,5 @@ class FolderContents extends GalaxyRequest {
  			$URL = $this->galaxy->getURL() . '/api/folders/' . 'F' .$folder_id .'?key=' . $this->galaxy->getAPIKey();
  			return $this->rest->PATCH($URL, $payload);
  	}
- 	
+
 }
