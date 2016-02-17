@@ -12,18 +12,19 @@
  */
 
 /**
- * @defgroup group_users_class Groups Class
+ * @defgroup group_users_class GroupUsers Class
  * @{
- *   The Group Class interacts with Galaxy to manage groups of users.
+ *   The GroupUsers Class interacts with Galaxy to manage users of groups.
  *   The functions in this class correspond to the Galaxy API functions and
  *   are named similarly to their Python counterpart.
  * @}
  */
 include_once "GalaxyRequest.inc";
+
 class GroupUsers extends GalaxyRequest {
 
 	/**
-	 * The Group Users constructor.
+	 * The GroupUsers constructor.
 	 *
 	 * @param GalaxyInstance $galaxy
 	 *   A GalaxyInstance object.

@@ -56,7 +56,7 @@ class Groups extends GalaxyRequest {
   }
 
   /**
-   * Create a new user group.
+   * Create a new group.
    *
    * Corresponds to the Galaxy API method and path: POST /api/groups.
    *
