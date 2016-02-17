@@ -92,7 +92,7 @@ class Groups extends GalaxyRequest {
    * GET /api/groups/{encoded_group_id}
    *
    * @param $group_id
-   *   The id of the group to modify.  Group IDs can be found using the
+   *   The id of the specific group to show.  Group IDs can be found using the
    *   index() function of this class.
    * @return
    *   A JSON array containing details about the group.
