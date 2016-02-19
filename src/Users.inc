@@ -64,7 +64,7 @@ class Users extends GalaxyRequest {
       return "Error obtianing user id, have you entered the correct username?";
     }
 
-    $URL = $this->galaxy->getURL() .'/api/users/' .$user_id ."/api_key/?key=" .$this->galaxy->getAPIKey();
+    $URL = $this->galaxy->getURL() .'/api/users/' .$user_id .'/api_key/?key=' .$this->galaxy->getAPIKey();
     return $this->rest->GET($URL);
   }
 
@@ -73,7 +73,7 @@ class Users extends GalaxyRequest {
    * Creates a new API key for specified user.
    */
   function api_key($user_id) {
-    $URL = $this->galaxy->getURL() .'/api/users/' .$user_id ."/api_key/?key=" .$this->galaxy->getAPIKey();
+    $URL = $this->galaxy->getURL() .'/api/users/' .$user_id .'/api_key/?key=' .$this->galaxy->getAPIKey();
     return $this->rest->POST($URL);
   }
 
@@ -134,7 +134,7 @@ class Users extends GalaxyRequest {
    * config/galaxy.ini configuration file.
    */
   function create($username, $user_email, $password) {
-    $URL = $this->galaxy->getURL() .'/api/users/' ."?key=" .$this->galaxy->getAPIKey();
+    $URL = $this->galaxy->getURL() .'/api/users/' .'?key=' .$this->galaxy->getAPIKey();
 
     $input = array('username' => $username,'email' => $user_email,'password' => $password);
 
@@ -157,10 +157,10 @@ class Users extends GalaxyRequest {
    * DELETE /api/users/{id}
    * delete the user with the given ``id``
    *
-   * Python Method not implemented
+   * TODO: Finish This
    */
   function delete($id, $purge = false) {
-    $URL = $this->galaxy->getURL() .'/api/users/' .$id ."/?key=" .$this->galaxy->getAPIKey();
+    $URL = $this->galaxy->getURL() .'/api/users/' .$id .'/?key=' .$this->galaxy->getAPIKey();
     return $this->rest->delete($URL);
   }
 }

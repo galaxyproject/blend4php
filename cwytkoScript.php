@@ -6,6 +6,8 @@ require_once './src/Requests.inc';
 require_once './src/Folders.inc';
 require_once './src/FolderContents.inc';
 require_once './src/Users.inc';
+require_once './tests/loadConfig.php';
+
 // Connect and authenticate via galaxy.
 // Break all code down into logical blocks.
 $galaxy = new GalaxyInstance('localhost','8080', FALSE);
@@ -16,6 +18,7 @@ $usr = new Users($galaxy);
 
 //print $usr->index(false, 'cgpwytko@gmail.com', NULL, false);
 //$usr->show($username)
+//$usr->create('teri', 'spooky@mail.com', 'gooby');
 
 
 

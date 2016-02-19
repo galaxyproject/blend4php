@@ -9,7 +9,7 @@ require_once "../src/RequestError.php";
  */
 
 
-class GalaxyInstanceTest extends PHPUnit_Framework_TestCase {
+class RequestErrorTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * Tests the parseCURLResponse function to see if it can catch all of the errors.
@@ -25,7 +25,7 @@ class GalaxyInstanceTest extends PHPUnit_Framework_TestCase {
   public function testparseCURLResponse(){
 	// Construct Dummy object
 	
-	  // Test1 1: tests case #1 with messae not in JSON format.
+	  // Test 1: test case #1 with message not in JSON format.
   	$dummy = 'asdaljfa;lskjfaf';
   	$handler = new RequestError();
   	$response = $handler->parseCURLResponse($dummy);

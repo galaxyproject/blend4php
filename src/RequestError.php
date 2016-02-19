@@ -27,6 +27,9 @@ class RequestError {
    *   TRUE if error was found, FALSE otherwise.
    */
   public function parseCURLResponse($response) {
+  	print "\n\n\n";
+  	var_dump($response);
+  	print "\n\n\n";
   	$response = json_decode($response, TRUE);
   	
   	// Case 1:  There message is not in JSON format.
@@ -57,6 +60,7 @@ class RequestError {
     }
 
     // Case 4:  No error found.
+    
     return $response;
   }
 

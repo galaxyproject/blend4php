@@ -70,7 +70,7 @@ class Histories extends GalaxyRequest {
 
      $inputs = array(
        'name' => $name,
-     	'annotation'=>$annotation,
+     	 'annotation'=>$annotation,
        'tool_version' => $archive_source,
        'archive_type' => $archive_type,
        'history_id'=>	$history_id,

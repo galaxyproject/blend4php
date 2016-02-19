@@ -29,12 +29,13 @@ class RESTManager {
     curl_setopt($ch, CURLOPT_URL, $URL);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, True);
     $output = curl_exec($ch);
+    
     if ($output === FALSE) {
       $this->requestError->setError('HTTP', curl_error($ch));
       return FALSE;
     }
     curl_close($ch);
-
+    
     return $this->requestError->parseCURLResponse($output);
   }
 
@@ -50,7 +51,7 @@ class RESTManager {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $URL);
     curl_setopt($ch, CURLOPT_POST, 1);
-    if ($input !==NULL) {
+    if ($input !== NULL) {
       curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($input));
       // curl_setopt($ch, CURLOPT_POSTFIELDS,$input);
     }
@@ -59,23 +60,22 @@ class RESTManager {
     // receive server response ...
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, True);
     $message = curl_exec($ch);
-
-    if ($message ===FALSE) {
+    var_dump($message);
+    
+    if ($message === FALSE) {
       $this->requestError->setError('HTTP', curl_error($ch));
       return FALSE;
     }
     curl_close($ch);
-    
+
     return $this->requestError->parseCURLResponse($message);
   }
 
   /**
    * Universal PUT request
    *
-   * @param
-   *          array Input
-   * @param
-   *          str url
+   * @param Input
+   * @param url
    *
    * @return curl server response
    */
@@ -84,7 +84,7 @@ class RESTManager {
     curl_setopt($ch, CURLOPT_URL, $URL);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
-    if ($input !=NULL) {
+    if ($input != NULL) {
       print http_build_query($input);
       curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($input));
     }
@@ -110,7 +110,7 @@ class RESTManager {
    * @return
    *   curl server response
    */
-  public function delete($URL, $input = NULL) {
+  public function DELETE($URL, $input = NULL) {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $URL);
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
