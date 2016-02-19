@@ -1,6 +1,6 @@
 <?php
 
-require_once '../src/GalaxyInstance.inc';;
+require_once '../src/GalaxyInstance.inc';
 
 /**
  * @file
@@ -81,11 +81,11 @@ class GalaxyInstanceTest extends PHPUnit_Framework_TestCase {
     // Test a proper user authentcation. First check that the function
     // will return true.
     $retval = $galaxy->authenticate('cgpwytko@gmail.com', 'potato15');
-    $this->assertTRUE($retval);
+    $this->assertTrue($retval);
 
     // Next, test an incorrect username/password.
     $retval = $galaxy->authenticate('cgpwytko@gmail.com', 'potato5');
-    $this->assertTRUE($retval);
+    $this->assertTrue($retval);
 
   }
 

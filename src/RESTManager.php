@@ -19,10 +19,8 @@ class RESTManager {
   /**
    * Universal GET request
    *
-   * @param
-   *          array Input
-   * @param
-   *          str url
+   * @param Input
+   * @param url
    *
    * @return curl server response
    */
@@ -31,26 +29,20 @@ class RESTManager {
     curl_setopt($ch, CURLOPT_URL, $URL);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, True);
     $output = curl_exec($ch);
-    if ($output ===FALSE) {
+    if ($output === FALSE) {
       $this->requestError->setError('HTTP', curl_error($ch));
       return FALSE;
     }
     curl_close($ch);
 
-    if ($this->requestError->parseCURLError($output)) {
-      $output = FALSE;
-    }
-
-    return $output;
+    return $this->requestError->parseCURLResponse($output);
   }
 
   /**
    * Universal POST request
    *
-   * @param
-   *          array Input
-   * @param
-   *          str url
+   * @param Input
+   * @param url
    *
    * @return curl server response
    */
@@ -73,11 +65,8 @@ class RESTManager {
       return FALSE;
     }
     curl_close($ch);
-    if ($this->requestError->parseCURLError($message)) {
-      return FALSE;
-    }
-
-    return $message;
+    
+    return $this->requestError->parseCURLResponse($message);
   }
 
   /**
@@ -109,11 +98,7 @@ class RESTManager {
     }
     curl_close($ch);
 
-    if ($this->requestError->parseCURLError($message)) {
-      $message = FALSE;
-    }
-
-    return $message;
+    return $this->requestError->parseCURLResponse($message);
   }
 
   /**
@@ -142,11 +127,7 @@ class RESTManager {
     }
     curl_close($ch);
 
-    if ($this->requestError->parseCURLError($message)) {
-      $message = FALSE;
-    }
-
-    return $message;
+    return $this->requestError->parseCURLResponse($message);
   }
 
   /**
