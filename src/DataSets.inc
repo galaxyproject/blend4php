@@ -2,11 +2,21 @@
 /**
  * @file
  *
- * API operations on a history.
+ * Implements the DataSets class.
  *
- * Functions correspond to the Galaxy API file at:
- * https://github.com/galaxyproject/galaxy/blob/dev/lib/galaxy/webapps/galaxy/api/histories.py
+ * The DataSets Class interacts with Galaxy to manage DataSet information.
+ * The functions in this class correspond to the Galaxy API functions and
+ * are named similarly to their Python counterpart.
  *
+ */
+
+/**
+ * @defgroup data_sets_class DataSets class
+ * @{
+ *   The DataSets Class interacts with Galaxy to manage DataSets.
+ *   The functions in this class correspond to the Galaxy API functions and
+ *   are named similarly to their Python counterpart.
+ * @}
  */
 require_once 'GalaxyRequest.inc';
 

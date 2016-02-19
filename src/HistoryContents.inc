@@ -12,7 +12,7 @@
  */
 
 /**
- * @defgroup history_contents_class Histories class
+ * @defgroup history_contents_class HistoryContents class
  * @{
  *   The Histories Class interacts with Galaxy to manage history data.
  *   The functions in this class correspond to the Galaxy API functions and
