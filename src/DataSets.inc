@@ -23,11 +23,17 @@ require_once 'GalaxyRequest.inc';
 
 class Datasets extends GalaxyRequest {
 
-
   /**
-   *
-   * @param unknown $galaxy
-   */
+	* The DataSets constructor.
+	*
+	* @param GalaxyInstance $galaxy
+	*   A GalaxyInstance object.
+	*
+	* @return
+	*   An instance of a Histories object.
+	*
+	* @ingroup data_sets_class
+	*/
    public function __construct($galaxy) {
    	parent::__construct($galaxy);
    }

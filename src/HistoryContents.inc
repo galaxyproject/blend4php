@@ -23,19 +23,18 @@ require_once 'GalaxyRequest.inc';
 
 
 class HistoryContents extends GalaxyRequest {
-
-
-	/**
-	 * The HistoryContents constructor.
-	 *
-	 * @param GalaxyInstance $galaxy
-	 *   A GalaxyInstance object.
-	 *
-	 * @return
-	 *   An instance of a Histories object.
-	 *
-	 * @ingroup history_content_class
-	 */	
+	
+ /**
+   * The HistoryContents constructor.
+   *
+   * @param GalaxyInstance $galaxy
+   *   A GalaxyInstance object.
+   *
+   * @return
+   *   An instance of a HistoryContents object.
+   *
+   * @ingroup history_content_class
+   */	
   public function __construct($galaxy) {
     parent::__construct($galaxy);
   }
