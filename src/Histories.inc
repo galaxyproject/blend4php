@@ -42,10 +42,10 @@ class Histories extends GalaxyRequest {
     *  Create a new History component in Galaxy.
     *  
     *  Corresponds to the Galaxy API method and path: 
-    *  POST /api/histories:
+    *    POST /api/histories:
     *
     *  Creates a new  history in a galaxy instance
-    *  Note the option to pass 'keys' and 'views' is currently not supported
+    *    Note the option to pass 'keys' and 'views' is currently not supported
     *
     * @param name 
     *   the new history’s name
