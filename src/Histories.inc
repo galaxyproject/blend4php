@@ -282,6 +282,7 @@ class Histories extends GalaxyRequest {
    	$URL = $this->galaxy->getURL() . '/api/histories/shared_with_me/?key=' . $this->galaxy->getAPIKey();
    	return $this->rest->GET($URL);
    }
+   
 
 }
 

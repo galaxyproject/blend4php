@@ -44,12 +44,12 @@ class HistoryContents extends GalaxyRequest {
    * Create a new HistoryContents component to a given history
    * 
    * Corresponds to the Galaxy API method at: 
-   * POST /api/histories/{history_id}/contents/datasets
+   *  POST /api/histories/{history_id}/contents/datasets
    *
    * create a new History Dataset Association by copying an
-   * accessible LibraryDataset or History Dataset Association, and assigning it to the given history_id
-   * NOTE, currently, only creating new 'datasets' is supported,
-   * as opposed to creating dataset Collections
+   *  accessible LibraryDataset or History Dataset Association, and assigning it to the given history_id
+   *  NOTE, currently, only creating new 'datasets' is supported,
+   *  as opposed to creating dataset Collections
    *
    * @param history_id
    *   history id of the history to update. To find, please refer to 
@@ -140,7 +140,7 @@ class HistoryContents extends GalaxyRequest {
    *
    * @param history_id
    *   history id of the history to update. To find, please refer to 
-   *   'Histories' class. 
+   *  'Histories' class. 
    * @param content_id
    *   content id of the content to update the history with, can be a dataset
    *   to find dataset id's go to:
