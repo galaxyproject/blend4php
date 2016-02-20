@@ -2,73 +2,118 @@
 /**
  * @file
  *
- * API operations on a history.
+ * Implements the DataTypes class.
  *
- * Functions correspond to the Galaxy API file at:
- * https://github.com/galaxyproject/galaxy/blob/dev/lib/galaxy/webapps/galaxy/api/histories.py
+ * The DataTypes Class interacts with Galaxy to manage DataType information.
+ * The functions in this class correspond to the Galaxy API functions and
+ * are named similarly to their Python counterpart.
  *
+ */
+
+/**
+ * @defgroup data_types_class DataTypes class
+ * @{
+ *   The DataTypes Class interacts with Galaxy to manage DataTypes.
+ *   The functions in this class correspond to the Galaxy API functions and
+ *   are named similarly to their Python counterpart.
+ * @}
  */
 require_once 'GalaxyRequest.inc';
 
 
-/**
- *
- *
- */
 class Datatypes extends GalaxyRequest {
 
+	/**
+	 * The DataTypes constructor.
+	 *
+	 * @param GalaxyInstance $galaxy
+	 *   A GalaxyInstance object.
+	 *
+	 * @return
+	 *   An instance of a Datatypes object.
+	 *
+	 * @ingroup data_sets_class
+	 */
+    public function __construct($galaxy) {
+   	  parent::__construct($galaxy);
+     }
 
-  /**
-   *
-   * @param unknown $galaxy
-   */
-   public function __construct($galaxy) {
-   	parent::__construct($galaxy);
-   }
-
    
-   /**
-    *   GET /api/datatypes/sniffers
-        Return a list of sniffers.
-    */
-   public function sniffers(){
-   	$URL = $this->galaxy->getURL() . '/api/datatypes/sniffers/?key=' . $this->galaxy->getAPIKey();
-   	return $this->rest->GET($URL);
-   	
-   }
+    /**
+     * Retreive a list of all datatype sniffers. 
+     * 
+     * Corresponds to the Galaxy API/Path: 
+     *   GET /api/datatypes/sniffers
+     *   
+     * @return 
+     *   JSON array containing sniffers of all datatypes 
+     *   
+	 * @ingroup data_types_class   
+     */
+    public function sniffers(){
+   	  $URL = $this->galaxy->getURL() . '/api/datatypes/sniffers/?key=' . $this->galaxy->getAPIKey();
+   	  return $this->rest->GET($URL);	
+    }
    
-   /**
-    * 	GET /api/datatypes/converters
-        Return a list of converters.
-    */
-   public function converters(){
-   	$URL = $this->galaxy->getURL() . '/api/datatypes/converters/?key=' . $this->galaxy->getAPIKey();
-   	return $this->rest->GET($URL);
-   }
+    /**
+     * Retreive a list of all datatype converters.
+     *
+     * Corresponds to the Galaxy API/Path:
+     *   GET /api/datatypes/converters
+     *
+     * @return
+     *   JSON array containing converters of all datatypes
+     *
+     * @ingroup data_types_class
+     */
+    public function converters(){
+   	 $URL = $this->galaxy->getURL() . '/api/datatypes/converters/?key=' . $this->galaxy->getAPIKey();
+   	 return $this->rest->GET($URL);
+    }
    
-   /**
-    * 	GET /api/datatypes/edam_formats
-        Return a list of converters.
-    */
+    /**
+     * Retreive a list of all datatypes in the edam format.
+     *
+     * Corresponds to the Galaxy API/Path:
+     *   GET /api/datatypes/edam_formats
+     *
+     * @return
+     *   JSON array containing all datatypes in edam_format.
+     *
+     * @ingroup data_types_class
+     */
    public function edam_formats(){
    	$URL = $this->galaxy->getURL() . '/api/datatypes/edam_formats/?key=' . $this->galaxy->getAPIKey();
    	return $this->rest->GET($URL);
    }
    
    /**
-        GET /api/datatypes/mapping
-        Return a dictionary of class to class mappings.
+    * Retreive a list of all datatypes in mapping.
+    *
+    * Corresponds to the Galaxy API/Path:
+    *   GET /api/datatypes/mapping.
+    *
+    * @return
+    *   JSON array containing all datatypes in mapping.
+    *
+    * @ingroup data_types_class
     */
    public function mapping () {
    	$URL = $this->galaxy->getURL() . '/api/datatypes/mapping/?key=' . $this->galaxy->getAPIKey(); 	
    	return $this->rest->GET($URL);
    }
    
-   
-   
-	/**
-	 * GET /api/datatypes Lists datatypes.
-	 */   
+   /**
+    * Retreive a list of all datatypes 
+    *
+    * Corresponds to the Galaxy API/Path:
+    *   GET /api/datatypes/
+    *
+    * @return
+    *   JSON array containing all datatypes 
+    *
+    * @ingroup data_types_class
+    */ 
  	public function index(){
  	 $URL = $this->galaxy->getURL() . '/api/datatypes/?key=' . $this->galaxy->getAPIKey();
  	 return $this->rest->GET($URL); 		

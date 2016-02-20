@@ -23,17 +23,17 @@ require_once 'GalaxyRequest.inc';
 
 class Datasets extends GalaxyRequest {
 
-  /**
-	* The DataSets constructor.
-	*
-	* @param GalaxyInstance $galaxy
-	*   A GalaxyInstance object.
-	*
-	* @return
-	*   An instance of a Histories object.
-	*
-	* @ingroup data_sets_class
-	*/
+   /**
+	 * The DataSets constructor.
+	 *
+	 * @param GalaxyInstance $galaxy
+	 *   A GalaxyInstance object.
+	 *
+	 * @return
+	 *   An instance of a DataSet object.
+	 *
+	 * @ingroup data_sets_class
+	 */
    public function __construct($galaxy) {
    	parent::__construct($galaxy);
    }
@@ -107,8 +107,9 @@ class Datasets extends GalaxyRequest {
  	 * Corresponds to the Galaxy Api function and path:
  	 *   GET /api/datasets/{encoded_dataset_id} 
  	 *   
- 	 * @param str $dataset_id
+ 	 * @param $dataset_id
  	 *   The dataset id whos information the function is retreiving.
+ 	 *   To obtain the dataset id, please use the Display function.
  	 *   
      * @return 
      *   Json array containing information about the matching dataset. 
