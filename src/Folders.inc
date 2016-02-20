@@ -2,62 +2,81 @@
 /**
  * @file
  *
- * API operations on folders.
+ * Implements the Folders class.
  *
- * Functions correspond to the Galaxy API file at:
- * https://github.com/galaxyproject/galaxy/blob/dev/lib/galaxy/webapps/galaxy/api/folders.py
+ * The Folders Class interacts with Galaxy to manage contents of a folder.
+ * The functions in this class correspond to the Galaxy API functions and
+ * are named similarly to their Python counterpart.
  *
+ */
+
+/**
+ * @defgroup folders_class Folders class
+ * @{
+ *   The folders Class interacts with Galaxy to manage
+ *   its folders. The functions in this class correspond to the Galaxy
+ *   API functions and are named similarly to their Python counterpart.
+ * @}
  */
 require_once 'GalaxyRequest.inc';
 
 
-/**
- *
- *
- */
+
 class Folders extends GalaxyRequest {
 
 
   /**
-   *
-   * @param unknown $galaxy
-   */
+	* The Folders constructor.
+	*
+	* @param GalaxyInstance $galaxy
+	*   A GalaxyInstance object.
+	*
+	* @return
+	*   An instance of a Folders object.
+	*
+	* @ingroup folder_contents_class
+	*/
    public function __construct($galaxy) {
    	parent::__construct($galaxy);
    }
 
    /**
-    * GET /api/folders/{folder_id}
+    * Retreive information about a specific folder
+    * 
+    * Corresponds to the Galaxy API function/path:
+    *   GET /api/folders/{folder_id}
     *
-    * Displays information about a folder
-    *
-    * The $folder_id must have an 'F' prefixing the id string
-    *
-    * @param str $folder_id
-    * The folder that you would like to see
-    *
-    * One indirect way to find the folder id (in the browser environment at
-    * least) would be to hover your cursor over the Edit information option on
-    * the dropdown menu on a given folder and copy the last parameter on the url
-    * (which would be the folder's id)
-    *
+    * @param $folder_id
+    *   The folder that you would like to see. Please see the index()
+    *   function in this class to obtain folder ids.
+    *   
+    * @return 
+    *   JSON array containing information about the specified folder.   
+    *   
+	* @ingroup folder_contents_class
     */
    public function show ($folder_id) {
    	$URL = $this->galaxy->getURL() . '/api/folders/' . 'F' . $folder_id .'/?key=' . $this->galaxy->getAPIKey();
    	return $this->rest->GET($URL);
    }
 
-
    /**
-    * POST /api/folders/{encoded_parent_folder_id}
+    * Create a new folder.
+    * 
+    * Corresponds to the API function/path:
+    *   POST /api/folders/{encoded_parent_folder_id}
     *
-    * @param string $parent_folder_id
-    * The id of the parent folder that this folder will be created under
-    * @param string $name
-    * The name of your folder
-    * @param string $description
-    * The description of your folder
-    *
+    * @param $parent_folder_id
+    *   The id of the parent folder that this folder will be created under.
+    * @param $name
+    *   The name of your folder.
+    * @param $description
+    *   The description of your folder.
+    *   
+    * @return 
+    *   A JSON array containing information on the new folder.
+    *   
+	* @ingroup folder_contents_class   
     */
    public function create($parent_folder_id, $name, $description){
    	$URL = $this->galaxy->getURL() . '/api/folders/' . 'F' . $parent_folder_id . '/?key=' . $this->galaxy->getAPIKey();
@@ -69,13 +88,19 @@ class Folders extends GalaxyRequest {
    }
 
 	/**
-	 * GET /api/folders/{folder_id}/permissions
+	 * Load all permissions for the folder with the given id.
+	 * 
+	 * Corresponds to the Galaxy API/Path:
+	 *   GET /api/folders/{folder_id}/permissions
 	 *
-	 * Load all permissions for the folder id.
+	 * @param $folder_id
+	 *   The id of the folder to view permissions. The id can be ontained
+	 *   using the index() function in this class.
 	 *
-	 * @param string $folder_id
-	 * The folder you want to view permissions
-	 *
+     * @return 
+     *   A JSON array containing permission information on a specified folder.
+     *   
+	 * @ingroup folder_contents_class  
 	 */
  	public function get_permissions($folder_id){
  	 $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' .$folder_id . '/permissions' .'?key=' . $this->galaxy->getAPIKey();

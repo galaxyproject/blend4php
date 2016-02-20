@@ -11,7 +11,7 @@
  */
 
 /**
- * @defgroup folder_contents_class DataTypes class
+ * @defgroup folder_contents_class FolderContents class
  * @{
  *   The folder contents Class interacts with Galaxy to manage 
  *   content of folders. The functions in this class correspond to the Galaxy 
@@ -186,10 +186,10 @@ class FolderContents extends GalaxyRequest {
  	 *
  	 *  Only admin users can update folders.
  	 *
- 	 * @param string $folder_id
+ 	 * @param $folder_id
  	 *   The folder you want to update
- 	 * @param  $array $payload
- 	 *   contains 'name' => [new_name] and 'description' => [can be null].
+ 	 * @param $payload
+ 	 *   An array that contains 'name' => [new_name] and 'description' => [can be null].
  	 *   
  	 * @return 
 	 *   Json array containing details about the deleted file history content.
