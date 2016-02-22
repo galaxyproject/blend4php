@@ -18,9 +18,8 @@
  *   API functions and are named similarly to their Python counterpart.
  * @}
  */
+
 require_once 'GalaxyRequest.inc';
-
-
 
 class Folders extends GalaxyRequest {
 
@@ -102,7 +101,7 @@ class Folders extends GalaxyRequest {
      *   
 	 * @ingroup folder_contents_class  
 	 */
- 	public function get_permissions($folder_id){
+ 	public function getPermissions($folder_id){
  	 $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' .$folder_id . '/permissions' .'?key=' . $this->galaxy->getAPIKey();
  	 return $this->rest->GET($URL);
  	}
@@ -131,7 +130,7 @@ class Folders extends GalaxyRequest {
  	 *
  	 * @ingroup folders_class
  	 */
- 	public function set_permissions($folder_id, $add_ids, $manage_ids, $modify_ids){
+ 	public function setPermissions($folder_id, $add_ids, $manage_ids, $modify_ids){
  		$URL = $this->galaxy->getURL() . '/api/folders/' . 'F' .$folder_id . '/permissions' .'?key=' . $this->galaxy->getAPIKey();
  		$postfields = array(
  				'action' => 'set_permissions',
