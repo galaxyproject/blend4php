@@ -11,12 +11,12 @@ class Libraries extends GalaxyRequest{
  * @param GalaxyInstance $galaxy
  */
  public function __construct($galaxy) {
-	parent ::__construct($galaxy);
+   parent ::__construct($galaxy);
  }
 
 
  /**
- 	 POST /api/libraries:
+    POST /api/libraries:
 
      Creates a new library. Only ``name`` parameter is required.
 
@@ -26,13 +26,13 @@ class Libraries extends GalaxyRequest{
   *
   */
  public function create($name, $description=NULL, $synopsis=NULL) {
- 	$URL = $this->galaxy->getURL() .'/api/libraries/?key='. $this->galaxy->getAPIKey();
- 	$inputs = array(
- 			'name' => $name,
- 			'description'=> $description,
- 			'synopsis' => $synopsis,
- 	);
- 	return $this->rest->POST($URL, $inputs);
+   $URL = $this->galaxy->getURL() .'/api/libraries/?key='. $this->galaxy->getAPIKey();
+   $inputs = array(
+       'name' => $name,
+       'description'=> $description,
+       'synopsis' => $synopsis,
+   );
+   return $this->rest->POST($URL, $inputs);
  }
 
  /**
@@ -43,8 +43,8 @@ class Libraries extends GalaxyRequest{
   * @param string deleted, if true, show deleted libraries
   */
  public function index($deleted=false){
-  $URL = $this->galaxy->getURL() . '/api/libraries/?deleted=' . $deleted . '&key='. $this->galaxy->getAPIKey();
-  return $this->rest->GET($URL);
+   $URL = $this->galaxy->getURL() . '/api/libraries/?deleted=' . $deleted . '&key='. $this->galaxy->getAPIKey();
+   return $this->rest->GET($URL);
  }
 
  /**
@@ -57,12 +57,13 @@ class Libraries extends GalaxyRequest{
   * @param bool $deleted the option to show deleted libraries
   */
  public function show($lib_id, $deleted=false){
- 	if(!$deleted) {
- 	$URL = $this->galaxy->getURL() . '/api/libraries/' . $lib_id . '/?key='. $this->galaxy->getAPIKey();
- 	}else {
- 	$URL =  $this->galaxy->getURL() . '/api/libraries/deleted/' . $lib_id . '/?key='. $this->galaxy->getAPIKey();
- 	}
- 	return $this->rest->GET($URL);
+   if(!$deleted) {
+     $URL = $this->galaxy->getURL() . '/api/libraries/' . $lib_id . '/?key='. $this->galaxy->getAPIKey();
+   }
+   else {
+     $URL =  $this->galaxy->getURL() . '/api/libraries/deleted/' . $lib_id . '/?key='. $this->galaxy->getAPIKey();
+   }
+   return $this->rest->GET($URL);
  }
 
  /**
@@ -85,15 +86,15 @@ class Libraries extends GalaxyRequest{
   * @param bool undelete option to undelete item
   */
  public function delete($lib_id,$undelete=false){
- 	$URL = $this->galaxy->getURL() . '/api/libraries/' . $lib_id . '/?key='. $this->galaxy->getAPIKey();
- 	$elements = array(
- 		'undelete' => $undelete,
- 	);
- 	return $this->rest->delete($URL, $elements);
+   $URL = $this->galaxy->getURL() . '/api/libraries/' . $lib_id . '/?key='. $this->galaxy->getAPIKey();
+   $elements = array(
+     'undelete' => $undelete,
+   );
+   return $this->rest->delete($URL, $elements);
  }
 
 /**
-  GET /api/libraries/{id}/permissions
+  GET /api/libraries/{encoded_library_id}/permissions
 
 Load all permissions for the given library id and return it.
  *
@@ -101,11 +102,11 @@ Load all permissions for the given library id and return it.
  * @param string $scope, the scope of the permission, either 'available' or 'current'
  * @param bool $is_library_access
  */
- public function get_permissions($lib_id, $scope='available',$is_library_access=true ) {
- 	$URL = $this->galaxy->getURL() . '/api/libraries/' . $lib_id .'/permissions/?scope='
- 			. $scope . '&is_library_access='.$is_library_access. '/&ey='. $this->galaxy->getAPIKey();
+ public function getPermissions($lib_id, $scope='available',$is_library_access=true ) {
+   $URL = $this->galaxy->getURL() . '/api/libraries/' . $lib_id .'/permissions/?scope='
+       . $scope . '&is_library_access='.$is_library_access. '/&ey='. $this->galaxy->getAPIKey();
 
- 	return $this->rest->GET($URL);
+   return $this->rest->GET($URL);
  }
 
 /**
@@ -114,29 +115,28 @@ Load all permissions for the given library id and return it.
  * @param string $lib_id the id of the library to set permissions to
  * @param string $action either 'remove_restrictions' or 'set_permissions'
  * @param array $access_ids list of role.id deining roles that should have access permissions
- * 		on the library
+ *     on the library
  * @param array $add_idslist of role.id defining roles that should have add item permissions
- * 		on the library
+ *     on the library
  * @param array $manage_ids list of role.id defining roles that should have manage permissions
- * 		on the library
+ *     on the library
  * @param array $modify_ids list of role.id defining roles that should have  modify permissions
- * 		on the library
+ *     on the library
  */
- public function set_permissions($lib_id, $action='set_permissions',$access_ids = array(),
- 		$add_ids=array(), $manage_ids = array(), $modify_ids = array()){
+ public function setPermissions($lib_id, $action='set_permissions',
+     $access_ids = array(), $add_ids=array(), $manage_ids = array(),
+     $modify_ids = array()){
 
- 	$URL = $this->galaxy->getURL() . '/api/libraries/' . $lib_id . '/permissions/?key='. $this->galaxy->getAPIKey();
+   $URL = $this->galaxy->getURL() . '/api/libraries/' . $lib_id . '/permissions/?key='. $this->galaxy->getAPIKey();
 
- 	$elements= array(
- 		'action' => $action,
- 		'access_ids[]' => $access_ids,
- 		'add_ids[]' => $add_ids,
- 		'manage_ids[]'=>$manage_ids,
- 		'modify_ids[]'=>$modify_ids,
- 	);
+   $elements= array(
+     'action' => $action,
+     'access_ids[]' => $access_ids,
+     'add_ids[]' => $add_ids,
+     'manage_ids[]'=>$manage_ids,
+     'modify_ids[]'=>$modify_ids,
+   );
 
- 	return $this->rest->POST($URL, $elements);
+   return $this->rest->POST($URL, $elements);
  }
-
-
-}// end libraries class
+}

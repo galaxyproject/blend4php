@@ -1,5 +1,5 @@
 <?php
-require_once 'RequestError.php';
+require_once 'RequestError.inc';
 
 /**
  * Here a lies a class responsible for distributing the appropriat rest commands for the galaxy functionality
@@ -29,13 +29,13 @@ class RESTManager {
     curl_setopt($ch, CURLOPT_URL, $URL);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, True);
     $output = curl_exec($ch);
-    
+
     if ($output === FALSE) {
       $this->requestError->setError('HTTP', curl_error($ch));
       return FALSE;
     }
     curl_close($ch);
-    
+
     return $this->requestError->parseCURLResponse($output);
   }
 
@@ -60,8 +60,7 @@ class RESTManager {
     // receive server response ...
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, True);
     $message = curl_exec($ch);
-    var_dump($message);
-    
+
     if ($message === FALSE) {
       $this->requestError->setError('HTTP', curl_error($ch));
       return FALSE;

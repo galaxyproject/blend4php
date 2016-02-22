@@ -22,7 +22,7 @@ class Workflows extends GalaxyRequest{
    *
    * @param bool is_published
    */
-  public function index ($is_published = NULL){
+  public function index($is_published = NULL){
     $i = curl_init();
     $api_key = $this->galaxy->getAPIKey();
 
@@ -89,7 +89,7 @@ class Workflows extends GalaxyRequest{
    *   This function designed for simply seeing the entities of the Workflow
    *   without seeing it through the browser
    */
-  public function export_workflow_json($workflow_id) {
+  public function export($workflow_id) {
     $api_key = $this->galaxy->getAPIKey();
 
     $url = $this->galaxy->getURL() . '/api/workflows/' . $workflow_id . '?key=' . $api_key;
@@ -118,7 +118,7 @@ class Workflows extends GalaxyRequest{
    *   Returns a selected workflow as a json dictionary
    *   input param workflow_id
    */
-  public function workflow_dict($workflow_id, $file_local_path,
+  public function workflowDict($workflow_id, $file_local_path,
     $use_default_filename = TRUE) {
 
     $api_key = $this->galaxy->getAPIKey();
@@ -182,7 +182,6 @@ class Workflows extends GalaxyRequest{
         $notNullInputs[$element] = $value;
       }
     }
-    var_dump($notNullInputs);
     return $this->rest->PUT($url, $notNullInputs);
   }
 
@@ -199,9 +198,10 @@ class Workflows extends GalaxyRequest{
    *   dataset_ids can be found at /api/histories/history_id/content
    * @param string $annotation, annotation for the module
    */
-  public function build_module($tool_id,$tool_input_ids=NULL, $tool_version=NULL,
+  public function buildModule($tool_id,$tool_input_ids=NULL, $tool_version=NULL,
       $annotation=NULL){
-    $url = $this->galaxy->getURL() . '/api/workflows/build_module/?key=' . $this->galaxy->getAPIKey();
+
+  $url = $this->galaxy->getURL() . '/api/workflows/build_module/?key=' . $this->galaxy->getAPIKey();
   $i =0;
   // Follow same formating at imputting ids as invoke
   $input_ids = array();
@@ -212,7 +212,7 @@ class Workflows extends GalaxyRequest{
         $i++;
       }
     }
-    var_dump($input_ids);
+
     $elements = array(
       'tool_id'=>$tool_id,
       'tool_version'=>$tool_version,
@@ -241,7 +241,7 @@ class Workflows extends GalaxyRequest{
 
    * @param string $workflow_id
    */
-  public function index_invocations($workflow_id){
+  public function indexInvocations($workflow_id){
     $url = $this->galaxy->getURL() . '/api/workflows/' .
     $workflow_id . 'invocations/?key=' . $this->galaxy->getAPIKey();
     return $this->rest->GET($url);
@@ -256,7 +256,7 @@ class Workflows extends GalaxyRequest{
    * @param string $workflow_id
    * @param string $invocation_id
    */
- public function show_invocations($workflow_id, $invocation_id) {
+ public function showInvocations($workflow_id, $invocation_id) {
    $url = $this->galaxy->getURL() . '/api/workflows/' .
        $workflow_id . 'invocations/'.$invocation_id.'/?key=' . $this->galaxy->getAPIKey();
    return $this->rest->GET($url);
@@ -271,7 +271,7 @@ class Workflows extends GalaxyRequest{
   * @param string $workflow_id
   * @param string $invocation_id
   */
- public function cancel_invocation($workflow_id, $invocation_id){
+ public function cancelInvocation($workflow_id, $invocation_id){
    $url = $this->galaxy->getURL() . '/api/workflows/' .
        $workflow_id . 'invocations/'.$invocation_id.'/?key=' . $this->galaxy->getAPIKey();
    return $this->rest->delete($url);
@@ -287,7 +287,7 @@ class Workflows extends GalaxyRequest{
   * @param string $invocation_id
   * @param string $step_id
   */
- public function invocation_steps($workflow_id, $invocation_id, $step_id){
+ public function invocationSteps($workflow_id, $invocation_id, $step_id){
    $url = $this->galaxy->getURL() . '/api/workflows/' .
        $workflow_id . 'invocations/'.$invocation_id.'/?key=' . $this->galaxy->getAPIKey();
    return $this->rest->delete($url);
@@ -306,46 +306,12 @@ class Workflows extends GalaxyRequest{
   * @param string $invocation_id
   * @param string $step_id
   */
- public function update_invocation_steps($workflow_id, $invocation_id, $step_id){
+ public function updateInvocationSteps($workflow_id, $invocation_id, $step_id){
    $url = $this->galaxy->getURL() . '/api/workflows/' .
        $workflow_id . '/invocations/'.$invocation_id.'/steps/'
            .$step_id . '/?key=' . $this->galaxy->getAPIKey();
    return $this->rest->PUT($url);
  }
-
-
-  /**
-   * Deprecated to...
-   * @param string $workflow_id Encoded
-   * @param string  $label
-   */
-  public function get_workflow_inputs($workflow_id, $label) {
-    $api_key = $this->galaxy->getAPIKey();
-
-    $url = $this->galaxy->getURL() . '/api/workflows/' . $workflow_id . '/?key=' . $api_key;
-
-    $result = $this->rest->GET($url);
-
-    $array = json_decode($result, true);
-
-    $inputs = $array['inputs'];
-
-    $found = 0;
-    foreach ($inputs as &$templabel){
-      $labelArray = $templabel;
-      if ($labelArray['label'] == $label){
-        print ($labelArray['label']) . " is a workflow input\n";
-        $found = 1;
-      }
-    }
-
-    if ($found == 0){
-      print "No workflow inputs of this label found\n";
-    }
-
-
-  }
-
 
   /**
    * TODO: What function does this map to in worklow.py ???

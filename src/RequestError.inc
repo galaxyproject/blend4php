@@ -27,23 +27,21 @@ class RequestError {
    *   TRUE if error was found, FALSE otherwise.
    */
   public function parseCURLResponse($response) {
-  	print "\n\n\n";
-  	var_dump($response);
-  	print "\n\n\n";
-  	$response = json_decode($response, TRUE);
-  	
-  	// Case 1:  There message is not in JSON format.
-  	if ($response == NULL) {
-  		$this->setError('Galaxy', 'Unknown CURL response: not json compatible.');
-  		return FALSE;
-  	}	
-    
-    // Case 2: If we have a traceback element, we know the error originated 
-    // from python, meaning the request successfully made it to python but 
+
+    $response = json_decode($response, TRUE);
+
+    // Case 1:  There message is not in JSON format.
+    if ($response == NULL) {
+      $this->setError('Galaxy', 'Unknown CURL response: not json compatible.');
+      return FALSE;
+    }
+
+    // Case 2: If we have a traceback element, we know the error originated
+    // from python, meaning the request successfully made it to python but
     // there is ap problemo in the Galaxy code.
     if (array_key_exists('traceback', $response)) {
-    	// Case 2a: The traceback had an error message.
-    	if (array_key_exists('err_msg', $response)) {
+      // Case 2a: The traceback had an error message.
+      if (array_key_exists('err_msg', $response)) {
         $this->setError('Galaxy', $response['err_msg']);
         return FALSE;
       }
@@ -60,7 +58,7 @@ class RequestError {
     }
 
     // Case 4:  No error found.
-    
+
     return $response;
   }
 
