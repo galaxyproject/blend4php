@@ -39,7 +39,7 @@ class FolderContents extends GalaxyRequest {
    }
 
    /**
-    * Displays the contents of a folder.
+    * Displays all the contents of a folder.
     * 
     * Corresponds to the Galaxy API/path:
     *   GET /api/folders/F{folder_id}/contents.
@@ -81,124 +81,54 @@ class FolderContents extends GalaxyRequest {
 	* @ingroup folder_contents_class
     */
    public function create($parent_folder_id, $from_hda_id = NULL, $ldda_message = NULL, $extended_metadata = NULL){
-   	$URL = $this->galaxy->getURL() . '/api/folders/' . 'F' . $parent_folder_id . '/?key=' . $this->galaxy->getAPIKey();
+   	$URL = $this->galaxy->getURL() . '/api/folders/' . 'F' . $parent_folder_id . '/contents/?key=' . $this->galaxy->getAPIKey();
    	$postfields = array(
    			'name' => $name,
-   			'description' => $description
+   			'description' => $description,
    	);
+   	if($from_hda_id !== NULL){
+   	  $postfields['from_hda_id'] = $from_hda_id;  		
+   	}
+   	if($ldda_message!==NULL){
+   		$postfields['ldda_message'] = $ldda_message;
+   	}
+   	
    	return $this->rest->POST($URL, $postfields);
    }
 
 	/**
-	 * Retreive all permissions for the folder id.
+	 * Retreive details of for a specified folder.
 	 * 
 	 * Corresponds to the Galaxy API/path:
-	 *   GET /api/folders/{folder_id}/permissions
+	 *   GET /api/folders/{folder_id}/
 	 *
 	 * @param $folder_id
-	 *   The folder you want to view permissions
-	 *
-	 * @return 
-	 *   Json array containing details about the permission of the folder.
+	 *   The id of the folder to view
+	 *   
+	 * @return   
+	 *   False.
 	 *   
 	 * @ingroup folder_contents_class
 	 */
  	public function show($folder_id){
- 	 $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' .$folder_id . '/permissions' .'?key=' . $this->galaxy->getAPIKey();
- 	 return $this->rest->GET($URL);
+	  //Not implemented in the python counterpart
+ 	  return FALSE;
  	}
 
  	/**
- 	 * Set the permissions for a specified folder
+ 	 * Update the contents to a specific folder
  	 * 
  	 * Corresponds to the Galaxy API/PATH
- 	 *   POST /api/folders/{folder_id}/permissions
- 	 *
- 	 * There are 3 options that can be manipulated:
- 	 *   1. Modify library item: Users can modify this library ($folder_id) item.
- 	 *   2. Add library item: Users can add library items to this ($folder_id) item.
- 	 *   3. Manage library permissions: Users can manage roles associated with
- 	 * 	    permissions on this library item.
- 	 *  The options inputted will wipe the previous users in that
- 	 *  permissions folder (does not append more users to the particular
- 	 *  permissions folder).
- 	 *
- 	 * @param $folder_id
- 	 *   The folder id of the folder to be updated. To obtain folder ids,
- 	 *   please see int index() function of the folder class.
- 	 * @param $add_ids
- 	 *   List of user ids that will have add item permission on the folder
- 	 *   To obtain uder ids, please see the index() function of the user class.
- 	 * @param $manage_ids
- 	 *   List of users ids that will have manage permission on the folder.
- 	 *   To obtain uder ids, please see the index() function of the user class.
- 	 * @param $modify_ids
- 	 *   List of users ids that will have modify permission on the folder.
- 	 *   
-	 * @return 
-	 *   Json array containing details about the new permissions of the folder.
+ 	 *   PUT /api/folders/{folder_id}/
+ 	 * 
+ 	 * @return 
+ 	 *   False.
  	 *
      * @ingroup folder_contents_class
  	 */
  	public function update($folder_id, $add_ids, $manage_ids, $modify_ids){
- 		$URL = $this->galaxy->getURL() . '/api/folders/' . 'F' .$folder_id . '/permissions' .'?key=' . $this->galaxy->getAPIKey();
- 		$postfields = array(
- 				'action' => 'set_permissions',
- 				'add_ids[]' => $add_ids,
- 				'manage_ids[]' => $manage_ids,
- 				'modify_ids[]' => $modify_ids
- 		);
- 		return $this->rest->POST($URL, $postfields);
- 	}
-
- 	/**
- 	 * Mark a specified folder as 'deleted' or 'undeleted'.
- 	 * 
- 	 * Corresponds to Galaxy API/path at: 
- 	 *   DELETE /api/folders/{folder_id}/
- 	 *
- 	 * @param $folder_id
- 	 *   The folder to delete or undelete.
- 	 * @param $undelete
- 	 *   Specifies whether the item should be deleted or undeleted.
- 	 *   
-	 * @return 
-	 *   Json array containing details about the deleted file history content.
-	 *   
-     * @ingroup folder_contents_class
- 	 */
- 	public function delete($folder_id, $undelete = FALSE){
- 		if ($undelete == FALSE){
- 		$URL = $this->galaxy->getURL() . '/api/folders/' . 'F' .$folder_id .'?key=' . $this->galaxy->getAPIKey();
- 		return $this->rest->delete($URL);
- 		}
- 		else{
- 			$URL = $this->galaxy->getURL() . '/api/folders/' . 'F' .$folder_id  .'?key=' . $this->galaxy->getAPIKey(). '&undelete=True';
- 			return $this->rest->delete($URL);
- 		}
- 	}
-
- 	/**
- 	 * Updated the folder's name and description.
- 	 * 
- 	 * Corresponds to the Galaxy API/path at:
- 	 *   PATCH /api/folders/{folder_id}/
- 	 *
- 	 *  Only admin users can update folders.
- 	 *
- 	 * @param $folder_id
- 	 *   The folder you want to update
- 	 * @param $payload
- 	 *   An array that contains 'name' => [new_name] and 'description' => [can be null].
- 	 *   
- 	 * @return 
-	 *   Json array containing details about the deleted file history content.
- 	 * 
-     * @ingroup folder_contents_class
- 	 */
- 	public function updateName($folder_id, $payload){
- 			$URL = $this->galaxy->getURL() . '/api/folders/' . 'F' .$folder_id .'?key=' . $this->galaxy->getAPIKey();
- 			return $this->rest->PATCH($URL, $payload);
+		//Not implemented by the python counterpart.
+		return FALSE;
  	}
  	
 }

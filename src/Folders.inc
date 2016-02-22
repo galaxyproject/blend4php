@@ -34,7 +34,7 @@ class Folders extends GalaxyRequest {
 	* @return
 	*   An instance of a Folders object.
 	*
-	* @ingroup folder_contents_class
+	* @ingroup folders_class
 	*/
    public function __construct($galaxy) {
    	parent::__construct($galaxy);
@@ -69,9 +69,9 @@ class Folders extends GalaxyRequest {
     * @param $parent_folder_id
     *   The id of the parent folder that this folder will be created under.
     * @param $name
-    *   The name of your folder.
+    *   The name of your new folder.
     * @param $description
-    *   The description of your folder.
+    *   The description of your new folder.
     *   
     * @return 
     *   A JSON array containing information on the new folder.
@@ -108,30 +108,28 @@ class Folders extends GalaxyRequest {
  	}
 
  	/**
- 	 * POST /api/folders/{folder_id}/permissions
- 	 *
- 	 * Set permissions for the folder id.
- 	 *
+ 	 * Set permissions for a specified folder.
+ 	 * 
+ 	 * Corresponds to the Galaxy API function/path at:
+ 	 *   POST /api/folders/{folder_id}/permissions
  	 * There are 3 options that can be manipulated:
  	 * 1. Modify library item: Users can modify this library ($folder_id) item
  	 * 2. Add library item: Users can add library items to this ($folder_id) item
  	 * 3. Manage library permissions: Users can manage roles associated with
  	 * 	  permissions on this library item
  	 *
- 	 * **IMPORTANT**
- 	 * 					The options inputted will wipe the previous users in that
- 	 * 					permissions folder (does not append more users to the particular
- 	 * 					permissions folder)
+ 	 * @param $folder_id
+ 	 *   The folder you want to view permissions. To obtain a folder id, please
+ 	 *   use the index() function in this class. 
+ 	 * @param $add_ids
+ 	 *   List of users that will have add item permission on the folder. To
+ 	 *   obtain a user id, please use the user class's index() function.
+ 	 * @param $manage_ids
+ 	 *   List of users that will have manage permission on the folder
+ 	 * @param $modify_ids
+ 	 *   List of users that will have modify permission on the folder
  	 *
- 	 * @param string $folder_id
- 	 * The folder you want to view permissions
- 	 * @param list/string $add_ids
- 	 * List of users that will have add item permission on the folder
- 	 * @param list/string $manage_ids
- 	 * List of users that will have manage permission on the folder
- 	 * @param list/string $modify_ids
- 	 * List of users that will have modify permission on the folder
- 	 *
+ 	 * @ingroup folders_class
  	 */
  	public function set_permissions($folder_id, $add_ids, $manage_ids, $modify_ids){
  		$URL = $this->galaxy->getURL() . '/api/folders/' . 'F' .$folder_id . '/permissions' .'?key=' . $this->galaxy->getAPIKey();
@@ -145,16 +143,25 @@ class Folders extends GalaxyRequest {
  	}
 
  	/**
- 	 * DELETE /api/folders/{folder_id}/
- 	 *
  	 * Mark the folder as 'deleted' or 'undeleted'.
+ 	 * 
+ 	 * Corresponds to the Galaxy API function at
+ 	 *   DELETE /api/folders/{folder_id}/
  	 *
  	 * Only admin users can delete/undelete folders
  	 *
- 	 * @param string $folder_id
- 	 * The folder you want to delete/undelete
- 	 * @param bool $undelete
- 	 * Specifying whether the item should be deleted or undeleted (default false)
+ 	 * @param $folder_id
+ 	 *   The folder you want to delete/undelete. To obtain a folder id, please
+ 	 *   use this class's index() function.
+ 	 * @param $undelete
+ 	 *   Specifying whether the item should be deleted(true) or undeleted 
+ 	 *   (false).
+ 	 *   
+ 	 * @return 
+ 	 *   Json Array containing information on the deleted (or undeleted)
+ 	 *   folder.
+ 	 *   
+ 	 * @ingroup folders_class
  	 */
  	public function delete($folder_id, $undelete = FALSE){
  		if ($undelete == FALSE){
@@ -168,20 +175,26 @@ class Folders extends GalaxyRequest {
  	}
 
  	/**
- 	 * PATCH /api/folders/{folder_id}/
- 	 *
  	 * Updated the folder's name and description.
  	 *
- 	 * Only admin users can update folders
+ 	 * Corresponds to the Galaxy API/path at:
+ 	 *   PATCH /api/folders/{folder_id}/
  	 *
- 	 * @param string $folder_id
- 	 * The folder you want to update
- 	 * @param  $array $payload
- 	 * contains 'name' => [new_name] and 'description' => [can be null]
+ 	 *  Only admin users can update folders.
+ 	 *
+ 	 * @param $folder_id
+ 	 *   The folder you want to update
+ 	 * @param $payload
+ 	 *   An array that contains 'name' => [new_name] and 'description' => [can be null].
+ 	 *
+ 	 * @return
+ 	 *   Json array containing details about the deleted file history content.
+ 	 *
+ 	 * @ingroup folders_class
  	 */
  	public function update($folder_id, $payload){
- 			$URL = $this->galaxy->getURL() . '/api/folders/' . 'F' .$folder_id .'?key=' . $this->galaxy->getAPIKey();
- 			return $this->rest->PATCH($URL, $payload);
+ 	  $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' .$folder_id .'/?key=' . $this->galaxy->getAPIKey();
+ 	  return $this->rest->PATCH($URL, $payload);
  	}
 
 }
