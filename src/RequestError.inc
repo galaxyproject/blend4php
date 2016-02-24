@@ -8,7 +8,7 @@
  * curl server response. Note that each instance of the Request Error class 
  * contains at most one error.
  * 
- * @defgroup request_error_class 
+ * @defgroup request_error_class RequestError
  * @{
  *   The Request Error class dedicated to relaying error information given from a
  *    curl server response.
@@ -24,9 +24,6 @@ class RequestError {
   
   /**
    * The Request Error constructor.
-   *
-   * @param GalaxyInstance $galaxy
-   *   A GalaxyInstance object.
    *
    * @return
    *   An instance of a Request Error object.

@@ -22,10 +22,7 @@ class Requests{
 	
 	/**
 	 * The Request constructor.
-	 *
-	 * @param GalaxyInstance $galaxy
-	 *   A GalaxyInstance object.
-	 *
+	 * 
 	 * @return
 	 *   An instance of a Request object.
 	 *
