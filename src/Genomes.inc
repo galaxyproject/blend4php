@@ -14,7 +14,7 @@
  * @defgroup genomes_class genome Class
  * @{
  *   The Genomes class interacts with Galaxy to manage contents of a Galaxy 
- *   Genomes. The functions in this class correspond to the Galaxy API 
+ *   Genome. The functions in this class correspond to the Galaxy API 
  *   functions and are named similarly to their Python counterparts.
  * @}
  */
