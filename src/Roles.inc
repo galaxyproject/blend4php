@@ -20,7 +20,6 @@
 
 include_once "GalaxyRequest.inc";
 
-
 class Roles extends GalaxyRequest{
 
 

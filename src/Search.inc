@@ -1,16 +1,38 @@
 <?php
+
+/**
+ * @file 
+ * 
+ * The Search class
+ * 
+ * The search class contains amethod for quering SQL searches
+ * accross Galaxy tables. This class corresponds to its Galaxy API equivalent 
+ * and is named similarly.
+ */
+
+/**
+ * @defgroup search_class Search Class
+ * @{
+ *   The search class contains amethod for quering SQL searches
+ *   accross Galaxy tables. This class corresponds to its Galaxy API equivalent 
+ *   and is named similarly. 
+ * @}
+ */
+
 include_once 'GalaxyRequest.inc';
-
-
-
-
 
 class Search extends GalaxyRequest{
 
 	/**
-	 * Implements the constructor.
+	 * Implements the Search constructor.
 	 *
-	 * @param GalaxyInstance $galaxy
+	 * @param GalaxyInstance galaxy
+	 *   A Galaxy Instance object.
+	 *   
+	 * @return 
+	 *   An instance of a search object.
+	 *   
+     * @ingroup search_class
 	 */
 	function __construct($galaxy) {
 		parent::__construct($galaxy);
@@ -18,12 +40,19 @@ class Search extends GalaxyRequest{
 	
 	
 	/**
-	 * Post /api/search
-	 * Do a search oif the various elements in Galaxy
-
-	 * @param string $query, must be a valid SQL expression, lowercase example: 
-	 * 'select * from history where id = \'290670ee50ab85f0\''
-	 * @return json string results
+	 * Performs a search of the various elements in Galaxy.
+	 * 
+	 * Corresponds to the galaxy method/path:
+	 *   Post /api/search
+     *
+	 * @param $query, 
+	 *   must be a valid, lowercase,  SQL expression, example: 
+	 *   'select * from history where id = \'290670ee50ab85f0\''
+	 * 
+	 * @return 
+	 *   JSON object of the Galaxy element that matches the query.
+	 *   
+     * @ingroup search_class
 	 */
    function create($query) { 
    	$url = $this->galaxy->getURL() . '/api/search/?key=' . $this->galaxy->getAPIKey();
