@@ -13,7 +13,7 @@
 /**
  * @defgroup search_class Search Class
  * @{
- *   The search class contains amethod for quering SQL searches
+ *   The Search class contains a method for quering SQL searches
  *   accross Galaxy tables. This class corresponds to its Galaxy API equivalent 
  *   and is named similarly. 
  * @}

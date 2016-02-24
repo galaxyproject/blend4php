@@ -6,7 +6,7 @@
  * The Genomes class.
  *
  * The Genomes class interacts with Galaxy to manage contents of a Galaxy 
- * Genomes. The functions in this class correspond to the Galaxy API functions
+ * Genome. The functions in this class correspond to the Galaxy API functions
  * and are named similarly to their Python counterparts. 
  */
 
