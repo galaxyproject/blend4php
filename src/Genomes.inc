@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * @file
  *
@@ -12,12 +11,11 @@
  */
 
 /**
- * @defgroup genomes_class GalaxyInstance Class
+ * @defgroup genomes_class genome Class
  * @{
- *   The GalaxyInstance class is used to connect to a remote Galaxy server.
- *   It authenticates and maintains the API key for the user.  The functions
- *   in this class correspond to the Galaxy API functions and are named
- *   similarly to their Python counterpart.
+ *   The Genomes class interacts with Galaxy to manage contents of a Galaxy 
+ *   Genomes. The functions in this class correspond to the Galaxy API 
+ *   functions and are named similarly to their Python counterparts.
  * @}
  */
 

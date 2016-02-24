@@ -1,4 +1,16 @@
 <?php
+/**
+ * @file
+ *
+ * Request
+ *
+ * A class Built to manage basic Galaxy REST request options.
+ *
+ * @defgroup request_class Request
+ * @{
+ * A class Built to manage basic Galaxy REST request options.
+ * @}
+ */
 
 require_once "GalaxyInstance.inc";
 require_once 'GalaxyRequest.inc';
@@ -9,9 +21,15 @@ class Requests{
 	private $debug = True;
 	
 	/**
-	 * Implements the constructor.
+	 * The Request constructor.
 	 *
 	 * @param GalaxyInstance $galaxy
+	 *   A GalaxyInstance object.
+	 *
+	 * @return
+	 *   An instance of a Request object.
+	 *
+	 * @ingroup request_class
 	 */
 	function __construct($galaxy) {
 		$this->galaxy = $galaxy;
@@ -20,8 +38,10 @@ class Requests{
 	/**
 	 * Displays a collection (list) of sequencing requests.
 	 *
-	 * GET /api/requests
-	 *
+	 * @return 
+	 *   JSON array of the server response. 
+	 *   
+	 * @ingroup request_class
 	 */
 	public function index (){
 		$i = curl_init();
@@ -49,6 +69,14 @@ class Requests{
 	 *
 	 * GET /api/requests/{encoded_request_id}
 	 *
+	 * @param encoded_request_id
+	 *   The id of the galaxy entity to show. 
+	 *   
+	 * @return 
+	 *   JSON array containing detailed information about the requested 
+	 *   galaxy entitiy.
+	 *   
+	 * @ingroup request_class
 	 */
 	public function show ($encoded_request_id){
 		$i = curl_init();
@@ -72,6 +100,17 @@ class Requests{
 		
 	}
 	
+	/**
+	 * Updates a sepcified Galaxy entity.
+	 * 
+	 * @param $encoded_request_id
+	 *   The id of the galaxy entity to update.
+	 *   
+	 * @return 
+	 *   JSON object containing information on the updated Galaxy entity.
+	 *   
+	 * @ingroup request_class
+	 */
 	public function update ($encoded_request_id){
 		$i = curl_init();
 		$api_key = $this->galaxy->getAPIKey();
