@@ -64,25 +64,25 @@ class Histories extends GalaxyRequest {
     *
     * @ingroup histories_class 
     */
-   public function create($name, $history_id = NULL,$annotation = NULL, $archive_source=NULL,  $archive_type=NULL,
-   		$all_datasets= True ) {
+   public function create($name, $history_id = NULL, $annotation = NULL, $archive_source = NULL,  $archive_type = NULL,
+   $all_datasets = TRUE) {
      $URL = $this->galaxy->getURL() . '/api/histories/?key=' . $this->galaxy->getAPIKey();
 
      $inputs = array(
        'name' => $name,
-     	 'annotation'=>$annotation,
+       'annotation'=>$annotation,
        'tool_version' => $archive_source,
        'archive_type' => $archive_type,
        'history_id'=>	$history_id,
-       'all_datasets' => $all_datasets,
+       'all_datasets' => $all_datasets
      );
 
      //Assure we are not inputting null values into the python dictionary
      $notNullInputs = array();
      foreach ($inputs as $inputName=>$input){
-     	if($input !== NULL){
-     		$notNullInputs[$inputName] = $input;
-     	}
+      if($input !== NULL){
+       $notNullInputs[$inputName] = $input;
+      }
      }
 
      return $this->rest->POST($URL, $notNullInputs);
@@ -100,11 +100,11 @@ class Histories extends GalaxyRequest {
     * @ingroup histories_class
     */
    public function index(){
-   	$URL = $this->galaxy->getURL() . '/api/histories/?key=' . $this->galaxy->getAPIKey();
-   	$URLDeleted = $this->galaxy->getURL() . '/api/histories/deleted/?key=' . $this->galaxy->getAPIKey();
-   	$result = $this->rest->GET($URL) . $this->rest->GET($URLDeleted);
-    $result = json_encode($result);
-   	return  $result;
+     $URL = $this->galaxy->getURL() . '/api/histories/?key=' . $this->galaxy->getAPIKey();
+     $URLDeleted = $this->galaxy->getURL() . '/api/histories/deleted/?key=' . $this->galaxy->getAPIKey();
+     $result = $this->rest->GET($URL) . $this->rest->GET($URLDeleted);
+     $result = json_encode($result);
+     return  $result;
    }
 
    /**
@@ -116,7 +116,7 @@ class Histories extends GalaxyRequest {
     * @param history_id 
     *   The id of the history to retreive.  
     *   To obtain history_id's, please use this classes' index() function.
-    *   
+    *
     * @return
     *    Json array containing information about the specified history
     *
@@ -124,14 +124,14 @@ class Histories extends GalaxyRequest {
     */
    public function show($history_id){
 
-   	$URL = $this->galaxy->getURL() . '/api/histories/'.$history_id .'/?key=' . $this->galaxy->getAPIKey();
-   	$URL2 = $this->galaxy->getURL() . '/api/histories/deleted/'.$history_id .'/?key=' . $this->galaxy->getAPIKey();
-   	$URL3 = $this->galaxy->getURL() . '/api/histories/most_recently_used/?key=' . $this->galaxy->getAPIKey();
-   	$result = $this->rest->GET($URL) . $this->rest->GET($URL2) . $this->rest->GET($URL3);
-   	$result = json_encode($result);
-   	return $result;
+     $URL = $this->galaxy->getURL() . '/api/histories/'.$history_id .'/?key=' . $this->galaxy->getAPIKey();
+     $URL2 = $this->galaxy->getURL() . '/api/histories/deleted/'.$history_id .'/?key=' . $this->galaxy->getAPIKey();
+     $URL3 = $this->galaxy->getURL() . '/api/histories/most_recently_used/?key=' . $this->galaxy->getAPIKey();
+     $result = $this->rest->GET($URL) . $this->rest->GET($URL2) . $this->rest->GET($URL3);
+     $result = json_encode($result);
+     return $result;
    }
-   
+
    /**
     * Download a given history with indicated history id.
     *
@@ -162,24 +162,24 @@ class Histories extends GalaxyRequest {
     if(!array_key_exists('download_url', $jeha_id)) {
     	return $error_message;
     }
-    
+
     // download_url should be in the form of /api/histories/{id}/exports/{jeha_id}
     $URL = $this->galaxy->getURL() . $jeha_id['download_url'] .'/?key=' . $this->galaxy->getAPIKey();;
     return $this->rest->GET($URL);
   }
-  
+
   /**
    * Start Job to create history export for corresponding history.
-   * 
+   *
    * Corresponds to the Galaxy API method and path:
    *  PUT /api/histories/{id}/exports:
    *
-   * @param history_id:     
+   * @param history_id:
    *   the encoded id of the history to export.
    *
-   * @return 
+   * @return
    *   Json url of where to download the export.
-   * 
+   *
    * @ingroup histories_class
    */
    public function archive_export($history_id){
