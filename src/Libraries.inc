@@ -114,38 +114,6 @@ class Libraries extends GalaxyRequest{
      }
      return $this->rest->GET($URL);
    }
-<<<<<<< HEAD
-=======
-   return $this->rest->GET($URL);
- }
-
- /**
-  *  Updates the library defined by an ``encoded_id``
-  *  with the data in the payload.
-  *
-  * TODO: This function uses a 'patch' rest request, patch is currently not supported
-  */
- public function update(){
-
- }
-
- /**
-  * DELETE /api/libraries/{id}
-  *
-  *  marks the library with the given ``id`` as `deleted`
-  *  (or removes the `deleted` mark if the `undelete` param is true)
-  *
-  * @param string $lib_id, the id of the library to delete or undelete
-  * @param bool undelete option to undelete item
-  */
- public function delete($lib_id,$undelete=false){
-   $URL = $this->galaxy->getURL() . '/api/libraries/' . $lib_id . '/?key='. $this->galaxy->getAPIKey();
-   $elements = array(
-     'undelete' => $undelete,
-   );
-   return $this->rest->DELETE($URL, $elements);
- }
->>>>>>> f985cf0f6455492daa935b6e64dee3176ef74fa2
 
 
   /**
