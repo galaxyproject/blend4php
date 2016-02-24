@@ -6,7 +6,8 @@ require_once './src/Requests.inc';
 require_once './src/Folders.inc';
 require_once './src/FolderContents.inc';
 require_once './src/Users.inc';
-require_once './tests/loadConfig.php';
+require_once './src/Libraries.inc';
+require_once './src/RESTManager.inc';
 
 // Connect and authenticate via galaxy.
 // Break all code down into logical blocks.
@@ -50,6 +51,19 @@ $rec = new Requests($galaxy);
 // $rec->index();
 
 $fol = new Folders($galaxy);
+
+$lib = new Libraries($galaxy);
+
+
+$curl = new RESTManager();
+
+// var_dump($curl->GET('localhost:8080/api/libraries/?deleted=&?key=6d79393594d00b17c63806144311d492')->getErrorMessage());
+
+//$y_tho = $curl->GET('localhost:8080/api/libraries/?deleted=&key=6d79393594d00b17c63806144311d492');
+
+
+//var_dump($lib->index(FALSE));
+//$lib->create('goobypls');
 // print_r($fol->show('1cd8e2f6b131e891'));
 //$fol->create('f2db41e1fa331b3e', 'Pickle', 'Troos_Value');
 // print_r($fol->get_permissions('1cd8e2f6b131e891'));

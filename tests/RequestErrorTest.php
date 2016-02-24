@@ -1,5 +1,5 @@
 <?php
-require_once "../src/RequestError.php";
+require_once "../src/RequestError.inc";
 
 /**
  * @file

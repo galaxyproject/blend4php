@@ -62,12 +62,12 @@ class HistoryContents extends GalaxyRequest {
    *   Or refer to the Datasets class 
    * 
    * @return 
-   *   Json array containing information about the new History content component.         
-   * 
+   * Json array containing information about the new History content component.
+   *
    * @ingroup history_content_class
    */
   public function create($history_id, $content_id, $source = 'hda') {
-    $URL = $this->galaxy->getURL() .'/api/histories/' .$history_id .'/contents/dataset/?key=' .$this->galaxy->getAPIKey();
+    $URL = $this->galaxy->getURL() .'/api/histories/' . $history_id .'/contents/dataset/?key=' . $this->galaxy->getAPIKey();
     $elements = array('source' => $source,'content' => $content_id,'collection_type' => $collection_type,'element_identifiers' => $element_identifiers,'collection_type' => $collection_type);
     $notNullInputs = array();
     foreach ($elements as $element => $value) {

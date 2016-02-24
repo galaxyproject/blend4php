@@ -19,7 +19,6 @@ class RESTManager {
   /**
    * Universal GET request
    *
-   * @param Input
    * @param url
    *
    * @return curl server response

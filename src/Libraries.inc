@@ -90,7 +90,7 @@ class Libraries extends GalaxyRequest{
    $elements = array(
      'undelete' => $undelete,
    );
-   return $this->rest->delete($URL, $elements);
+   return $this->rest->DELETE($URL, $elements);
  }
 
 /**
