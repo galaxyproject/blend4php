@@ -10,10 +10,10 @@
  */
 
 /**
- * @defgroup users_class tools Class
+ * @defgroup users_class Users Class
  * @{
  *   The Users class interacts with Galaxy to manage contents of a Galaxy
- *   tool. The functions in this class correspond to the Galaxy API
+ *   user. The functions in this class correspond to the Galaxy API
  *   functions and are named similarly to their Python counterparts.
  * @}
  */
@@ -21,6 +21,17 @@
 require_once 'GalaxyRequest.inc';
 class Users extends GalaxyRequest {
 
+	/**
+	 * The Users constructor.
+	 *
+	 * @param GalaxyInstance $galaxy
+	 *   A GalaxyInstance object.
+	 *
+	 * @return
+	 *   An instance of a Users object.
+	 *
+	 * @ingroup users_class
+	 */	
    function __construct($galaxy) {
      parent::__construct($galaxy);
    }
