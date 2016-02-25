@@ -189,11 +189,6 @@ class Workflows extends GalaxyRequest{
 
    /**
     * TODO: incomplete
-    * 
-    * Corresponds to the Galaxy API/path at
-    *   PUT /api/workflows/{id}
-    *
-    * updates the workflow stored with workflow_id
     *
     */
    public function update($workflow_id, $parameters = NULL, $ds_map = NULL,
@@ -234,15 +229,7 @@ class Workflows extends GalaxyRequest{
 
   /**
     *  TODO incomplete
-    * POST /api/workflows/build_module
-    * 
-    *  Builds module details including a tool model for the workflow editor.
     *
-    * @param string $tool_id, the tool id to
-    * @param string $tool_version
-    * @param string array $tool_inputs, inputs for the tool, can be dataset_id's.
-    *   dataset_ids can be found at /api/histories/history_id/content
-    * @param string $annotation, annotation for the module
     */
    public function buildModule($tool_id,$tool_input_ids=NULL, $tool_version=NULL,
       $annotation=NULL){
@@ -457,52 +444,60 @@ class Workflows extends GalaxyRequest{
   }
 
 
-  /***
-   * Creates or edits a workflow with the given parameters.
-   *
-   * Corresponds to the Galaxy api/path at
-   *   POST /api/workflows
-   *
-   *
-   *
-   * @param workflow_id 
-   *   An existing workflow id. Either workflow_id,
-   *   installed_repository_file or from_history_id must be specified.
-   *   To obtain a workflow id, please see this class's index() function. 
-   * @param parameters 
-   *   If workflow_id is set, specify the parameters for the workflow. 
-   *   See this class's invoke() for more details.
-   *
-   *  @param ds_map: If workflow_id is set - a dictionary mapping each input step id to a dictionary with 2 keys:
-                 ‘src’ (which can be ‘ldda’, ‘ld’ or ‘hda’) and ‘id’ (which should be the id of a LibraryDatasetDatasetAssociation, LibraryDataset or HistoryDatasetAssociation respectively)
-
-   @param   string no_add_to_history:  If workflow_id is set - if present in the payload with any value,
-              the input datasets will not be added to the selected history
-
-   @param  string history: If workflow_id is set - optional history where to run the workflow,
-              either the name of a new history or “hist_id=HIST_ID” where HIST_ID is the id of an existing history.
-              If not specified, the workflow will be run a new unnamed history
-
-   @param  string array replacement_params: If workflow_id is set - an optional dictionary used when renaming datasets
-
-   @param   string from_history_id: Id of history to extract a workflow from. Either workflow_id,
-              installed_repository_file or from_history_id must be specified
-
-   @param  string array job_ids: If from_history_id is set - optional list of jobs to include when extracting a workflow from history
-
-   @param   string dataset_ids: If from_history_id is set - optional list of HDA `hid`s corresponding
-              to workflow inputs when extracting a workflow from history
-
-   @param   string dataset_collection_ids: If from_history_id is set - optional list of HDCA
-              `hid`s corresponding to workflow inputs when extracting a workflow from history
-
-   @param   string workflow_name: If from_history_id is set - name of the workflow to create when extracting a workflow from history
-
-   @param   bool allow_tool_state_corrections: If set to True, any Tool parameter changes will not prevent running workflow, defaults to False
-
-
-   **/
- public function create($workflow_id = NULL, $parameters = NULL, $ds_map = NULL,
+   /***
+    * Creates or edits a workflow with the given parameters.
+    *
+    * Corresponds to the Galaxy api/path at
+    *   POST /api/workflows
+    *
+    * @param workflow_id 
+    *   An existing workflow id. Either workflow_id,
+    *   installed_repository_file or from_history_id must be specified.
+    *   To obtain a workflow id, please see this class's index() function. 
+    * @param parameters 
+    *   If workflow_id is set, specify the parameters for the workflow. 
+    *   See this class's invoke() for more details.
+    * @param ds_map If workflow_id is set - a dictionary mapping each input step 
+    *   id to a dictionary with 2 keys: ‘src’ (which can be ‘ldda’, 
+    *   ‘ld’ or ‘hda’) and ‘id’ (which should be the id of a 
+    *   LibraryDatasetDatasetAssociation, LibraryDataset or 
+    *   HistoryDatasetAssociation respectively).
+    * @param no_add_to_history  
+    *   If workflow_id is set; if present in the payload with any value,
+    *   the input datasets will not be added to the selected history.
+    * @param history 
+    *   If workflow_id is set  optional history where to run the workflow,
+    *   either the name of a new history or “hist_id=HIST_ID” where HIST_ID 
+    *   is the id of an existing history.
+    *   If not specified, the workflow will be run a new unnamed history. 
+    *   To obtain a history ID Please refer to the index() 
+    *   function in the histories class.
+    * @param replacement_params 
+    *   If workflow_id is set  an optional dictionary used when renaming 
+    *   datasets.
+    * @param string from_history_id 
+    *   Id of history to extract a workflow from. Either workflow_id,
+    *   installed_repository_file or from_history_id must be specified.
+    * @param job_ids 
+    *   If from_history_id is set, optional list of jobs to include 
+    *   when extracting a workflow from history.
+    * @param dataset_collection_ids 
+    *   If from_history_id is set - optional list of HDCA
+    *  `hid`s corresponding to workflow inputs when extracting a workflow 
+    *   from history.
+    * @param workflow_name 
+    *   If from_history_id is set; name of the workflow to create when 
+    *   extracting a workflow from history.
+    * @param allow_tool_state_corrections 
+    *   If set to True, any Tool parameter changes will not prevent 
+    *   running workflow, defaults to False.
+    * 
+    *  @return 
+    *   A Json object containing the created workflow.
+    *   
+    * @ingroup workflows_class
+    **/
+   public function create($workflow_id = NULL, $parameters = NULL, $ds_map = NULL,
       $no_add_to_history = True, $history =NULL, $replacement_params = NULL,
       $from_history_id=NULL, $job_ids = NULL, $dataset_ids = NULL, $dataset_collection_ids=NULL,
       $workflow_name = NULL, $allow_tool_state_corrections = NULL ) {
@@ -534,9 +529,7 @@ class Workflows extends GalaxyRequest{
     }
 
     return $this->rest->POST($url, $notNullInputs);
-
-
   }
 
 
-}// End CLass
+}
