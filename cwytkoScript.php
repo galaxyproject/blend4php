@@ -56,6 +56,16 @@ $lib = new Libraries($galaxy);
 
 
 $curl = new RESTManager();
+// f597429621d6eb2b
+
+$elements = array ('source' => 'hda', 'content' => 'f597429621d6eb2b');
+foreach ($elements as $element => $value) {
+  if ($value != NULL) {
+  $notNullInputs[$element] = $value;
+  }
+}
+var_dump($notNullInputs);
+var_dump($curl->POST('localhost:8080' . 'api/histories/' . 'a799d38679e985db/contents/data/?key=6d79393594d00b17c63806144311d492', $notNullInputs));
 
 // var_dump($curl->GET('localhost:8080/api/libraries/?deleted=&?key=6d79393594d00b17c63806144311d492')->getErrorMessage());
 

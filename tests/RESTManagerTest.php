@@ -77,23 +77,28 @@ class RESTManagerTest extends PHPUnit_Framework_TestCase {
        'history_id' => NULL,
        'all_datasets' => TRUE);
 
-    $success = $curl->PUT($host . ':' . $port . '/api/histories/' . '?key=' . $apikey, $input);
+    $success = $curl->POST($host . ':' . $port . '/api/histories/?' . 'key=' . $apikey, $input);
 
     $i = 0;
     $response = $curl->GET($host . ':' . $port . '/api/histories/?' . 'key=' . $apikey);
 
     while (array_key_exists('name', $response[$i])){
 
-      if("phpunittesthistoryput1test" == $response[$i]['name']){
+      if("phpunittesthistorypost1test" == $response[$i]['name']){
         break;
       }
       $i++;
     }
 
-    $this->assertEquals('phpunittesthistoryput1test',$response[$i]['name']);
+    $this->assertEquals('phpunittesthistorypost1test',$response[$i]['name']);
 
-    // Here we add a history content to the history we created above to then 
-    // manipulate
+    // POST (create) a history content and then PUT (edit) the history content
+    // and then remove it from the history
+    $success = $curl->POST($host . ':' . $port . 'api/histories/' . $response[$i]['id'] . '/contents/data/?key=' . $apikey);
+
+    // Remove the history
+    //$success = $curl->DELETE($host . ':' . $port . '/api/histories/' . $response[$i]['id'] . '?key=' . $apikey);
+
   }
 
   /**

@@ -60,7 +60,7 @@ class HistoryContents extends GalaxyRequest {
    *   to find dataset id's go to:
    *   /api/histories/<history_id>/content only 'ok' state datasets work 
    *   Or refer to the Datasets class 
-   * 
+   *
    * @return 
    * Json array containing information about the new History content component.
    *
@@ -68,10 +68,10 @@ class HistoryContents extends GalaxyRequest {
    */
   public function create($history_id, $content_id, $source = 'hda') {
     $URL = $this->galaxy->getURL() .'/api/histories/' . $history_id .'/contents/dataset/?key=' . $this->galaxy->getAPIKey();
-    $elements = array('source' => $source,'content' => $content_id,'collection_type' => $collection_type,'element_identifiers' => $element_identifiers,'collection_type' => $collection_type);
+    $elements = array('source' => $source,'content' => $content_id);//,'collection_type' => $collection_type,'element_identifiers' => $element_identifiers,'collection_type' => $collection_type);
     $notNullInputs = array();
     foreach ($elements as $element => $value) {
-      if ($value !=NULL) {
+      if ($value != NULL) {
         $notNullInputs[$element] = $value;
       }
     }

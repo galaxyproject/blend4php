@@ -127,8 +127,7 @@ class FolderContents extends GalaxyRequest {
      * @ingroup folder_contents_class
  	 */
  	public function update($folder_id, $add_ids, $manage_ids, $modify_ids){
-		//Not implemented by the python counterpart.
-		return FALSE;
- 	}
- 	
+    //Not implemented by the python counterpart.
+    return FALSE;
+  }
 }

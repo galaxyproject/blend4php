@@ -152,15 +152,15 @@ class Histories extends GalaxyRequest {
     $error_message = "Error, unrecognized server response.";
     // Obtain download URL, with the necessary jeha_id
     $jeha_id = $this->archive_export($history_id);
-   
+
     //convert jeha_id into an array
     $jeha_id = json_decode($jeha_id,true);
-    
+
     if($jeha_id == NULL) {
-    	return $error_message;
+      return $error_message;
     }
     if(!array_key_exists('download_url', $jeha_id)) {
-    	return $error_message;
+      return $error_message;
     }
 
     // download_url should be in the form of /api/histories/{id}/exports/{jeha_id}
@@ -208,7 +208,7 @@ class Histories extends GalaxyRequest {
     */
    public function deleteHistory($history_id){
      $URL = $this->galaxy->getURL() . '/api/histories/'. $history_id . '/?key=' . $this->galaxy->getAPIKey();
-     return $this->rest->delete($URL);
+     return $this->rest->DELETE($URL);
    }
 
    /**

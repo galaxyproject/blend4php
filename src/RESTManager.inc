@@ -66,6 +66,7 @@ class RESTManager {
     }
     curl_close($ch);
 
+
     return $this->requestError->parseCURLResponse($message);
   }
 
