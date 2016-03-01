@@ -1,28 +1,54 @@
 
 <?php
-include_once 'GalaxyRequest.inc';
-
 /**
- * 
- * Currently this file cannot be completed for we do not have any visualization objects nor the knowledge
- * of how to create them 
+ * @file
  *
+ * The Visualizations class.
+ *
+ * The Visualiations class interacts with Galaxy to manage contents of a Galaxy
+ * visualizaiton. The functions in this class correspond to the Galaxy API functions
+ * and are named similarly to their Python counterparts.
  */
 
+/**
+ * @defgroup visualizations_class Visualizations Class
+ * @{
+ *   The Visualization class interacts with Galaxy to manage contents of a Galaxy
+ *   visualization. The functions in this class correspond to the Galaxy API
+ *   functions and are named similarly to their Python counterparts.
+ * @}
+ */
+
+include_once 'GalaxyRequest.inc';
 
 
 class Visualizations extends GalaxyRequest{
+	
 	/**
-	 * Implements the constructor.
+	 * The visualizations constructor.
 	 *
 	 * @param GalaxyInstance $galaxy
+	 *   A GalaxyInstance object
+	 *   
+	 * @return 
+	 *   An instance of a Visualizations object
+	 *   
+	 * @ingroup visualizations_class  
 	 */
 	function __construct($galaxy) {
 		parent::__construct($galaxy);
 	}
 	
 	/**
-	 * GET /api/visualizations 
+	 * Retreive a list of all visualizations.
+	 * 
+	 * Corresponds to the Galaxy API/path
+	 *   GET /api/visualizations
+	 *   
+	 * @return 
+	 *   A Json array containing all of galaxy's visualizations.
+	 *   
+	 * @ingroup visualizations_class    
 	 */
 	function index(){
 		$url = $this->galaxy->getURL() . '/api/visualizations/?key=' . $this->galaxy->getAPIKey();
@@ -30,9 +56,15 @@ class Visualizations extends GalaxyRequest{
 	}
 	
 	/**
-	 * GET /api/visualizations/<viz_id>
+	 * Retreive detailed information about a specific visualization.
 	 * 
-	 * @param string viz_id
+	 * Corresponds to the Galaxy API/path
+	 *   GET /api/visualizations/<viz_id>
+	 * 
+	 * @param viz_id
+	 *   The visualization id whos details to display.
+	 *   
+	 * @ingroup visualizations_class  
 	 */
 	function show($viz_id){
 		$url = $this->galaxy->getURL() . '/api/visualizations/'. $viz_id . '?/key=' . $this->galaxy->getAPIKey();
@@ -40,15 +72,25 @@ class Visualizations extends GalaxyRequest{
 	}
 	
 	/**
-	 * POST /api/visualizations
-	 * or 
-	 * POST /api/visualizations?import_id={encoded_visualization_id}
-	 * imports copy of existing visualizatiion into workplace
+	 * Imports copy of existing visualizatiion into the  workplace.
 	 * 
-	 * @param string type visualization type
-	 * @param string title the title for the visualization
-	 * @param int import_id the id of the visualization to import, if the user
-	 * desires to import a visualization
+	 * Corresponds to the Galaxy API/paths at
+	 *  POST /api/visualizations
+	 *  or 
+	 *  POST /api/visualizations?import_id={encoded_visualization_id}
+	 * 
+	 * @param type 
+	 *   The visualization type for the new visualization.
+	 * @param title 
+	 *   The title for the visualization.
+	 * @param import_id
+	 *   (optional)The id of the visualization to import, if the user
+	 *   desires to import a visualization.
+	 *   
+	 * @return 
+	 *   A Json array containing the created visualization. 
+	 *   
+	 * @ingroup visualizations_class  
 	 */
 	function create($type, $title, $dbkey, $import_id = NULL){
 		if($import_id != NULL) {
@@ -67,11 +109,25 @@ class Visualizations extends GalaxyRequest{
 	
 	
     /**
-     * PUT /api/visualizations/<visualizations id>
-     * @param string $viz_id visual;iization id of the visualization to update
-     * @param string $title If we are changing the title, include the new title
-     * @param string $dbkey If we are changing the new db key, include the new dbkey
-     * @param string $config ??
+     * Update a specific visualization
+     * 
+     * Corresponds to the Galaxy API/path at
+     *   PUT /api/visualizations/<visualizations id>
+     *   
+     * @param viz_id 
+     *   visualization id of the visualization to update. To obtain this id
+     *   please use this class's index method.
+     * @param title 
+     *   If the user is changing the title, include the new title.
+     * @param $dbkey 
+     *   If the user is changing the new db key, include the new dbkey.
+     * @param $config 
+     *   The configuration of the visualization.
+     *   
+     * @return 
+     *   A Json object containing the updated visualizaiton. 
+     *   
+	 * @ingroup visualizations_class 
      */
 	function update($viz_id, $title=null, $dbkey=null, $config=null){
 		$url = $this->galaxy->getURL() . '/api/visualizations/' .$viz_id. '/?key=' . $this->galaxy->getAPIKey();

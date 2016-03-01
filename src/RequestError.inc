@@ -1,30 +1,49 @@
 <?php
 /**
+ * @file 
  *
- * RequestError: A class dedicated to relaying error information given from a
- * curl server response
- *
+ * RequestError
+ * 
+ * The Request Error class dedicated to relaying error information given from a
+ * curl server response. Note that each instance of the Request Error class 
+ * contains at most one error.
+ * 
+ * @defgroup request_error_class RequestError
+ * @{
+ *   The Request Error class dedicated to relaying error information given from a
+ *    curl server response.
+ * @}
  */
+
 class RequestError {
 
   private $errorMessage = '';
 
   // Either 'Galaxy or HTTP
   private $errorType = '';
-
+  
   /**
+   * The Request Error constructor.
+   *
+   * @return
+   *   An instance of a Request Error object.
+   *
+   * @ingroup request_error_class
    */
   public function __construct() {
     $errorMessage = "No Error has occured";
   }
 
   /**
-   * Set the error for this class by extracting from the CURL response.
+   * Set the error for this class by extracting from the given CURL response.
    *
    * @param $response
-   *   curl response from galaxy page $message
+   *   curl response from galaxy page $message.
+   *   
    * @return
    *   TRUE if error was found, FALSE otherwise.
+   *   
+   * @ingroup request_error_class
    */
   public function parseCURLResponse($response) {
 
@@ -63,12 +82,14 @@ class RequestError {
   }
 
   /**
-   * In order to set the request error, both the type and message must be known.
+   * Setter for the class's 'Error' attribute
    *
    * @param $type
+   *   Type of Error, must be either 'HTTP' or 'Galaxy'.
    * @param $message
-   * @return
-   *
+   *   The Error message.
+   *   
+   * @ingroup request_error_class
    */
   public function setError($type, $message) {
     $this->errorMessage = $message;
@@ -82,16 +103,22 @@ class RequestError {
   }
 
   /**
-   *
+   * Getter for this class's 'Error message' attribute.
+   * 
    * @return
+   *   The error message of the objet.
+   *   
+   * @ingroup request_error_class
    */
   public function getErrorMessage() {
     return $this->errorMessage;
   }
 
   /**
+   * Getter for this object's error type.
    *
-   * @return
+   * @return 
+   *   The rror type of this object's 'Error'.
    */
   public function getErrorType() {
     return $this->errorType;

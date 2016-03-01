@@ -2,26 +2,54 @@
 require_once 'RequestError.inc';
 
 /**
- * Here a lies a class responsible for distributing the appropriat rest commands for the galaxy functionality
+ * @file
+ *
+ * RestManager
+ * 
+ * The Rest Manager Class contains methods for using CURL rest options. 
+ * More specifically, UPDATE, POST, DELETE, PUT and GET. 
+ *
+ * @defgroup rest_manager_class RestManager
+ * @{
+ * The Rest Manager Class contains methods for using CURL rest options. 
+ * More specifically, UPDATE, POST, DELETE, PUT and GET. 
+ * @}
  */
-class RESTManager {
-  private $requestError = NULL;
 
-  public function __construct($requestError = NULL) {
-    if ($requestError !==NULL) {
-      $this->requestError = $requestError;
-    }
-    else {
-      $this->requestError = new RequestError();
-    }
-  }
+class RESTManager {
+  // Global Variable that contains any errors received from a rest request.	
+   private $requestError = NULL;
+  
+   /**
+    * The Rest Manager constructor.
+    *
+    * @param RequestError requesterror
+    *   Optional, set the class's request error to a pre-existing RequestError.
+    *
+    * @return
+    *   An instance of a RestManager class.
+    *
+    * @ingroup rest_manager_class
+    */   
+   public function __construct($requestError = NULL) {
+     if ($requestError !==NULL) {
+       $this->requestError = $requestError;
+     }
+     else {
+       $this->requestError = new RequestError();
+     }
+   }
 
   /**
-   * Universal GET request
+   * Performs a GET request.
    *
    * @param url
+   *   The URL to perform the GET request on. 
    *
-   * @return curl server response
+   * @return 
+   *   curl server response.
+   *   
+   * @ingroup rest_manager_class
    */
   public function GET($URL) {
     $ch = curl_init();
@@ -39,12 +67,17 @@ class RESTManager {
   }
 
   /**
-   * Universal POST request
+   * Perform a POST request.
    *
    * @param Input
-   * @param url
+   *   The input data to a given URL.
+   * @param URL
+   *   The url to perform the POST request on.
    *
-   * @return curl server response
+   * @return 
+   *   curl server response.
+   *   
+   * @ingroup rest_manager_class
    */
   public function POST($URL, $input = NULL) {
     $ch = curl_init();
@@ -71,12 +104,17 @@ class RESTManager {
   }
 
   /**
-   * Universal PUT request
+   * Perform a PUT request
    *
+   * @param URL
+   *   The URL to perform the PUT request on.
    * @param Input
-   * @param url
+   *   The input data to give to the URL.
    *
-   * @return curl server response
+   * @return 
+   *   curl server response.
+   *  
+   * @ingroup rest_manager_class
    */
   public function PUT($URL, $input = NULL) {
     $ch = curl_init();
@@ -103,11 +141,15 @@ class RESTManager {
   /**
    * Universal DELETE request
    *
-   * @param $URL
    * @param $input
+   *   The input data to give to the url.
+   * @param $URL
+   *   The path to perform the DELETE request.
    *
    * @return
    *   curl server response
+   *   
+   * @ingroup rest_manager_class
    */
   public function DELETE($URL, $input = NULL) {
     $ch = curl_init();
@@ -131,7 +173,10 @@ class RESTManager {
 
   /**
    *
-   * @return string error message from the server or CURL
+   * @return 
+   *   string error message from the server or CURL.
+   *   
+   * @ingroup rest_manager_class
    */
   public function getError() {
     return $this->requestError->getErrorMessage();
@@ -139,7 +184,10 @@ class RESTManager {
 
   /**
    *
-   * @return string error rtype either 'HTTP' or 'Galaxy'
+   * @return 
+   *   string error rtype either 'HTTP' or 'Galaxy'.
+   *   
+   * @ingroup rest_manager_class
    */
   public function getErrorType() {
     return $this->requestError->getErrorType();

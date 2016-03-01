@@ -126,15 +126,27 @@ class Jobs extends GalaxyRequest{
     * Corresponds to the Galaxy Api method/path: 
     *   GET /api/jobs 
     * 
-    * @param state, 
+    * @param state: 
     *   filter job search by any one of these conditions:
     *   'new', 'upload', 'waiting', 'quued', 'running', 'ok', 'error', 
     *   'paused', 'deleted', 'deleted_now'
-    * @param array tool_ids. Limit search to include only those with given tool_id
-    * @param string date_range_min limit search of jobs updated after this date
-    * @param string date_range_max limit search of jobs updated before this date
-    * @param string history_id  limit listing of jobs to those that match history_id 
-    *  @return json array of matched jobs 
+    * @param tool_ids. 
+    *   A list of tool ids that limit  the  search to include only those with 
+    *   given tool_ids. To find tool id's, please refer to this class's index()
+    *   function.
+    * @param date_range_min 
+    *   Bool, Limit the search of jobs updated after this date.
+    * @param date_range_max
+    *   Bool, Limit the search of jobs updated before this date.
+    * @param history_id 
+    *   Limit listing of jobs to those that match history_id. 
+    *   To find the history id, please refer to the history class.
+    * 
+    * @return 
+    *   JSON array ocntaining a list of all the jobs that matched 
+    *   the given parameters.
+    *   
+    * @ingroup jobs_class
     */
    public function index($state, $tool_ids = null, $date_range_min = null, $date_range_max=null,
 		$history_id = null){
@@ -161,73 +173,87 @@ class Jobs extends GalaxyRequest{
 	$URL .= 'key=' . $this->galaxy->getAPIKey();
 	
 	return $this->rest->GET($URL);
-}
+   }
 
 
 
 
 
-/**
- * POST /api/tools
- * 
- * NOTE: Creating/submitting a job is actually run under tools.py in the
- * Galaxy api
+  /**
+    * This function is not implemented by its python counterpart
+    * 
+    * NOTE: Creating/submitting a job is actually run under tools.py in the
+    * Galaxy api
+    * 
+    * @return 
+    *   FALSE
+    * 
+    * @ingroup jobs_class
+    */
+   public function create(){
+	 return null;
+   }
 
- */
-public function create(){
-	return null;
-}
 
-
-/**
- * POST /api/jobs/search
- * 
-   This method is designed to scan the list of previously run jobs and find 
-   records of jobs that had
-   the exact some input parameters and datasets. This can be used to minimize 
-   the amount of repeated work, and simplyrecycle the old results.
-   
-  * @param action - string optional 'rerun' to rerun the tool and not execute
-  * @param tool_id - string  (tool_id to execute)
-  * @param tool_version - string  OPTIONAL, specify specific tool version
-  * @param history_id - string history_id where tool is located
-  * @param region - string optional (information on the region of the genome being rerun)
-  * @param input_dataset_ds - array of dataset id's where the tool should grab the inputs from
-  * similar to workflow_invoke  
- 
- */
-public function search($tool_id=NULL,  $input_dataset_ids=array(), $history_id = NULL,$tool_version=NULL,
+  /**
+    * Search for previously created jobs.
+    * 
+    * Corresponds to the Galaxy Api/path at:   
+    *   POST /api/jobs/search
+    * 
+    * This method is designed to scan the list of previously run jobs and find 
+    *   records of jobs that had the exact some input parameters and datasets. 
+    *   This can be used to minimize, the amount of repeated work, 
+    *   and simplyrecycle the old results.
+    *
+    * @param action 
+    *   optional, 'rerun' to rerun the tool and not execute.
+    * @param tool_id 
+    *   The tool id to execute. To find the tool id, use the index function of
+    *   this class.
+    * @param tool_version 
+    *   Optional, specify specific tool version to search for.
+    * @param history_id 
+    *   The history_id where tool is located. 
+    * @param region 
+    *   Optional information on the region of the genome being rerun.
+    * @param input_dataset_ds
+    *   Array of dataset id's where the tool should grab the inputs from,
+    *   similar to workflow_invoke.  
+    * 
+    * @ingroup jobs_class 
+    */
+   public function search($tool_id=NULL,  $input_dataset_ids=array(), $history_id = NULL,$tool_version=NULL,
  		$region = NULL,  $action = NULL){
- 	$URL = $this->galaxy->getURL() . '/api/jobs/search/?key=' . $this->galaxy->getAPIKey();
+ 	 $URL = $this->galaxy->getURL() . '/api/jobs/search/?key=' . $this->galaxy->getAPIKey();
  			
- 	$input_ids = array();
- 	$i =0;
+ 	 $input_ids = array();
+ 	 $i =0;
  	
- 	foreach($input_dataset_ids as &$input_dataset_id){
+ 	 foreach($input_dataset_ids as &$input_dataset_id){
  		$input_ids[$i] = array('id'=> $input_dataset_id, 'src'=>'hda');
  		$i++;
- 	}
+ 	 }
  			
- 	$elements = array(
+ 	 $elements = array(
 		'tool_id' => $tool_id,
 		'tool_version' => $tool_version,
  		'inputs' => json_encode($input_ids,JSON_FORCE_OBJECT),
  		'history_id'=>$history_id,
  		'region' => $region,
  		'action' => $action,
-	);
- 	//create a list of input items that is not null
- 	$notNullInputs = array();
- 	foreach($elements as $element=>$value) {
- 		if($value != NULL) {
- 			$notNullInputs[$element] = $value;
- 		}
- 	}
+	 );
+ 	 //create a list of input items that is not null
+ 	 $notNullInputs = array();
+ 	 foreach($elements as $element=>$value) {
+ 	 	if($value != NULL) {
+ 	 		$notNullInputs[$element] = $value;
+ 	 	}
+ 	 }
  			
  	return $this->rest->POST($URL, $notNullInputs);
  			
-}
-
+   }
 }
 
 
