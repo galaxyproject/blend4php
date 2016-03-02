@@ -70,16 +70,16 @@ class Histories extends GalaxyRequest {
 
      $inputs = array(
        'name' => $name,
-       'annotation'=>$annotation,
+       'annotation' => $annotation,
        'tool_version' => $archive_source,
        'archive_type' => $archive_type,
-       'history_id'=>	$history_id,
+       'history_id' => $history_id,
        'all_datasets' => $all_datasets
      );
 
      //Assure we are not inputting null values into the python dictionary
      $notNullInputs = array();
-     foreach ($inputs as $inputName=>$input){
+     foreach ($inputs as $inputName => $input){
       if($input !== NULL){
        $notNullInputs[$inputName] = $input;
       }

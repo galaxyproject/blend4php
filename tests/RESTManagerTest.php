@@ -70,7 +70,7 @@ class RESTManagerTest extends PHPUnit_Framework_TestCase {
     $port = $config['port'];
     $apikey = $config['apikey'];
 
-    $input = array ('name' => "phpunittesthistoryput1test", 
+    $input = array ('name' => "phpunittesthistorypost1test", 
        'annotation' => NULL,
        'tool_version' => NULL,
        'archive_type' => NULL,
@@ -94,10 +94,13 @@ class RESTManagerTest extends PHPUnit_Framework_TestCase {
 
     // POST (create) a history content and then PUT (edit) the history content
     // and then remove it from the history
-    $success = $curl->POST($host . ':' . $port . 'api/histories/' . $response[$i]['id'] . '/contents/data/?key=' . $apikey);
-
+    $input = array('id' => $response[$i]['id']);
+    $success = $curl->PUT($host . ':' . $port . '/api/histories/' . $response[$i]['id'] . '/exports?key=' . $apikey, $input);
+    // The server response should be false as this creates a .dat file object
+    // in the ./galaxy/database/files/000/dataset_[somenumber].dat
+    $this->assertFalse($success);
     // Remove the history
-    //$success = $curl->DELETE($host . ':' . $port . '/api/histories/' . $response[$i]['id'] . '?key=' . $apikey);
+    $success = $curl->DELETE($host . ':' . $port . '/api/histories/' . $response[$i]['id'] . '?key=' . $apikey);
 
   }
 

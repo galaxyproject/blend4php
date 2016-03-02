@@ -1,5 +1,5 @@
 <?php
-
+require_once 'GalaxyRequest.inc';
 /**
  * @file
  *
@@ -21,15 +21,15 @@
  * @}
  */
 
-class GalaxyInstance {
+class GalaxyInstance extends GalaxyRequest {
   // The hostname where the Galaxy server is located.
-  private $host;
+  protected $host;
   // The port on which the remote Galaxy instance is runinng.
-  private $port;
+  protected $port;
   // Should be set to TRUE if the remote server uses HTTPS.
-  private $use_https;
+  protected $use_https;
   // The API Key for the user connection.
-  private $api_key;
+  protected $api_key;
 
   /**
    * The GalaxyInstance constructor.
@@ -66,15 +66,10 @@ class GalaxyInstance {
    */
   public function checkConnection() {
 
-    // Use curl to check the connection.
-    $curl = curl_init();
-    $url = $this->getURL();
-    curl_setopt($curl, CURLOPT_URL, $url);
-    curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
-    $output = curl_exec($curl);
+  	$response = $this->GET($this->getURL());
 
     // If curl failed to connect, the output will be NULL.
-    if ($output == NULL) {
+    if ($response == NULL) {
       return FALSE;
     }
     else {
@@ -103,38 +98,11 @@ class GalaxyInstance {
    */
   public function authenticate($username, $password, &$message = '') {
 
-    // Instantiate the curl object.
-    $curl = curl_init();
-
-    // Set the curl options for this API call.
-    curl_setopt($curl, CURLOPT_URL, $this->getURL() . '/api/authenticate/baseauth');
-    curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
-    curl_setopt($curl, CURLOPT_USERPWD, $username . ':' . $password);
-
-    // Execute the connection.
-    $output = curl_exec($curl);
-    $curl_error = curl_error($curl);
-    curl_close($curl);
-
-    // Case 1: If the curl_exec function returns FALSE then there was some sort
-    // of curl error not related to an incorrect authentication.
-    if ($output === FALSE) {
-      $message = "ERROR: $curl_error";
-      return FALSE;
-    }
-
-    // Case 2: If the curl_exec function did return but has no output then
-    // authentication failed.
-    $output = json_decode($output, true);
-    if ($output === NULL or !array_key_exists('api_key', $output)) {
-      $message = "ERROR: Invalid user name or password.";
-      return FALSE;
-    }
-
-    // Case 3: the authentication was successful.  Set the API Key for this
-    // user.
-    $api_key = $output['api_key'];
-    $this->setAPIKey($api_key);
+  	$response = $this->AUTH($this->getURL() . '/api/authenticate/baseauth', $username, $password);
+  	if (!$response) {
+  	
+  	}
+    $this->setAPIKey($response['api_key']);
 
     return TRUE;
   }
