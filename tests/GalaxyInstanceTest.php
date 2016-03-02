@@ -1,6 +1,7 @@
 <?php
 
 require_once '../src/GalaxyInstance.inc';
+require_once './testConfig.inc';
 
 /**
  * @file
@@ -26,45 +27,51 @@ class GalaxyInstanceTest extends PHPUnit_Framework_TestCase {
    */
   public function testGetURL() {
 
+    global $config;
+
     // Test HTTP URL construction.
-    $galaxy = new GalaxyInstance('localhost', '8080', FALSE);
-    $this->assertEquals($galaxy->getURL(), 'http://localhost:8080');
+    $galaxy = new GalaxyInstance($config['host'], $config['port'], FALSE);
+    $this->assertEquals($galaxy->getURL(), 'http://' . $config['host'] . ':' . $config['port']);
 
     // Test HTTPS URL construction.
-    $galaxy = new GalaxyInstance('localhost', '8080', TRUE);
-    $this->assertEquals($galaxy->getURL(), 'https://localhost:8080');
+    $galaxy = new GalaxyInstance($config['host'], $config['port'], TRUE);
+    $this->assertEquals($galaxy->getURL(), 'https://' . $config['host'] . ':' . $config['port']);
   }
 
   /**
-   * Tests checkConnection.
+   * Tests checkVersion.
    *
    * This test ensure that a galaxy instance can be connected to.  If not
    * then all other tests will naturally fail.
    *
    * @depends testGetURL
    */
-  public function testCheckConnection() {
+  public function testGetVersion() {
+    global $config;
+
     // Test a connection to an instances that is improperly instantiated.
-    $galaxy = new GalaxyInstance('8080', 'localhost', FALSE);
-    $this->assertFalse($galaxy->checkConnection());
+    $galaxy = new GalaxyInstance($config['port'], $config['host'], FALSE);
+    $version = $galaxy->getVersion();
+    $this->assertFalse($version);
 
     // Test a connection to an instance that is properly instantiated.
-    $galaxy = new GalaxyInstance('localhost', '8080', FALSE);
-    $this->assertTrue($galaxy->checkConnection());
+    $galaxy = new GalaxyInstance($config['host'], $config['port'], FALSE);
+    $version = $galaxy->getVersion();
+    $this->assertTrue(array_key_exists('version_major', $version));
 
-    // Set the private galaxy class member object.
-    $this->galaxy = $galaxy;
   }
 
   /**
    * Test the getAPIKey and setAPIKey functions.
    *
-   * @depends testCheckConnection
+   * @depends testGetVersion
    */
   public function testGetSetAPIKey() {
-     $galaxy = new GalaxyInstance('localhost', '8080', FALSE);
-     $galaxy->setAPIKey('XYZPDQ');
-     $this->assertEquals($galaxy->getAPIKey(), 'XYZPDQ');
+    global $config;
+
+    $galaxy = new GalaxyInstance($config['host'], $config['port'], FALSE);
+    $galaxy->setAPIKey('XYZPDQ');
+    $this->assertEquals($galaxy->getAPIKey(), 'XYZPDQ');
   }
 
   /**
@@ -76,16 +83,19 @@ class GalaxyInstanceTest extends PHPUnit_Framework_TestCase {
    * @depends testGetSetAPIKey
    */
   public function testAuthenticate () {
-    $galaxy = new GalaxyInstance('localhost', '8080', FALSE);
+    global $config;
+
+    $galaxy = new GalaxyInstance($config['host'], $config['port'], FALSE);
 
     // Test a proper user authentcation. First check that the function
-    // will return true.
-    $retval = $galaxy->authenticate('cgpwytko@gmail.com', 'potato15');
-    $this->assertTrue($retval);
+    // will return our API key after authentication.
+    $response = $galaxy->authenticate($config['user'], $config['pass']);
+    $this->assertTrue(is_array($response));
+    $this->assertEquals($response['api_key'], $config['api_key']);
 
     // Next, test an incorrect username/password.
-    $retval = $galaxy->authenticate('cgpwytko@gmail.com', 'potato5');
-    $this->assertTrue($retval);
+    $response = $galaxy->authenticate($config['pass'], $config['user']);
+    $this->assertFalse($response);
 
   }
 

@@ -51,30 +51,20 @@ class GalaxyInstance extends GalaxyRequest {
     $this->host = $hostname;
     $this->port = $port;
     $this->use_https  = $use_https;
+
+    parent::__construct();
   }
 
   /**
-   * Verify that the server hosting the galaxy service is live.
-   *
-   * This check is performed by connecting to the hostname and port to see
-   * if a response is recieved.
+   * Retrieves the version of the Galaxy API.
    *
    * @return
-   *   TRUE if a connection is succesfully established and FALSE otherwise.
+   *
    *
    * @ingroup galaxy_instance_class
    */
-  public function checkConnection() {
-
-  	$response = $this->GET($this->getURL());
-
-    // If curl failed to connect, the output will be NULL.
-    if ($response == NULL) {
-      return FALSE;
-    }
-    else {
-      return TRUE;
-    }
+  public function getVersion() {
+    return $this->GET($this->getURL() . '/api/version');
   }
 
   /**
@@ -98,13 +88,13 @@ class GalaxyInstance extends GalaxyRequest {
    */
   public function authenticate($username, $password, &$message = '') {
 
-  	$response = $this->AUTH($this->getURL() . '/api/authenticate/baseauth', $username, $password);
-  	if (!$response) {
-  	
-  	}
+    $response = $this->AUTH($this->getURL() . '/api/authenticate/baseauth', $username, $password);
+    if (!$response) {
+      return FALSE;
+    }
     $this->setAPIKey($response['api_key']);
 
-    return TRUE;
+    return $response;
   }
 
   /**

@@ -5,22 +5,22 @@ require_once 'RequestError.inc';
  * @file
  *
  * GalaxyRequest
- * 
- * The RGalaxyRequest Class contains methods for using CURL rest options. 
- * More specifically, UPDATE, POST, DELETE, PUT and GET. 
+ *
+ * The RGalaxyRequest Class contains methods for using CURL rest options.
+ * More specifically, UPDATE, POST, DELETE, PUT and GET.
  *
  * @defgroup rest_manager_class RestManager
  * @{
- * The Rest Manager Class contains methods for using CURL rest options. 
- * More specifically, UPDATE, POST, DELETE, PUT and GET. 
+ * The Rest Manager Class contains methods for using CURL rest options.
+ * More specifically, UPDATE, POST, DELETE, PUT and GET.
  * @}
  */
 
 class GalaxyRequest  {
-  
-   // Global Variable that contains any errors received from a rest request.	
+
+   // Global Variable that contains any errors received from a rest request.
    private $requestError = NULL;
-  
+
    /**
     * The Rest Manager constructor.
     *
@@ -31,7 +31,7 @@ class GalaxyRequest  {
     *   An instance of a RestManager class.
     *
     * @ingroup rest_manager_class
-    */   
+    */
    function __construct() {
      $this->requestError = new RequestError();
    }
@@ -48,50 +48,55 @@ class GalaxyRequest  {
    * @ingroup request_error_class
    */
   private function parseCURLResponse($response) {
-   
-   	$response = json_decode($response, TRUE);
-   
-   	// Case 1:  There message is not in JSON format.
-   	if ($response == NULL) {
-   		$this->requestError->setError('Galaxy', 'Unknown CURL response: not json compatible.');
-   		return FALSE;
-   	}
-   
-   	// Case 2: If we have a traceback element, we know the error originated
-   	// from python, meaning the request successfully made it to python but
-   	// there is ap problemo in the Galaxy code.
-   	if (array_key_exists('traceback', $response)) {
-   		// Case 2a: The traceback had an error message.
-   		if (array_key_exists('err_msg', $response)) {
-   			$this->requestError->setError('Galaxy', $response['err_msg']);
-   			return FALSE;
-   		}
-   		// Case 2b: The traceback did not have an error.
-   		else {
-   			$this->requestError->setError('Galaxy', 'A galaxy error was detected, though its contents are unknown');
-   			return FALSE;
-   		}
-   	}
-   	// Case 3: Galaxy generated the error.
-   	else if (array_key_exists('error', $response)) {
-   		$this->requestError->setError('Galaxy', $response['error']);
-   		return FALSE;
-   	}
-   
-   	// Case 4:  No error found.
-   
-   	return $response;
+
+     $response = json_decode($response, TRUE);
+
+     // Case 1:  There message is not in JSON format.
+     if ($response == NULL) {
+       $this->requestError->setError('Galaxy', 'Unknown CURL response: not json compatible.');
+       return FALSE;
+     }
+
+     // Case 2: If we have a traceback element, we know the error originated
+     // from python, meaning the request successfully made it to python but
+     // there is ap problemo in the Galaxy code.
+     if (array_key_exists('traceback', $response)) {
+       // Case 2a: The traceback had an error message.
+       if (array_key_exists('err_msg', $response)) {
+         $this->requestError->setError('Galaxy', $response['err_msg']);
+         return FALSE;
+       }
+       // Case 2b: The traceback did not have an error.
+       else {
+         $this->requestError->setError('Galaxy', 'A galaxy error was detected, though its contents are unknown');
+         return FALSE;
+       }
+     }
+     // Case 3: Galaxy generated the error.
+     else if (array_key_exists('error', $response)) {
+       $this->requestError->setError('Galaxy', $response['error']);
+       return FALSE;
+     }
+     // Case 4: Galaxy generated the error but the message has two separate
+     // components
+     else if (array_key_exists('err_msg', $response)) {
+       $this->requestError->setError('Galaxy', $response['err_msg']);
+       return FALSE;
+     }
+
+     // Case 4:  No error found.
+     return $response;
   }
-   
+
   /**
    * Performs a GET request.
    *
    * @param url
-   *   The URL to perform the GET request on. 
+   *   The URL to perform the GET request on.
    *
-   * @return 
+   * @return
    *   curl server response.
-   *   
+   *
    * @ingroup rest_manager_class
    */
   public function GET($URL) {
@@ -117,9 +122,9 @@ class GalaxyRequest  {
    * @param URL
    *   The url to perform the POST request on.
    *
-   * @return 
+   * @return
    *   curl server response.
-   *   
+   *
    * @ingroup rest_manager_class
    */
   public function POST($URL, $input = NULL) {
@@ -154,9 +159,9 @@ class GalaxyRequest  {
    * @param Input
    *   The input data to give to the URL.
    *
-   * @return 
+   * @return
    *   curl server response.
-   *  
+   *
    * @ingroup rest_manager_class
    */
   public function PUT($URL, $input = NULL) {
@@ -191,7 +196,7 @@ class GalaxyRequest  {
    *
    * @return
    *   curl server response
-   *   
+   *
    * @ingroup rest_manager_class
    */
   public function DELETE($URL, $input = NULL) {
@@ -213,31 +218,31 @@ class GalaxyRequest  {
 
     return $this->parseCURLResponse($message);
   }
-  
+
   /**
-   * 
+   *
    * @param unknown $URL
    * @param unknown $username
    * @param unknown $password
    */
   public function AUTH($URL, $username, $password) {
-  	// Instantiate the curl object.
-  	$curl = curl_init();
-  	
-  	// Set the curl options for this API call.
-  	curl_setopt($curl, CURLOPT_URL, $URL);
-  	curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
-  	curl_setopt($curl, CURLOPT_USERPWD, $username . ':' . $password);
-  	
-  	// Execute the connection.
-  	$message = curl_exec($ch);
+    // Instantiate the curl object.
+    $ch = curl_init();
+
+    // Set the curl options for this API call.
+    curl_setopt($ch, CURLOPT_URL, $URL);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+    curl_setopt($ch, CURLOPT_USERPWD, $username . ':' . $password);
+
+    // Execute the connection.
+    $message = curl_exec($ch);
     if ($message === FALSE) {
       $this->requestError->setError('HTTP', curl_error($ch));
       return FALSE;
     }
     curl_close($ch);
-  	
-  	return $this->parseCURLResponse($message);
+
+    return $this->parseCURLResponse($message);
   }
 
   /**

@@ -2,9 +2,8 @@
 
 $config = array(
   "host" =>  'localhost',
-  "user" =>  'brotato',
-  "pass" =>  'potato15',
-  "port" =>  '8080',
-  "apikey" =>  '6d79393594d00b17c63806144311d492',
-  "email" => 'cgpwytko@gmail.com',
+  "user" =>  'spficklin@gmail.com',
+  "pass" =>  'testing123',
+  "port" =>  '8090',
+  "api_key" =>  'afcbaa548c3af9cd0478d1c8543a55da',
 );
