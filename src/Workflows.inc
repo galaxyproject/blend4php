@@ -1,5 +1,5 @@
 <?php
-include_once 'GalaxyRequest.inc';
+include_once 'HTTPRequest.inc';
 
 /**
  * @file
@@ -21,7 +21,9 @@ include_once 'GalaxyRequest.inc';
  */
 
 
-class Workflows extends GalaxyRequest{
+class Workflows extends HTTPRequest{
+
+  private $galaxy;
 
   /**
 	* The Workflows constructor.
@@ -35,22 +37,24 @@ class Workflows extends GalaxyRequest{
 	* @ingroup workflows_class
 	*/
   function __construct($galaxy) {
-    parent::__construct($galaxy);
+    $this->galaxy = galaxy;
+
+    parent::__construct();
   }
 
 
    /**
     * Retreive a list of all the workflows.
-    * 
-    * Corresponds to the Galaxy API/path at 
+    *
+    * Corresponds to the Galaxy API/path at
     *   GET /api/workflows
     *
     * @param is_published
     *   Optional, if true, published workflows will be displayed.
-    *   
-    * @return 
+    *
+    * @return
     *   A Json array containing all of the workflows in Galaxy.
-    *   
+    *
   	* @ingroup workflows_class
     */
   public function index($is_published = NULL){
@@ -80,17 +84,17 @@ class Workflows extends GalaxyRequest{
 
   /**
     * Retreive detailed information about a specific workflow.
-    * 
-    * Corresponds to the Galaxy API/path at 
+    *
+    * Corresponds to the Galaxy API/path at
     *   GET /api/workflows/{encoded_workflow_id}
     *
     * @param $workflow_id
-    * @param show $show_published 
+    * @param show $show_published
     *   If true, show published workflows.
-    *   
-    * @return 
+    *
+    * @return
     *   A Json Array containing the details of a workflow.
-    *   
+    *
   	* @ingroup workflows_class
     */
    public function show($workflow_id, $show_published=true){
@@ -101,14 +105,14 @@ class Workflows extends GalaxyRequest{
 
    /**
     * Delete a specified workflow.
-    * 
-    * Corresponds to the Galaxy API/method at 
+    *
+    * Corresponds to the Galaxy API/method at
     *   DELETE /api/workflows/{encoded_workflow_id}
     *
-    * @param $workflow_id 
+    * @param $workflow_id
     *   The id of the workflow to delete. To obtain a workflow id
     *   please use this class's index function.
-    *   
+    *
   	* @ingroup workflows_class
     */
    public function delete($workflow_id) {
@@ -139,13 +143,13 @@ class Workflows extends GalaxyRequest{
 
   /**
    * Returns a selected workflow as a json dictionary.
-   * 
+   *
    * Corresponds to the Galaxy API/path
    *   GET /api/workflows/{encoded_workflow_id}/download
    *
    * @param $workflow_id
-   *   Id of the Workflow to retreive To obtain a workflow id, please 
-   *   use this class index() function. 
+   *   Id of the Workflow to retreive To obtain a workflow id, please
+   *   use this class index() function.
    * @param $file_local_path Local
    *   Path to which the exported file will be saved. (Should not contain
    *   filename if use_default_name=True). It must be the full path to which
@@ -156,9 +160,9 @@ class Workflows extends GalaxyRequest{
    *   If use_default_name is False, file_local_path is assumed to contain the
    *   full file path including filename.
    *
-   * @return 
+   * @return
    *   A Json dictionary of the selected workflow.
-   *   
+   *
    * @ingroup workflows_class
    */
   public function workflowDict($workflow_id, $file_local_path,
@@ -169,7 +173,7 @@ class Workflows extends GalaxyRequest{
     $url = $this->galaxy->getURL() . '/api/workflows/' . $workflow_id . '?key=' . $api_key;
 
     $result = $this->rest->GET($url);
-    
+
     return $result.
 
     $array = json_decode($result, true);
@@ -268,16 +272,16 @@ class Workflows extends GalaxyRequest{
 
    /**
     * Retreive a list of the workflow invocations for a given workflow.
-    * 
+    *
     * Corresponds to the Galaxy API/path
     *   GET /api/workflows/{workflow_id}/invocations
-    * 
-    * @param workflow_id 
+    *
+    * @param workflow_id
     *   The id of the workflow whos invocations to retreive.
-    * 
-    * @return 
+    *
+    * @return
     *   A Json array containing the invocations of a workflow.
-    *   
+    *
     * @ingroup workflows_class
     */
    public function indexInvocations($workflow_id){
@@ -288,19 +292,19 @@ class Workflows extends GalaxyRequest{
 
    /**
     * Retreive a detailed specific workflow invocation
-    * 
+    *
     * Corresponds to the Galaxy API/path at
     *   GET /api/workflows/{workflow_id}/invocation/{invocation_id}
     *
     * @param $workflow_id
-    *   The specified workflow of the invocation to show. 
+    *   The specified workflow of the invocation to show.
     *   To obtain a workflow id please use this class index function.
     * @param $invocation_id
-    *   The id of the invocaiton. 
+    *   The id of the invocaiton.
     *   To obtain an invocation id, please use this class's index invocation
-    *   function. 
-    *   
-    * @return 
+    *   function.
+    *
+    * @return
     *   A Json array containing details of the specified invocation.
     *
     * @ingroup workflows_class
@@ -314,19 +318,19 @@ class Workflows extends GalaxyRequest{
 
    /**
     * Cancel an invocation request.
-    * 
+    *
     * Corresponds to the Galaxy API/path at
     *   DELETE /api/workflows/{workflow_id}/invocation/{invocation_id}
     *
     * @param workflow_id
-    *   The id of the workflow that the invocation belongs to. To obtain 
+    *   The id of the workflow that the invocation belongs to. To obtain
     *   a workflow invocation, please use this class's index() function.
     * @param invocation_id
     *   The id of the invocation to invoke.
-    *   
-    * @return 
+    *
+    * @return
     *   A Json array containing details of the specified invocation.
-    *    
+    *
     * @ingroup workflows_class
     */
    public function cancelInvocation($workflow_id, $invocation_id){
@@ -338,23 +342,23 @@ class Workflows extends GalaxyRequest{
 
    /**
     * Returns the invocation steps for a workflow.
-    * 
+    *
     * Corresponds to the Galaxy API/path at
     *   GET /api/workflows/{workflow_id}/invocation/{invocation_id}/steps/{step_id}
     *
     * @param workflow_id
-    *   The id of the workflow whos invocation steps to retreive. To obtain 
+    *   The id of the workflow whos invocation steps to retreive. To obtain
     *   a workflow id, please use this class's index function.
     * @param invocation_id
     *   The id of the invocation the step belongs to. To obtain an invocaiton id
     *   please use this class's indexInvocation function.
     * @param step_id
-    *   The id of the step to retreive. 
-    *   
-    * @return 
-    *   A Json array containing information for all the invocation steps of 
+    *   The id of the step to retreive.
+    *
+    * @return
+    *   A Json array containing information for all the invocation steps of
     *   the given workflow invocation.
-    *   
+    *
     * @ingroup workflows_class
     */
    public function invocationSteps($workflow_id, $invocation_id, $step_id){
@@ -365,23 +369,23 @@ class Workflows extends GalaxyRequest{
 
 
   /**
-    * Update state of running workflow step invocations. 
-    * 
+    * Update state of running workflow step invocations.
+    *
     * Corresponds to the Galaxy API/path at
     *   PUT /api/workflows/{workflow_id}/invocation/{invocation_id}/steps/{step_id}
     *
     * @param workflow_id
-    *   The id of the workflow whos invocation steps to update. To obtain 
+    *   The id of the workflow whos invocation steps to update. To obtain
     *   a workflow id, please use this class's index function.
     * @param invocation_id
     *   The id of the invocation the step belongs to. To obtain an invocaiton id
     *   please use this class's indexInvocation function.
     * @param step_id
-    *   The id of the step to update. 
-    *   
-    * @return 
+    *   The id of the step to update.
+    *
+    * @return
     *   A Json array containing information of the updated invocation step.
-    *   
+    *
     * @ingroup workflows_class
     */
    public function updateInvocationSteps($workflow_id, $invocation_id, $step_id){
@@ -391,33 +395,33 @@ class Workflows extends GalaxyRequest{
     return $this->rest->PUT($url);
    }
 
- 
+
 
   /**
    * Invokes (runs) a specified workflow.
-   * 
+   *
    * Corresponds to the Galaxy API method/path at
    *   POST /api/workflows/{encoded_workflow_id}/invocations
    *
-   * @param $input_dataset_ids: 
+   * @param $input_dataset_ids:
    *   The list of id's of the datasets to enter into the workflow.
    *   These id's can be found using the dataset class's index() function.
-   *   For right now the dataset must come from a history. 
+   *   For right now the dataset must come from a history.
    *   Also The dataset 'state' must be 'ok and 'deleted' must be set to false.
-   * @param $don't_add_to_history 
-   *   Defaults to false. Id true, the function will add the results to a 
+   * @param $don't_add_to_history
+   *   Defaults to false. Id true, the function will add the results to a
    *   specified history.
-   * @param $hist_name 
-   *   The name of the history to output the results to, 
+   * @param $hist_name
+   *   The name of the history to output the results to,
    *   if a new history is being created
-   * @param $hist_id 
-   *   Optional. The id of the history to export the results to. 
+   * @param $hist_id
+   *   Optional. The id of the history to export the results to.
    *   If a new history is not created. Leave this ommitted if a new history
    *   is to be created.
-   *   
-   * @return 
+   *
+   * @return
    *   A Json object containing information on the workflow invoked.
-   *   
+   *
    * @ingroup workflows_class
    */
   public function invoke($workflow_id, $input_dataset_ids, $hist_name=NULL,$hist_id=NULL,
@@ -450,51 +454,51 @@ class Workflows extends GalaxyRequest{
     * Corresponds to the Galaxy api/path at
     *   POST /api/workflows
     *
-    * @param workflow_id 
+    * @param workflow_id
     *   An existing workflow id. Either workflow_id,
     *   installed_repository_file or from_history_id must be specified.
-    *   To obtain a workflow id, please see this class's index() function. 
-    * @param parameters 
-    *   If workflow_id is set, specify the parameters for the workflow. 
+    *   To obtain a workflow id, please see this class's index() function.
+    * @param parameters
+    *   If workflow_id is set, specify the parameters for the workflow.
     *   See this class's invoke() for more details.
-    * @param ds_map If workflow_id is set - a dictionary mapping each input step 
-    *   id to a dictionary with 2 keys: ‘src’ (which can be ‘ldda’, 
-    *   ‘ld’ or ‘hda’) and ‘id’ (which should be the id of a 
-    *   LibraryDatasetDatasetAssociation, LibraryDataset or 
+    * @param ds_map If workflow_id is set - a dictionary mapping each input step
+    *   id to a dictionary with 2 keys: ‘src’ (which can be ‘ldda’,
+    *   ‘ld’ or ‘hda’) and ‘id’ (which should be the id of a
+    *   LibraryDatasetDatasetAssociation, LibraryDataset or
     *   HistoryDatasetAssociation respectively).
-    * @param no_add_to_history  
+    * @param no_add_to_history
     *   If workflow_id is set; if present in the payload with any value,
     *   the input datasets will not be added to the selected history.
-    * @param history 
+    * @param history
     *   If workflow_id is set  optional history where to run the workflow,
-    *   either the name of a new history or “hist_id=HIST_ID” where HIST_ID 
+    *   either the name of a new history or “hist_id=HIST_ID” where HIST_ID
     *   is the id of an existing history.
-    *   If not specified, the workflow will be run a new unnamed history. 
-    *   To obtain a history ID Please refer to the index() 
+    *   If not specified, the workflow will be run a new unnamed history.
+    *   To obtain a history ID Please refer to the index()
     *   function in the histories class.
-    * @param replacement_params 
-    *   If workflow_id is set  an optional dictionary used when renaming 
+    * @param replacement_params
+    *   If workflow_id is set  an optional dictionary used when renaming
     *   datasets.
-    * @param string from_history_id 
+    * @param string from_history_id
     *   Id of history to extract a workflow from. Either workflow_id,
     *   installed_repository_file or from_history_id must be specified.
-    * @param job_ids 
-    *   If from_history_id is set, optional list of jobs to include 
+    * @param job_ids
+    *   If from_history_id is set, optional list of jobs to include
     *   when extracting a workflow from history.
-    * @param dataset_collection_ids 
+    * @param dataset_collection_ids
     *   If from_history_id is set - optional list of HDCA
-    *  `hid`s corresponding to workflow inputs when extracting a workflow 
+    *  `hid`s corresponding to workflow inputs when extracting a workflow
     *   from history.
-    * @param workflow_name 
-    *   If from_history_id is set; name of the workflow to create when 
+    * @param workflow_name
+    *   If from_history_id is set; name of the workflow to create when
     *   extracting a workflow from history.
-    * @param allow_tool_state_corrections 
-    *   If set to True, any Tool parameter changes will not prevent 
+    * @param allow_tool_state_corrections
+    *   If set to True, any Tool parameter changes will not prevent
     *   running workflow, defaults to False.
-    * 
-    *  @return 
+    *
+    *  @return
     *   A Json object containing the created workflow.
-    *   
+    *
     * @ingroup workflows_class
     **/
    public function create($workflow_id = NULL, $parameters = NULL, $ds_map = NULL,

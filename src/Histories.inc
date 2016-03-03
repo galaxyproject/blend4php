@@ -19,10 +19,11 @@
  *   are named similarly to their Python counterpart.
  * @}
  */
-require_once 'GalaxyRequest.inc';
+require_once 'HTTPRequest.inc';
 
-class Histories extends GalaxyRequest {
+class Histories extends HTTPRequest {
 
+  private $galaxy;
 	/**
 	 * The Histories constructor.
 	 *
@@ -35,34 +36,35 @@ class Histories extends GalaxyRequest {
 	 * @ingroup histories_class
 	 */
    public function __construct($galaxy) {
-   	parent::__construct($galaxy);
+     $this->galaxy = galaxy;
+     parent::__construct();
    }
 
    /**
     *  Create a new History component in Galaxy.
-    *  
-    *  Corresponds to the Galaxy API method and path: 
+    *
+    *  Corresponds to the Galaxy API method and path:
     *    POST /api/histories:
     *
     *  Creates a new  history in a galaxy instance
     *    Note the option to pass 'keys' and 'views' is currently not supported
     *
-    * @param name 
+    * @param name
     *   the new history’s name
-    * @param history_id 
+    * @param history_id
     *   The id of the history to copy (will copy contents to new history)
     *   To obtain history_id's, please use this classes' index() function.
-    * @param bool all_datasets 
+    * @param bool all_datasets
     *   Copy deleted hdas/hdcas?  ‘True’ or ‘False’, defaults to True.
-    * @param archive_source 
+    * @param archive_source
     *   The url that will generate the archive to import.
-    * @param archive_type 
+    * @param archive_type
     *   ‘url’ (default)
     *
-    * @return 
+    * @return
     *    Json array containing information about the new History component.
     *
-    * @ingroup histories_class 
+    * @ingroup histories_class
     */
    public function create($name, $history_id = NULL, $annotation = NULL, $archive_source = NULL,  $archive_type = NULL,
    $all_datasets = TRUE) {
@@ -90,7 +92,7 @@ class Histories extends GalaxyRequest {
 
    /**
     *  Displays a collection of history components in Galaxy.
-    * 
+    *
     *  Corresponds to the Galaxy API method and path:
     *  GET /api/histories and  GET /api/histories/deleted
     *
@@ -112,9 +114,9 @@ class Histories extends GalaxyRequest {
     *
     *  Corresponds to the Galaxy API method and path:
     *  POST /api/histories/{encoded_history_id}:
-    * 
-    * @param history_id 
-    *   The id of the history to retreive.  
+    *
+    * @param history_id
+    *   The id of the history to retreive.
     *   To obtain history_id's, please use this classes' index() function.
     *
     * @return
@@ -135,18 +137,18 @@ class Histories extends GalaxyRequest {
    /**
     * Download a given history with indicated history id.
     *
-    * Corresponds to the Galaxy API method and path::   
+    * Corresponds to the Galaxy API method and path::
     *  PUT /api/histories/{id}/exports”
-    *  and: 
+    *  and:
     *  GET /api/histories/{id}/exports/{jeha_id}
-    * 
-    * @param history_id 
+    *
+    * @param history_id
     *   The id of the history to download
     *   To obtain history_id's, please use this classes' index() function.
-    * @return 
-    *    Binary format of the history specified, error message if error. 
+    * @return
+    *    Binary format of the history specified, error message if error.
     *
-    * @ingroup histories_class 
+    * @ingroup histories_class
     */
    public function archive_download($history_id){
     $error_message = "Error, unrecognized server response.";
@@ -220,7 +222,7 @@ class Histories extends GalaxyRequest {
     * @param  history_id:
     *   The encoded id of the history to undelete.
     *   To obtain history_id's, please use this classes' index() function.
-    *   
+    *
     * @return
     *   Json information of history undeleted.
     *
@@ -282,7 +284,7 @@ class Histories extends GalaxyRequest {
    	$URL = $this->galaxy->getURL() . '/api/histories/shared_with_me/?key=' . $this->galaxy->getAPIKey();
    	return $this->rest->GET($URL);
    }
-   
+
 
 }
 

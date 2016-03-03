@@ -19,9 +19,10 @@
  *   are named similarly to their Python counterpart.
  * @}
  */
-include_once "GalaxyRequest.inc";
+include_once "HTTPRequest.inc";
 
-class GroupUsers extends GalaxyRequest {
+class GroupUsers extends HTTPRequest {
+  private $galaxy;
 
 	/**
 	 * The GroupUsers constructor.
@@ -35,7 +36,8 @@ class GroupUsers extends GalaxyRequest {
 	 * @ingroup group_users_class
 	 */
    public function __construct($galaxy) {
-     parent::__construct($galaxy);
+     $this->galaxy = galaxy;
+     parent::__construct();
    }
 
    /**

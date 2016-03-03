@@ -4,19 +4,19 @@ require_once 'RequestError.inc';
 /**
  * @file
  *
- * GalaxyRequest
+ * HTTPRequest
  *
- * The RGalaxyRequest Class contains methods for using CURL rest options.
+ * The HTTPRequest Class contains methods for using CURL rest options.
  * More specifically, UPDATE, POST, DELETE, PUT and GET.
  *
- * @defgroup rest_manager_class RestManager
+ * @defgroup http_request_class HTTPRequest Class
  * @{
- * The Rest Manager Class contains methods for using CURL rest options.
+ * The HTTPRequest Class contains methods for using CURL rest options.
  * More specifically, UPDATE, POST, DELETE, PUT and GET.
  * @}
  */
 
-class GalaxyRequest  {
+class HTTPRequest  {
 
    // Global Variable that contains any errors received from a rest request.
    private $requestError = NULL;

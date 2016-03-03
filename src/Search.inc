@@ -1,12 +1,12 @@
 <?php
 
 /**
- * @file 
- * 
+ * @file
+ *
  * The Search class
- * 
+ *
  * The search class contains amethod for quering SQL searches
- * accross Galaxy tables. This class corresponds to its Galaxy API equivalent 
+ * accross Galaxy tables. This class corresponds to its Galaxy API equivalent
  * and is named similarly.
  */
 
@@ -14,57 +14,59 @@
  * @defgroup search_class Search Class
  * @{
  *   The Search class contains a method for quering SQL searches
- *   accross Galaxy tables. This class corresponds to its Galaxy API equivalent 
- *   and is named similarly. 
+ *   accross Galaxy tables. This class corresponds to its Galaxy API equivalent
+ *   and is named similarly.
  * @}
  */
 
-include_once 'GalaxyRequest.inc';
+include_once 'HTTPRequest.inc';
 
-class Search extends GalaxyRequest{
+class Search extends HTTPRequest{
+  private $galaxy;
 
 	/**
 	 * Implements the Search constructor.
 	 *
 	 * @param GalaxyInstance galaxy
 	 *   A Galaxy Instance object.
-	 *   
-	 * @return 
+	 *
+	 * @return
 	 *   An instance of a search object.
-	 *   
+	 *
      * @ingroup search_class
 	 */
 	function __construct($galaxy) {
-		parent::__construct($galaxy);
+	  $this->galaxy = galaxy;
+		parent::__construct();
 	}
-	
-	
+
+
 	/**
 	 * Performs a search of the various elements in Galaxy.
-	 * 
+	 *
 	 * Corresponds to the galaxy method/path:
 	 *   Post /api/search
      *
-	 * @param $query, 
-	 *   must be a valid, lowercase,  SQL expression, example: 
+	 * @param $query,
+	 *   must be a valid, lowercase,  SQL expression, example:
 	 *   'select * from history where id = \'290670ee50ab85f0\''
-	 * 
-	 * @return 
+	 *
+	 * @return
 	 *   JSON object of the Galaxy element that matches the query.
-	 *   
+	 *
      * @ingroup search_class
 	 */
-   function create($query) { 
+   function create($query) {
    	$url = $this->galaxy->getURL() . '/api/search/?key=' . $this->galaxy->getAPIKey();
    	$elements = array (
    		'query'=>$query,
    	);
    	return  $this->rest->POST($url, $elements);
    }
-	
-	
 
-	
-	
-	
+
+
+
+
+
 }

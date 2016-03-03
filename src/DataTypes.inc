@@ -18,10 +18,11 @@
  *   are named similarly to their Python counterpart.
  * @}
  */
-require_once 'GalaxyRequest.inc';
+require_once 'HTTPRequest.inc';
 
 
-class Datatypes extends GalaxyRequest {
+class Datatypes extends HTTPRequest {
+  private $galaxy;
 
 	/**
 	 * The DataTypes constructor.
@@ -35,26 +36,27 @@ class Datatypes extends GalaxyRequest {
 	 * @ingroup data_sets_class
 	 */
     public function __construct($galaxy) {
-   	  parent::__construct($galaxy);
+      $this->galaxy = galaxy;
+   	  parent::__construct();
      }
 
-   
+
     /**
-     * Retreive a list of all datatype sniffers. 
-     * 
-     * Corresponds to the Galaxy API/Path: 
+     * Retreive a list of all datatype sniffers.
+     *
+     * Corresponds to the Galaxy API/Path:
      *   GET /api/datatypes/sniffers
-     *   
-     * @return 
-     *   JSON array containing sniffers of all datatypes 
-     *   
-	 * @ingroup data_types_class   
+     *
+     * @return
+     *   JSON array containing sniffers of all datatypes
+     *
+	 * @ingroup data_types_class
      */
     public function sniffers(){
    	  $URL = $this->galaxy->getURL() . '/api/datatypes/sniffers/?key=' . $this->galaxy->getAPIKey();
-   	  return $this->rest->GET($URL);	
+   	  return $this->rest->GET($URL);
     }
-   
+
     /**
      * Retreive a list of all datatype converters.
      *
@@ -70,7 +72,7 @@ class Datatypes extends GalaxyRequest {
    	 $URL = $this->galaxy->getURL() . '/api/datatypes/converters/?key=' . $this->galaxy->getAPIKey();
    	 return $this->rest->GET($URL);
     }
-   
+
     /**
      * Retreive a list of all datatypes in the edam format.
      *
@@ -86,7 +88,7 @@ class Datatypes extends GalaxyRequest {
    	$URL = $this->galaxy->getURL() . '/api/datatypes/edam_formats/?key=' . $this->galaxy->getAPIKey();
    	return $this->rest->GET($URL);
    }
-   
+
    /**
     * Retreive a list of all datatypes in mapping.
     *
@@ -99,24 +101,24 @@ class Datatypes extends GalaxyRequest {
     * @ingroup data_types_class
     */
    public function mapping () {
-   	$URL = $this->galaxy->getURL() . '/api/datatypes/mapping/?key=' . $this->galaxy->getAPIKey(); 	
+   	$URL = $this->galaxy->getURL() . '/api/datatypes/mapping/?key=' . $this->galaxy->getAPIKey();
    	return $this->rest->GET($URL);
    }
-   
+
    /**
-    * Retreive a list of all datatypes 
+    * Retreive a list of all datatypes
     *
     * Corresponds to the Galaxy API/Path:
     *   GET /api/datatypes/
     *
     * @return
-    *   JSON array containing all datatypes 
+    *   JSON array containing all datatypes
     *
     * @ingroup data_types_class
-    */ 
+    */
  	public function index(){
  	 $URL = $this->galaxy->getURL() . '/api/datatypes/?key=' . $this->galaxy->getAPIKey();
- 	 return $this->rest->GET($URL); 		
+ 	 return $this->rest->GET($URL);
  	}
 
 }

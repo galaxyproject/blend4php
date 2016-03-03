@@ -20,10 +20,11 @@
  * @}
  */
 
-include_once "GalaxyRequest.inc";
+include_once "HTTPRequest.inc";
 
 
-class Groups extends GalaxyRequest {
+class Groups extends HTTPRequest {
+  private $galaxy;
 
   /**
    * The Groups constructor.
@@ -37,7 +38,8 @@ class Groups extends GalaxyRequest {
    * @ingroup group_class
    */
   public function __construct($galaxy) {
-    parent::__construct($galaxy);
+    $this->galaxy = galaxy;
+    parent::__construct();
   }
 
   /**

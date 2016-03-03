@@ -19,10 +19,11 @@
  * @}
  */
 
-require_once 'GalaxyRequest.inc';
+require_once 'HTTPRequest.inc';
 
-class Folders extends GalaxyRequest {
+class Folders extends HTTPRequest {
 
+  private $galaxy;
 
   /**
 	* The Folders constructor.
@@ -36,22 +37,23 @@ class Folders extends GalaxyRequest {
 	* @ingroup folders_class
 	*/
    public function __construct($galaxy) {
-   	parent::__construct($galaxy);
+     $this->galaxy = galaxy;
+   	 parent::__construct();
    }
 
    /**
     * Retreive information about a specific folder
-    * 
+    *
     * Corresponds to the Galaxy API function/path:
     *   GET /api/folders/{folder_id}
     *
     * @param $folder_id
     *   The folder that you would like to see. Please see the index()
     *   function in this class to obtain folder ids.
-    *   
-    * @return 
-    *   JSON array containing information about the specified folder.   
-    *   
+    *
+    * @return
+    *   JSON array containing information about the specified folder.
+    *
 	* @ingroup folder_contents_class
     */
    public function show ($folder_id) {
@@ -61,7 +63,7 @@ class Folders extends GalaxyRequest {
 
    /**
     * Create a new folder.
-    * 
+    *
     * Corresponds to the API function/path:
     *   POST /api/folders/{encoded_parent_folder_id}
     *
@@ -71,11 +73,11 @@ class Folders extends GalaxyRequest {
     *   The name of your new folder.
     * @param $description
     *   The description of your new folder.
-    *   
-    * @return 
+    *
+    * @return
     *   A JSON array containing information on the new folder.
-    *   
-	* @ingroup folder_contents_class   
+    *
+	* @ingroup folder_contents_class
     */
    public function create($parent_folder_id, $name, $description){
    	$URL = $this->galaxy->getURL() . '/api/folders/' . 'F' . $parent_folder_id . '/?key=' . $this->galaxy->getAPIKey();
@@ -88,7 +90,7 @@ class Folders extends GalaxyRequest {
 
 	/**
 	 * Load all permissions for the folder with the given id.
-	 * 
+	 *
 	 * Corresponds to the Galaxy API/Path:
 	 *   GET /api/folders/{folder_id}/permissions
 	 *
@@ -96,10 +98,10 @@ class Folders extends GalaxyRequest {
 	 *   The id of the folder to view permissions. The id can be ontained
 	 *   using the index() function in this class.
 	 *
-     * @return 
+     * @return
      *   A JSON array containing permission information on a specified folder.
-     *   
-	 * @ingroup folder_contents_class  
+     *
+	 * @ingroup folder_contents_class
 	 */
  	public function getPermissions($folder_id){
  	 $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' .$folder_id . '/permissions' .'?key=' . $this->galaxy->getAPIKey();
@@ -108,7 +110,7 @@ class Folders extends GalaxyRequest {
 
  	/**
  	 * Set permissions for a specified folder.
- 	 * 
+ 	 *
  	 * Corresponds to the Galaxy API function/path at:
  	 *   POST /api/folders/{folder_id}/permissions
  	 * There are 3 options that can be manipulated:
@@ -119,7 +121,7 @@ class Folders extends GalaxyRequest {
  	 *
  	 * @param $folder_id
  	 *   The folder you want to view permissions. To obtain a folder id, please
- 	 *   use the index() function in this class. 
+ 	 *   use the index() function in this class.
  	 * @param $add_ids
  	 *   List of users that will have add item permission on the folder. To
  	 *   obtain a user id, please use the user class's index() function.
@@ -143,7 +145,7 @@ class Folders extends GalaxyRequest {
 
  	/**
  	 * Mark the folder as 'deleted' or 'undeleted'.
- 	 * 
+ 	 *
  	 * Corresponds to the Galaxy API function at
  	 *   DELETE /api/folders/{folder_id}/
  	 *
@@ -153,13 +155,13 @@ class Folders extends GalaxyRequest {
  	 *   The folder you want to delete/undelete. To obtain a folder id, please
  	 *   use this class's index() function.
  	 * @param $undelete
- 	 *   Specifying whether the item should be deleted(true) or undeleted 
+ 	 *   Specifying whether the item should be deleted(true) or undeleted
  	 *   (false).
- 	 *   
- 	 * @return 
+ 	 *
+ 	 * @return
  	 *   Json Array containing information on the deleted (or undeleted)
  	 *   folder.
- 	 *   
+ 	 *
  	 * @ingroup folders_class
  	 */
  	public function delete($folder_id, $undelete = FALSE){

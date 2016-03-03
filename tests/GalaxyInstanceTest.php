@@ -1,14 +1,15 @@
 <?php
 
-require_once '../src/GalaxyInstance.inc';
-require_once './testConfig.inc';
-
 /**
  * @file
  *
  * Testing to make sure the galaxy instance file will authenticate
  * and connect correctly
  */
+
+require_once '../src/GalaxyInstance.inc';
+require_once './testConfig.inc';
+
 
 class GalaxyInstanceTest extends PHPUnit_Framework_TestCase {
 

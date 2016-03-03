@@ -19,11 +19,12 @@
  *   are named similarly to their Python counterpart.
  * @}
  */
-require_once 'GalaxyRequest.inc';
+require_once 'HTTPRequest.inc';
 
 
-class HistoryContents extends GalaxyRequest {
-	
+class HistoryContents extends HTTPRequest {
+
+  private $galaxy;
  /**
    * The HistoryContents constructor.
    *
@@ -34,15 +35,16 @@ class HistoryContents extends GalaxyRequest {
    *   An instance of a HistoryContents object.
    *
    * @ingroup history_content_class
-   */	
+   */
   public function __construct($galaxy) {
-    parent::__construct($galaxy);
+    parent::__construct();
+    $this->galaxy = galaxy;
   }
 
   /**
    * Create a new HistoryContents component to a given history
-   * 
-   * Corresponds to the Galaxy API method at: 
+   *
+   * Corresponds to the Galaxy API method at:
    *  POST /api/histories/{history_id}/contents/datasets
    *
    * create a new History Dataset Association by copying an
@@ -51,17 +53,17 @@ class HistoryContents extends GalaxyRequest {
    *  as opposed to creating dataset Collections
    *
    * @param history_id
-   *   history id of the history to update. To find, please refer to 
-   *   'Histories' class. 
-   * @param source 
+   *   history id of the history to update. To find, please refer to
+   *   'Histories' class.
+   * @param source
    *   The source of the new dataset, either hda or library
-   * @param content_id 
+   * @param content_id
    *   the content to add (dataset id's work)
    *   to find dataset id's go to:
-   *   /api/histories/<history_id>/content only 'ok' state datasets work 
-   *   Or refer to the Datasets class 
+   *   /api/histories/<history_id>/content only 'ok' state datasets work
+   *   Or refer to the Datasets class
    *
-   * @return 
+   * @return
    * Json array containing information about the new History content component.
    *
    * @ingroup history_content_class
@@ -79,21 +81,21 @@ class HistoryContents extends GalaxyRequest {
   }
 
   /**
-   * Retrieve detailed information about a specific historycontent. 
-   * 
-   * Corresponds to the Galaxy API method and path: 
+   * Retrieve detailed information about a specific historycontent.
+   *
+   * Corresponds to the Galaxy API method and path:
    *   GET /api/histories/{history_id}/contents/{id}
    *
-   * @param content_id 
+   * @param content_id
    *   the encoded history content id of the HDA to return (History data association)
-   *   please use the index() function for a list of content_id's. 
+   *   please use the index() function for a list of content_id's.
    * @param $history_id
-   *   history id of the history to update. To find, please refer to 
-   *   'Histories' class. 
-   *   
-   * @return 
+   *   history id of the history to update. To find, please refer to
+   *   'Histories' class.
+   *
+   * @return
    *   Json array containing detailed HDA (history dataset association) information.
-   *   
+   *
    * @ingroup history_content_class
    */
   public function show($history_id, $content_id) {
@@ -103,26 +105,26 @@ class HistoryContents extends GalaxyRequest {
 
   /**
    * Updates the values for the History content with the given id.
-   * 
+   *
    * Corresponds to the Galaxy API method and path:
    *   PUT /api/histories/{history_id}/contents/{id}
-   * 
+   *
    *  Some functionality from original python function is not available.
    *
    * @param history_id
-   *   history id of the history to update. To find, please refer to 
-   *   'Histories' class. 
+   *   history id of the history to update. To find, please refer to
+   *   'Histories' class.
    * @param content_id
    *   content id of the content to update the history with, can be a dataset
    *   to find dataset id's go to:
    *   /api/histories/<history_id>/content, only 'ok' state datasets work
    * @param $annotation
    *   annotation for the hda
-   *   
-   * @return 
+   *
+   * @return
    *   Json array containing detailed HDA (history dataset association) information.
-   *   
-   * @ingroup history_content_class  
+   *
+   * @ingroup history_content_class
    */
   public function update($history_id, $content_id, $annotation = '') {
     $URL = $this->galaxy->getURL() .'/api/histories/' .$history_id .'/contents/' .$content_id .'/?key=' .$this->galaxy->getAPIKey();
@@ -132,14 +134,14 @@ class HistoryContents extends GalaxyRequest {
 
   /**
    * Delete the History content with the given id.
-   *  
-   * Corresponds to the galaxy API path at: 
+   *
+   * Corresponds to the galaxy API path at:
    *   DELETE /api/histories/{history_id}/contents/{id}
    *
    *
    * @param history_id
-   *   history id of the history to update. To find, please refer to 
-   *  'Histories' class. 
+   *   history id of the history to update. To find, please refer to
+   *  'Histories' class.
    * @param content_id
    *   content id of the content to update the history with, can be a dataset
    *   to find dataset id's go to:
@@ -148,11 +150,11 @@ class HistoryContents extends GalaxyRequest {
    * @param purge
    *   A value of TRUE will remove this history content from the deleted
    *   page as well.
-   *   
-   * @return 
+   *
+   * @return
    *   Json array containing detailed HDA (history dataset association) information.
-   *   
-   * @ingroup history_content_class    
+   *
+   * @ingroup history_content_class
    */
   public function delete($history_id, $content_id, $purge = false) {
     $URL = $this->galaxy->getURL() .'/api/histories/' .$history_id .'/contents/' .$content_id .'/?key=' .$this->galaxy->getAPIKey();
@@ -163,23 +165,23 @@ class HistoryContents extends GalaxyRequest {
   }
 
   /**
-   * Displays a collection of history content components. 
-   * 
-   * Corresponds to th Galaxy API path at: 
+   * Displays a collection of history content components.
+   *
+   * Corresponds to th Galaxy API path at:
    *   GET /api/histories/{history_id}/contents
    *
    * @param history_id
-   *   history id of the history to update. To find, please refer to 
-   *  'Histories' class. 
-   * @param ids 
-   *   A comma separated string of encoded historyContent ids to narrow 
-   *   The return JSON. 
+   *   history id of the history to update. To find, please refer to
+   *  'Histories' class.
+   * @param ids
+   *   A comma separated string of encoded historyContent ids to narrow
+   *   The return JSON.
    *
-   * @return 
-   *   JSON information containing summary or 
-   *   detailed HDA(history dataset association) of all the history contents. 
-   *   
-   * @ingroup history_content_class    
+   * @return
+   *   JSON information containing summary or
+   *   detailed HDA(history dataset association) of all the history contents.
+   *
+   * @ingroup history_content_class
    */
   public function index($history_id, $ids = NULL) {
     $URL = $this->galaxy->getURL() .'/api/histories/' .$history_id .'/contents';

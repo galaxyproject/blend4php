@@ -1,5 +1,5 @@
 <?php
-require_once 'GalaxyRequest.inc';
+
 /**
  * @file
  *
@@ -21,7 +21,9 @@ require_once 'GalaxyRequest.inc';
  * @}
  */
 
-class GalaxyInstance extends GalaxyRequest {
+require_once 'HTTPRequest.inc';
+
+class GalaxyInstance extends HTTPRequest {
   // The hostname where the Galaxy server is located.
   protected $host;
   // The port on which the remote Galaxy instance is runinng.

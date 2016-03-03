@@ -20,9 +20,10 @@
  * @}
  */
 
-include_once "GalaxyRequest.inc";
+include_once "HTTPRequest.inc";
 
-class GroupRoles extends GalaxyRequest {
+class GroupRoles extends HTTPRequest {
+  private $galaxy;
 
 
 	/**
@@ -37,7 +38,8 @@ class GroupRoles extends GalaxyRequest {
 	 * @ingroup group_roles_class
 	 */
     public function __construct($galaxy) {
-      parent ::__construct($galaxy);
+      $this->galaxy = galaxy;
+      parent ::__construct();
     }
 
    /**
@@ -45,7 +47,7 @@ class GroupRoles extends GalaxyRequest {
     *
     * Corresponds to the Galaxy API method and path: GET /api/groups/
     * {encoded_group_id}/roles.
-    * 
+    *
     * @param $group_id
     *   The id of the group whose roles to list.  Group IDs can be found using the
     *   index() function of the Groups class.
@@ -70,7 +72,7 @@ class GroupRoles extends GalaxyRequest {
     *   The id of the group whose roles to list.  Group IDs can be found using the
     *   index() function of the Groups class.
     * @param $role_id
-    *   The id of the specific role to show. Role IDS can be found using the index() 
+    *   The id of the specific role to show. Role IDS can be found using the index()
     *   function of the Roles class
     * @return
     *   A JSON array containing details about the role of a given gorup.
@@ -84,7 +86,7 @@ class GroupRoles extends GalaxyRequest {
    }
 
    /**
-    * Supports adding a role to a given group. 
+    * Supports adding a role to a given group.
     *
     * Corresponds to the Galaxy API method and path:
     * PUT /api/groups/{encoded_group_id}/roles/{encoded_role_id}.

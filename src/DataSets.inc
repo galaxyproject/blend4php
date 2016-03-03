@@ -18,10 +18,11 @@
  *   are named similarly to their Python counterpart.
  * @}
  */
-require_once 'GalaxyRequest.inc';
+require_once 'HTTPRequest.inc';
 
 
-class Datasets extends GalaxyRequest {
+class Datasets extends HTTPRequest {
+  private $galaxy;
 
    /**
    * The DataSets constructor.
@@ -35,7 +36,9 @@ class Datasets extends GalaxyRequest {
    * @ingroup data_sets_class
    */
    public function __construct($galaxy) {
-     parent::__construct($galaxy);
+     $this->galaxy = galaxy;
+
+     parent::__construct();
    }
 
    /**
@@ -56,7 +59,7 @@ class Datasets extends GalaxyRequest {
     *
     * @defgroup data_sets_class
     */
-   public function converted ($dataset_id, $extension=NULL) {
+   public function converted($dataset_id, $extension=NULL) {
      if($URL !== NULL) {
        $URL = $this->galaxy->getURL() . '/api/datasets/' . $dataset_id . '/converted/' . $extension . '/?key=' . $this->galaxy->getAPIKey();
      }
