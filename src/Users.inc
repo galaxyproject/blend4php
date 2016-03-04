@@ -101,7 +101,7 @@ class Users extends HTTPRequest {
    * @ingroup users_class
    */
   function show($user_id) {
-    $URL = $this->galaxy->getURL() .'/api/users/' .$user_id .'/api_key/?key=' .$this->galaxy->getAPIKey();
+    $URL = $this->galaxy->getURL() .'/api/users/' .$user_id .'/?key=' .$this->galaxy->getAPIKey();
     return $this->GET($URL);
   }
 
