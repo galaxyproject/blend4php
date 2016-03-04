@@ -138,25 +138,32 @@ class Histories extends HTTPRequest {
    /**
     * Download a given history with indicated history id.
     *
-    * Corresponds to the Galaxy API method and path::
+    * Corresponds to the Galaxy API method and path:
+    *
     *  PUT /api/histories/{id}/exports'
-    *  and:
+    *    and:
     *  GET /api/histories/{id}/exports/{jeha_id}
     *
-    * @param history_id
+    * @param $history_id
     *   The id of the history to download
     *   To obtain history_id's, please use this classes' index() function.
+    * @param $file_path
+    *   The full path (including the file name) on the file systems where this
+    *   file should be written.  Ideally, the file name should have a .tar.gz
+    *   extension as the downloaded file is tar'ed and gzip compressed.
+    *
     * @return
-    *    Binary format of the history specified, error message if error.
+    *    TRUE if the download was successful and FALSE otherwise.
     *
     * @ingroup histories_class
     */
-   public function archiveDownload($history_id) {
+   public function archiveDownload($history_id, $file_path) {
 
     // Obtain download URL, with the necessary jeha_id
-    $jeha_id = $this->archive_export($history_id);
-    print_r($jeha_id);
+    $download_url = $this->archiveExport($history_id);
 
+    $URL = $this->galaxy->getURL() . '/' . $download_url . '?key=' . $this->galaxy->getAPIKey();
+    $file_contents = $this->GET($URL);
 
   }
 
@@ -166,7 +173,7 @@ class Histories extends HTTPRequest {
    * Corresponds to the Galaxy API method and path:
    *  PUT /api/histories/{id}/exports:
    *
-   * @param history_id:
+   * @param $history_id:
    *   the encoded id of the history to export.
    *
    * @return
@@ -175,6 +182,7 @@ class Histories extends HTTPRequest {
    * @ingroup histories_class
    */
    public function archiveExport($history_id){
+
      $URL = $this->galaxy->getURL() . '/api/histories/' . $history_id . '/exports/?key=' . $this->galaxy->getAPIKey();
      $input = array('id' => $history_id);
      $output = $this->PUT($URL, $input);

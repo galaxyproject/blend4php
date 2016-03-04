@@ -5,6 +5,9 @@ require_once 'testConfig.inc';
 
 class HistoriesTest extends PHPUnit_Framework_TestCase {
 
+  /**
+   *
+   */
   public function testCreate() {
 
     global $config;
@@ -13,7 +16,7 @@ class HistoriesTest extends PHPUnit_Framework_TestCase {
     $galaxy->authenticate($config['user'], $config['pass']);
     $hist = new Histories($galaxy);
 
-    $hist->create('testhistorycreate');
+//    $hist->create('testhistorycreate');
 
     $response = $hist->GET($config['host'] . ':' . $config['port'] . '/api/histories/?key=' . $config['api_key']);
 
@@ -29,6 +32,10 @@ class HistoriesTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals('testhistorycreate', $response[$i]['name']);
   }
 
+  /**
+   *
+   * @return Json
+   */
   public function testIndex() {
 
     global $config;
@@ -56,7 +63,7 @@ class HistoriesTest extends PHPUnit_Framework_TestCase {
   }
 
   /**
-   * @depends testindex
+   * @depends testIndex
    *
    * @param json $response
    */
@@ -76,7 +83,7 @@ class HistoriesTest extends PHPUnit_Framework_TestCase {
   }
 
   /**
-   * @depends testshow
+   * @depends testShow
    */
   public function testArchiveDownload($result) {
 
@@ -86,8 +93,7 @@ class HistoriesTest extends PHPUnit_Framework_TestCase {
     $galaxy->authenticate($config['user'], $config['pass']);
     $hist = new Histories($galaxy);
 
-    $response = $hist->archive_download($result['id']);
+    $response = $hist->archiveDownload($result['id']);
 
-    var_dump($response);
   }
 }

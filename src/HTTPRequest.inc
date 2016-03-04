@@ -200,6 +200,37 @@ class HTTPRequest  {
   }
 
   /**
+   *
+   * @param $URL
+   * @param $file_name
+   * @return
+   */
+  public function DOWNLOAD($URL, $file_name) {
+
+    set_time_limit(0);
+    $fp = fopen($file_name, 'w+');
+    if (!$fp) {
+      $this->error->setError('FILE', "Cannot save file: " . $file_name);
+      return FALSE;
+    }
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $URL);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 50);
+    curl_setopt($ch, CURLOPT_FILE, $fp);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+    $output = curl_exec($ch);
+
+    if ($output === FALSE) {
+      $this->error->setError('HTTP', curl_error($ch));
+      return FALSE;
+    }
+
+    curl_close($ch);
+    fclose($fp);
+    return TRUE;
+  }
+
+  /**
    * Universal DELETE request
    *
    * @param $input
