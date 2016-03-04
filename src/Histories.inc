@@ -36,7 +36,7 @@ class Histories extends HTTPRequest {
 	 * @ingroup histories_class
 	 */
    public function __construct($galaxy) {
-     $this->galaxy = galaxy;
+     $this->galaxy = $galaxy;
      parent::__construct();
    }
 
@@ -50,16 +50,16 @@ class Histories extends HTTPRequest {
     *    Note the option to pass 'keys' and 'views' is currently not supported
     *
     * @param name
-    *   the new history’s name
+    *   the new history���s name
     * @param history_id
     *   The id of the history to copy (will copy contents to new history)
     *   To obtain history_id's, please use this classes' index() function.
     * @param bool all_datasets
-    *   Copy deleted hdas/hdcas?  ‘True’ or ‘False’, defaults to True.
+    *   Copy deleted hdas/hdcas?  ���True��� or ���False���, defaults to True.
     * @param archive_source
     *   The url that will generate the archive to import.
     * @param archive_type
-    *   ‘url’ (default)
+    *   ���url��� (default)
     *
     * @return
     *    Json array containing information about the new History component.
@@ -87,7 +87,7 @@ class Histories extends HTTPRequest {
       }
      }
 
-     return $this->rest->POST($URL, $notNullInputs);
+     return $this->galaxy->POST($URL, $notNullInputs);
    }
 
    /**
@@ -104,8 +104,13 @@ class Histories extends HTTPRequest {
    public function index(){
      $URL = $this->galaxy->getURL() . '/api/histories/?key=' . $this->galaxy->getAPIKey();
      $URLDeleted = $this->galaxy->getURL() . '/api/histories/deleted/?key=' . $this->galaxy->getAPIKey();
-     $result = $this->rest->GET($URL) . $this->rest->GET($URLDeleted);
-     $result = json_encode($result);
+
+     if ($this->GET($URLDeleted))
+     	$result = array_merge($this->GET($URL), $this->GET($URLDeleted));
+
+     else
+     	$result = $this->GET($URL);
+
      return  $result;
    }
 
@@ -125,12 +130,8 @@ class Histories extends HTTPRequest {
     * @ingroup histories_class
     */
    public function show($history_id){
-
-     $URL = $this->galaxy->getURL() . '/api/histories/'.$history_id .'/?key=' . $this->galaxy->getAPIKey();
-     $URL2 = $this->galaxy->getURL() . '/api/histories/deleted/'.$history_id .'/?key=' . $this->galaxy->getAPIKey();
-     $URL3 = $this->galaxy->getURL() . '/api/histories/most_recently_used/?key=' . $this->galaxy->getAPIKey();
-     $result = $this->rest->GET($URL) . $this->rest->GET($URL2) . $this->rest->GET($URL3);
-     $result = json_encode($result);
+     $URL = $this->galaxy->getURL() . '/api/histories/' . $history_id . '/?key=' . $this->galaxy->getAPIKey();
+     $result = $this->GET($URL);
      return $result;
    }
 
@@ -138,7 +139,7 @@ class Histories extends HTTPRequest {
     * Download a given history with indicated history id.
     *
     * Corresponds to the Galaxy API method and path::
-    *  PUT /api/histories/{id}/exports”
+    *  PUT /api/histories/{id}/exports���
     *  and:
     *  GET /api/histories/{id}/exports/{jeha_id}
     *
@@ -154,20 +155,25 @@ class Histories extends HTTPRequest {
     $error_message = "Error, unrecognized server response.";
     // Obtain download URL, with the necessary jeha_id
     $jeha_id = $this->archive_export($history_id);
-
     //convert jeha_id into an array
-    $jeha_id = json_decode($jeha_id,true);
+    //$jeha_id = json_decode(implode($jeha_id),true);
 
     if($jeha_id == NULL) {
       return $error_message;
     }
-    if(!array_key_exists('download_url', $jeha_id)) {
+    if (!array_key_exists('download_url', $jeha_id)) {
       return $error_message;
     }
 
+    // WE WANT TO RETURN BOOL AND UTILIZE THE SET ERROR
+    // MESSAGE WITHIN THIS
+    // Inside of parseCurlresponse check the headers to see if json, gzip or some
+    // other format is being passed
+
     // download_url should be in the form of /api/histories/{id}/exports/{jeha_id}
-    $URL = $this->galaxy->getURL() . $jeha_id['download_url'] .'/?key=' . $this->galaxy->getAPIKey();;
-    return $this->rest->GET($URL);
+    $URL = $this->galaxy->getURL() . $jeha_id['download_url'] . '?key=' . $this->galaxy->getAPIKey();
+    var_dump($URL);
+    return $this->GET($URL, TRUE);
   }
 
   /**
@@ -185,10 +191,9 @@ class Histories extends HTTPRequest {
    * @ingroup histories_class
    */
    public function archive_export($history_id){
-     $URL = $this->galaxy->getURL() . '/api/histories/'. $history_id . '/exports/?key=' . $this->galaxy->getAPIKey();
+     $URL = $this->galaxy->getURL() . '/api/histories/' . $history_id . '/exports/?key=' . $this->galaxy->getAPIKey();
      $input = array('id' => $history_id);
-     $output = $this->rest->PUT($URL, $input);
-
+     $output = $this->PUT($URL, $input);
 
      return $output;
    }

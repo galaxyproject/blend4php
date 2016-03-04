@@ -99,17 +99,28 @@ class HTTPRequest  {
    *
    * @ingroup rest_manager_class
    */
-  public function GET($URL) {
+  public function GET($URL, $is_binary = FALSE) {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $URL);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, True);
+    curl_setopt($ch, CURLOPT_HEADER, 1);
+
     $output = curl_exec($ch);
+
+    $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+    $header = substr($output, 0, $header_size);
+    print "\nHeader:\n";
+    var_dump($header);
+    $body = substr($output, $header_size);
 
     if ($output === FALSE) {
       $this->requestError->setError('HTTP', curl_error($ch));
       return FALSE;
     }
     curl_close($ch);
+
+    if($is_binary)
+    	return $output;
 
     return $this->parseCURLResponse($output);
   }

@@ -1,13 +1,13 @@
 <?php
 /**
- * @file 
+ * @file
  *
  * RequestError
- * 
+ *
  * The Request Error class dedicated to relaying error information given from a
- * curl server response. Note that each instance of the Request Error class 
+ * curl server response. Note that each instance of the Request Error class
  * contains at most one error.
- * 
+ *
  * @defgroup request_error_class RequestError
  * @{
  *   The Request Error class dedicated to relaying error information given from a
@@ -21,7 +21,7 @@ class RequestError {
 
   // Either 'Galaxy or HTTP
   private $errorType = '';
-  
+
   /**
    * The Request Error constructor.
    *
@@ -43,7 +43,7 @@ class RequestError {
    *   Type of Error, must be either 'HTTP' or 'Galaxy'.
    * @param $message
    *   The Error message.
-   *   
+   *
    * @ingroup request_error_class
    */
   public function setError($type, $message) {
@@ -59,10 +59,10 @@ class RequestError {
 
   /**
    * Getter for this class's 'Error message' attribute.
-   * 
+   *
    * @return
    *   The error message of the objet.
-   *   
+   *
    * @ingroup request_error_class
    */
   public function getErrorMessage() {
@@ -72,7 +72,7 @@ class RequestError {
   /**
    * Getter for this object's error type.
    *
-   * @return 
+   * @return
    *   The rror type of this object's 'Error'.
    */
   public function getErrorType() {
