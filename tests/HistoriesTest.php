@@ -3,81 +3,91 @@ require_once '../src/Histories.inc';
 require_once '../src/GalaxyInstance.inc';
 require_once 'testConfig.inc';
 
-
 class HistoriesTest extends PHPUnit_Framework_TestCase {
 
-  public function testcreate(){
-  	global $config;
-  	$galaxy = new GalaxyInstance($config['host'], $config['port']);
-  	$galaxy->authenticate($config['user'], $config['pass']);
-  	$hist = new Histories($galaxy);
+  public function testCreate() {
 
-  	//$hist->create('testhistorycreate');
+    global $config;
 
-  	$response = $hist->GET($config['host'] . ':' . $config['port'] .  '/api/histories/?key=' . $config['api_key']);
+    $galaxy = new GalaxyInstance($config['host'], $config['port']);
+    $galaxy->authenticate($config['user'], $config['pass']);
+    $hist = new Histories($galaxy);
 
-  	$i = 0;
-  	while (array_key_exists('name', $response[$i])){
+    $hist->create('testhistorycreate');
 
-  		if("testhistorycreate" == $response[$i]['name']){
-  			break;
-  		}
-  		$i++;
-  	}
+    $response = $hist->GET($config['host'] . ':' . $config['port'] . '/api/histories/?key=' . $config['api_key']);
 
-  	$this->assertEquals('testhistorycreate', $response[$i]['name']);
+    $i = 0;
+    while (array_key_exists('name', $response[$i])) {
+
+      if ("testhistorycreate" == $response[$i]['name']) {
+        break;
+      }
+      $i++ ;
+    }
+
+    $this->assertEquals('testhistorycreate', $response[$i]['name']);
   }
 
-  public function testindex(){
-   global $config;
-   $galaxy = new GalaxyInstance($config['host'], $config['port']);
-   $galaxy->authenticate($config['user'], $config['pass']);
-   $hist = new Histories($galaxy);
+  public function testIndex() {
 
-   $response = $hist->index();
-   // Now we check again to make sure the response is valid and we can
-   // find 'testhistorycreate'
-   $i = 0;
-   while (array_key_exists('name', $response[$i])){
+    global $config;
 
-   if("testhistorycreate" == $response[$i]['name']){
-     break;
-   }
-    $i++;
-   }
+    $galaxy = new GalaxyInstance($config['host'], $config['port']);
+    $galaxy->authenticate($config['user'], $config['pass']);
+    $hist = new Histories($galaxy);
 
-   $this->assertEquals('testhistorycreate', $response[$i]['name']);
+    $response = $hist->index();
 
-   return $response[$i];
+    // Now we check again to make sure the response is valid and we can
+    // find 'testhistorycreate'
+    $i = 0;
+    while (array_key_exists('name', $response[$i])) {
+
+      if ("testhistorycreate" == $response[$i]['name']) {
+        break;
+      }
+      $i++ ;
+    }
+
+    $this->assertEquals('testhistorycreate', $response[$i]['name']);
+
+    return $response[$i];
   }
+
   /**
    * @depends testindex
+   *
    * @param json $response
    */
-  public function testshow($response){
-  	global $config;
-  	$galaxy = new GalaxyInstance($config['host'], $config['port']);
-  	$galaxy->authenticate($config['user'], $config['pass']);
-  	$hist = new Histories($galaxy);
+  public function testShow($response) {
 
-  	$result = $hist->show($response['id']);
+    global $config;
 
-  	$this->assertEquals('testhistorycreate', $result['name']);
+    $galaxy = new GalaxyInstance($config['host'], $config['port']);
+    $galaxy->authenticate($config['user'], $config['pass']);
+    $hist = new Histories($galaxy);
 
-  	return $result;
+    $result = $hist->show($response['id']);
+
+    $this->assertEquals('testhistorycreate', $result['name']);
+
+    return $result;
   }
 
   /**
    * @depends testshow
    */
-  public function testarchive_download($result){
-   global $config;
-   $galaxy = new GalaxyInstance($config['host'], $config['port']);
-   $galaxy->authenticate($config['user'], $config['pass']);
-   $hist = new Histories($galaxy);
+  public function testArchiveDownload($result) {
 
-   $response = $hist->archive_download($result['id']);
+    global $config;
 
-   var_dump($response);
+    $galaxy = new GalaxyInstance($config['host'], $config['port']);
+    $galaxy->authenticate($config['user'], $config['pass']);
+    $hist = new Histories($galaxy);
+
+    $response = $hist->archive_download($result['id']);
+
+    var_dump($response);
   }
 }

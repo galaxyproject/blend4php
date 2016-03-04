@@ -65,18 +65,12 @@ class RequestError {
    *
    * @ingroup request_error_class
    */
-  public function getErrorMessage() {
-    return $this->errorMessage;
+  public function getError() {
+    return array(
+      'message' => $this->errorMessage,
+      'type' => $this->errorType
+     );
   }
 
-  /**
-   * Getter for this object's error type.
-   *
-   * @return
-   *   The rror type of this object's 'Error'.
-   */
-  public function getErrorType() {
-    return $this->errorType;
-  }
 }
 
