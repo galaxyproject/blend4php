@@ -24,17 +24,17 @@ require_once 'HTTPRequest.inc';
 class Histories extends HTTPRequest {
 
   private $galaxy;
-	/**
-	 * The Histories constructor.
-	 *
-	 * @param GalaxyInstance $galaxy
-	 *   A GalaxyInstance object.
-	 *
-	 * @return
-	 *   An instance of a Histories object.
-	 *
-	 * @ingroup histories_class
-	 */
+  /**
+   * The Histories constructor.
+   *
+   * @param GalaxyInstance $galaxy
+   *   A GalaxyInstance object.
+   *
+   * @return
+   *   An instance of a Histories object.
+   *
+   * @ingroup histories_class
+   */
    public function __construct($galaxy) {
      $this->galaxy = $galaxy;
      parent::__construct();
@@ -106,10 +106,10 @@ class Histories extends HTTPRequest {
      $URLDeleted = $this->galaxy->getURL() . '/api/histories/deleted/?key=' . $this->galaxy->getAPIKey();
 
      if ($this->GET($URLDeleted))
-     	$result = array_merge($this->GET($URL), $this->GET($URLDeleted));
+       $result = array_merge($this->GET($URL), $this->GET($URLDeleted));
 
      else
-     	$result = $this->GET($URL);
+       $result = $this->GET($URL);
 
      return  $result;
    }
@@ -162,9 +162,10 @@ class Histories extends HTTPRequest {
     // Obtain download URL, with the necessary jeha_id
     $download_url = $this->archiveExport($history_id);
 
-    $URL = $this->galaxy->getURL() . '/' . $download_url . '?key=' . $this->galaxy->getAPIKey();
-    $file_contents = $this->GET($URL);
 
+    $URL = $this->galaxy->getURL() . '/' . $download_url['download_url'] . '?key=' . $this->galaxy->getAPIKey();
+    $file_contents = $this->DOWNLOAD($URL, $file_path);
+    return $file_contents;
   }
 
   /**
@@ -207,7 +208,7 @@ class Histories extends HTTPRequest {
     */
    public function deleteHistory($history_id){
      $URL = $this->galaxy->getURL() . '/api/histories/'. $history_id . '/?key=' . $this->galaxy->getAPIKey();
-     return $this->rest->DELETE($URL);
+     return $this->DELETE($URL);
    }
 
    /**
@@ -226,8 +227,8 @@ class Histories extends HTTPRequest {
     * @ingroup histories_class
     */
    public function undelete($history_id){
-   	$URL = $this->galaxy->getURL() . '/api/histories/deleted/'. $history_id . '/undelete/?key=' . $this->galaxy->getAPIKey();
-   	return $this->rest->POST($URL);
+     $URL = $this->galaxy->getURL() . '/api/histories/deleted/'. $history_id . '/undelete?key=' . $this->galaxy->getAPIKey();
+     return $this->POST($URL);
    }
 
    /**
@@ -245,9 +246,9 @@ class Histories extends HTTPRequest {
     *
     * @ingroup histories_class
     */
-   public function citations($hist_id){
-   	$URL = $this->galaxy->getURL() . '/api/histories/'. $hist_id . '/citations/?key=' . $this->galaxy->getAPIKey();
-   	return $this->rest->GET($URL);
+   public function citations($history_id){
+     $URL = $this->galaxy->getURL() . '/api/histories/'. $historyid . '/citations/?key=' . $this->galaxy->getAPIKey();
+     return $this->rest->GET($URL);
    }
 
    /**
@@ -262,8 +263,8 @@ class Histories extends HTTPRequest {
     * @ingroup histories_class
     */
    public function published(){
-   	$URL = $this->galaxy->getURL() . '/api/histories/published/?key=' . $this->galaxy->getAPIKey();
-   	return $this->rest->GET($URL);
+     $URL = $this->galaxy->getURL() . '/api/histories/published/?key=' . $this->galaxy->getAPIKey();
+     return $this->rest->GET($URL);
    }
 
    /**
@@ -278,8 +279,8 @@ class Histories extends HTTPRequest {
     * @ingroup histories_class
     */
    public function sharedWithMe(){
-   	$URL = $this->galaxy->getURL() . '/api/histories/shared_with_me/?key=' . $this->galaxy->getAPIKey();
-   	return $this->rest->GET($URL);
+     $URL = $this->galaxy->getURL() . '/api/histories/shared_with_me/?key=' . $this->galaxy->getAPIKey();
+     return $this->rest->GET($URL);
    }
 
 
