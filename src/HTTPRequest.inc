@@ -54,7 +54,7 @@ class HTTPRequest  {
     $output = curl_exec($ch);
 
     if ($output === FALSE) {
-      $this->$error->setError('HTTP', curl_error($ch));
+      $this->error->setError('HTTP', curl_error($ch));
       return FALSE;
     }
 
