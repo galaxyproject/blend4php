@@ -19,7 +19,7 @@ require_once 'RequestError.inc';
 class HTTPRequest  {
 
    // Global Variable that contains any errors received from a rest request.
-   private $requestError = NULL;
+   private $error = NULL;
 
    /**
     * The Rest Manager constructor.
@@ -33,7 +33,7 @@ class HTTPRequest  {
     * @ingroup rest_manager_class
     */
    function __construct() {
-     $this->requestError = new RequestError();
+     $this->error = new RequestError();
    }
 
   /**
@@ -47,45 +47,79 @@ class HTTPRequest  {
    *
    * @ingroup request_error_class
    */
-  private function parseCURLResponse($response) {
+  private function getCURLResponse($ch) {
 
-     $response = json_decode($response, TRUE);
+    // Make sure we get the heaader incldued with the output.
+    curl_setopt($ch, CURLOPT_HEADER, 1);
+    $output = curl_exec($ch);
 
-     // Case 1:  There message is not in JSON format.
-     if ($response == NULL) {
-       $this->requestError->setError('Galaxy', 'Unknown CURL response: not json compatible.');
-       return FALSE;
-     }
+    if ($output === FALSE) {
+      $this->error->setError('HTTP', curl_error($ch));
+      return FALSE;
+    }
 
-     // Case 2: If we have a traceback element, we know the error originated
-     // from python, meaning the request successfully made it to python but
-     // there is ap problemo in the Galaxy code.
-     if (array_key_exists('traceback', $response)) {
-       // Case 2a: The traceback had an error message.
-       if (array_key_exists('err_msg', $response)) {
-         $this->requestError->setError('Galaxy', $response['err_msg']);
-         return FALSE;
-       }
-       // Case 2b: The traceback did not have an error.
-       else {
-         $this->requestError->setError('Galaxy', 'A galaxy error was detected, though its contents are unknown');
-         return FALSE;
-       }
-     }
-     // Case 3: Galaxy generated the error.
-     else if (array_key_exists('error', $response)) {
-       $this->requestError->setError('Galaxy', $response['error']);
-       return FALSE;
-     }
-     // Case 4: Galaxy generated the error but the message has two separate
-     // components
-     else if (array_key_exists('err_msg', $response)) {
-       $this->requestError->setError('Galaxy', $response['err_msg']);
-       return FALSE;
-     }
+    // Separate the header from the body.
+    $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+    $temp = substr($output, 0, $header_size);
+    $temp = explode("\n", $temp);
+    $headers = array();
+    foreach ($temp as $header) {
+      $matches = array();
+      if(preg_match('/^(.+?):\s*(.+)$/', $header, $matches)) {
+        $headers[strtolower($matches[1])] = strtolower($matches[2]);
+      }
+    }
+    $body = substr($output, $header_size);
 
-     // Case 4:  No error found.
-     return $response;
+    // Check the header to see how to deal with the content.  Normally will
+    // alawys have JSON but in case not we should handle it gracefully.
+    $content_type = $headers['content-type'];
+    if (preg_match('/x-gzip/', $content_type)) {
+      return $body;
+    }
+    // Automatically convert JSON format to an array and deal with any errors.
+    else if(preg_match('/application\/json/', $content_type)) {
+      $response = json_decode($body, TRUE);
+
+      // Case 1:  There message is not in JSON format.
+      if ($response == NULL) {
+        $this->error->setError('Galaxy', 'Unknown CURL response: not json compatible.');
+        return FALSE;
+      }
+
+      // Case 2: If we have a traceback element, we know the error originated
+      // from python, meaning the request successfully made it to python but
+      // there is ap problemo in the Galaxy code.
+      if (array_key_exists('traceback', $response)) {
+        // Case 2a: The traceback had an error message.
+        if (array_key_exists('err_msg', $response)) {
+          $this->error->setError('Galaxy', $response['err_msg']);
+          return FALSE;
+        }
+        // Case 2b: The traceback did not have an error.
+        else {
+
+          $this->error->setError('Galaxy', 'A galaxy error was detected, though its contents are unknown');
+          return FALSE;
+        }
+      }
+      // Case 3: Galaxy generated the error.
+      else if (array_key_exists('error', $response)) {
+        $this->error->setError('Galaxy', $response['error']);
+        return FALSE;
+      }
+      // Case 4: Galaxy generated the error but the message has two separate
+      // components
+      else if (array_key_exists('err_msg', $response)) {
+        $this->error->setError('Galaxy', $response['err_msg']);
+        return FALSE;
+      }
+
+      // Case 4:  No error found.
+      return $response;
+    }
+    $this->error->setError('HTTP', 'Unsupported content-type.');
+    return FALSE;
   }
 
   /**
@@ -103,24 +137,19 @@ class HTTPRequest  {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $URL);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, True);
-    $output = curl_exec($ch);
-
-    if ($output === FALSE) {
-      $this->requestError->setError('HTTP', curl_error($ch));
-      return FALSE;
-    }
+    $response = $this->getCURLResponse($ch);
     curl_close($ch);
 
-    return $this->parseCURLResponse($output);
+    return $response;
   }
 
   /**
    * Perform a POST request.
    *
-   * @param Input
-   *   The input data to a given URL.
    * @param URL
    *   The url to perform the POST request on.
+   * @param Input
+   *   The input data to a given URL.
    *
    * @return
    *   curl server response.
@@ -133,22 +162,12 @@ class HTTPRequest  {
     curl_setopt($ch, CURLOPT_POST, 1);
     if ($input !== NULL) {
       curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($input));
-      // curl_setopt($ch, CURLOPT_POSTFIELDS,$input);
     }
-    $message = '';
-    // print (http_build_query($input));
-    // receive server response ...
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, True);
-    $message = curl_exec($ch);
-
-    if ($message === FALSE) {
-      $this->requestError->setError('HTTP', curl_error($ch));
-      return FALSE;
-    }
+    $response = $this->getCURLResponse($ch);
     curl_close($ch);
 
-
-    return $this->parseCURLResponse($message);
+    return $response;
   }
 
   /**
@@ -173,17 +192,41 @@ class HTTPRequest  {
       http_build_query($input);
       curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($input));
     }
-    $message = '';
-
-    $message = curl_exec($ch);
-    // print "server response: " .$message;
-    if ($message === FALSE) {
-      $this->requestError->setError('HTTP', curl_error($ch));
-      return FALSE;
-    }
+    $response = $this->getCURLResponse($ch);
     curl_close($ch);
 
-    return $this->parseCURLResponse($message);
+    return $response;
+  }
+
+  /**
+   *
+   * @param $URL
+   * @param $file_name
+   * @return
+   */
+  public function DOWNLOAD($URL, $file_name) {
+
+    set_time_limit(0);
+    $fp = fopen($file_name, 'w+');
+    if (!$fp) {
+      $this->error->setError('FILE', "Cannot save file: " . $file_name);
+      return FALSE;
+    }
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $URL);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 50);
+    curl_setopt($ch, CURLOPT_FILE, $fp);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+    $output = curl_exec($ch);
+
+    if ($output === FALSE) {
+      $this->error->setError('HTTP', curl_error($ch));
+      return FALSE;
+    }
+
+    curl_close($ch);
+    fclose($fp);
+    return TRUE;
   }
 
   /**
@@ -209,14 +252,10 @@ class HTTPRequest  {
       curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($input));
     }
 
-    $message = curl_exec($ch);
-    if ($message === FALSE) {
-      $this->requestError->setError('HTTP', curl_error($ch));
-      return FALSE;
-    }
+    $response = $this->getCURLResponse($ch);
     curl_close($ch);
 
-    return $this->parseCURLResponse($message);
+    return $response;
   }
 
   /**
@@ -235,14 +274,10 @@ class HTTPRequest  {
     curl_setopt($ch, CURLOPT_USERPWD, $username . ':' . $password);
 
     // Execute the connection.
-    $message = curl_exec($ch);
-    if ($message === FALSE) {
-      $this->requestError->setError('HTTP', curl_error($ch));
-      return FALSE;
-    }
+    $response = $this->getCURLResponse($ch);
     curl_close($ch);
 
-    return $this->parseCURLResponse($message);
+    return $response;
   }
 
   /**
@@ -253,18 +288,16 @@ class HTTPRequest  {
    * @ingroup rest_manager_class
    */
   public function getError() {
-    return $this->requestError->getErrorMessage();
+    return $this->error->getError();
   }
 
   /**
    *
-   * @return
-   *   string error rtype either 'HTTP' or 'Galaxy'.
-   *
-   * @ingroup rest_manager_class
+   * @param $type
+   * @param $message
    */
-  public function getErrorType() {
-    return $this->requestError->getErrorType();
+  public function setError($type, $message) {
+    $this->error->setError($type, $message);
   }
 }
 

@@ -14,11 +14,11 @@ class UsersTest extends PHPUnit_Framework_TestCase {
    *  The index function retrieves a list of users.
    */
   function testIndex() {
-    global $config;
+    global $config_brian;
 
     // Connect to Galaxy.
-    $galaxy = new GalaxyInstance($config['host'], $config['port'], FALSE);
-    $response = $galaxy->authenticate($config['user'], $config['pass']);
+    $galaxy = new GalaxyInstance($config_brian['host'], $config_brian['port'], FALSE);
+    $response = $galaxy->authenticate($config_brian['user'], $config_brian['pass']);
 
     // Create  Users object.
     $users = new Users($galaxy);
@@ -28,7 +28,7 @@ class UsersTest extends PHPUnit_Framework_TestCase {
     $contains_user = FALSE;
    	foreach($responses as $response){
    	  if(array_key_exists('username', $response)) {
-   	  	if($response['username'] == $config['username']){
+   	  	if($response['username'] == $config_brian['username']){
    	  	  $contains_user = TRUE;
    	  	  break;
    	  	}
@@ -44,16 +44,16 @@ class UsersTest extends PHPUnit_Framework_TestCase {
    * The show function retreives information on a specific user
    */
    function testShow(){
-   	global $config;
+   	global $config_brian;
    	
    	// Connect to Galaxy.
-   	$galaxy = new GalaxyInstance($config['host'], $config['port'], FALSE);
-   	$response = $galaxy->authenticate($config['user'], $config['pass']);
+   	$galaxy = new GalaxyInstance($config_brian['host'], $config_brian['port'], FALSE);
+   	$response = $galaxy->authenticate($config_brian['user'], $config_brian['pass']);
    	
    	// Case 1: Retreive information about existing user 
    	$users = new Users($galaxy); 
    	
-   	$response = $users->show($config["user_id"]);
+   	$response = $users->show($config_brian["user_id"]);
 
    	$this->assertTrue(($response!= FALSE && count($response) > 0));
    	
@@ -70,11 +70,11 @@ class UsersTest extends PHPUnit_Framework_TestCase {
     * The create function creates a new user
     */
    function testCreate(){
-   	global $config;
+   	global $config_brian;
    	
    	// Connect to Galaxy.
-   	$galaxy = new GalaxyInstance($config['host'], $config['port'], FALSE);
-   	$response = $galaxy->authenticate($config['user'], $config['pass']);
+   	$galaxy = new GalaxyInstance($config_brian['host'], $config_brian['port'], FALSE);
+   	$response = $galaxy->authenticate($config_brian['user'], $config_brian['pass']);
    	
    	//Case 1, create a new user correctly
    	$users = new Users($galaxy);
