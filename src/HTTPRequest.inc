@@ -86,7 +86,7 @@ class HTTPRequest  {
       	$this->error->setError('Galaxy', 'Unknown CURL response: not json compatible.');
         return FALSE;
       }
-      
+
       // Case 2:  The respons is just a string
       if (!is_array($response)) {
          return $response;
@@ -138,7 +138,7 @@ class HTTPRequest  {
    *
    * @ingroup rest_manager_class
    */
-  public function GET($URL) {
+  protected function httpGET($URL) {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $URL);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, True);
@@ -161,7 +161,7 @@ class HTTPRequest  {
    *
    * @ingroup rest_manager_class
    */
-  public function POST($URL, $input = NULL) {
+  protected function httpPOST($URL, $input = NULL) {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $URL);
     curl_setopt($ch, CURLOPT_POST, 1);
@@ -188,7 +188,7 @@ class HTTPRequest  {
    *
    * @ingroup rest_manager_class
    */
-  public function PUT($URL, $input = NULL) {
+  protected function httpPUT($URL, $input = NULL) {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $URL);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -209,7 +209,7 @@ class HTTPRequest  {
    * @param $file_name
    * @return
    */
-  public function DOWNLOAD($URL, $file_name) {
+  protected function download($URL, $file_name) {
 
     set_time_limit(0);
     $fp = fopen($file_name, 'w+');
@@ -247,7 +247,7 @@ class HTTPRequest  {
    *
    * @ingroup rest_manager_class
    */
-  public function DELETE($URL, $input = NULL) {
+  protected function httpDELETE($URL, $input = NULL) {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $URL);
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
@@ -269,7 +269,7 @@ class HTTPRequest  {
    * @param unknown $username
    * @param unknown $password
    */
-  public function AUTH($URL, $username, $password) {
+  protected function auth($URL, $username, $password) {
     // Instantiate the curl object.
     $ch = curl_init();
 
@@ -294,6 +294,23 @@ class HTTPRequest  {
    */
   public function getError() {
     return $this->error->getError();
+  }
+
+  /**
+   *
+   * @return The
+   */
+  public function getErrorMessage() {
+    $error = $this->error->getError();
+    return $error['message'];
+  }
+  /**
+   *
+   * @return The
+   */
+  public function getErrorType() {
+    $error = $this->error->getError();
+    return $error['type'];
   }
 
   /**

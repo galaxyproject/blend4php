@@ -56,7 +56,7 @@ class Genomes extends HTTPRequest{
   public function index(){
     $api_key = $this->galaxy->getAPIKey();
     $url = $this->galaxy->getURL() . '/api/genomes/'  .  '?key=' . $api_key;
-    return $this->rest->GET($url);
+    return $this->rest->httpGET($url);
   }
 
   /**

@@ -54,7 +54,7 @@ class Visualizations extends HTTPRequest{
 	 */
 	function index(){
 		$url = $this->galaxy->getURL() . '/api/visualizations/?key=' . $this->galaxy->getAPIKey();
-		return $this->rest->GET($url);
+		return $this->rest->httpGET($url);
 	}
 
 	/**
@@ -70,7 +70,7 @@ class Visualizations extends HTTPRequest{
 	 */
 	function show($viz_id){
 		$url = $this->galaxy->getURL() . '/api/visualizations/'. $viz_id . '?/key=' . $this->galaxy->getAPIKey();
-		return $this->rest->GET($url);
+		return $this->rest->httpGET($url);
 	}
 
 	/**
@@ -97,7 +97,7 @@ class Visualizations extends HTTPRequest{
 	function create($type, $title, $dbkey, $import_id = NULL){
 		if($import_id != NULL) {
 			$url = $this->galaxy->getURL() . '/api/visualizations/?import_id=' . $import_id . '&key=' . $this->galaxy->getAPIKey();
-			return $this->rest->POST($url);
+			return $this->rest->httpPOST($url);
 		}
 
 		$url = $this->galaxy->getURL() . '/api/visualizations/?key=' . $this->galaxy->getAPIKey();
@@ -106,7 +106,7 @@ class Visualizations extends HTTPRequest{
 			'title'=>$title,
 			'dbkey'=>$dbkey,
 		);
-		return $this->rest->POST($url, $elements);
+		return $this->rest->httpPOST($url, $elements);
 	}
 
 
@@ -146,7 +146,7 @@ class Visualizations extends HTTPRequest{
 			}
 		}
 
-		return $this->rest->PUT($url,$elements);
+		return $this->rest->httpPUT($url,$elements);
 
 	}
 }

@@ -57,7 +57,7 @@ class FolderContents extends HTTPRequest {
     */
    public function index ($folder_id) {
    	$URL = $this->galaxy->getURL() . '/api/folders/' . 'F' . $folder_id . '/contents' .'/?key=' . $this->galaxy->getAPIKey();
-   	return $this->rest->GET($URL);
+   	return $this->rest->httpGET($URL);
    }
 
    /**
@@ -96,7 +96,7 @@ class FolderContents extends HTTPRequest {
    		$postfields['ldda_message'] = $ldda_message;
    	}
 
-   	return $this->rest->POST($URL, $postfields);
+   	return $this->rest->httpPOST($URL, $postfields);
    }
 
 	/**

@@ -59,7 +59,7 @@ class Jobs extends HTTPRequest{
     */
    public function buildForRerun($job_id){
 	 $URL = $this->galaxy->getURL() . '/api/jobs/' . $job_id . '/build_for_rerun/?key=' . $this->galaxy->getAPIKey();
-	 return $this->rest->GET($URL);
+	 return $this->rest->httpGET($URL);
    }
 
    /**
@@ -79,7 +79,7 @@ class Jobs extends HTTPRequest{
     */
    public function inputs($job_id){
 	 $URL = $this->galaxy->getURL() . '/api/jobs/' . $job_id . '/inputs/?key=' . $this->galaxy->getAPIKey();
-	 return $this->rest->GET($URL);
+	 return $this->rest->httpGET($URL);
    }
 
    /**
@@ -99,7 +99,7 @@ class Jobs extends HTTPRequest{
     */
    public function outputs($job_id){
 	 $URL = $this->galaxy->getURL() . '/api/jobs/' . $job_id . '/outputs/?key=' . $this->galaxy->getAPIKey();
-	 return $this->rest->GET($URL);
+	 return $this->rest->httpGET($URL);
    }
 
    /**
@@ -173,7 +173,7 @@ class Jobs extends HTTPRequest{
 
 	$URL .= 'key=' . $this->galaxy->getAPIKey();
 
-	return $this->rest->GET($URL);
+	return $this->rest->httpGET($URL);
    }
 
 
@@ -252,7 +252,7 @@ class Jobs extends HTTPRequest{
  	 	}
  	 }
 
- 	return $this->rest->POST($URL, $notNullInputs);
+ 	return $this->rest->httpPOST($URL, $notNullInputs);
 
    }
 }

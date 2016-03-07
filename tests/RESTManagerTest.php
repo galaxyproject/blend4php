@@ -33,10 +33,10 @@ class RESTManagerTest extends PHPUnit_Framework_TestCase {
 
     $i = 0;
     $input = array ('name' => "phpunittestlibrary");
-    $success = $curl->POST($host . ':' . $port . '/api/libraries/' . '?key=' . $apikey, $input);
+    $success = $curl->httpPOST($host . ':' . $port . '/api/libraries/' . '?key=' . $apikey, $input);
 
     // Now we check to see if the library we just posted is in fact there.
-    $response = $curl->GET($host . ':' . $port . '/api/libraries/?' . 'key=' . $apikey);
+    $response = $curl->httpGET($host . ':' . $port . '/api/libraries/?' . 'key=' . $apikey);
 
     while (array_key_exists('name', $response[$i])){
 
@@ -77,10 +77,10 @@ class RESTManagerTest extends PHPUnit_Framework_TestCase {
        'history_id' => NULL,
        'all_datasets' => TRUE);
 
-    $success = $curl->POST($host . ':' . $port . '/api/histories/?' . 'key=' . $apikey, $input);
+    $success = $curl->httpPOST($host . ':' . $port . '/api/histories/?' . 'key=' . $apikey, $input);
 
     $i = 0;
-    $response = $curl->GET($host . ':' . $port . '/api/histories/?' . 'key=' . $apikey);
+    $response = $curl->httpGET($host . ':' . $port . '/api/histories/?' . 'key=' . $apikey);
 
     while (array_key_exists('name', $response[$i])){
 
@@ -95,12 +95,12 @@ class RESTManagerTest extends PHPUnit_Framework_TestCase {
     // POST (create) a history content and then PUT (edit) the history content
     // and then remove it from the history
     $input = array('id' => $response[$i]['id']);
-    $success = $curl->PUT($host . ':' . $port . '/api/histories/' . $response[$i]['id'] . '/exports?key=' . $apikey, $input);
+    $success = $curl->httpPUT($host . ':' . $port . '/api/histories/' . $response[$i]['id'] . '/exports?key=' . $apikey, $input);
     // The server response should be false as this creates a .dat file object
     // in the ./galaxy/database/files/000/dataset_[somenumber].dat
     $this->assertFalse($success);
     // Remove the history
-    $success = $curl->DELETE($host . ':' . $port . '/api/histories/' . $response[$i]['id'] . '?key=' . $apikey);
+    $success = $curl->httpDELETE($host . ':' . $port . '/api/histories/' . $response[$i]['id'] . '?key=' . $apikey);
 
   }
 
@@ -120,7 +120,7 @@ class RESTManagerTest extends PHPUnit_Framework_TestCase {
     $apikey = $config['apikey'];
 
     $i = 0;
-    $response = $curl->GET($host . ':' . $port . '/api/libraries/?deleted=False&' . 'key=' . $apikey);
+    $response = $curl->httpGET($host . ':' . $port . '/api/libraries/?deleted=False&' . 'key=' . $apikey);
 
     while (array_key_exists('name', $response[$i])){
 
@@ -132,10 +132,10 @@ class RESTManagerTest extends PHPUnit_Framework_TestCase {
     $parameters = array(
       'undelete' => FALSE,
     );
-    $response = $curl->DELETE($host . ':' . $port . '/api/libraries/' . $response[$i]['id'] . '?key=' . $apikey, $parameters);
+    $response = $curl->httpDELETE($host . ':' . $port . '/api/libraries/' . $response[$i]['id'] . '?key=' . $apikey, $parameters);
 
     $i = 0;
-    $response = $curl->GET($host . ':' . $port . '/api/libraries/?deleted=True&' . 'key=' . $apikey);
+    $response = $curl->httpGET($host . ':' . $port . '/api/libraries/?deleted=True&' . 'key=' . $apikey);
     while (array_key_exists('name', $response[$i])){
 
       if("phpunittestlibrary" == $response[$i]['name']){

@@ -58,7 +58,7 @@ class Folders extends HTTPRequest {
     */
    public function show ($folder_id) {
    	$URL = $this->galaxy->getURL() . '/api/folders/' . 'F' . $folder_id .'/?key=' . $this->galaxy->getAPIKey();
-   	return $this->rest->GET($URL);
+   	return $this->rest->httpGET($URL);
    }
 
    /**
@@ -85,7 +85,7 @@ class Folders extends HTTPRequest {
    			'name' => $name,
    			'description' => $description
    	);
-   	return $this->rest->POST($URL, $postfields);
+   	return $this->rest->httpPOST($URL, $postfields);
    }
 
 	/**
@@ -105,7 +105,7 @@ class Folders extends HTTPRequest {
 	 */
  	public function getPermissions($folder_id){
  	 $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' .$folder_id . '/permissions' .'?key=' . $this->galaxy->getAPIKey();
- 	 return $this->rest->GET($URL);
+ 	 return $this->rest->httpGET($URL);
  	}
 
  	/**
@@ -140,7 +140,7 @@ class Folders extends HTTPRequest {
  				'manage_ids[]' => $manage_ids,
  				'modify_ids[]' => $modify_ids
  		);
- 		return $this->rest->POST($URL, $postfields);
+ 		return $this->rest->httpPOST($URL, $postfields);
  	}
 
  	/**

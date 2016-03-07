@@ -53,7 +53,7 @@ class Roles extends HTTPRequest{
 	 */
 	public function index(){
 		$URL = $this->galaxy->getURL() . '/api/roles/?key=' . $this->galaxy->getAPIKey();
-		return $this->rest->GET($URL);
+		return $this->rest->httpGET($URL);
 	}
 
 	/**
@@ -73,7 +73,7 @@ class Roles extends HTTPRequest{
 	 */
 	public function show($role_id){
 		$URL = $this->galaxy->getURL() . '/api/roles/'. $role_id.'/?key=' . $this->galaxy->getAPIKey();
-		return $this->rest->GET($URL);
+		return $this->rest->httpGET($URL);
 	}
 
 
@@ -118,7 +118,7 @@ class Roles extends HTTPRequest{
 			}
 		}
 
-		return $this->rest->POST($URL, $notNullInputs);
+		return $this->rest->httpPOST($URL, $notNullInputs);
 	}
 
 

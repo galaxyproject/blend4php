@@ -77,7 +77,7 @@ class HistoryContents extends HTTPRequest {
         $notNullInputs[$element] = $value;
       }
     }
-    return $this->rest->POST($URL, $notNullInputs);
+    return $this->rest->httpPOST($URL, $notNullInputs);
   }
 
   /**
@@ -100,7 +100,7 @@ class HistoryContents extends HTTPRequest {
    */
   public function show($history_id, $content_id) {
     $URL = $this->galaxy->getURL() .'/api/histories/' .$history_id .'/contents/' .$content_id .'/?key=' .$this->galaxy->getAPIKey();
-    return $this->rest->GET($URL);
+    return $this->rest->httpGET($URL);
   }
 
   /**
@@ -129,7 +129,7 @@ class HistoryContents extends HTTPRequest {
   public function update($history_id, $content_id, $annotation = '') {
     $URL = $this->galaxy->getURL() .'/api/histories/' .$history_id .'/contents/' .$content_id .'/?key=' .$this->galaxy->getAPIKey();
     $elements = array('annotation' => $annotation);
-    return $this->rest->PUT($URL, $elements);
+    return $this->rest->httpPUT($URL, $elements);
   }
 
   /**
@@ -189,6 +189,6 @@ class HistoryContents extends HTTPRequest {
     if ($ids !==NULL) {
       $URL .= '/&ids=' .$ids;
     }
-    return $this->rest->GET($URL);
+    return $this->rest->httpGET($URL);
   }
 }

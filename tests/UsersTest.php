@@ -6,159 +6,189 @@ require_once './testConfig.inc';
 
 
 class UsersTest extends PHPUnit_Framework_TestCase {
-	
-  
   /**
-   *  Tests the index() function.
+   * Tests the index() function.
    *
-   *  The index function retrieves a list of users.
+   * The index function retrieves a list of users.
+   *
    */
   function testIndex() {
     global $config;
 
     // Connect to Galaxy.
     $galaxy = new GalaxyInstance($config['host'], $config['port'], FALSE);
-    $response = $galaxy->authenticate($config['user'], $config['pass']);
+    $response = $galaxy->authenticate($config['email'], $config['pass']);
 
     // Create  Users object.
     $users = new Users($galaxy);
-	
-    $responses = $users->index();
-	printf("\n \n THIS IS THE RESPONSE FROM USERS INDEX" );
+
+    // Case 1:  Are we getting an array?
+    $response = $users->index();
+    $this->assertTrue(is_array($response), $users->getErrorMessage());
+
+    // Case 2: Is the array properly formatted such that it contains the user
+    // that is running this test.
     $contains_user = FALSE;
-   	foreach($responses as $response){
-   	  if(array_key_exists('username', $response)) {
-   	  	if($response['username'] == $config['username']){
-   	  	  $contains_user = TRUE;
-   	  	  break;
-   	  	}
-   	  }
-   	}    
-    // Case 1: Retrieve an array of all users	
-    $this->assertTrue($contains_user);
+    foreach($response as $user){
+      $this->assertTrue(array_key_exists('username', $user), "Malformed users array: missing username: " . print_r($response, TRUE));
+      $this->assertTrue(array_key_exists('id', $user), "Malformed users array: missing id: " . print_r($response, TRUE));
+      if($user['username'] == $config['user']){
+        $contains_user = TRUE;
+        break;
+      }
+    }
+    $this->assertTrue($contains_user, "index() function works but user is missiing: " . print_r($response, TRUE));
   }
-  
+
   /**
    * Test the show() function.
-   * 
+   *
    * The show function retreives information on a specific user
+   *
+   * @depends testIndex
    */
-   function testShow(){
-   	global $config;
-   	
-   	
-   	// Connect to Galaxy.
-   	$galaxy = new GalaxyInstance($config['host'], $config['port'], FALSE);
-   	$response = $galaxy->authenticate($config['user'], $config['pass']);
-   	
-   	// Case 1: Retreive information about existing user 
-   	$users = new Users($galaxy); 
-   	$user_list = $users->index();
-   	
-   	foreach($user_list as $person){
-   		if(array_key_exists('username', $person) && ($person['username'] ))
-   	}
-   	
-   	$response = $users->show($config["user_id"]);
+  function testShow(){
+    global $config;
 
-   	$this->assertTrue(($response!= FALSE && count($response) > 0));
-   	
-   	//Case2: Wrong user id entered
-   	
-   	$response = $users->show("123456");
-   	$this->assertFalse(($response!= FALSE && count($response) > 0));   	
-   	
-   }
-   
+    // Connect to Galaxy.
+    $galaxy = new GalaxyInstance($config['host'], $config['port'], FALSE);
+    $response = $galaxy->authenticate($config['email'], $config['pass']);
+
+    $users = new Users($galaxy);
+
+    // Get the ID of our config user.
+    $response = $users->index();
+    $user_id = NULL;
+    foreach($response as $user){
+      if($user['username'] == $config['user']){
+        $user_id = $user['id'];
+        break;
+      }
+    }
+
+    // Case 1:  Get the user information for the config user.
+    $response = $users->show($user_id);
+    $this->assertTrue(is_array($response), $users->getErrorMessage());
+
+    // Case 2: Wrong user id entered. We should get a FALSE value instead
+    // of an error.
+    $response = $users->show("123456");
+    $this->assertTrue($response === FALSE, "Showing user should have failed: " . print_r($response, TRUE));
+
+  }
+
+  /**
+   * Test the getUserID() function.
+   *
+   * @depends testIndex
+   */
+  function testGetUserID() {
+    global $config;
+
+    // Connect to Galaxy.
+    $galaxy = new GalaxyInstance($config['host'], $config['port'], FALSE);
+    $response = $galaxy->authenticate($config['email'], $config['pass']);
+    $users = new Users($galaxy);
+
+    // Case 1:  Test for a false user.
+    $user_id = $users->getUserID('asdjasldfjasldfjaslfjaslfjaslfjasdf');
+    $this->assertFalse($user_id, "Retreiving the user should have failed: " . print_r($response, TRUE));
+
+    // Case 2: Test for a real user id.
+    $user_id = $users->getUserID($config['user']);
+    $this->assertTrue($user_id !== FALSE, $users->getErrorMessage());
+  }
+
+
+  /**
+   * Test the create()
+   *
+   *
+   * @depends testGetUserID
+   */
+  function testCreate(){
+    global $config;
+
+    // Connect to Galaxy.
+    $galaxy = new GalaxyInstance($config['host'], $config['port'], FALSE);
+    $response = $galaxy->authenticate($config['email'], $config['pass']);
+    $users = new Users($galaxy);
+
+    // Case 1: Successful creation of a new user.
+    $username = uniqid('galaxy-php-test-create-');
+    $response = $users->create($username, $username . '@test.com', 'password');
+    $this->assertTrue(is_array($response), $users->getErrorMessage());
+
+    // Case 2: Failed creation of a user.
+    $username = uniqid('galaxy-php-test-create-');
+    $response = $users->create($username, $username . '@@@@@@test.com', 'password');
+    $this->assertTrue($response === FALSE, "Creation should fail but didn't:" . print_r($response, TRUE));
+  }
+
+
+
+  /**
+   * Test the create()
+   *
+   *
+   * @depends testCreate
+   */
+  function testDelete(){
+    global $config;
+
+    // Connect to Galaxy.
+    $galaxy = new GalaxyInstance($config['host'], $config['port'], FALSE);
+    $response = $galaxy->authenticate($config['email'], $config['pass']);
+    $users = new Users($galaxy);
+
+    // Create a new user for testing of delete.
+    $username = uniqid('galaxy-php-test-delete-');
+    $user = $users->create($username, $username . '@test.com', 'password');
+
+    // Case 1: Make sure we get a proper response.
+    $response = $users->delete($user['id']);
+    $this->assertTrue(is_array($response), $users->getErrorMessage());
+
+    // Case 2: Make sure the user is marked as deleted
+    $this->assertTrue(array_key_exists('deleted', $response), "Missing 'deleted' in response array." . print_r($response, TRUE));
+    $this->assertTrue($response['deleted'], 'User not marked as deleted: ' . print_r($response, TRUE));
+
+    // Case 3: Make sure the user is marked as purged
+    $response = $users->delete($user['id'], TRUE);
+    $this->assertTrue(array_key_exists('deleted', $response), "Missing 'deleted' in response array." . print_r($response, TRUE));
+    $this->assertTrue($response['purged'], 'User not marked as purged: ' . print_r($response, TRUE));
+  }
+
+
+
+
    /**
-    * Test the create() function.
-    * 
-    * The create function creates a new user
-    */
-   function testCreate(){
-   	global $config;
-   	
-   	// Connect to Galaxy.
-   	$galaxy = new GalaxyInstance($config['host'], $config['port'], FALSE);
-   	$response = $galaxy->authenticate($config['user'], $config['pass']);
-   	
-   	//Case 1, create a new user correctly
-   	$users = new Users($galaxy);
-   	
-   	$users->create("bimbo9000", "bimbo@yahoo.com", "password");
-   	$responses = $users->index();
-   	$contains_user = FALSE;
-   	foreach($responses as $response){
-   	  if(array_key_exists('username', $response)) {
-   	    if($response['username'] == "bimbo9000"){
-   		  $contains_user = TRUE;
-   		  break;
-   		  }
-   		}
-   	}
-  
-   	$this->assertTrue($contains_user);
-   	
-   	//Case 2: make sure server does not create user if bad emailed entered
-   	$responses = $users->create("bimbo8000", "bimbo@nothing", "password");
-   	$contains_user = FALSE;
-   	if($responses != FALSE){	
-   	  foreach($responses as $response){
-   	    if(array_key_exists('username', $response)) {
-   	      if($response['username'] == "bimbo8000"){
-   		    $contains_user = TRUE;
-   		      break;
-   		  }
-   		}
-   	  }
-   	}
-   	$this->assertFalse($contains_user);
-   	
-   }
-   
-   /**
-    * Test the delete function 
-    * 
-    * Deletes a user
-    */
-  // function testDelete(){
- /**
-   	global $config;
-   	
-   	// Connect to Galaxy.
-   	$galaxy = new GalaxyInstance($config['host'], $config['port'], FALSE);
-   	$response = $galaxy->authenticate($config['user'], $config['pass']);
-   	
-   	//Case 1, successfully delete a user
-   	$users = new Users($galaxy);
-   	
-   	$response = $user->delete();
-   	*/
-  // }
-   
-   /**
-    * Test the api key function 
-    * 
+    * Test the api key function
+    *
     * generates a new api key for a user
+    *
+    * @depends testCreate
     */
-   function testAPIKEY(){
-   	global $config;
-   	// Connect to Galaxy.
-   	$galaxy = new GalaxyInstance($config['host'], $config['port'], FALSE);
-   	$response = $galaxy->authenticate($config['user'], $config['pass']);
-   	
-   	//Case 1, enter an api key for a user
-   	$users = new Users($galaxy);
-   	
-   	$id = $user->
-   	
-   	$response = $users->api_key($config['user_id'] );
-   	print($users->getError);
-   	print("This is a response \n");
-   	var_dump($response);
-   	
-   	
-   }
-    
+   function testAPIKey(){
+     global $config;
 
+     // Connect to Galaxy.
+     $galaxy = new GalaxyInstance($config['host'], $config['port'], FALSE);
+     $response = $galaxy->authenticate($config['email'], $config['pass']);
+     $users = new Users($galaxy);
+
+     // First create a new user for testing the change of API Key.
+     $username = uniqid('galaxy-php-test-apikey-');
+     $user = $users->create($username, $username . '@test.com', 'password');
+
+     // Case 1: Test the return of false.
+     $api_key = $users->apiKey('');
+     $this->assertTrue($api_key === FALSE, "Creating API Key should have failed:" . print_r($api_key, TRUE));
+
+     // Case 2: Test creation of an API key
+     $api_key = $users->apiKey($user['id']);
+     $this->assertTrue($api_key !== FALSE, $users->getErrorMessage());
+
+
+   }
 }

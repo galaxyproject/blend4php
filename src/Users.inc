@@ -80,7 +80,7 @@ class Users extends HTTPRequest {
      }
      $URL .= $endURL;
      // $URL2 = $this->galaxy->getURL() . '/api/users/deleted'. $user_id ."/api_key/?key=" . $this->galaxy->getAPIKey();
-     return $this->GET($URL);
+     return $this->httpGET($URL);
    }
 
   /**
@@ -100,7 +100,7 @@ class Users extends HTTPRequest {
    */
   function show($user_id) {
     $URL = $this->galaxy->getURL() .'/api/users/' .$user_id .'/?key=' .$this->galaxy->getAPIKey();
-    return $this->GET($URL);
+    return $this->httpGET($URL);
   }
 
   /**
@@ -118,9 +118,9 @@ class Users extends HTTPRequest {
    *
    * @ingroup users_class
    */
-  function api_key($user_id) {
-    $URL = $this->galaxy->getURL() .'/api/users/' .$user_id .'/api_key/?key=' .$this->galaxy->getAPIKey();
-    return $this->POST($URL);
+  function apiKey($user_id) {
+    $URL = $this->galaxy->getURL() . '/api/users/' . $user_id . '/api_key/?key=' . $this->galaxy->getAPIKey();
+    return $this->httpPOST($URL);
 
   }
 
@@ -141,16 +141,17 @@ class Users extends HTTPRequest {
    *   The password of the new user.
    *
    * @return
-   *   A Json array containing details of the new user.
+   *   A JSON array containing details of the new user. On failure FALSE is
+   *   returned.
    *
    * @ingroup users_class
    */
   function create($username, $user_email, $password) {
-    $URL = $this->galaxy->getURL() .'/api/users/' .'?key=' .$this->galaxy->getAPIKey();
+    $URL = $this->galaxy->getURL() . '/api/users/' . '?key=' . $this->galaxy->getAPIKey();
 
     $input = array('username' => $username,'email' => $user_email,'password' => $password);
 
-    return $this->POST($URL, $input);
+    return $this->httpPOST($URL, $input);
   }
 
   /**
@@ -178,13 +179,33 @@ class Users extends HTTPRequest {
    *   (Optional) if true, the user will be completely erased from Galaxy.
    *
    * @return
-   *   Json array containing details of the deleted user.
+   *   JSON array containing details of the deleted user, or FALSE on failure.
    *
    * @ingroup users_class
    */
   function delete($user_id, $purge = false) {
-    $URL = $this->galaxy->getURL() .'/api/users/' .$user_id .'/?key=' .$this->galaxy->getAPIKey();
-    return $this->DELETE($URL);
+    $URL = $this->galaxy->getURL() . '/api/users/' . $user_id . '/?key=' . $this->galaxy->getAPIKey();
+    return $this->httpDELETE($URL);
+  }
+
+  /**
+   * Retrieves the ID of a Galaxy user.
+   *
+   * @param $username
+   *   The name of the user.
+   * @return
+   *   A string containing the user ID or FALSE if the user could not be found.
+   */
+  function getUserID($username) {
+    // Get the index and iterate through until we find our user.
+    $users = $this->index();
+
+    foreach($users as $user){
+      if($user['username'] == $username){
+        return $user['id'];
+      }
+    }
+    return FALSE;
   }
 }
 

@@ -66,7 +66,7 @@ class GalaxyInstance extends HTTPRequest {
    * @ingroup galaxy_instance_class
    */
   public function getVersion() {
-    return $this->GET($this->getURL() . '/api/version');
+    return $this->httpGET($this->getURL() . '/api/version');
   }
 
   /**
@@ -90,7 +90,7 @@ class GalaxyInstance extends HTTPRequest {
    */
   public function authenticate($username, $password, &$message = '') {
 
-    $response = $this->AUTH($this->getURL() . '/api/authenticate/baseauth', $username, $password);
+    $response = $this->auth($this->getURL() . '/api/authenticate/baseauth', $username, $password);
     if (!$response) {
       return FALSE;
     }

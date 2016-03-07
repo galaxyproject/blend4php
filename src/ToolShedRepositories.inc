@@ -64,7 +64,7 @@ class ToolShedRepositories extends GalaxyRequest{
       $i = curl_init();
 	  $api_key = $this->galaxy->getAPIKey();
 	  $url = $this->galaxy->getURL() . '/api/tool_shed_repositories/' . $tool_shed_repo_id . '/exported_workflows'  .  '?key=' . $api_key;
-	  return $this->rest->GET(url);
+	  return $this->rest->httpGET(url);
 	 }
 
   /**

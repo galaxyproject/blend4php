@@ -59,7 +59,7 @@ class GroupRoles extends HTTPRequest {
    public function index($group_id) {
      $URL = $this->galaxy->getURL() . '/api/groups/'
          . $group_id. '/roles/?key=' . $this->galaxy->getAPIKey();
-     return $this->rest->GET($URL);
+     return $this->rest->httpGET($URL);
    }
 
    /**
@@ -82,7 +82,7 @@ class GroupRoles extends HTTPRequest {
    public function show($group_id, $role_id) {
      $URL = $this->galaxy->getURL() . '/api/groups/'
          . $group_id. '/roles/' . $role_id. '/?key=' . $this->galaxy->getAPIKey();
-     return $this->rest->GET($URL);
+     return $this->rest->httpGET($URL);
    }
 
    /**
@@ -105,7 +105,7 @@ class GroupRoles extends HTTPRequest {
    public function update($group_id,$role_id) {
      $URL = $this->galaxy->getURL() . '/api/groups/'
          . $group_id . '/roles/' . $role_id. '/?key=' . $this->galaxy->getAPIKey();
-     return $this->PUT($URL);
+     return $this->httpPUT($URL);
    }
 
    /**

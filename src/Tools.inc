@@ -77,7 +77,7 @@ class Tools extends HTTPRequest{
     }
     $URL = $URL . '/?key=' . $this->galaxy->getAPIKey();
 
-    return  $this->rest->GET($URL);
+    return  $this->rest->httpGET($URL);
    }
 
   /**
@@ -116,7 +116,7 @@ class Tools extends HTTPRequest{
    */
    public function diagnostics($tool_id){
      $URL = $this->galaxy->getURL() . '/api/tools/'. $tool_id . '/diagnostics/?key=' . $this->galaxy->getAPIKey();
-     $this->rest->GET($URL);
+     $this->rest->httpGET($URL);
 
      return $output;
    }
@@ -137,7 +137,7 @@ class Tools extends HTTPRequest{
    */
    public function reload($tool_id){
      $URL = $this->galaxy->getURL() . '/api/tools/'. $tool_id . '/reload/?key=' . $this->galaxy->getAPIKey();
-     return   $this->rest->GET($URL);
+     return   $this->rest->httpGET($URL);
    }
 
   /**
@@ -171,7 +171,7 @@ class Tools extends HTTPRequest{
      $URL = $URL . '/?key=' . $this->galaxy->getAPIKey();
      $URL .= '&history_id=' . $history_id;
 
-     return   $this->rest->GET($URL);
+     return   $this->rest->httpGET($URL);
    }
 
   /**
@@ -192,7 +192,7 @@ class Tools extends HTTPRequest{
    */
    public function citations($tool_id){
      $URL = $this->galaxy->getURL() . '/api/tools/' . $tool_id . '/citations/?key=' . $this->galaxy->getAPIKey();
-     return $this->rest->GET($URL);
+     return $this->rest->httpGET($URL);
    }
 
 
@@ -213,7 +213,7 @@ class Tools extends HTTPRequest{
    */
    public function download($tool_id){
      $URL = $this->galaxy->getURL() . '/api/tools/'. $tool_id . '/download/?key=' . $this->galaxy->getAPIKey();
-     return $this->rest->GET($URL);
+     return $this->rest->httpGET($URL);
    }
 
 
@@ -273,7 +273,7 @@ class Tools extends HTTPRequest{
        }
      }
 
-     return $this->rest->POST($URL, $notNullInputs);
+     return $this->rest->httpPOST($URL, $notNullInputs);
    }
  }
 

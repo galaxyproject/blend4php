@@ -67,7 +67,7 @@ class Datasets extends HTTPRequest {
        $URL = $this->galaxy->getURL() . '/api/datasets/' . $dataset_id . '/converted/?key=' . $this->galaxy->getAPIKey();
      }
 
-     return $this->rest->GET($URL);
+     return $this->rest->httpGET($URL);
    }
 
    /**
@@ -90,7 +90,7 @@ class Datasets extends HTTPRequest {
     */
    public function display($hist_id, $hist_content_id){
      $URL = $this->galaxy->getURL() . '/api/histories/' .$hist_id .'/contents/'. $hist_content_id. '/?key=' . $this->galaxy->getAPIKey();
-     return $this->rest->GET($URL);
+     return $this->rest->httpGET($URL);
    }
 
    /**
@@ -102,7 +102,7 @@ class Datasets extends HTTPRequest {
     */
    public function index(){
      $URL = $this->galaxy->getURL() . '/api/datasets/?key=' . $this->galaxy->getAPIKey();
-     return $this->rest->GET($URL);
+     return $this->rest->httpGET($URL);
    }
 
    /**
@@ -122,6 +122,6 @@ class Datasets extends HTTPRequest {
     */
    public function show($dataset_id){
      $URL = $this->galaxy->getURL().'/api/datasets/'.$dataset_id.'/?key=' . $this->galaxy->getAPIKey();
-     return $this->rest->GET($URL);
+     return $this->rest->httpGET($URL);
    }
 }

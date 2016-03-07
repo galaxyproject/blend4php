@@ -56,7 +56,7 @@ class GroupUsers extends HTTPRequest {
     */
   public function index($group_id) {
     $URL = $this->galaxy->getURL() .'/api/groups/' .$group_id .'/users/?key=' .$this->galaxy->getAPIKey();
-    return $this->rest->GET($URL);
+    return $this->rest->httpGET($URL);
   }
 
   /**
@@ -78,7 +78,7 @@ class GroupUsers extends HTTPRequest {
    */
   public function show($group_id, $user_id) {
     $URL = $this->galaxy->getURL() .'/api/groups/' .$group_id .'/users/' .$user_id .'/?key=' .$this->galaxy->getAPIKey();
-    return $this->rest->GET($URL);
+    return $this->rest->httpGET($URL);
   }
 
   /**
@@ -100,7 +100,7 @@ class GroupUsers extends HTTPRequest {
    */
   public function update($group_id, $user_id) {
     $URL = $this->galaxy->getURL() .'/api/groups/' .$group_id .'/users/' .$user_id .'/?key=' .$this->galaxy->getAPIKey();
-    return $this->PUT($URL);
+    return $this->httpPUT($URL);
   }
 
   /**

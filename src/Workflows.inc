@@ -62,7 +62,7 @@ class Workflows extends HTTPRequest{
     $api_key = $this->galaxy->getAPIKey();
 
     $url = $this->galaxy->getURL() . '/api/workflows/' . '?key=' . $api_key;
-    $result = $this->rest->GET($url);
+    $result = $this->rest->httpGET($url);
     $array = json_decode($result, true);
 
     if (!empty($is_published)){
@@ -100,7 +100,7 @@ class Workflows extends HTTPRequest{
    public function show($workflow_id, $show_published=true){
      $URL = $this->galaxy->getURL() . '/api/workflows/' .$workflow_id. '/?key=' . $this->galaxy->getAPIKey();
      $URL .= '&show_published=' . $show_published;
-     return $this->rest->GET($URL);
+     return $this->rest->httpGET($URL);
    }
 
    /**
@@ -138,7 +138,7 @@ class Workflows extends HTTPRequest{
 
      $url = $this->galaxy->getURL() . '/api/workflows/' . $workflow_id . '?key=' . $api_key;
 
-    return $this->rest->GET($url);
+    return $this->rest->httpGET($url);
    }
 
   /**
@@ -172,7 +172,7 @@ class Workflows extends HTTPRequest{
 
     $url = $this->galaxy->getURL() . '/api/workflows/' . $workflow_id . '?key=' . $api_key;
 
-    $result = $this->rest->GET($url);
+    $result = $this->rest->httpGET($url);
 
     return $result.
 
@@ -227,7 +227,7 @@ class Workflows extends HTTPRequest{
         $notNullInputs[$element] = $value;
       }
     }
-    return $this->rest->PUT($url, $notNullInputs);
+    return $this->rest->httpPUT($url, $notNullInputs);
   }
 
 
@@ -265,7 +265,7 @@ class Workflows extends HTTPRequest{
         $notNullInputs[$element] = $value;
     }
 
-    return $this->rest->POST($url, $notNullInputs);
+    return $this->rest->httpPOST($url, $notNullInputs);
   }
 
  }
@@ -287,7 +287,7 @@ class Workflows extends HTTPRequest{
    public function indexInvocations($workflow_id){
      $url = $this->galaxy->getURL() . '/api/workflows/' .
      $workflow_id . 'invocations/?key=' . $this->galaxy->getAPIKey();
-     return $this->rest->GET($url);
+     return $this->rest->httpGET($url);
    }
 
    /**
@@ -312,7 +312,7 @@ class Workflows extends HTTPRequest{
    public function showInvocations($workflow_id, $invocation_id) {
      $url = $this->galaxy->getURL() . '/api/workflows/' .
         $workflow_id . 'invocations/'.$invocation_id.'/?key=' . $this->galaxy->getAPIKey();
-     return $this->rest->GET($url);
+     return $this->rest->httpGET($url);
    }
 
 
@@ -392,7 +392,7 @@ class Workflows extends HTTPRequest{
     $url = $this->galaxy->getURL() . '/api/workflows/' .
        $workflow_id . '/invocations/'.$invocation_id.'/steps/'
            .$step_id . '/?key=' . $this->galaxy->getAPIKey();
-    return $this->rest->PUT($url);
+    return $this->rest->httpPUT($url);
    }
 
 
@@ -444,7 +444,7 @@ class Workflows extends HTTPRequest{
       'no_add_to_history'=>$dont_add_to_history,
       'history'=>$history_input,
     );
-    return  $this->rest->POST($url, $elements);
+    return  $this->rest->httpPOST($url, $elements);
   }
 
 
@@ -532,7 +532,7 @@ class Workflows extends HTTPRequest{
       }
     }
 
-    return $this->rest->POST($url, $notNullInputs);
+    return $this->rest->httpPOST($url, $notNullInputs);
   }
 
 

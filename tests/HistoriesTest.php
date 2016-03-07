@@ -13,12 +13,12 @@ class HistoriesTest extends PHPUnit_Framework_TestCase {
     global $config;
 
     $galaxy = new GalaxyInstance($config['host'], $config['port']);
-    $galaxy->authenticate($config['user'], $config['pass']);
+    $galaxy->authenticate($config['email'], $config['pass']);
     $hist = new Histories($galaxy);
 
    $hist->create('testhistorycreate');
 
-    $response = $hist->GET($config['host'] . ':' . $config['port'] . '/api/histories/?key=' . $config['api_key']);
+    $response = $hist->httpGET($config['host'] . ':' . $config['port'] . '/api/histories/?key=' . $config['api_key']);
 
     $i = 0;
     while (array_key_exists('name', $response[$i])) {
@@ -41,7 +41,7 @@ class HistoriesTest extends PHPUnit_Framework_TestCase {
     global $config;
 
     $galaxy = new GalaxyInstance($config['host'], $config['port']);
-    $galaxy->authenticate($config['user'], $config['pass']);
+    $galaxy->authenticate($config['email'], $config['pass']);
     $hist = new Histories($galaxy);
 
     $response = $hist->index();
@@ -72,7 +72,7 @@ class HistoriesTest extends PHPUnit_Framework_TestCase {
     global $config;
 
     $galaxy = new GalaxyInstance($config['host'], $config['port']);
-    $galaxy->authenticate($config['user'], $config['pass']);
+    $galaxy->authenticate($config['email'], $config['pass']);
     $hist = new Histories($galaxy);
 
     $result = $hist->show($response['id']);
@@ -94,7 +94,7 @@ class HistoriesTest extends PHPUnit_Framework_TestCase {
   public function testArchiveDownload($result) {
     global $config;
     $galaxy = new GalaxyInstance($config['host'], $config['port']);
-    $galaxy->authenticate($config['user'], $config['pass']);
+    $galaxy->authenticate($config['email'], $config['pass']);
     $hist = new Histories($galaxy);
 
     // We place it in /tmp as it's a temporary holding directory that any
@@ -154,7 +154,7 @@ class HistoriesTest extends PHPUnit_Framework_TestCase {
   public function testUndelete($result){
     global $config;
     $galaxy = new GalaxyInstance($config['host'], $config['port']);
-    $galaxy->authenticate($config['user'], $config['pass']);
+    $galaxy->authenticate($config['email'], $config['pass']);
     $hist = new Histories($galaxy);
 
     var_dump($hist->undelete($result['id']));

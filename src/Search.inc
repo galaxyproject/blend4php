@@ -61,7 +61,7 @@ class Search extends HTTPRequest{
    	$elements = array (
    		'query'=>$query,
    	);
-   	return  $this->rest->POST($url, $elements);
+   	return  $this->rest->httpPOST($url, $elements);
    }
 
 

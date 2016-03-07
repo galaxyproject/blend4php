@@ -65,7 +65,7 @@ class Libraries extends HTTPRequest{
        'description'=> $description,
        'synopsis' => $synopsis,
      );
-     return $this->rest->POST($URL, $inputs);
+     return $this->rest->httpPOST($URL, $inputs);
    }
 
   /**
@@ -85,7 +85,7 @@ class Libraries extends HTTPRequest{
     */
    public function index($deleted=false){
     $URL = $this->galaxy->getURL() . '/api/libraries/?deleted=' . $deleted . '&key='. $this->galaxy->getAPIKey();
-    return $this->rest->GET($URL);
+    return $this->rest->httpGET($URL);
   }
 
   /**
@@ -113,7 +113,7 @@ class Libraries extends HTTPRequest{
      else {
        $URL =  $this->galaxy->getURL() . '/api/libraries/deleted/' . $lib_id . '/?key='. $this->galaxy->getAPIKey();
      }
-     return $this->rest->GET($URL);
+     return $this->rest->httpGET($URL);
    }
 
 
@@ -165,7 +165,7 @@ class Libraries extends HTTPRequest{
      $URL = $this->galaxy->getURL() . '/api/libraries/' . $lib_id .'/permissions/?scope='
          . $scope . '&is_library_access='.$is_library_access. '/&ey='. $this->galaxy->getAPIKey();
 
-     return $this->rest->GET($URL);
+     return $this->rest->httpGET($URL);
    }
 
   /**
@@ -213,7 +213,7 @@ class Libraries extends HTTPRequest{
       'modify_ids[]'=>$modify_ids,
     );
 
-    return $this->rest->POST($URL, $elements);
+    return $this->rest->httpPOST($URL, $elements);
    }
 
 }

@@ -54,7 +54,7 @@ class Datatypes extends HTTPRequest {
      */
     public function sniffers(){
    	  $URL = $this->galaxy->getURL() . '/api/datatypes/sniffers/?key=' . $this->galaxy->getAPIKey();
-   	  return $this->rest->GET($URL);
+   	  return $this->rest->httpGET($URL);
     }
 
     /**
@@ -70,7 +70,7 @@ class Datatypes extends HTTPRequest {
      */
     public function converters(){
    	 $URL = $this->galaxy->getURL() . '/api/datatypes/converters/?key=' . $this->galaxy->getAPIKey();
-   	 return $this->rest->GET($URL);
+   	 return $this->rest->httpGET($URL);
     }
 
     /**
@@ -86,7 +86,7 @@ class Datatypes extends HTTPRequest {
      */
    public function edam_formats(){
    	$URL = $this->galaxy->getURL() . '/api/datatypes/edam_formats/?key=' . $this->galaxy->getAPIKey();
-   	return $this->rest->GET($URL);
+   	return $this->rest->httpGET($URL);
    }
 
    /**
@@ -102,7 +102,7 @@ class Datatypes extends HTTPRequest {
     */
    public function mapping () {
    	$URL = $this->galaxy->getURL() . '/api/datatypes/mapping/?key=' . $this->galaxy->getAPIKey();
-   	return $this->rest->GET($URL);
+   	return $this->rest->httpGET($URL);
    }
 
    /**
@@ -118,7 +118,7 @@ class Datatypes extends HTTPRequest {
     */
  	public function index(){
  	 $URL = $this->galaxy->getURL() . '/api/datatypes/?key=' . $this->galaxy->getAPIKey();
- 	 return $this->rest->GET($URL);
+ 	 return $this->rest->httpGET($URL);
  	}
 
 }
