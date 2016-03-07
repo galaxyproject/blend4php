@@ -80,8 +80,6 @@ class Users extends HTTPRequest {
      }
      $URL .= $endURL;
      // $URL2 = $this->galaxy->getURL() . '/api/users/deleted'. $user_id ."/api_key/?key=" . $this->galaxy->getAPIKey();
-
-     print "$URL\n";
      return $this->GET($URL);
    }
 
@@ -123,6 +121,7 @@ class Users extends HTTPRequest {
   function api_key($user_id) {
     $URL = $this->galaxy->getURL() .'/api/users/' .$user_id .'/api_key/?key=' .$this->galaxy->getAPIKey();
     return $this->POST($URL);
+
   }
 
   /**

@@ -82,9 +82,14 @@ class HTTPRequest  {
       $response = json_decode($body, TRUE);
 
       // Case 1:  There message is not in JSON format.
-      if ($response == NULL) {
-        $this->error->setError('Galaxy', 'Unknown CURL response: not json compatible.');
+      if (!$response) {
+      	$this->error->setError('Galaxy', 'Unknown CURL response: not json compatible.');
         return FALSE;
+      }
+      
+      // Case 2:  The respons is just a string
+      if (!is_array($response)) {
+         return $response;
       }
 
       // Case 2: If we have a traceback element, we know the error originated
