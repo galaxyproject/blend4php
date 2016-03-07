@@ -37,7 +37,7 @@ class Visualizations extends HTTPRequest{
 	 * @ingroup visualizations_class
 	 */
 	function __construct($galaxy) {
-	  $this->galaxy = galaxy;
+	  $this->galaxy = $galaxy;
 		parent::__construct();
 	}
 
@@ -54,7 +54,7 @@ class Visualizations extends HTTPRequest{
 	 */
 	function index(){
 		$url = $this->galaxy->getURL() . '/api/visualizations/?key=' . $this->galaxy->getAPIKey();
-		return $this->rest->httpGET($url);
+		return $this->httpGET($url);
 	}
 
 	/**
@@ -97,7 +97,7 @@ class Visualizations extends HTTPRequest{
 	function create($type, $title, $dbkey, $import_id = NULL){
 		if($import_id != NULL) {
 			$url = $this->galaxy->getURL() . '/api/visualizations/?import_id=' . $import_id . '&key=' . $this->galaxy->getAPIKey();
-			return $this->rest->httpPOST($url);
+			return $this->httpPOST($url);
 		}
 
 		$url = $this->galaxy->getURL() . '/api/visualizations/?key=' . $this->galaxy->getAPIKey();
@@ -106,7 +106,7 @@ class Visualizations extends HTTPRequest{
 			'title'=>$title,
 			'dbkey'=>$dbkey,
 		);
-		return $this->rest->httpPOST($url, $elements);
+		return $this->httpPOST($url, $elements);
 	}
 
 

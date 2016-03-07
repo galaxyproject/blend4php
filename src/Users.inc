@@ -184,7 +184,8 @@ class Users extends HTTPRequest {
    * @ingroup users_class
    */
   function delete($user_id, $purge = false) {
-    $URL = $this->galaxy->getURL() . '/api/users/' . $user_id . '/?key=' . $this->galaxy->getAPIKey();
+    $URL = $this->galaxy->getURL() . '/api/users/' . $user_id . '/?purged=' . $purge . '&key=' . 
+    $this->galaxy->getAPIKey();
     return $this->httpDELETE($URL);
   }
 
