@@ -53,6 +53,8 @@ class UsersTest extends PHPUnit_Framework_TestCase {
     }
     $this->assertTrue($contains_user, "index() function works but user is missiing: " . print_r($users_list, TRUE));
 
+    // TODO: test all of the arugments of the index() function.
+
     return $users_list;
   }
 

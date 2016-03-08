@@ -24,19 +24,19 @@ include_once "HTTPRequest.inc";
 class GroupUsers extends HTTPRequest {
   private $galaxy;
 
-	/**
-	 * The GroupUsers constructor.
-	 *
-	 * @param GalaxyInstance $galaxy
-	 *   A GalaxyInstance object.
-	 *
-	 * @return
-	 *   An instance of a Groups Users object.
-	 *
-	 * @ingroup group_users_class
-	 */
+  /**
+   * The GroupUsers constructor.
+   *
+   * @param GalaxyInstance $galaxy
+   *   A GalaxyInstance object.
+   *
+   * @return
+   *   An instance of a Groups Users object.
+   *
+   * @ingroup group_users_class
+   */
    public function __construct($galaxy) {
-     $this->galaxy = galaxy;
+     $this->galaxy = $galaxy;
      parent::__construct();
    }
 
@@ -56,7 +56,7 @@ class GroupUsers extends HTTPRequest {
     */
   public function index($group_id) {
     $URL = $this->galaxy->getURL() .'/api/groups/' .$group_id .'/users/?key=' .$this->galaxy->getAPIKey();
-    return $this->rest->httpGET($URL);
+    return $this->httpGET($URL);
   }
 
   /**
@@ -78,7 +78,7 @@ class GroupUsers extends HTTPRequest {
    */
   public function show($group_id, $user_id) {
     $URL = $this->galaxy->getURL() .'/api/groups/' .$group_id .'/users/' .$user_id .'/?key=' .$this->galaxy->getAPIKey();
-    return $this->rest->httpGET($URL);
+    return $this->httpGET($URL);
   }
 
   /**
@@ -99,7 +99,7 @@ class GroupUsers extends HTTPRequest {
    * @ingroup group_users_class
    */
   public function update($group_id, $user_id) {
-    $URL = $this->galaxy->getURL() .'/api/groups/' .$group_id .'/users/' .$user_id .'/?key=' .$this->galaxy->getAPIKey();
+    $URL = $this->galaxy->getURL() . '/api/groups/' . $group_id .'/users/' . $user_id .'/?key=' . $this->galaxy->getAPIKey();
     return $this->httpPUT($URL);
   }
 
@@ -121,7 +121,18 @@ class GroupUsers extends HTTPRequest {
    * @ingroup group_users_class
    */
   public function delete($group_id, $user_id) {
-    $URL = $this->galaxy->getURL() .'/api/groups/' .$group_id .'/users/' .$user_id .'/?key=' .$this->galaxy->getAPIKey();
-    return $this->delete($URL);
+    $URL = $this->galaxy->getURL() . '/api/groups/' . $group_id . '/users/' . $user_id . '/?key=' . $this->galaxy->getAPIKey();
+    $response =  $this->httpDELETE($URL);
+
+    // There seems to be a bug in the Galaxy code in that it doesn't send
+    // an error message if one is encountered. Just a string indicating
+    // the problem.  So, if we don't get an array as expected just use the
+    // string as an error and return false.
+    // TODO: find out if this is a bug in Galaxy API or if if its intended.
+    if (!is_array($response)) {
+      $this->setError('Galaxy', $response);
+      return FALSE;
+    }
+    return $response;
   }
 }

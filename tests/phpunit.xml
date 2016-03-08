@@ -8,6 +8,7 @@
       <file>UsersTest.php</file>
       <file>RolesTest.php</file>
       <file>GroupsTest.php</file>
+      <file>GroupUsersTest.php</file>
     </testsuite>
   </testsuites>
 </phpunit>
