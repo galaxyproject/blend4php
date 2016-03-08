@@ -171,7 +171,6 @@ class Histories extends HTTPRequest {
     // Obtain download URL, with the necessary jeha_id
     $download_url = $this->archiveExport($history_id);
 
-
     $URL = $this->galaxy->getURL() . '/' . $download_url['download_url'] . '?key=' . $this->galaxy->getAPIKey();
     $file_contents = $this->download($URL, $file_path);
     return $file_contents;
@@ -195,9 +194,8 @@ class Histories extends HTTPRequest {
 
      $URL = $this->galaxy->getURL() . '/api/histories/' . $history_id . '/exports/?key=' . $this->galaxy->getAPIKey();
      $input = array('id' => $history_id);
-     $output = $this->httpPUT($URL, $input);
+     return $this->httpPUT($URL, $input);
 
-     return $output;
    }
 
    /**

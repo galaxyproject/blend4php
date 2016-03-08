@@ -87,9 +87,15 @@ class HTTPRequest  {
         return FALSE;
       }
 
-      // Case 2:  The respons is just a string
+      // Case 2:  The response is just a string
       if (!is_array($response)) {
-         return $response;
+        // If it's an empty string then something must be wrong.
+        // return an error.
+        if (!$response) {
+          $this->error->setError('Galaxy', 'No value returned by Galaxy.');
+          return FALSE;
+        }
+        return $response;
       }
 
       // Case 2: If we have a traceback element, we know the error originated
