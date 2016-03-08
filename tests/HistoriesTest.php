@@ -48,7 +48,6 @@ class HistoriesTest extends PHPUnit_Framework_TestCase {
    */
   public function testIndex($galaxy) {
 
-    // Create  Users object.
     $histories = new Histories($galaxy);
 
     // Case 1:  Are we getting an array?  If so, that's all we need to
@@ -69,7 +68,6 @@ class HistoriesTest extends PHPUnit_Framework_TestCase {
    */
   public function testShow($galaxy, $history_list) {
 
-    // Create  Users object.
     $histories = new Histories($galaxy);
 
     // Use the history ID of the first history in the list to test the
@@ -96,13 +94,12 @@ class HistoriesTest extends PHPUnit_Framework_TestCase {
    * @depends testShow
    */
   public function testArchiveDownload($galaxy, $history) {
-    global $config;
 
-    $hist = new Histories($galaxy);
+    $histories = new Histories($galaxy);
 
     // We place it in /tmp as it's a temporary holding directory that any
     // entity may place files
-    $success = $hist->archiveDownload($history['id'], "/tmp/phpUnitTestHistory.tar.gz");
+    $success = $histories->archiveDownload($history['id'], "/tmp/phpUnitTestHistory.tar.gz");
 
     $this->assertTrue($success);
     $this->assertTrue(file_exists("/tmp/phpUnitTestHistory.tar.gz"));
@@ -120,7 +117,6 @@ class HistoriesTest extends PHPUnit_Framework_TestCase {
    * @depends testArchiveDownload
    */
   public function testDeleteHistory($galaxy, $history){
-    global $config;
 
     $histories = new Histories($galaxy);
 
@@ -139,7 +135,6 @@ class HistoriesTest extends PHPUnit_Framework_TestCase {
  * @depends testDeleteHistory
  */
   public function testUndelete($galaxy, $del_history){
-    global $config;
 
     $histories = new Histories($galaxy);
 

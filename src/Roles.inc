@@ -24,104 +24,117 @@ class Roles extends HTTPRequest{
 
   private $galaxy;
 
-	/**
-	 * The Roles constructor.
-	 *
-	 * @param GalaxyInstance $galaxy
-	 *   A GalaxyInstance object.
-	 *
-	 * @return
-	 *   An instance of a roles object.
-	 *
-	 * @ingroup roles_class
-	 */
-	public function __construct($galaxy) {
-		parent ::__construct();
-		$this->galaxy = galaxy;
-	}
+  /**
+   * The Roles constructor.
+   *
+   * @param GalaxyInstance $galaxy
+   *   A GalaxyInstance object.
+   *
+   * @return
+   *   An instance of a roles object.
+   *
+   * @ingroup roles_class
+   */
+  public function __construct($galaxy) {
+    parent ::__construct();
+    $this->galaxy = $galaxy;
+  }
 
-	/**
-	 * Retreive a list of all of Galaxy's roles.
-	 *
-	 * Corresponds to the Galaxy API/path:
-	 *   GET /api/roles
-	 *
-	 * @return
-	 *   JSON array containing details of all the roles in Galaxy.
-	 *
-	 * @ingroup roles_class
-	 */
-	public function index(){
-		$URL = $this->galaxy->getURL() . '/api/roles/?key=' . $this->galaxy->getAPIKey();
-		return $this->rest->httpGET($URL);
-	}
+  /**
+   * Retreive a list of all of Galaxy's roles.
+   *
+   * Corresponds to the Galaxy API/path:
+   *   GET /api/roles
+   *
+   * @return
+   *   JSON array containing details of all the roles in Galaxy.
+   *
+   * @ingroup roles_class
+   */
+  public function index(){
+    $URL = $this->galaxy->getURL() . '/api/roles/?key=' . $this->galaxy->getAPIKey();
+    return $this->httpGET($URL);
+  }
 
-	/**
-	 * Retreive details about a specific Galaxy role.
-	 *
-	 * Corresponds to the Galaxy API/path:
-	 *   GET /api/roles/{encoded_id}
+  /**
+   * Retreive details about a specific Galaxy role.
+   *
+   * Corresponds to the Galaxy API/path:
+   *   GET /api/roles/{encoded_id}
      *
-	 * @param $role_id
-	 *   The id of the role whos informaiton to retreive. Please use
-	 *   this class's index function to retreive a list of role id's.
-	 *
-	 * @return
-	 *   JSON object containing details about the specified role.
-	 *
-	 * @ingroup roles_class
-	 */
-	public function show($role_id){
-		$URL = $this->galaxy->getURL() . '/api/roles/'. $role_id.'/?key=' . $this->galaxy->getAPIKey();
-		return $this->rest->httpGET($URL);
-	}
+   * @param $role_id
+   *   The id of the role whos informaiton to retreive. Please use
+   *   this class's index function to retreive a list of role id's.
+   *
+   * @return
+   *   JSON object containing details about the specified role.
+   *
+   * @ingroup roles_class
+   */
+  public function show($role_id){
+    $URL = $this->galaxy->getURL() . '/api/roles/' . $role_id . '/?key=' . $this->galaxy->getAPIKey();
+    return $this->httpGET($URL);
+  }
 
 
-	/**
-	 * Creates a new role.
-	 *
-	 * Corresponds to the Galaxy Api/path:
-	 *   POST /api/roles
-	 * NOTE: only type admin can be applied for new roles
-	 *
-	 * @param $name
-	 *   The name of the new role.
-	 * @param $description
-	 *   The description of the new role.
-	 * @param $user_ids
-	 *   An array of user ids to associate the new role with.
-	 *   To obtain a user id, please use the index() function of
-	 *   the users class.
-	 * @param $group_ids
-	 *   An array of group id's to associate the new role with.
-	 *   To obtain a group id, please use the index() function of the
-	 *   groups class.
-	 *
-	 * @return
-	 *   A JSON object containing informaiton about the new role.
-	 *
-	 * @ingroup roles_class
-	 */
-	public function create($name, $description, $user_ids, $group_ids=NULL) {
-		$URL = $this->galaxy->getURL() . '/api/roles/?key=' . $this->galaxy->getAPIKey();
-		$inputs = array(
-				'name' => $name,
-				'description' => $description,
-				'user_ids' => json_encode($user_ids),
-				'group_ids' => json_encode($group_ids),
-		);
-		//create a list of input items that is not null
-		$notNullInputs = array();
-		foreach($inputs as $input=>$value) {
-			if($value != NULL && $value != "null") {
-				$notNullInputs[$input] = $value;
-			}
-		}
+  /**
+   * Creates a new role.
+   *
+   * Corresponds to the Galaxy Api/path:
+   *   POST /api/roles
+   * NOTE: only type admin can be applied for new roles
+   *
+   * @param $name
+   *   The name of the new role.
+   * @param $description
+   *   The description of the new role.
+   * @param $user_ids
+   *   An array of user ids to associate the new role with.
+   *   To obtain a user id, please use the index() function of
+   *   the users class.
+   * @param $group_ids
+   *   An array of group id's to associate the new role with.
+   *   To obtain a group id, please use the index() function of the
+   *   groups class.
+   *
+   * @return
+   *   A JSON object containing informaiton about the new role.
+   *
+   * @ingroup roles_class
+   */
+  public function create($name, $description, $user_ids = array(), $group_ids = array()) {
 
-		return $this->rest->httpPOST($URL, $notNullInputs);
-	}
+    $URL = $this->galaxy->getURL() . '/api/roles/?key=' . $this->galaxy->getAPIKey();
 
+    $inputs = array(
+      'name' => $name,
+      'description' => $description,
+    );
 
+    if (count($user_ids) > 0) {
+      $inputs['user_ids'] = json_encode($user_ids);
+    }
+    if (count($group_ids) > 0) {
+      $inputs['group_ids'] = json_encode($group_ids);
+    }
+
+    $response = $this->httpPOST($URL, $inputs);
+
+    // There seems to be a bug in the Galaxy code in that it doesn't send
+    // an error message if the role already exists. Just a string indicating
+    // the problem.  So, if we don't get an array as expected just use the
+    // string as an error and return false.
+    // TODO: find out if this is a bug in Galaxy API or if if its intended.
+    if (!is_array($response)) {
+      $this->setError('Galaxy', $response);
+      return FALSE;
+    }
+
+    // For some reason we get an array containing hte associative array with
+    // the role details.  So, we'll just return the associative array.
+    // TODO: find out if this is a bug in Galaxy API or if if its intended.
+    return $response[0];
+  }
 }
 
 ?>

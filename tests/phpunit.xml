@@ -6,6 +6,7 @@
       <file>RestManagerTest.php</file>
       <file>HistoriesTest.php</file>
       <file>UsersTest.php</file>
+      <file>RolesTest.php</file>
     </testsuite>
   </testsuites>
 </phpunit>

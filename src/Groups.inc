@@ -38,7 +38,7 @@ class Groups extends HTTPRequest {
    * @ingroup group_class
    */
   public function __construct($galaxy) {
-    $this->galaxy = galaxy;
+    $this->galaxy = $galaxy;
     parent::__construct();
   }
 
@@ -54,7 +54,7 @@ class Groups extends HTTPRequest {
    */
   public function index() {
     $URL = $this->galaxy->getURL() . '/api/groups/?key=' . $this->galaxy->getAPIKey();
-    return $this->rest->httpGET($URL);
+    return $this->httpGET($URL);
   }
 
   /**
@@ -79,12 +79,34 @@ class Groups extends HTTPRequest {
   public function create($name, $user_ids = array(), $role_ids = array()) {
 
     $URL = $this->galaxy->getURL() . '/api/groups/?key=' . $this->galaxy->getAPIKey();
-    $elements = array(
+
+    $inputs = array(
       'name' => $name,
-      'user_ids' => $user_ids,
-      'role_ids' => $role_ids
     );
-    return $this->rest->httpPOST($URL, $elements);
+
+    if (count($user_ids) > 0) {
+      $inputs['user_ids'] = json_encode($user_ids);
+    }
+    if (count($role_ids) > 0) {
+      $inputs['role_ids'] = json_encode($role_ids);
+    }
+
+    $response = $this->httpPOST($URL, $inputs);
+
+    // There seems to be a bug in the Galaxy code in that it doesn't send
+    // an error message if the group already exists. Just a string indicating
+    // the problem.  So, if we don't get an array as expected just use the
+    // string as an error and return false.
+    // TODO: find out if this is a bug in Galaxy API or if if its intended.
+    if (!is_array($response)) {
+      $this->setError('Galaxy', $response);
+      return FALSE;
+    }
+
+    // For some reason we get an array containing hte associative array with
+    // the group details.  So, we'll just return the associative array.
+    // TODO: find out if this is a bug in Galaxy API or if if its intended.
+    return $response[0];
   }
 
   /**
@@ -103,7 +125,7 @@ class Groups extends HTTPRequest {
    */
   public function show($group_id) {
     $URL = $this->galaxy->getURL() . '/api/groups/' . $group_id . '/?key=' . $this->galaxy->getAPIKey();
-    return $this->rest->httpGET($URL);
+    return $this->httpGET($URL);
   }
 
   /**
@@ -130,17 +152,26 @@ class Groups extends HTTPRequest {
    * @ingroup group_class
    */
   public function update($group_id, $name = NULL, $user_ids = array(), $role_ids = array()) {
+
     $URL = $this->galaxy->getURL() . '/api/groups/' . $group_id . '/?key=' . $this->galaxy->getAPIKey();
 
-    $elements = array(
-      'user_ids' => $user_ids,
-      'role_ids' => $role_ids
-    );
+    $inputs = array();
 
-    if ($name !=null) {
-      $elements['name'] = $name;
+    if ($name) {
+      $intpus['name'] = $name;
+    }
+    if (count($user_ids) > 0) {
+      $inputs['user_ids'] = json_encode($user_ids);
+    }
+    if (count($role_ids) > 0) {
+      $inputs['role_ids'] = json_encode($role_ids);
     }
 
-    return $this->rest->httpPUT($URL, $elements);
+    if (count($intpus) == 0) {
+      $this->setError('API', "At least one optional argument must be provided to the Groups::update() function.");
+      return FALSE;
+    }
+
+    return $this->httpPUT($URL, $inputs);
   }
 }

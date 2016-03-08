@@ -81,9 +81,9 @@ class HTTPRequest  {
     else if(preg_match('/application\/json/', $content_type)) {
       $response = json_decode($body, TRUE);
 
-      // Case 1:  There message is not in JSON format.
-      if (!$response) {
-      	$this->error->setError('Galaxy', 'Unknown CURL response: not json compatible.');
+      // Case 1:  The message is not in JSON format.
+      if ($response === NULL) {
+        $this->error->setError('Galaxy', 'Unknown CURL response: not json compatible: "' . $output . '".');
         return FALSE;
       }
 
@@ -123,7 +123,7 @@ class HTTPRequest  {
       // Case 4:  No error found.
       return $response;
     }
-    $this->error->setError('HTTP', 'Unsupported content-type.');
+    $this->error->setError('HTTP', 'Unsupported content-type: ' . trim($content_type) . '.');
     return FALSE;
   }
 
