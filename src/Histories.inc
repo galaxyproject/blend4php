@@ -24,6 +24,7 @@ require_once 'HTTPRequest.inc';
 class Histories extends HTTPRequest {
 
   private $galaxy;
+
   /**
    * The Histories constructor.
    *
@@ -62,12 +63,13 @@ class Histories extends HTTPRequest {
     *   'url' (default)
     *
     * @return
-    *    Json array containing information about the new History component.
+    *    An array containing information about the new History component.
     *
     * @ingroup histories_class
     */
-   public function create($name, $history_id = NULL, $annotation = NULL, $archive_source = NULL,  $archive_type = NULL,
-   $all_datasets = TRUE) {
+   public function create($name, $history_id = NULL, $annotation = NULL,
+       $archive_source = NULL,  $archive_type = NULL, $all_datasets = TRUE) {
+
      $URL = $this->galaxy->getURL() . '/api/histories/?key=' . $this->galaxy->getAPIKey();
 
      $inputs = array(
@@ -82,9 +84,9 @@ class Histories extends HTTPRequest {
      //Assure we are not inputting null values into the python dictionary
      $notNullInputs = array();
      foreach ($inputs as $inputName => $input){
-      if($input !== NULL){
-       $notNullInputs[$inputName] = $input;
-      }
+       if($input !== NULL){
+         $notNullInputs[$inputName] = $input;
+       }
      }
 
      return $this->galaxy->httpPOST($URL, $notNullInputs);
@@ -93,25 +95,32 @@ class Histories extends HTTPRequest {
    /**
     *  Displays a collection of history components in Galaxy.
     *
-    *  Corresponds to the Galaxy API method and path:
+    *  This function combines the list of active and deleted histories and
+    *  therefore, corresponds to both of the Galaxy API methods and paths:
+    *
     *  GET /api/histories and  GET /api/histories/deleted
     *
     * @return
-    *    Json array containing list of histories in galaxy instance.
+    *    An array containing list of histories in galaxy instance.
     *
     * @ingroup histories_class
     */
    public function index(){
+
+     // Get the active histories.
      $URL = $this->galaxy->getURL() . '/api/histories/?key=' . $this->galaxy->getAPIKey();
+     $active = $this->httpGET($URL);
+
+     // Get the deleted histories.
      $URLDeleted = $this->galaxy->getURL() . '/api/histories/deleted/?key=' . $this->galaxy->getAPIKey();
+     $deleted = $this->httpGET($URLDeleted);
 
-     if ($this->httpGET($URLDeleted))
-       $result = array_merge($this->httpGET($URL), $this->httpGET($URLDeleted));
-
-     else
-       $result = $this->httpGET($URL);
-
-     return  $result;
+     // If we have deleted histories then merge those with the active histories.
+     // Othwerwise, just return the active histories.
+     if ($deleted) {
+       return array_merge($active, $deleted);
+     }
+     return $active;
    }
 
    /**

@@ -9,6 +9,9 @@ class UsersTest extends PHPUnit_Framework_TestCase {
 
   /**
    * Intializes the Galaxy object for all of the tests.
+   *
+   * This function provides the $galaxy object to all other tests as they
+   * are dependent on this one.
    */
   function testInitGalaxy() {
     global $config;
@@ -19,6 +22,7 @@ class UsersTest extends PHPUnit_Framework_TestCase {
 
     return $galaxy;
   }
+
   /**
    * Tests the index() function.
    *

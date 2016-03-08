@@ -6,80 +6,80 @@ require_once 'testConfig.inc';
 class HistoriesTest extends PHPUnit_Framework_TestCase {
 
   /**
+   * Intializes the Galaxy object for all of the tests.
    *
+   * This function provides the $galaxy object to all other tests as they
+   * are dependent on this one.
    */
-  public function testCreate() {
-
+  function testInitGalaxy() {
     global $config;
 
-    $galaxy = new GalaxyInstance($config['host'], $config['port']);
-    $galaxy->authenticate($config['email'], $config['pass']);
-    $hist = new Histories($galaxy);
+    // Connect to Galaxy.
+    $galaxy = new GalaxyInstance($config['host'], $config['port'], FALSE);
+    $response = $galaxy->authenticate($config['email'], $config['pass']);
 
-   $hist->create('testhistorycreate');
-
-    $response = $hist->httpGET($config['host'] . ':' . $config['port'] . '/api/histories/?key=' . $config['api_key']);
-
-    $i = 0;
-    while (array_key_exists('name', $response[$i])) {
-
-      if ("testhistorycreate" == $response[$i]['name']) {
-        break;
-      }
-      $i++ ;
-    }
-
-    $this->assertEquals('testhistorycreate', $response[$i]['name']);
+    return $galaxy;
   }
 
   /**
+   * Tests the create() function of the Histories class.
    *
-   * @return Json
+   * @depends testInitGalaxy
    */
-  public function testIndex() {
+  public function testCreate($galaxy) {
 
-    global $config;
+    $histories = new Histories($galaxy);
 
-    $galaxy = new GalaxyInstance($config['host'], $config['port']);
-    $galaxy->authenticate($config['email'], $config['pass']);
-    $hist = new Histories($galaxy);
+    // Case 1: Create a history with only a single name.
+    $history = $histories->create('testhistorycreate');
+    $this->assertTrue(is_array($history), $histories->getErrorMessage());
 
-    $response = $hist->index();
-
-    // Now we check again to make sure the response is valid and we can
-    // find 'testhistorycreate'
-    $i = 0;
-    while (array_key_exists('name', $response[$i])) {
-
-      if ("testhistorycreate" == $response[$i]['name']) {
-        break;
-      }
-      $i++ ;
-    }
-
-    $this->assertEquals('testhistorycreate', $response[$i]['name']);
-
-    return $response[$i];
+    // TODO: test each of the additional arguments to the create() function
+    // to make sure they work.
   }
 
   /**
+   * Tests the index() function of the Hisories class.
+   *
+   * @depends testInitGalaxy
+   */
+  public function testIndex($galaxy) {
+
+    // Create  Users object.
+    $histories = new Histories($galaxy);
+
+    // Case 1:  Are we getting an array?  If so, that's all we need to
+    // test. We don't need to do unit testing for galaxy. We assume the
+    // array is correct.
+    $history_list = $histories->index();
+    $this->assertTrue(is_array($history_list), $histories->getErrorMessage());
+
+    return $history_list;
+  }
+
+  /**
+   * Test the show() function of the Histories class.
+   *
+   * @depends testInitGalaxy
    * @depends testIndex
    *
-   * @param json $response
    */
-  public function testShow($response) {
+  public function testShow($galaxy, $history_list) {
 
-    global $config;
+    // Create  Users object.
+    $histories = new Histories($galaxy);
 
-    $galaxy = new GalaxyInstance($config['host'], $config['port']);
-    $galaxy->authenticate($config['email'], $config['pass']);
-    $hist = new Histories($galaxy);
+    // Use the history ID of the first history in the list to test the
+    // show() function.
+    $hist_id = $history_list[0]['id'];
 
-    $result = $hist->show($response['id']);
+    // Case 1:  Are we getting an array?  If so, that's all we need to
+    // test. We don't need to do unit testing for galaxy. We assume the
+    // array is correct.
+    $history = $histories->show($hist_id);
+    $this->assertTrue(is_array($history), $histories->getErrorMessage());
 
-    $this->assertEquals('testhistorycreate', $result['name']);
-
-    return $result;
+    return $history;
   }
 
   /**
@@ -89,93 +89,58 @@ class HistoriesTest extends PHPUnit_Framework_TestCase {
    * 1. archiveDownload
    * 2. archiveExport
    *
+   * @depends testInitGalaxy
    * @depends testShow
    */
-  public function testArchiveDownload($result) {
+  public function testArchiveDownload($galaxy, $history) {
     global $config;
-    $galaxy = new GalaxyInstance($config['host'], $config['port']);
-    $galaxy->authenticate($config['email'], $config['pass']);
+
     $hist = new Histories($galaxy);
 
     // We place it in /tmp as it's a temporary holding directory that any
     // entity may place files
-    $response = $hist->archiveDownload($result['id'], "/tmp/phpUnitTestHistory.tar.gz");
+    $success = $hist->archiveDownload($history['id'], "/tmp/phpUnitTestHistory.tar.gz");
 
-    $this->assertTrue($response);
+    $this->assertTrue($success);
     $this->assertTrue(file_exists("/tmp/phpUnitTestHistory.tar.gz"));
-
-    return $result;
   }
 
   /**
-   * This function will 'delete' a history, hiding the history from the users.
+   * Tests the deleteHistory() function of the Histories calss.
    *
-   * This action can be undone by undelete, this history can still be found by
-   * invoking the index() function
+   * This function will 'delete' a history which hides the history from the
+   * users. This action can be undone by undelete, this history can still be
+   * found by invoking the index() function
    *
+   * @depends testInitGalaxy
+   * @depends testShow
    * @depends testArchiveDownload
    */
-  public function testDeleteHistory($result){
+  public function testDeleteHistory($galaxy, $history){
     global $config;
-    $galaxy = new GalaxyInstance($config['host'], $config['port']);
-    $galaxy->authenticate($config['user'], $config['pass']);
-    $hist = new Histories($galaxy);
 
-    $hist->deleteHistory($result['id']);
+    $histories = new Histories($galaxy);
 
-    // Invoke the index() function, this will indirectly test the deleted parameter
-    // as well and if the particular id and whether the parameter of said id is
-    // deleted [as it's supposed to be from the call from the above call].
-    $hist->index();
+    // Case 1: Test that we can mark the history as deleted.
+    $del_history = $histories->deleteHistory($history['id']);
+    $this->assertTrue(is_array($del_history), $histories->getErrorMessage());
+    $this->assertTrue($del_history['deleted']);
 
-    $response = $hist->index();
-
-    // Now we check again to make sure the response is valid and we can
-    // find 'testhistorycreate'
-    $i = 0;
-    while (array_key_exists('id', $response[$i]) && array_key_exists('deleted',  $response[$i])) {
-
-      if ( $result['id'] == $response[$i]['id'] && $response[$i]['deleted'] == TRUE) {
-        break;
-      }
-      $i++ ;
-    }
-
-    // Once we break out we have found our candidate
-    $this->assertEquals($result['id'] ,$response[$i]['id']);
-    $this->assertTrue($response[$i]['deleted']);
+    return $del_history;
   }
 
 /**
  *
- *
+ * @depends testInitGalaxy
  * @depends testDeleteHistory
  */
-  public function testUndelete($result){
+  public function testUndelete($galaxy, $del_history){
     global $config;
-    $galaxy = new GalaxyInstance($config['host'], $config['port']);
-    $galaxy->authenticate($config['email'], $config['pass']);
-    $hist = new Histories($galaxy);
 
-    var_dump($hist->undelete($result['id']));
+    $histories = new Histories($galaxy);
 
-    // We run the index function again looking for two parameters again
-    // that the id we have undeletetd is back AND that the parameter
-    // deleted will be set to false
-    $response = $hist->index();
-
-   // var_dump($response);
-    $i = 0;
-    while (array_key_exists('id', $response[$i]) && array_key_exists('deleted',  $response[$i])) {
-
-      if ( $result['id'] == $response[$i]['id'] && $response[$i]['deleted'] == FALSE) {
-        break;
-      }
-      $i++ ;
-    }
-
-    // Once we break out we have found our candidate
-    $this->assertEquals($result['id'] ,$response[$i]['id']);
-    $this->assertFalse($response[$i]['deleted']);
+    $undel_history = $histories->undelete($del_history['id']);
+    $this->assertTrue(is_array($undel_history), $histories->getErrorMessage());
+    $this->assertFalse($undel_history['deleted']);
   }
 }
