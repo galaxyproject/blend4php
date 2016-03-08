@@ -6,18 +6,28 @@ require_once './testConfig.inc';
 
 
 class UsersTest extends PHPUnit_Framework_TestCase {
+
   /**
-   * Tests the index() function.
-   *
-   * The index function retrieves a list of users.
-   *
+   * Intializes the Galaxy object for all of the tests.
    */
-  function testIndex() {
+  function testInitGalaxy() {
     global $config;
 
     // Connect to Galaxy.
     $galaxy = new GalaxyInstance($config['host'], $config['port'], FALSE);
     $response = $galaxy->authenticate($config['email'], $config['pass']);
+
+    return $galaxy;
+  }
+  /**
+   * Tests the index() function.
+   *
+   * The index function retrieves a list of users.
+   *
+   * @depends testInitGalaxy
+   */
+  function testIndex($galaxy) {
+    global $config;
 
     // Create  Users object.
     $users = new Users($galaxy);
@@ -45,14 +55,11 @@ class UsersTest extends PHPUnit_Framework_TestCase {
    *
    * The show function retreives information on a specific user
    *
+   * @depends testInitGalaxy
    * @depends testIndex
    */
-  function testShow(){
+  function testShow($galaxy){
     global $config;
-
-    // Connect to Galaxy.
-    $galaxy = new GalaxyInstance($config['host'], $config['port'], FALSE);
-    $response = $galaxy->authenticate($config['email'], $config['pass']);
 
     $users = new Users($galaxy);
 
@@ -80,19 +87,17 @@ class UsersTest extends PHPUnit_Framework_TestCase {
   /**
    * Test the getUserID() function.
    *
+   * @depends testInitGalaxy
    * @depends testIndex
    */
-  function testGetUserID() {
+  function testGetUserID($galaxy) {
     global $config;
 
-    // Connect to Galaxy.
-    $galaxy = new GalaxyInstance($config['host'], $config['port'], FALSE);
-    $response = $galaxy->authenticate($config['email'], $config['pass']);
     $users = new Users($galaxy);
 
     // Case 1:  Test for a false user.
     $user_id = $users->getUserID('asdjasldfjasldfjaslfjaslfjaslfjasdf');
-    $this->assertFalse($user_id, "Retreiving the user should have failed: " . print_r($response, TRUE));
+    $this->assertFalse($user_id, "Retreiving the user should have failed: " . print_r($user_id, TRUE));
 
     // Case 2: Test for a real user id.
     $user_id = $users->getUserID($config['user']);
@@ -103,15 +108,12 @@ class UsersTest extends PHPUnit_Framework_TestCase {
   /**
    * Test the create()
    *
-   *
+   * @depends testInitGalaxy
    * @depends testGetUserID
    */
-  function testCreate(){
+  function testCreate($galaxy){
     global $config;
 
-    // Connect to Galaxy.
-    $galaxy = new GalaxyInstance($config['host'], $config['port'], FALSE);
-    $response = $galaxy->authenticate($config['email'], $config['pass']);
     $users = new Users($galaxy);
 
     // Case 1: Successful creation of a new user.
@@ -130,15 +132,12 @@ class UsersTest extends PHPUnit_Framework_TestCase {
   /**
    * Test the create()
    *
-   *
+   * @depends testInitGalaxy
    * @depends testCreate
    */
-  function testDelete(){
+  function testDelete($galaxy){
     global $config;
 
-    // Connect to Galaxy.
-    $galaxy = new GalaxyInstance($config['host'], $config['port'], FALSE);
-    $response = $galaxy->authenticate($config['email'], $config['pass']);
     $users = new Users($galaxy);
 
     // Create a new user for testing of delete.
@@ -169,14 +168,12 @@ class UsersTest extends PHPUnit_Framework_TestCase {
     *
     * generates a new api key for a user
     *
+    * @depends testInitGalaxy
     * @depends testCreate
     */
-   function testAPIKey(){
+   function testAPIKey($galaxy){
      global $config;
 
-     // Connect to Galaxy.
-     $galaxy = new GalaxyInstance($config['host'], $config['port'], FALSE);
-     $response = $galaxy->authenticate($config['email'], $config['pass']);
      $users = new Users($galaxy);
 
      // First create a new user for testing the change of API Key.
