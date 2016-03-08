@@ -3,6 +3,9 @@ require_once '../src/Histories.inc';
 require_once '../src/GalaxyInstance.inc';
 require_once 'testConfig.inc';
 
+/**
+ * Unit test for the Histories class.
+ */
 class HistoriesTest extends PHPUnit_Framework_TestCase {
 
   /**
@@ -130,6 +133,7 @@ class HistoriesTest extends PHPUnit_Framework_TestCase {
   }
 
 /**
+ * Tests the undelete() function of the Histories class.
  *
  * @depends testInitGalaxy
  * @depends testDeleteHistory
@@ -139,6 +143,8 @@ class HistoriesTest extends PHPUnit_Framework_TestCase {
 
     $histories = new Histories($galaxy);
 
+    // Case 1: Make sure that the deleted file created in the
+    // testDeleteHistory() function can be undeleted.
     $undel_history = $histories->undelete($del_history['id']);
     $this->assertTrue(is_array($undel_history), $histories->getErrorMessage());
     $this->assertFalse($undel_history['deleted']);
