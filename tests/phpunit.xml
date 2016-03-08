@@ -1,0 +1,10 @@
+<phpunit>
+  <testsuites>
+    <testsuite name="default">
+      <file>GalaxyInstanceTest.php</file>
+      <file>RequestErrorTest.php</file>
+      <file>RestManagerTest.php</file>
+      <file>UsersTest.php</file>
+    </testsuite>
+  </testsuites>
+</phpunit>

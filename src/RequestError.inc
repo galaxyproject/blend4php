@@ -40,7 +40,7 @@ class RequestError {
    * Setter for the class's 'Error' attribute
    *
    * @param $type
-   *   Type of Error, must be either 'HTTP' or 'Galaxy'.
+   *   Type of Error.  Typical types are 'HTTP' or 'Galaxy'.
    * @param $message
    *   The Error message.
    *
@@ -48,13 +48,7 @@ class RequestError {
    */
   public function setError($type, $message) {
     $this->errorMessage = $message;
-    // Assure that the type is either HTTP or Galaxy
-    if ($type == 'HTTP' or $type == 'Galaxy') {
-      $this->errorType = $type;
-    }
-    else {
-      $this->$type = 'Galaxy';
-    }
+    $this->errorType = $type;
   }
 
   /**
@@ -69,7 +63,7 @@ class RequestError {
     return array(
       'message' => $this->errorMessage,
       'type' => $this->errorType
-     );
+    );
   }
 
 }
