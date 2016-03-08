@@ -187,4 +187,48 @@ class HistoriesTest extends PHPUnit_Framework_TestCase {
     $this->assertTrue($has_active, "Histories index() failes to include the active histories: " . print_r($history_list, TRUE));
     $this->assertTrue($has_deleted, "Histories index() failes to include the deleted histories: " . print_r($history_list, TRUE));
   }
+
+  /**
+   * Tests the citations() member functions of the Histories class.
+   *
+   * @depends testInitGalaxy
+   * @depends testUndelete
+   */
+  public function testCitations($galaxy, $undel_history){
+  	$histories = new Histories($galaxy);
+
+  	// Case 1: Make sure that an array (whether empty or filled) will be
+  	// presented when the citations function is invoked.
+  	$citations = $histories->citations($undel_history['id']);
+  	$this->assertTrue(is_array($citations), $histories->getErrorMessage());
+  }
+
+  /**
+   * Tests the published() member functions of the Histories class.
+   *
+   * @depends testInitGalaxy
+   * @depends testUndelete
+   */
+  public function testpublished($galaxy, $undel_history){
+  	$histories = new Histories($galaxy);
+
+  	// Case 1: Make sure that an array (whether empty or filled) will be
+  	// presented when the published function is invoked.
+  	$published = $histories->published($undel_history['id']);
+  	$this->assertTrue(is_array($published), $histories->getErrorMessage());
+  }
+
+  /**
+   * Tests the sharedWithMe() member functions of the Histories class.
+   *
+   * @depends testInitGalaxy
+   */
+  public function testSharedWithMe($galaxy){
+  	$histories = new Histories($galaxy);
+
+  	// Case 1: Make sure that an array (whether empty or filled) will be
+  	// presented when the published function is invoked.
+  	$shared_histories = $histories->sharedWithMe();
+  	$this->assertTrue(is_array($shared_histories), $histories->getErrorMessage());
+  }
 }
