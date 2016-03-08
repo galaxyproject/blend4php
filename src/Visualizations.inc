@@ -48,7 +48,7 @@ class Visualizations extends HTTPRequest{
    *   GET /api/visualizations
    *
    * @return
-   *   A Json array containing all of galaxy's visualizations.
+   *   An array containing all of galaxy's visualizations.
    *
    * @ingroup visualizations_class
    */
@@ -90,7 +90,7 @@ class Visualizations extends HTTPRequest{
    *   desires to import a visualization.
    *
    * @return
-   *   A Json array containing the created visualization.
+   *   An array containing the created visualization.
    *
    * @ingroup visualizations_class
    */

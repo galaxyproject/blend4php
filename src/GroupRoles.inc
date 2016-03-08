@@ -26,19 +26,19 @@ class GroupRoles extends HTTPRequest {
   private $galaxy;
 
 
-	/**
-	 * The Group Roles constructor.
-	 *
-	 * @param GalaxyInstance $galaxy
-	 *   A GalaxyInstance object.
-	 *
-	 * @return
-	 *   An instance of a Group Roles object.
-	 *
-	 * @ingroup group_roles_class
-	 */
+  /**
+   * The Group Roles constructor.
+   *
+   * @param GalaxyInstance $galaxy
+   *   A GalaxyInstance object.
+   *
+   * @return
+   *   An instance of a Group Roles object.
+   *
+   * @ingroup group_roles_class
+   */
     public function __construct($galaxy) {
-      $this->galaxy = galaxy;
+      $this->galaxy = $galaxy;
       parent ::__construct();
     }
 
@@ -52,14 +52,25 @@ class GroupRoles extends HTTPRequest {
     *   The id of the group whose roles to list.  Group IDs can be found using the
     *   index() function of the Groups class.
     * @return
-    *   A JSON array of all group roles for a given group.
+    *   An array of all group roles for a given group.
     *
     * @ingroup group_roles_class
     */
    public function index($group_id) {
-     $URL = $this->galaxy->getURL() . '/api/groups/'
-         . $group_id. '/roles/?key=' . $this->galaxy->getAPIKey();
-     return $this->rest->httpGET($URL);
+     $URL = $this->galaxy->getURL() . '/api/groups/' . $group_id. '/roles/?key=' . $this->galaxy->getAPIKey();
+     $response = $this->httpGET($URL);
+
+     // There seems to be a bug in the Galaxy code in that it doesn't send
+     // an error message if the query failes. It just sends a string indicating
+     // the problem.  So, if we don't get an array as expected just use the
+     // string as an error and return false.
+     // TODO: find out if this is a bug in Galaxy API or if if its intended.
+     if ($response !== FALSE and !is_array($response)) {
+       $this->setError('Galaxy', $response);
+       return FALSE;
+     }
+
+     return $response;
    }
 
    /**
@@ -75,14 +86,13 @@ class GroupRoles extends HTTPRequest {
     *   The id of the specific role to show. Role IDS can be found using the index()
     *   function of the Roles class
     * @return
-    *   A JSON array containing details about the role of a given gorup.
+    *   An array containing details about the role of a given gorup.
     *
     * @ingroup group_roles_class
     */
    public function show($group_id, $role_id) {
-     $URL = $this->galaxy->getURL() . '/api/groups/'
-         . $group_id. '/roles/' . $role_id. '/?key=' . $this->galaxy->getAPIKey();
-     return $this->rest->httpGET($URL);
+     $URL = $this->galaxy->getURL() . '/api/groups/' . $group_id. '/roles/' . $role_id. '/?key=' . $this->galaxy->getAPIKey();
+     return $this->httpGET($URL);
    }
 
    /**
@@ -98,13 +108,12 @@ class GroupRoles extends HTTPRequest {
     *   A role id to associate any new roles to the group. Use the
     *   Roles class to retreive a list of existing role IDs.
     * @return
-    *   A JSON array of the group that has been modified.
+    *   An array of the role that was added to the group
     *
     * @ingroup group_roles_class
     */
-   public function update($group_id,$role_id) {
-     $URL = $this->galaxy->getURL() . '/api/groups/'
-         . $group_id . '/roles/' . $role_id. '/?key=' . $this->galaxy->getAPIKey();
+   public function update($group_id, $role_id) {
+     $URL = $this->galaxy->getURL() . '/api/groups/' . $group_id . '/roles/' . $role_id. '/?key=' . $this->galaxy->getAPIKey();
      return $this->httpPUT($URL);
    }
 
@@ -121,14 +130,13 @@ class GroupRoles extends HTTPRequest {
     *   A role id to deassociate any roles from the group. Use the
     *   Roles class to retreive a list of role IDs.
     * @return
-    *   A JSON array of the group that has been modified.
+    *   An array of the role that was removed from the group.
     *
     * @ingroup group_roles_class
     */
    public function delete($group_id,$role_id) {
-     $URL = $this->galaxy->getURL() . '/api/groups/'
-         . $group_id . '/roles/' . $role_id . '/?key=' . $this->galaxy->getAPIKey();
-     return $this->rest->delete($URL);
+     $URL = $this->galaxy->getURL() . '/api/groups/' . $group_id . '/roles/' . $role_id . '/?key=' . $this->galaxy->getAPIKey();
+     return $this->httpDELETE($URL);
    }
 
 }

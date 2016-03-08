@@ -9,6 +9,7 @@
       <file>RolesTest.php</file>
       <file>GroupsTest.php</file>
       <file>GroupUsersTest.php</file>
+      <file>GroupRolesTest.php</file>
     </testsuite>
   </testsuites>
 </phpunit>

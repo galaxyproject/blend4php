@@ -11,16 +11,30 @@ class VisualizationsTest extends PHPUnit_Framework_TestCase {
 
 
   /**
-   * Test the create()
+   * Intializes the Galaxy object for all of the tests.
    *
-   *
+   * This function provides the $galaxy object to all other tests as they
+   * are dependent on this one.
    */
-  function testCreate(){
+  function testInitGalaxy() {
     global $config;
 
     // Connect to Galaxy.
     $galaxy = new GalaxyInstance($config['host'], $config['port'], FALSE);
-    $response = $galaxy->authenticate($config['email'], $config['pass']);
+    $success = $galaxy->authenticate($config['email'], $config['pass']);
+    $this->assertTrue($success, $galaxy->getErrorMessage());
+
+    return $galaxy;
+  }
+
+  /**
+   * Test the create()
+   *
+   * @depends testInitGalaxy
+   */
+  function testCreate($galaxy){
+    global $config;
+
     $vizs = new Visualizations($galaxy);
 
     // Case 1: Successful creation of a new visualization
@@ -39,14 +53,11 @@ class VisualizationsTest extends PHPUnit_Framework_TestCase {
    *
    * The index function retrieves a list of visualization
    *
-   *@depends testCreate
+   * @depends testInitGalaxy
+   * @depends testCreate
    */
-  function testIndex() {
+  function testIndex($galaxy) {
     global $config;
-
-    // Connect to Galaxy.
-    $galaxy = new GalaxyInstance($config['host'], $config['port'], FALSE);
-    $response = $galaxy->authenticate($config['email'], $config['pass']);
 
     // Create  Visualization object.
     $vizs = new Visualizations($galaxy);
@@ -62,14 +73,11 @@ class VisualizationsTest extends PHPUnit_Framework_TestCase {
    *
    * The show function retreives detailed information on a given visuzlization
    *
-   *@depends testIndex
+   * @depends testInitGalaxy
+   * @depends testIndex
    */
-  function testShow(){
+  function testShow($galaxy){
     global $config;
-
-    // Connect to Galaxy.
-    $galaxy = new GalaxyInstance($config['host'], $config['port'], FALSE);
-    $response = $galaxy->authenticate($config['email'], $config['pass']);
 
     $vizs = new Visualizations($galaxy);
 

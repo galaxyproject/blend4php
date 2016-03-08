@@ -17,7 +17,8 @@ class GroupsTest extends PHPUnit_Framework_TestCase {
 
     // Connect to Galaxy.
     $galaxy = new GalaxyInstance($config['host'], $config['port'], FALSE);
-    $response = $galaxy->authenticate($config['email'], $config['pass']);
+    $success = $galaxy->authenticate($config['email'], $config['pass']);
+    $this->assertTrue($success, $galaxy->getErrorMessage());
 
     return $galaxy;
   }

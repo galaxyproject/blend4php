@@ -53,7 +53,7 @@ class Workflows extends HTTPRequest{
     *   Optional, if true, published workflows will be displayed.
     *
     * @return
-    *   A Json array containing all of the workflows in Galaxy.
+    *   An array containing all of the workflows in Galaxy.
     *
   	* @ingroup workflows_class
     */
@@ -93,7 +93,7 @@ class Workflows extends HTTPRequest{
     *   If true, show published workflows.
     *
     * @return
-    *   A Json Array containing the details of a workflow.
+    *   An array containing the details of a workflow.
     *
   	* @ingroup workflows_class
     */
@@ -280,7 +280,7 @@ class Workflows extends HTTPRequest{
     *   The id of the workflow whos invocations to retreive.
     *
     * @return
-    *   A Json array containing the invocations of a workflow.
+    *   An array containing the invocations of a workflow.
     *
     * @ingroup workflows_class
     */
@@ -305,7 +305,7 @@ class Workflows extends HTTPRequest{
     *   function.
     *
     * @return
-    *   A Json array containing details of the specified invocation.
+    *   An array containing details of the specified invocation.
     *
     * @ingroup workflows_class
     */
@@ -329,7 +329,7 @@ class Workflows extends HTTPRequest{
     *   The id of the invocation to invoke.
     *
     * @return
-    *   A Json array containing details of the specified invocation.
+    *   An array containing details of the specified invocation.
     *
     * @ingroup workflows_class
     */
@@ -356,7 +356,7 @@ class Workflows extends HTTPRequest{
     *   The id of the step to retreive.
     *
     * @return
-    *   A Json array containing information for all the invocation steps of
+    *   An array containing information for all the invocation steps of
     *   the given workflow invocation.
     *
     * @ingroup workflows_class
@@ -384,7 +384,7 @@ class Workflows extends HTTPRequest{
     *   The id of the step to update.
     *
     * @return
-    *   A Json array containing information of the updated invocation step.
+    *   An array containing information of the updated invocation step.
     *
     * @ingroup workflows_class
     */

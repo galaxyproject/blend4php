@@ -125,12 +125,12 @@ class Roles extends HTTPRequest{
     // the problem.  So, if we don't get an array as expected just use the
     // string as an error and return false.
     // TODO: find out if this is a bug in Galaxy API or if if its intended.
-    if (!is_array($response)) {
+    if ($response !== FALSE and !is_array($response)) {
       $this->setError('Galaxy', $response);
       return FALSE;
     }
 
-    // For some reason we get an array containing hte associative array with
+    // For some reason we get an array containing the associative array with
     // the role details.  So, we'll just return the associative array.
     // TODO: find out if this is a bug in Galaxy API or if if its intended.
     return $response[0];

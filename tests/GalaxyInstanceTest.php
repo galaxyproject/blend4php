@@ -90,13 +90,12 @@ class GalaxyInstanceTest extends PHPUnit_Framework_TestCase {
 
     // Test a proper user authentcation. First check that the function
     // will return our API key after authentication.
-    $response = $galaxy->authenticate($config['email'], $config['pass']);
-    $this->assertTrue(is_array($response));
-    $this->assertEquals($response['api_key'], $config['api_key']);
+    $success = $galaxy->authenticate($config['email'], $config['pass']);
+    $this->assertTrue($success);
 
     // Next, test an incorrect username/password.
-    $response = $galaxy->authenticate($config['pass'], $config['email']);
-    $this->assertFalse($response);
+    $success = $galaxy->authenticate($config['pass'], $config['email']);
+    $this->assertFalse($success);
 
   }
 

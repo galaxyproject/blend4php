@@ -20,7 +20,8 @@ class GroupUsersTest extends PHPUnit_Framework_TestCase {
 
     // Connect to Galaxy.
     $galaxy = new GalaxyInstance($config['host'], $config['port'], FALSE);
-    $response = $galaxy->authenticate($config['email'], $config['pass']);
+    $success = $galaxy->authenticate($config['email'], $config['pass']);
+    $this->assertTrue($success, $galaxy->getErrorMessage());
 
     return $galaxy;
   }
@@ -89,14 +90,24 @@ class GroupUsersTest extends PHPUnit_Framework_TestCase {
     // Case 1:  Are we getting an array for the user.
     $user = $group_users->show($group_id, $user_id);
     $this->assertTrue(is_array($user), $group_users->getErrorMessage());
+
+    // Case 2: Wrong group id entered. We should get a FALSE value instead
+    // of an error.
+    $user = $group_users->show('not-a-real-group-id', $user_id);
+    $this->assertTrue($user === FALSE, "GroupUsers::show should have failed when a bogus group_id was provided: " . print_r($user, TRUE));
+
+    // Case 3: Wrong user id entered. We should get a FALSE value instead.
+    $user = $group_users->show($group_id, 'not-a-real-role-id');
+    $this->assertTrue($user === FALSE, "GroupUsers::show should have failed when a bogus user_id was provided: " . print_r($user, TRUE));
+
   }
 
   /**
-  * Test the update() function of the Groups class.
-  *
-  * @depends testInitGalaxy
-  *
-  */
+   * Test the update() function of the Groups class.
+   *
+   * @depends testInitGalaxy
+   *
+   */
   public function testUpdate($galaxy) {
     global $config;
 
@@ -120,15 +131,15 @@ class GroupUsersTest extends PHPUnit_Framework_TestCase {
     $this->assertTrue(count($users_list) == 0, "The group should have no users, but it does: " . print_r($users_list, TRUE));
 
     // Case 3:  Add the user and make sure we get a group array back.
-    $updated_group = $group_users->update($group['id'], $user_id);
-    $this->assertTrue(is_array($updated_group), $group_users->getErrorMessage());
+    $user = $group_users->update($group['id'], $user_id);
+    $this->assertTrue(is_array($user), $group_users->getErrorMessage());
 
     // Case 4:  Make sure the user is added to the group.
     $users_list = $group_users->index($group['id']);
     $this->assertTrue(is_array($users_list), $group_users->getErrorMessage());
     $this->assertTrue(count($users_list) == 1, "The group should have a single users, but does not: " . print_r($users_list, TRUE));
 
-    return $updated_group;
+    return $group;
   }
 
   /**
@@ -138,24 +149,14 @@ class GroupUsersTest extends PHPUnit_Framework_TestCase {
    * @depends testUpdate
    *
    */
-  public function testDelete($galaxy, $updated_group) {
+  public function testDelete($galaxy, $group) {
     global $config;
 
     $group_users = new GroupUsers($galaxy);
 
-    // TODO: finish this test. However, there seems to be an error in
-    // Galaxy code, when trying to delete a user from a Group this error
-    // appears in the Galaxy log:
-    //
-    // galaxy.webapps.galaxy.api.group_users ERROR 2016-03-08 09:19:29,900
-    // Error in group_user API Removing user spficklin@gmail.com from group
-    // galaxy-php-test-group1-56de8221d749a: local variable 'item'
-    // referenced before assignment
-
-/*
     $users = new Users($galaxy);
     $user_id = $users->getUserID($config['user']);
-    $group_id = $updated_group['id'];
+    $group_id = $group['id'];
 
     // Case 1: The delete function should return an array of the group.
     $deleted_group = $group_users->delete($group_id, $user_id);
@@ -165,6 +166,6 @@ class GroupUsersTest extends PHPUnit_Framework_TestCase {
     $users_list = $group_users->index($group['id']);
     $this->assertTrue(is_array($users_list), $group_users->getErrorMessage());
     $this->assertTrue(count($users_list) == 0, "The group should have no users, but it does: " . print_r($users_list, TRUE));
- */
+
   }
 }

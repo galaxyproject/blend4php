@@ -50,13 +50,25 @@ class GroupUsers extends HTTPRequest {
     *   The id of the group whose users to list.  Group IDs can be found using the
     *   index() function of the Groups class.
     * @return
-    *   A JSON array of all users of a given group.
+    *   An array of all users of a given group.
     *
     * @ingroup group_users_class
     */
   public function index($group_id) {
     $URL = $this->galaxy->getURL() .'/api/groups/' .$group_id .'/users/?key=' .$this->galaxy->getAPIKey();
-    return $this->httpGET($URL);
+    $response = $this->httpGET($URL);
+
+    // There seems to be a bug in the Galaxy code in that it doesn't send
+    // an error message if the query failes. It just sends a string indicating
+    // the problem.  So, if we don't get an array as expected just use the
+    // string as an error and return false.
+    // TODO: find out if this is a bug in Galaxy API or if if its intended.
+    if ($response !== FALSE and !is_array($response)) {
+      $this->setError('Galaxy', $response);
+      return FALSE;
+    }
+
+    return $response;
   }
 
   /**
@@ -72,7 +84,7 @@ class GroupUsers extends HTTPRequest {
    *   The id of the specific user to show. User IDS can be found using the index()
    *   function of the Users class
    * @return
-   *   A JSON array containing details about the user of a given group.
+   *   An array containing details about the user of a given group.
    *
    * @ingroup group_users_class
    */
@@ -94,7 +106,7 @@ class GroupUsers extends HTTPRequest {
    *   A user id to associate any new users to the group. Use the
    *   Users class to retreive a list of existing user IDs.
    * @return
-   *   A JSON array of the group that has been modified
+   *   An array of the user that has added to the group
    *
    * @ingroup group_users_class
    */
@@ -116,7 +128,7 @@ class GroupUsers extends HTTPRequest {
    *   A user id to deassociate any users from the group. Use the
    *   Users class to retreive a list of user IDs.
    * @return
-   *   A JSON array of the group that has been modified
+   *   An array of the user that has been removed from the group.
    *
    * @ingroup group_users_class
    */
@@ -129,7 +141,7 @@ class GroupUsers extends HTTPRequest {
     // the problem.  So, if we don't get an array as expected just use the
     // string as an error and return false.
     // TODO: find out if this is a bug in Galaxy API or if if its intended.
-    if (!is_array($response)) {
+    if ($response !== FALSE and !is_array($response)) {
       $this->setError('Galaxy', $response);
       return FALSE;
     }

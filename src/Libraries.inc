@@ -54,7 +54,7 @@ class Libraries extends HTTPRequest{
     *   Otional The new library's synopsis.
     *
     * @return
-    *   A Json array containing the new library created.
+    *   An array containing the new library created.
     *
 	* @ingroup libraries_class
     */
@@ -78,7 +78,7 @@ class Libraries extends HTTPRequest{
     *   If True, show deleted libraries.
     *
     * @return
-    *   A JSON array of all of libraries. And all of the deleted libraries if
+    *   An array of all of libraries. And all of the deleted libraries if
     *   appropriate.
     *
     * @ingroup libraries_class
@@ -102,7 +102,7 @@ class Libraries extends HTTPRequest{
     *    If true, the function may return a deleted library.
     *
     * @return
-    *   A JSON array containing details of the specified library.
+    *   An array containing details of the specified library.
     *
     * @ingroup libraries_class
     */
@@ -130,7 +130,7 @@ class Libraries extends HTTPRequest{
     *   If true,function will undelete the item.
     *
     * @return
-    *   A JSON array containing details of the deleted or undeleted library.
+    *   An array containing details of the deleted or undeleted library.
     *
     * @ingroup libraries_class
     */
@@ -157,7 +157,7 @@ class Libraries extends HTTPRequest{
     *    If false, the function will not look for libraries with user access.
     *
     * @return
-    *   A JSON array containing details of the permissions of all libraries.
+    *   An array containing details of the permissions of all libraries.
     *
     * @ingroup libraries_class
     */
@@ -194,7 +194,7 @@ class Libraries extends HTTPRequest{
     *    on the library.
     *
     * @return
-    *   A JSON array of librariy objects who's permissions have
+    *   An array of librariy objects who's permissions have
     *   been modieifed.
     *
     * @ingroup libraries_class

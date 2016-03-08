@@ -55,7 +55,7 @@ class ToolShedRepositories extends GalaxyRequest{
 	*   repository id, please use this class's index() function.
 	*
 	* @return
-	*   A Json array containing information about a tool shed repositorie's
+	*   An array containing information about a tool shed repositorie's
 	*   exported workflow.
 	*
 	* @ingroup tool_shed_repositories_class
@@ -87,7 +87,7 @@ class ToolShedRepositories extends GalaxyRequest{
 	*   The name of the owner of the repository
 	*
 	* @return
-	*   A Json array containing information on the latest version of the
+	*   An array containing information on the latest version of the
 	*   given tool shed repository.
 	*
 	* @ingroup tool_shed_repositories_class
@@ -137,7 +137,7 @@ class ToolShedRepositories extends GalaxyRequest{
 	*   The encoded id of the Tool Shed Repository object
 	*
 	* @return
-	*   A Json array containing informaiton of the imported workflow.
+	*   An array containing informaiton of the imported workflow.
 	*
 	* @ingroup tool_shed_repositories_class
 	*/
@@ -186,7 +186,7 @@ class ToolShedRepositories extends GalaxyRequest{
 	*   GET /api/tool_shed_repositories
 	*
 	* @return
-	*   A Json array containing infromation on all of Galaxy's tool shed
+	*   An array containing infromation on all of Galaxy's tool shed
 	*   repos.
 	*
 	* @ingroup tool_shed_repositories_class

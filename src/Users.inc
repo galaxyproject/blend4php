@@ -94,7 +94,7 @@ class Users extends HTTPRequest {
    *   please use this class's index() function.
    *
    * @return
-   *   A Json array containing the details of the user.
+   *   An array containing the details of the user.
    *
    * @ingroup users_class
    */
@@ -114,7 +114,7 @@ class Users extends HTTPRequest {
    *   class's index function.
    *
    * @return
-   *   A Json array containing the details of the user.
+   *   An array containing the details of the user.
    *
    * @ingroup users_class
    */
@@ -141,7 +141,7 @@ class Users extends HTTPRequest {
    *   The password of the new user.
    *
    * @return
-   *   A JSON array containing details of the new user. On failure FALSE is
+   *   An array containing details of the new user. On failure FALSE is
    *   returned.
    *
    * @ingroup users_class
