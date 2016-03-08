@@ -79,15 +79,23 @@ class HTTPRequest  {
     }
     // Automatically convert JSON format to an array and deal with any errors.
     else if(preg_match('/application\/json/', $content_type)) {
+
+      // Case 1: Galaxy just returns 'null'.
+      if ($body == "null") {
+        $this->error->setError('Galaxy', 'Unknown response from Galaxy: null');
+        return FALSE;
+      }
+
+      // All other cases we can decode the JSON.
       $response = json_decode($body, TRUE);
 
-      // Case 1:  The message is not in JSON format.
+      // Case 2:  The message is not in JSON format.
       if ($response === NULL) {
         $this->error->setError('Galaxy', 'Unknown CURL response: not json compatible: "' . $output . '".');
         return FALSE;
       }
 
-      // Case 2:  The response is just a string
+      // Case 3:  The response is just a string
       if (!is_array($response)) {
         // If it's an empty string then something must be wrong.
         // return an error.
@@ -98,35 +106,35 @@ class HTTPRequest  {
         return $response;
       }
 
-      // Case 2: If we have a traceback element, we know the error originated
+      // Case 4: If we have a traceback element, we know the error originated
       // from python, meaning the request successfully made it to python but
       // there is ap problemo in the Galaxy code.
       if (array_key_exists('traceback', $response)) {
-        // Case 2a: The traceback had an error message.
+        // Case 4a: The traceback had an error message.
         if (array_key_exists('err_msg', $response)) {
           $this->error->setError('Galaxy', $response['err_msg']);
           return FALSE;
         }
-        // Case 2b: The traceback did not have an error.
+        // Case 4b: The traceback did not have an error.
         else {
 
           $this->error->setError('Galaxy', 'A galaxy error was detected, though its contents are unknown');
           return FALSE;
         }
       }
-      // Case 3: Galaxy generated the error.
+      // Case 5: Galaxy generated the error.
       else if (array_key_exists('error', $response)) {
         $this->error->setError('Galaxy', $response['error']);
         return FALSE;
       }
-      // Case 4: Galaxy generated the error but the message has two separate
+      // Case 6: Galaxy generated the error but the message has two separate
       // components
       else if (array_key_exists('err_msg', $response)) {
         $this->error->setError('Galaxy', $response['err_msg']);
         return FALSE;
       }
 
-      // Case 4:  No error found.
+      // Case 7:  No error found.
       return $response;
     }
     $this->error->setError('HTTP', 'Unsupported content-type: ' . trim($content_type) . '.');

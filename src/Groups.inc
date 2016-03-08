@@ -158,7 +158,7 @@ class Groups extends HTTPRequest {
     $inputs = array();
 
     if ($name) {
-      $intpus['name'] = $name;
+      $inputs['name'] = $name;
     }
     if (count($user_ids) > 0) {
       $inputs['user_ids'] = json_encode($user_ids);
@@ -167,7 +167,7 @@ class Groups extends HTTPRequest {
       $inputs['role_ids'] = json_encode($role_ids);
     }
 
-    if (count($intpus) == 0) {
+    if (count($inputs) == 0) {
       $this->setError('API', "At least one optional argument must be provided to the Groups::update() function.");
       return FALSE;
     }

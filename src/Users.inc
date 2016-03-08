@@ -42,7 +42,7 @@ class Users extends HTTPRequest {
    }
 
   /**
-    * Displays a collection of all Galaxy users.
+    * Displays a collection of Galaxy users.
     *
     * Corresponds to the Galaxy API/paths at
     *   GET /api/users and
@@ -58,7 +58,7 @@ class Users extends HTTPRequest {
     *   (optional) If true, Filter on username OR email.
     *
     * @return
-    *    A Json array containing information on the the users the  API function
+    *    An array containing information on the the users the  API function
     *    retreived
     *
     * @ingroup users_class
@@ -66,17 +66,17 @@ class Users extends HTTPRequest {
    function index($deleted = false, $email = NULL, $username = NULL, $any = false) {
      $endURL = "&key=" . $this->galaxy->getAPIKey();
      $URL = $this->galaxy->getURL() .'/api/users';
-     $URL .= '/?deleted=' .$deleted;
+     $URL .= '/?deleted=' . $deleted;
      if ($username !=NULL) {
-       $URL .= '&f_name=' .$username;
+       $URL .= '&f_name=' . $username;
      }
 
      if ($email !=NULL) {
-       $URL .= '&f_email=' .$email;
+       $URL .= '&f_email=' . $email;
      }
 
      if ($any !=false) {
-       $URL .= '&f_any=' .$any;
+       $URL .= '&f_any=' . $any;
      }
      $URL .= $endURL;
      // $URL2 = $this->galaxy->getURL() . '/api/users/deleted'. $user_id ."/api_key/?key=" . $this->galaxy->getAPIKey();
