@@ -19,7 +19,7 @@
  * @}
  */
 
-include_once "HTTPRequest.inc";
+require_once 'HTTPRequest.inc';
 
 class Tools extends HTTPRequest{
   private $galaxy;
@@ -35,7 +35,7 @@ class Tools extends HTTPRequest{
    * @ingroup tools_class
    */
    public function __construct($galaxy) {
-     $this->galaxy = galaxy;
+     $this->galaxy = $galaxy;
      parent ::__construct();
    }
 
@@ -63,7 +63,7 @@ class Tools extends HTTPRequest{
    public function index($tool_id = NULL, $q = NULL, $in_panel = FALSE, $trackster = FALSE ) {
 
     $URL = $this->galaxy->getURL() . '/api/tools';
-    if ($tool_id !==NULL) {
+    if ($tool_id !== NULL) {
       $URL = $URL .'/'. $tool_id;
     }
     if ($trackster != FALSE ) {
@@ -75,9 +75,40 @@ class Tools extends HTTPRequest{
     if ($q != NULL) {
       $URL = $URL . '/?q=' . $q;
     }
-    $URL = $URL . '/?key=' . $this->galaxy->getAPIKey();
 
-    return  $this->rest->httpGET($URL);
+    // All others are part of a query structure and therefore do not need a
+    // qestion mark but an ampersand to include the key in the query.
+    if(!$tool_id && ($trackster || $in_panel || $q)){
+      print "\nTool_id:";
+      print_r($tool_id);
+      print "\nTrackster:";
+      print_r($trackster);
+      print "\nInPanel:";
+      print_r($in_panel);
+      print "\nquery:";
+      print_r($q);
+      print "\n";
+      $URL = $URL . '&key=' . $this->galaxy->getAPIKey();
+      print_r($URL);
+    }
+    // tool_id is treated like a file accessing parameter.
+    // This will also execute if all of the inputs are NULL
+    else{
+      print "here";
+      print "\n";
+      print "\nTool_id:";
+      print_r($tool_id);
+      print "\nTrackster:";
+      print_r($trackster);
+      print "\nInPanel:";
+      print_r($in_panel);
+      print "\nquery:";
+      print_r($q);
+      print "\n";
+      $URL = $URL . '?key=' . $this->galaxy->getAPIKey();
+      print_r($URL);
+    }
+    return  $this->httpGET($URL);
    }
 
   /**
@@ -229,14 +260,14 @@ class Tools extends HTTPRequest{
    *   The id of the specified tool. To obtain a tool id, please use this
    *   class' index() function.
    * @param tool_version
-   *   optional, specify specific tool version for the tool.
+   *   Optional, specify specific tool version for the tool.
    * @param history_id
    *   The history_id where the tool is located. To obtain history id's please
    *   see the history class.
    * @param region
-   *   optional information on the region of the genome being rerun.
+   *   Optional information on the region of the genome being rerun.
    * @param input_dataset_ds
-   *   array of dataset id's where the tool should grab the inputs from.
+   *   Array of dataset id's where the tool should grab the inputs from.
    *   Please see the datasets class to obtain id's.
    *
    * @return
