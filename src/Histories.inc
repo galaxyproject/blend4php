@@ -68,7 +68,7 @@ class Histories extends HTTPRequest {
     * @ingroup histories_class
     */
    public function create($name, $history_id = NULL, $archive_source = NULL,
-   		$archive_type = NULL, $all_datasets = TRUE){
+       $archive_type = NULL, $all_datasets = TRUE){
 
      $URL = $this->galaxy->getURL() . '/api/histories/?key=' . $this->galaxy->getAPIKey();
 
