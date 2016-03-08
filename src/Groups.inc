@@ -48,7 +48,7 @@ class Groups extends HTTPRequest {
    * Corresponds to the Galaxy API method and path: GET /api/groups.
    *
    * @return
-   *   A JSON array of all groups.
+   *   An array of all groups.
    *
    * @ingroup group_class
    */
@@ -72,7 +72,7 @@ class Groups extends HTTPRequest {
    *   Roles class to retreive a list of existing role IDs.
    *
    * @return
-   *   A JSON array of the group that contains the users and roles.
+   *   An array of the group that contains the users and roles.
    *
    * @ingroup group_class
    */
@@ -98,7 +98,7 @@ class Groups extends HTTPRequest {
     // the problem.  So, if we don't get an array as expected just use the
     // string as an error and return false.
     // TODO: find out if this is a bug in Galaxy API or if if its intended.
-    if (!is_array($response)) {
+    if ($response !== FALSE and !is_array($response)) {
       $this->setError('Galaxy', $response);
       return FALSE;
     }
@@ -119,7 +119,7 @@ class Groups extends HTTPRequest {
    *   The id of the specific group to show.  Group IDs can be found using the
    *   index() function of this class.
    * @return
-   *   A JSON array containing details about the group.
+   *   An array containing details about the group.
    *
    * @ingroup group_class
    */
@@ -147,7 +147,7 @@ class Groups extends HTTPRequest {
    *   Roles class to retreive a list of existing role IDs.
    *
    * @return
-   *   A JSON array of the group that contains the users and roles.
+   *   An array of the group that contains the users and roles.
    *
    * @ingroup group_class
    */

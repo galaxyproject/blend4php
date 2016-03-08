@@ -96,7 +96,7 @@ class GalaxyInstance extends HTTPRequest {
     }
     $this->setAPIKey($response['api_key']);
 
-    return $response;
+    return TRUE;
   }
 
   /**

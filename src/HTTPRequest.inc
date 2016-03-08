@@ -52,7 +52,9 @@ class HTTPRequest  {
     // Make sure we get the heaader incldued with the output.
     curl_setopt($ch, CURLOPT_HEADER, 1);
     $output = curl_exec($ch);
-
+// print_r("\n!!!!!!!!!!!!!!!!!!\n");
+// print_r($output);
+// print_r("\n!!!!!!!!!!!!!!!!!!\n");
     if ($output === FALSE) {
       $this->error->setError('HTTP', curl_error($ch));
       return FALSE;

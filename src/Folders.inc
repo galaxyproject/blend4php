@@ -75,7 +75,7 @@ class Folders extends HTTPRequest {
     *   The description of your new folder.
     *
     * @return
-    *   A JSON array containing information on the new folder.
+    *   An array containing information on the new folder.
     *
 	* @ingroup folder_contents_class
     */
@@ -99,7 +99,7 @@ class Folders extends HTTPRequest {
 	 *   using the index() function in this class.
 	 *
      * @return
-     *   A JSON array containing permission information on a specified folder.
+     *   An array containing permission information on a specified folder.
      *
 	 * @ingroup folder_contents_class
 	 */
