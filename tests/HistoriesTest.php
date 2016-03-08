@@ -129,6 +129,48 @@ class HistoriesTest extends PHPUnit_Framework_TestCase {
     return $del_history;
   }
 
+  /**
+   * Tests the index() function of the Hisories class.
+   *
+   * This second test for index needs to check the merging of active and
+   * deleted hitories.  We don't want to do this test until we are sure
+   * that the create() and deleteHistory() functions are also test and that
+   * should give us a combination of active and deleted histories.
+   *
+   * @depends testInitGalaxy
+   * @depends testDeleteHistory
+   */
+  public function testIndex2($galaxy) {
+  	$histories = new Histories($galaxy);
+
+  	// Currently we know we ahve one deleted history, so now add another
+  	// this will be active.
+  	$history = $histories->create('testhistorycreate2');
+  	$this->assertTrue(is_array($history), $histories->getErrorMessage());
+
+  	// Case 2: Because our code merges active and deleted histories, we need
+  	// to check to make sure the merge is working.
+  	$history_list = $histories->index();
+  	$this->assertTrue(is_array($history_list), $histories->getErrorMessage());
+
+  	// Iterate through the histories list to find both deleted and undeleted
+  	// histories.
+  	$has_active = FALSE;
+  	$has_deleted = FALSE;
+  	foreach ($history_list as $history) {
+  		if (!$history['deleted']) {
+  			$has_active = TRUE;
+  			continue;
+  		}
+  		if ($history['deleted']) {
+  			$has_deleted = TRUE;
+  			continue;
+  		}
+  	}
+  	$this->assertTrue($has_active, "Histories index() fails to include the active histories: " . print_r($history_list, TRUE));
+  	$this->assertTrue($has_deleted, "Histories index() fails to include the deleted histories: " . print_r($history_list, TRUE));
+  }
+
 /**
  * Tests the undelete() function of the Histories class.
  *
@@ -144,49 +186,11 @@ class HistoriesTest extends PHPUnit_Framework_TestCase {
     $undel_history = $histories->undelete($del_history['id']);
     $this->assertTrue(is_array($undel_history), $histories->getErrorMessage());
     $this->assertFalse($undel_history['deleted']);
+
+    return $undel_history;
   }
 
-  /**
-   * Tests the index() function of the Hisories class.
-   *
-   * This second test for index needs to check the merging of active and
-   * deleted hitories.  We don't want to do this test until we are sure
-   * that the create() and deleteHistory() functions are also test and that
-   * should give us a combination of active and deleted histories.
-   *
-   * @depends testInitGalaxy
-   * @depends testDeleteHistory
-   */
-  public function testIndex2($galaxy) {
-    $histories = new Histories($galaxy);
 
-    // Currently we know we ahve one deleted history, so now add another
-    // this will be active.
-    $history = $histories->create('testhistorycreate2');
-    $this->assertTrue(is_array($history), $histories->getErrorMessage());
-
-    // Case 2: Because our code merges active and deleted histories, we need
-    // to check to make sure the merge is working.
-    $history_list = $histories->index();
-    $this->assertTrue(is_array($history_list), $histories->getErrorMessage());
-
-    // Iterate through the histories list to find both deleted and undeleted
-    // histories.
-    $has_active = FALSE;
-    $has_deleted = FALSE;
-    foreach ($history_list as $history) {
-      if (!$history['deleted']) {
-        $has_active = TRUE;
-        continue;
-      }
-      if ($history['deleted']) {
-        $has_deleted = TRUE;
-        continue;
-      }
-    }
-    $this->assertTrue($has_active, "Histories index() failes to include the active histories: " . print_r($history_list, TRUE));
-    $this->assertTrue($has_deleted, "Histories index() failes to include the deleted histories: " . print_r($history_list, TRUE));
-  }
 
   /**
    * Tests the citations() member functions of the Histories class.
@@ -207,14 +211,15 @@ class HistoriesTest extends PHPUnit_Framework_TestCase {
    * Tests the published() member functions of the Histories class.
    *
    * @depends testInitGalaxy
-   * @depends testUndelete
    */
-  public function testpublished($galaxy, $undel_history){
+  public function testpublished($galaxy){
   	$histories = new Histories($galaxy);
 
   	// Case 1: Make sure that an array (whether empty or filled) will be
   	// presented when the published function is invoked.
-  	$published = $histories->published($undel_history['id']);
+  	// Meaning we return an array of all the histories published under the
+  	// the given user.
+  	$published = $histories->published();
   	$this->assertTrue(is_array($published), $histories->getErrorMessage());
   }
 
@@ -226,8 +231,9 @@ class HistoriesTest extends PHPUnit_Framework_TestCase {
   public function testSharedWithMe($galaxy){
   	$histories = new Histories($galaxy);
 
-  	// Case 1: Make sure that an array (whether empty or filled) will be
-  	// presented when the published function is invoked.
+  	// Case 1: Make sure that an array of histories shared with the given user
+  	// (whether empty or filled) will be presented when the sharedWithMe()
+  	// function is invoked.
   	$shared_histories = $histories->sharedWithMe();
   	$this->assertTrue(is_array($shared_histories), $histories->getErrorMessage());
   }

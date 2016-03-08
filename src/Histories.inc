@@ -254,8 +254,8 @@ class Histories extends HTTPRequest {
     * @ingroup histories_class
     */
    public function citations($history_id){
-     $URL = $this->galaxy->getURL() . '/api/histories/'. $historyid . '/citations/?key=' . $this->galaxy->getAPIKey();
-     return $this->rest->httpGET($URL);
+     $URL = $this->galaxy->getURL() . '/api/histories/'. $history_id . '/citations?key=' . $this->galaxy->getAPIKey();
+     return $this->httpGET($URL);
    }
 
    /**
@@ -271,7 +271,7 @@ class Histories extends HTTPRequest {
     */
    public function published(){
      $URL = $this->galaxy->getURL() . '/api/histories/published/?key=' . $this->galaxy->getAPIKey();
-     return $this->rest->httpGET($URL);
+     return $this->httpGET($URL);
    }
 
    /**
@@ -287,7 +287,7 @@ class Histories extends HTTPRequest {
     */
    public function sharedWithMe(){
      $URL = $this->galaxy->getURL() . '/api/histories/shared_with_me/?key=' . $this->galaxy->getAPIKey();
-     return $this->rest->httpGET($URL);
+     return $this->httpGET($URL);
    }
 
 
