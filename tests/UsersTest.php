@@ -37,21 +37,23 @@ class UsersTest extends PHPUnit_Framework_TestCase {
     $users = new Users($galaxy);
 
     // Case 1:  Are we getting an array?
-    $response = $users->index();
-    $this->assertTrue(is_array($response), $users->getErrorMessage());
+    $users_list = $users->index();
+    $this->assertTrue(is_array($users_list), $users->getErrorMessage());
 
     // Case 2: Is the array properly formatted such that it contains the user
     // that is running this test.
     $contains_user = FALSE;
-    foreach($response as $user){
-      $this->assertTrue(array_key_exists('username', $user), "Malformed users array: missing username: " . print_r($response, TRUE));
-      $this->assertTrue(array_key_exists('id', $user), "Malformed users array: missing id: " . print_r($response, TRUE));
+    foreach($users_list as $user){
+      $this->assertTrue(array_key_exists('username', $user), "Malformed users array: missing username: " . print_r($users_list, TRUE));
+      $this->assertTrue(array_key_exists('id', $user), "Malformed users array: missing id: " . print_r($users_list, TRUE));
       if($user['username'] == $config['user']){
         $contains_user = TRUE;
         break;
       }
     }
-    $this->assertTrue($contains_user, "index() function works but user is missiing: " . print_r($response, TRUE));
+    $this->assertTrue($contains_user, "index() function works but user is missiing: " . print_r($users_list, TRUE));
+
+    return $users_list;
   }
 
   /**
@@ -62,20 +64,14 @@ class UsersTest extends PHPUnit_Framework_TestCase {
    * @depends testInitGalaxy
    * @depends testIndex
    */
-  function testShow($galaxy){
+  function testShow($galaxy, $users_list){
     global $config;
 
     $users = new Users($galaxy);
 
-    // Get the ID of our config user.
-    $response = $users->index();
-    $user_id = NULL;
-    foreach($response as $user){
-      if($user['username'] == $config['user']){
-        $user_id = $user['id'];
-        break;
-      }
-    }
+    // Use the user ID of the first user in the list to test the
+    // show() function.
+    $user_id = $users_list[0]['id'];
 
     // Case 1:  Get the user information for the config user.
     $response = $users->show($user_id);
@@ -92,7 +88,6 @@ class UsersTest extends PHPUnit_Framework_TestCase {
    * Test the getUserID() function.
    *
    * @depends testInitGalaxy
-   * @depends testIndex
    */
   function testGetUserID($galaxy) {
     global $config;
@@ -113,7 +108,6 @@ class UsersTest extends PHPUnit_Framework_TestCase {
    * Test the create()
    *
    * @depends testInitGalaxy
-   * @depends testGetUserID
    */
   function testCreate($galaxy){
     global $config;
