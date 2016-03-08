@@ -37,8 +37,6 @@ class HistoriesTest extends PHPUnit_Framework_TestCase {
     $history = $histories->create('testhistorycreate');
     $this->assertTrue(is_array($history), $histories->getErrorMessage());
 
-    // TODO: test each of the additional arguments to the create() function
-    // to make sure they work.
   }
 
   /**
@@ -58,6 +56,54 @@ class HistoriesTest extends PHPUnit_Framework_TestCase {
 
 
     return $history_list;
+  }
+
+  /**
+   * Tests the create() function of the Histories class.
+   *
+   * This instantiation is different in that we want to copy an existing
+   * history into a new container, and to do that we need to have at least
+   * one existing history to copy from.
+   *
+   * @depends testInitGalaxy
+   * @depends testIndex
+   */
+  public function testCreateOptions($galaxy, $history_list) {
+
+  	$histories = new Histories($galaxy);
+
+  	// Case 2: Create a history with a name, and an existing history,
+  	// This form will be copying an existing history (as we have made at least
+  	// one in the above create() call).
+  	$history = $histories->create('testhistorycopyexisting', $history_list[0]['id']);
+  	$this->assertTrue(is_array($history), $histories->getErrorMessage());
+
+  	// Case 3: Create a copy history from an imported archive.
+  	// This case will invoke the archiveExport() function.
+  	// We will Export a previously created history utilizing the index() again.
+
+  	// NOTE** You cannot copy from a local history id AND import a history as
+  	// well, that would be a conflict of which history object to copy
+  	$history = $histories->create('testhistoryfromarchive', NULL, $histories->archiveExport($history_list[0]['id']));
+  	$this->assertTrue(is_array($history), $histories->getErrorMessage());
+
+  	// Case 4: Change the hdas param from default to False.
+  	$history = $histories->create('testhistoryhdasfalse', NULL, NULL, NULL, FALSE);
+  	$this->assertTrue(is_array($history), $histories->getErrorMessage());
+
+  	// Case 5: hdas param is False and we are importing from archive.
+  	$history = $histories->create('testhistoryhdasfalsefromarchive', NULL, $histories->archiveExport($history_list[0]['id']), NULL, FALSE);
+  	$this->assertTrue(is_array($history), $histories->getErrorMessage());
+
+
+  	// Case 6: hdas param is False and we are copying an existing history.
+  	$history = $histories->create('testhistoryhdasfalsecopyexisting', $history_list[0]['id'], NULL, NULL, FALSE);
+  	$this->assertTrue(is_array($history), $histories->getErrorMessage());
+
+  	// TODO: Deal with the archive_type parameter, I do not know of another
+  	// type of archive type supported by Galaxy:
+  	// URL is default
+  	// What about file upload maybe that's the other type?
   }
 
   /**

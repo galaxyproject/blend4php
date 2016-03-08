@@ -56,7 +56,7 @@ class Histories extends HTTPRequest {
     *   The id of the history to copy (will copy contents to new history)
     *   To obtain history_id's, please use this classes' index() function.
     * @param bool all_datasets
-    *   Copy deleted hdas/hdcas?  'True' or 'False', defaults to True.
+    *   Copy deleted hdas/hdcas  'True' or 'False', defaults to True.
     * @param archive_source
     *   The url that will generate the archive to import.
     * @param archive_type
@@ -67,14 +67,13 @@ class Histories extends HTTPRequest {
     *
     * @ingroup histories_class
     */
-   public function create($name, $history_id = NULL, $annotation = NULL,
-       $archive_source = NULL,  $archive_type = NULL, $all_datasets = TRUE) {
+   public function create($name, $history_id = NULL, $archive_source = NULL,
+   		$archive_type = NULL, $all_datasets = TRUE){
 
      $URL = $this->galaxy->getURL() . '/api/histories/?key=' . $this->galaxy->getAPIKey();
 
      $inputs = array(
        'name' => $name,
-       'annotation' => $annotation,
        'tool_version' => $archive_source,
        'archive_type' => $archive_type,
        'history_id' => $history_id,
