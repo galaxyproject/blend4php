@@ -154,7 +154,7 @@ class UsersTest extends PHPUnit_Framework_TestCase {
     $this->assertTrue($response['deleted'], 'User not marked as deleted: ' . print_r($response, TRUE));
 
     // Case 3: Make sure the user is marked as purged
-    // The purge option has not yet benn formally implemented.  So this
+    // The purge option has not yet been formally implemented.  So this
     // test must be commented out for now.
     /*
     $response = $users->delete($user['id'], TRUE);

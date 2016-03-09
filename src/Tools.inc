@@ -78,6 +78,7 @@ class Tools extends HTTPRequest{
 
     // All others are part of a query structure and therefore do not need a
     // qestion mark but an ampersand to include the key in the query.
+    if(!$tool_id && ($trackster || $in_panel || $q)){
       $URL = $URL . '&key=' . $this->galaxy->getAPIKey();
     }
     // tool_id is treated like a file accessing parameter.
@@ -105,7 +106,7 @@ class Tools extends HTTPRequest{
    * @ingroup tools_class
    */
   public function show($tool_id){
-    $URL = $this->galaxy->getURL() . '/api/tools/' . $tool_id .'/'. $this->galaxy->getAPIKey();
+    $URL = $this->galaxy->getURL() . '/api/tools/' . $tool_id .'/?key='. $this->galaxy->getAPIKey();
     $response = $this->httpGET($URL);
     return $this->expectArray($response);
   }
@@ -173,12 +174,17 @@ class Tools extends HTTPRequest{
    *
    * @ingroup tools_class
    */
-   public function build($tool_id, $history_id, $tool_version=NULL){
+   public function build($tool_id, $history_id, $tool_version = NULL){
 
      $URL = $this->galaxy->getURL() . '/api/tools/'. $tool_id . '/build';
-     if ($tool_version !=NULL) {
+     if ($tool_version != NULL) {
        $URL = $URL . '/?tool_version='. $tool_version;
+       $URL = $URL . '&key=' . $this->galaxy->getAPIKey();
+       $URL .= '&history_id=' . $history_id;
+       $response = $this->httpGET($URL);
+       return $this->expectArray($response);
      }
+
      $URL = $URL . '/?key=' . $this->galaxy->getAPIKey();
      $URL .= '&history_id=' . $history_id;
 
@@ -210,29 +216,32 @@ class Tools extends HTTPRequest{
 
 
   /**
-   * Download a specified tool tool
+   * Download a specified tool.
    *
    * Corresponds to the Galaxy Api/Path at:
    *   GET /api/tools/{tool_id}/download
    *
    * @param $tool_id
    *   The id of the specified tool. To obtain a tool id, please use this
-   *   class' index() function.
+   *   class index() function.
+   *
+   * @param $file_path
+   *   The path to where the file will be stored.
    *
    * @return
-   *   Raw binary of the tool information.
+   *   Gzip of the tool.
    *
    * @ingroup tools_class
    */
-   public function download($tool_id){
+   public function download($tool_id, $file_path){
      $URL = $this->galaxy->getURL() . '/api/tools/'. $tool_id . '/download/?key=' . $this->galaxy->getAPIKey();
-     $response = $this->httpGET($URL);
-     return $this->expectArray($response);
+     $response = $this->getRemoteFile($URL, $file_path);
+     return $response;
    }
 
 
   /**
-   * Creates or Executes tool using specified inputs.
+   * Executes a tool using specified inputs.
    *
    * Corresponds to the Galaxy API/path at
    *   POST /api/tools
@@ -241,7 +250,7 @@ class Tools extends HTTPRequest{
    *   Optional, 'rerun' to rerun the tool and not execute
    * @param $tool_id
    *   The id of the specified tool. To obtain a tool id, please use this
-   *   class' index() function.
+   *   class index() function.
    * @param tool_version
    *   Optional, specify specific tool version for the tool.
    * @param history_id
@@ -258,13 +267,13 @@ class Tools extends HTTPRequest{
    *
    * @ingroup tools_class
    */
-   public function create($tool_id,  $input_dataset_ids, $history_id = NULL,$tool_version=NULL,
-       $region = NULL,  $action = NULL ) {
+   public function create($tool_id,  $input_dataset_ids, $history_id = NULL, $tool_version=NULL,
+        $region = NULL, $action = NULL ) {
 
      $URL = $this->galaxy->getURL() . '/api/tools/?key=' . $this->galaxy->getAPIKey();
 
      $input_ids = array();
-     $i=0;
+     $i = 0;
      foreach ($input_dataset_ids as &$input_dataset_id) {
        $input_ids[$i] = array('id'=> $input_dataset_id, 'src'=>'hda');
        $i++;
@@ -274,12 +283,12 @@ class Tools extends HTTPRequest{
        'tool_id' => $tool_id,
        'tool_version' => $tool_version,
        'inputs' => json_encode($input_ids,JSON_FORCE_OBJECT),
-       'history_id'=>$history_id,
+       'history_id' => $history_id,
        'region' => $region,
        'action' => $action,
      );
 
-     //create a list of input items that is not null
+     // Create a list of input items that is not null
      $notNullInputs = array();
      foreach($elements as $element=>$value) {
        if($value != NULL) {

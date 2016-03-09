@@ -1,9 +1,8 @@
 <?php
 require_once '../src/DataSets.inc';
-require_once '../src/GalaxyInstance.inc';
 require_once './testConfig.inc';
-require_once './testConfig.inc';
-require_once '../src/Histories.inc';
+
+
 class DataSetsTest extends PHPUnit_Framework_TestCase {
 
 	/**
@@ -29,8 +28,6 @@ class DataSetsTest extends PHPUnit_Framework_TestCase {
    *  Tests the index() function.
    *
    *  The index function retrieves a list of data sets.
-   *  
-   * @depends testInitGalaxy	 
    */
   public function testIndex($galaxy) {
     global $config;

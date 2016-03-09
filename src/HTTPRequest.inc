@@ -140,7 +140,7 @@ class HTTPRequest  {
       // Case 7:  No error found.
       return $response;
     }
-    $this->error->setError('HTTP', 'Unsupported content-type: ' . trim($content_type) . '.');
+    $this->error->setError('HTTP', 'Unsupported content-type: ' . trim($content_type) . "\nContent:\n" . print_r($output, TRUE));
     return FALSE;
   }
 
@@ -226,7 +226,7 @@ class HTTPRequest  {
    * @param $file_name
    * @return
    */
-  protected function download($URL, $file_name) {
+  protected function getRemoteFile($URL, $file_name) {
 
     set_time_limit(0);
     $fp = fopen($file_name, 'w+');
@@ -335,7 +335,7 @@ class HTTPRequest  {
    * @param $type
    * @param $message
    */
-  public function setError($type, $message) {
+  protected function setError($type, $message) {
     $this->error->setError($type, $message);
   }
 
@@ -352,7 +352,7 @@ class HTTPRequest  {
    *
    * @param unknown $response
    */
-  public function expectArray($response) {
+  protected function expectArray($response) {
 
     if ($response !== FALSE and !is_array($response)) {
       $this->setError('Galaxy', $response);

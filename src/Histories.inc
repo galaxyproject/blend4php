@@ -172,7 +172,7 @@ class Histories extends HTTPRequest {
     $download_url = $this->archiveExport($history_id);
 
     $URL = $this->galaxy->getURL() . '/' . $download_url['download_url'] . '?key=' . $this->galaxy->getAPIKey();
-    $file_contents = $this->download($URL, $file_path);
+    $file_contents = $this->getRemoteFile($URL, $file_path);
     return $file_contents;
   }
 

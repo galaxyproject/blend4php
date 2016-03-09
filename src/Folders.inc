@@ -37,10 +37,28 @@ class Folders extends HTTPRequest {
   * @ingroup folders_class
   */
    public function __construct($galaxy) {
-     $this->galaxy = galaxy;
+     $this->galaxy = $galaxy;
       parent::__construct();
    }
+   /**
+    * Retreive information about folders.
+    *
+    * Corresponds to the Galaxy API function/path:
+    *   GET /api/folders/
+    *
+    * @return
+    *   An array containing information about the specified folder.
+    *
+    * @ingroup folder_contents_class
+    */
+   public function index() {
+     // Currentlly, listing all of the folders is not implmented. But we
+     // provide the API function for when it is.
 
+     $URL = $this->galaxy->getURL() . '/api/folders?key=' . $this->galaxy->getAPIKey();
+     $response = $this->httpGET($URL);
+     return $this->expectArray($response);
+   }
    /**
     * Retreive information about a specific folder
     *
@@ -54,9 +72,9 @@ class Folders extends HTTPRequest {
     * @return
     *   An array containing information about the specified folder.
     *
-  * @ingroup folder_contents_class
+    * @ingroup folder_contents_class
     */
-   public function show ($folder_id) {
+   public function show($folder_id) {
      $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' . $folder_id .'/?key=' . $this->galaxy->getAPIKey();
      $response = $this->httpGET($URL);
      return $this->expectArray($response);
