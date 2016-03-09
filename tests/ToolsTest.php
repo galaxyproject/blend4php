@@ -1,5 +1,6 @@
 <?php
 require_once '../src/Tools.inc';
+require_once '../src/Histories.inc';
 require_once '../src/GalaxyInstance.inc';
 require_once 'testConfig.inc';
 
@@ -79,7 +80,8 @@ class ToolsTest extends PHPUnit_Framework_TestCase {
 
   /**
    * Will test if Diagnostics within the Tools class that it presents a details
-   * about a tool specified by the tool_id
+   * about a tool specified by the tool_id, information to debug the tool in
+   * the event of a fault to the tool.
    *
    * @depends testInitGalaxy
    */
@@ -94,8 +96,8 @@ class ToolsTest extends PHPUnit_Framework_TestCase {
   }
 
   /**
-   * Will test if Diagnostics within the Tools class that it presents a details
-   * about a tool specified by the tool_id
+   * Will reload if specified tool and return default configuration of data.
+   * Similar to hitting the refresh button on a web page you've been altering.
    *
    * @depends testInitGalaxy
    */
@@ -109,10 +111,9 @@ class ToolsTest extends PHPUnit_Framework_TestCase {
   }
 
   /**
-   * Will test if Diagnostics within the Tools class that it presents a details
-   * about a tool specified by the tool_id
+   * Will download a tool specified by the tool_id into the '/tmp/' directory.
    *
-   * TODO: FINISH DIS
+   * TODO: This funciton has been seg faulting, this needs to be fixed.
    *
    * @depends testInitGalaxy
    */
@@ -121,9 +122,48 @@ class ToolsTest extends PHPUnit_Framework_TestCase {
 
     $tools_list = $tools->index();
 
-    $tool_file = $tools->download($tools_list[0]['elems'][0]['id'], '/tmp/' . $tools_list[0]['elems'][0]['id'] . '.tar.gz');
-    $this->assertTrue(file_exists($tools_list[0]['elems'][0]['id'], '/tmp/' . $tools_list[0]['elems'][0]['id'] . '.tar.gz'));
+    $tool_file = $tools->download($tools_list[0]['elems'][0]['id'], "/tmp/" . $tools_list[0]['elems'][0]['id'] . ".tar.gz");
+    $this->assertTrue(file_exists("/tmp/" . $tools_list[0]['elems'][0]['id'] . ".tar.gz"));
 
   }
 
+
+  /**
+   * Will return a tool model that includes its parameters, 'building'
+   * the tool into a specified history.
+   *
+   * @depends testInitGalaxy
+   */
+  public function testBuild($galaxy){
+    $tools = new Tools($galaxy);
+
+    $histories = new Histories($galaxy);
+
+    $history_list = $histories->index();
+
+    $tools_list = $tools->index();
+
+    // Case 1: Present just the tool model and place it in the selected history
+    // denoted by its id.
+    $build = $tools->build($tools_list[0]['elems'][0]['id'], $history_list[0]['id']);
+    $this->assertTrue(is_array($build), $tools->getErrorMessage());
+
+    // Case 2: Include the version of the tool as specified as newer tools may
+    // or may not be compatible with other workflows/datasets etc.
+    $build = $tools->build($tools_list[0]['elems'][0]['id'], $history_list[0]['id'], $tools_list[0]['elems'][0]['version']);
+    $this->assertTrue(is_array($build), $tools->getErrorMessage());
+  }
+
+  /**
+   * This funciton executes the specified tool given the inputs.
+   *
+   * In a way this function 'creates' a unique instantiation of this tool.
+   *
+   *
+   * @depends testInitGalaxy
+   */
+  public function testCreate($galaxy){
+    $tools = new Tools($galaxy);
+
+  }
 }

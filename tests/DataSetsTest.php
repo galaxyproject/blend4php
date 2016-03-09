@@ -13,5 +13,10 @@ class DataSetsTest extends PHPUnit_Framework_TestCase {
   public function testIndex() {
     global $config;
 
+    $datasets = new Datasets($galaxy);
+
+    $datasets_list = $datasets->index();
+    $this->assertTrue(is_array($build), $tools->getErrorMessage());
+
   }
 }

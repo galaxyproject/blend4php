@@ -51,7 +51,7 @@ class Libraries extends HTTPRequest{
     * @param description'
     *   Optional the new library's description.
     * @param synopsis
-    *   Otional The new library's synopsis.
+    *   Optional The new library's synopsis.
     *
     * @return
     *   An array containing the new library created.

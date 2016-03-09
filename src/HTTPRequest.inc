@@ -226,7 +226,7 @@ class HTTPRequest  {
    * @param $file_name
    * @return
    */
-  protected function download($URL, $file_name) {
+  protected function getRemoteFile($URL, $file_name) {
 
     set_time_limit(0);
     $fp = fopen($file_name, 'w+');
