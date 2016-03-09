@@ -73,40 +73,17 @@ class Tools extends HTTPRequest{
       $URL = $URL . '/?in_panel=true';
     }
     if ($q != NULL) {
-      $URL = $URL . '/?q=' . $q;
+      $URL = $URL . '/?q=' . urlencode($q);
     }
 
     // All others are part of a query structure and therefore do not need a
     // qestion mark but an ampersand to include the key in the query.
-    if(!$tool_id && ($trackster || $in_panel || $q)){
-      print "\nTool_id:";
-      print_r($tool_id);
-      print "\nTrackster:";
-      print_r($trackster);
-      print "\nInPanel:";
-      print_r($in_panel);
-      print "\nquery:";
-      print_r($q);
-      print "\n";
       $URL = $URL . '&key=' . $this->galaxy->getAPIKey();
-      print_r($URL);
     }
     // tool_id is treated like a file accessing parameter.
     // This will also execute if all of the inputs are NULL
     else{
-      print "here";
-      print "\n";
-      print "\nTool_id:";
-      print_r($tool_id);
-      print "\nTrackster:";
-      print_r($trackster);
-      print "\nInPanel:";
-      print_r($in_panel);
-      print "\nquery:";
-      print_r($q);
-      print "\n";
       $URL = $URL . '?key=' . $this->galaxy->getAPIKey();
-      print_r($URL);
     }
     $response = $this->httpGET($URL);
      return $this->expectArray($response);

@@ -49,7 +49,7 @@ class HTTPRequest  {
    */
   private function getCURLResponse($ch) {
 
-    // Make sure we get the heaader incldued with the output.
+    // Make sure we get the header included with the output.
     curl_setopt($ch, CURLOPT_HEADER, 1);
     $output = curl_exec($ch);
     if ($output === FALSE) {
@@ -69,6 +69,10 @@ class HTTPRequest  {
       }
     }
     $body = substr($output, $header_size);
+    if(count($headers) == 0){
+      $this->error->setError('Galaxy', "Galaxy did not return headers: \n" . print_r($output, TRUE));
+      return FALSE;
+    }
 
     // Check the header to see how to deal with the content.  Normally will
     // alawys have JSON but in case not we should handle it gracefully.
