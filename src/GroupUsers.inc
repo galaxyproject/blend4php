@@ -141,6 +141,7 @@ class GroupUsers extends HTTPRequest {
     // the problem.  So, if we don't get an array as expected just use the
     // string as an error and return false.
     // TODO: find out if this is a bug in Galaxy API or if if its intended.
+    // Update it apears to be working for me 
     if ($response !== FALSE and !is_array($response)) {
       $this->setError('Galaxy', $response);
       return FALSE;
