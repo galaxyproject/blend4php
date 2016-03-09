@@ -12,124 +12,84 @@
  * @}
  */
 
-require_once "GalaxyInstance.inc";
 require_once 'HTTPRequest.inc';
 
-class Requests {
-	private $galaxy = NULL;
-	// A variable to set to true if debugging, Toggles print statements
-	private $debug = True;
+class Requests extends HTTPRequest {
 
-	/**
-	 * The Request constructor.
-	 *
-	 * @return
-	 *   An instance of a Request object.
-	 *
-	 * @ingroup request_class
-	 */
-	function __construct($galaxy) {
-		$this->galaxy = $galaxy;
-	}
+  private $galaxy = NULL;
 
-	/**
-	 * Displays a collection (list) of sequencing requests.
-	 *
-	 * @return
-	 *   JSON array of the server response.
-	 *
-	 * @ingroup request_class
-	 */
-	public function index (){
-		$i = curl_init();
-		$api_key = $this->galaxy->getAPIKey();
+  /**
+   * The Request constructor.
+   *
+   * @return
+   *   An instance of a Request object.
+   *
+   * @ingroup request_class
+   */
+  function __construct($galaxy) {
+    $this->galaxy = $galaxy;
+  }
 
-		$url = $this->galaxy->getURL() . '/api/requests' .  '?key=' . $api_key;
+  /**
+   * Displays a collection (list) of sequencing requests.
+   *
+   * @return
+   *   An array of the requests.
+   *
+   * @ingroup request_class
+   */
+  public function index (){
+    $api_key = $this->galaxy->getAPIKey();
+    $URL = $this->galaxy->getURL() . '/api/requests' .  '?key=' . $api_key;
 
-		curl_setopt($i, CURLOPT_URL, $url);
-		curl_setopt($i, CURLOPT_CUSTOMREQUEST, "GET");
-		curl_setopt($i, CURLOPT_RETURNTRANSFER, true);
+    $response = $this->httpGET($URL);
+    return $this->expectArray($response);
+  }
 
-		$result = curl_exec($i);
+  /**
+   * Displays details of a sequencing request.
+   *
+   * GET /api/requests/{encoded_request_id}
+   *
+   * @param encoded_request_id
+   *   The id of the galaxy entity to show.
+   *
+   * @return
+   *   An array containing detailed information about the requested
+   *   galaxy entitiy.
+   *
+   * @ingroup request_class
+   */
+  public function show($encoded_request_id){
+    $api_key = $this->galaxy->getAPIKey();
 
-		$info = curl_getinfo($i);
+    $URL = $this->galaxy->getURL() . '/api/requests' .  '?key=' . $api_key . $encoded_request_id;
 
-		$array = json_decode($result, true);
+    $response = $this->httpGET($URL);
+    return $this->expectArray($response);
 
-		print_r ($array);
+  }
 
-		curl_close($i);
-	}
+  /**
+   * Updates a request state, sample state or sample dataset transfer status.
+   *
+   * @param $encoded_request_id
+   *   The id of the galaxy entity to update.
+   *
+   * @return
+   *   An array containing information on the updated Galaxy entity.
+   *
+   * @ingroup request_class
+   */
+  public function update ($encoded_request_id){
+    $api_key = $this->galaxy->getAPIKey();
 
-	/**
-	 * Displays details of a sequencing request.
-	 *
-	 * GET /api/requests/{encoded_request_id}
-	 *
-	 * @param encoded_request_id
-	 *   The id of the galaxy entity to show.
-	 *
-	 * @return
-	 *   JSON array containing detailed information about the requested
-	 *   galaxy entitiy.
-	 *
-	 * @ingroup request_class
-	 */
-	public function show ($encoded_request_id){
-		$i = curl_init();
-		$api_key = $this->galaxy->getAPIKey();
+    $URL = $this->galaxy->getURL() . '/api/requests' .  '?key=' . $api_key . $encoded_request_id;
 
-		$url = $this->galaxy->getURL() . '/api/requests' .  '?key=' . $api_key . $encoded_request_id;
+    $response = $this->httpGET($URL);
+    return $this->expectArray($response);
 
-		curl_setopt($i, CURLOPT_URL, $url);
-		curl_setopt($i, CURLOPT_CUSTOMREQUEST, "GET");
-		curl_setopt($i, CURLOPT_RETURNTRANSFER, true);
-
-		$result = curl_exec($i);
-
-		$info = curl_getinfo($i);
-
-		$array = json_decode($result, true);
-
-		print_r ($array);
-
-		curl_close($i);
-
-	}
-
-	/**
-	 * Updates a sepcified Galaxy entity.
-	 *
-	 * @param $encoded_request_id
-	 *   The id of the galaxy entity to update.
-	 *
-	 * @return
-	 *   JSON object containing information on the updated Galaxy entity.
-	 *
-	 * @ingroup request_class
-	 */
-	public function update ($encoded_request_id){
-		$i = curl_init();
-		$api_key = $this->galaxy->getAPIKey();
-
-		$url = $this->galaxy->getURL() . '/api/requests' .  '?key=' . $api_key . $encoded_request_id;
-
-		curl_setopt($i, CURLOPT_URL, $url);
-		curl_setopt($i, CURLOPT_CUSTOMREQUEST, "PUT");
-		curl_setopt($i, CURLOPT_RETURNTRANSFER, true);
-
-		$result = curl_exec($i);
-
-		$info = curl_getinfo($i);
-
-		$array = json_decode($result, true);
-
-		print_r ($array);
-
-		curl_close($i);
-
-
-	}
+  }
 }
 
 ?>

@@ -47,13 +47,14 @@ class Roles extends HTTPRequest{
    *   GET /api/roles
    *
    * @return
-   *   JSON array containing details of all the roles in Galaxy.
+   *   An array containing details of all the roles in Galaxy.
    *
    * @ingroup roles_class
    */
   public function index(){
     $URL = $this->galaxy->getURL() . '/api/roles/?key=' . $this->galaxy->getAPIKey();
-    return $this->httpGET($URL);
+    $response = $this->httpGET($URL);
+    return $this->expectArray($response);
   }
 
   /**
@@ -67,13 +68,14 @@ class Roles extends HTTPRequest{
    *   this class's index function to retreive a list of role id's.
    *
    * @return
-   *   JSON object containing details about the specified role.
+   *   An array containing details about the specified role.
    *
    * @ingroup roles_class
    */
   public function show($role_id){
     $URL = $this->galaxy->getURL() . '/api/roles/' . $role_id . '/?key=' . $this->galaxy->getAPIKey();
-    return $this->httpGET($URL);
+    $response = $this->httpGET($URL);
+    return $this->expectArray($response);
   }
 
 
@@ -98,7 +100,7 @@ class Roles extends HTTPRequest{
    *   groups class.
    *
    * @return
-   *   A JSON object containing informaiton about the new role.
+   *   An array containing informaiton about the new role.
    *
    * @ingroup roles_class
    */
@@ -119,22 +121,16 @@ class Roles extends HTTPRequest{
     }
 
     $response = $this->httpPOST($URL, $inputs);
-
-    // There seems to be a bug in the Galaxy code in that it doesn't send
-    // an error message if the role already exists. Just a string indicating
-    // the problem.  So, if we don't get an array as expected just use the
-    // string as an error and return false.
-    // TODO: find out if this is a bug in Galaxy API or if if its intended.
-    if ($response !== FALSE and !is_array($response)) {
-      $this->setError('Galaxy', $response);
-      return FALSE;
-    }
+    $response = $this->expectArray($response);
 
     // For some reason we get an array containing the associative array with
     // the role details.  So, we'll just return the associative array.
     // TODO: find out if this is a bug in Galaxy API or if if its intended.
-    return $response[0];
+    if (is_array($response)) {
+      return $response[0];
+    }
+    else {
+      return $response;
+    }
   }
 }
-
-?>

@@ -55,7 +55,7 @@ class Datasets extends HTTPRequest {
     *   (optional )The file extension to look for
     *
     * @return
-    *   Json array containing information about the matching dataset(s).
+    *   An array containing information about the matching dataset(s).
     *
     * @defgroup data_sets_class
     */
@@ -67,7 +67,8 @@ class Datasets extends HTTPRequest {
        $URL = $this->galaxy->getURL() . '/api/datasets/' . $dataset_id . '/converted/?key=' . $this->galaxy->getAPIKey();
      }
 
-     return $this->rest->httpGET($URL);
+     $response = $this->httpGET($URL);
+     return $this->expectArray($response);
    }
 
    /**
@@ -84,13 +85,15 @@ class Datasets extends HTTPRequest {
     *   Please see the HistoryContents class to obtain the history content id
     *
     * @return
-    *   Json array containing information about the matching dataset(s).
+    *   An array containing information about the matching dataset(s).
     *
     * @defgroup data_sets_class
     */
    public function display($hist_id, $hist_content_id){
-     $URL = $this->galaxy->getURL() . '/api/histories/' .$hist_id .'/contents/'. $hist_content_id. '/?key=' . $this->galaxy->getAPIKey();
-     return $this->rest->httpGET($URL);
+     $URL = $this->galaxy->getURL() . '/api/histories/' . $hist_id . '/contents/' . $hist_content_id. '/?key=' . $this->galaxy->getAPIKey();
+
+     $response = $this->httpGET($URL);
+     return $this->expectArray($response);
    }
 
    /**
@@ -102,7 +105,8 @@ class Datasets extends HTTPRequest {
     */
    public function index(){
      $URL = $this->galaxy->getURL() . '/api/datasets/?key=' . $this->galaxy->getAPIKey();
-     return $this->rest->httpGET($URL);
+     $response = $this->httpGET($URL);
+     return $this->expectArray($response);
    }
 
    /**
@@ -116,12 +120,13 @@ class Datasets extends HTTPRequest {
     *   To obtain the dataset id, please use the Display function.
     *
      * @return
-     *   Json array containing information about the matching dataset.
+     *   An array containing information about the matching dataset.
     *
      * @defgroup data_sets_class
     */
    public function show($dataset_id){
      $URL = $this->galaxy->getURL().'/api/datasets/'.$dataset_id.'/?key=' . $this->galaxy->getAPIKey();
-     return $this->rest->httpGET($URL);
+     $response = $this->httpGET($URL);
+     return $this->expectArray($response);
    }
 }

@@ -52,9 +52,6 @@ class HTTPRequest  {
     // Make sure we get the header included with the output.
     curl_setopt($ch, CURLOPT_HEADER, 1);
     $output = curl_exec($ch);
-// print_r("\n!!!!!!!!!!!!!!!!!!\n");
-// print_r($output);
-// print_r("\n!!!!!!!!!!!!!!!!!!\n");
     if ($output === FALSE) {
       $this->error->setError('HTTP', curl_error($ch));
       return FALSE;
@@ -340,6 +337,29 @@ class HTTPRequest  {
    */
   public function setError($type, $message) {
     $this->error->setError($type, $message);
+  }
+
+  /**
+   * Checks if the provided value is an array and sets an error if not.
+   *
+   * This is a helper function to help children class deal with the case
+   * when Galaxy does not return a JSON array as expected. Sometimes when
+   * there is an error the error message is returned in a JSON array
+   * and can be handled by our getCURLResponse function.  But otherwise that
+   * function can't distinguish between a string that is returned and an
+   * error.  So, this function allows children class to check that
+   * the response is an array if they expect that it should be.
+   *
+   * @param unknown $response
+   */
+  public function expectArray($response) {
+
+    if ($response !== FALSE and !is_array($response)) {
+      $this->setError('Galaxy', $response);
+      return FALSE;
+    }
+
+    return $response;
   }
 }
 

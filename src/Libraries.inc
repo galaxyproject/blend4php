@@ -24,16 +24,16 @@ include_once "HTTPRequest.inc";
 class Libraries extends HTTPRequest{
   private $galaxy;
   /**
-	* The Folders constructor.
-	*
-	* @param GalaxyInstance $galaxy
-	*   A GalaxyInstance object.
-	*
-	* @return
-	*   An instance of a Libraries object.
-	*
-	* @ingroup libraries_class
-	*/
+  * The Folders constructor.
+  *
+  * @param GalaxyInstance $galaxy
+  *   A GalaxyInstance object.
+  *
+  * @return
+  *   An instance of a Libraries object.
+  *
+  * @ingroup libraries_class
+  */
    public function __construct($galaxy) {
      $this->galaxy = galaxy;
      parent ::__construct();
@@ -56,7 +56,7 @@ class Libraries extends HTTPRequest{
     * @return
     *   An array containing the new library created.
     *
-	* @ingroup libraries_class
+  * @ingroup libraries_class
     */
    public function create($name, $description=NULL, $synopsis=NULL) {
      $URL = $this->galaxy->getURL() .'/api/libraries/?key='. $this->galaxy->getAPIKey();
@@ -65,7 +65,8 @@ class Libraries extends HTTPRequest{
        'description'=> $description,
        'synopsis' => $synopsis,
      );
-     return $this->rest->httpPOST($URL, $inputs);
+     $response = $this->httpPOST($URL, $inputs);
+     return $this->expectArray($response);
    }
 
   /**
@@ -84,8 +85,9 @@ class Libraries extends HTTPRequest{
     * @ingroup libraries_class
     */
    public function index($deleted=false){
-    $URL = $this->galaxy->getURL() . '/api/libraries/?deleted=' . $deleted . '&key='. $this->galaxy->getAPIKey();
-    return $this->rest->httpGET($URL);
+     $URL = $this->galaxy->getURL() . '/api/libraries/?deleted=' . $deleted . '&key='. $this->galaxy->getAPIKey();
+     $response = $this->httpGET($URL);
+     return $this->expectArray($response);
   }
 
   /**
@@ -113,7 +115,8 @@ class Libraries extends HTTPRequest{
      else {
        $URL =  $this->galaxy->getURL() . '/api/libraries/deleted/' . $lib_id . '/?key='. $this->galaxy->getAPIKey();
      }
-     return $this->rest->httpGET($URL);
+     $response = $this->httpGET($URL);
+     return $this->expectArray($response);
    }
 
 
@@ -162,10 +165,11 @@ class Libraries extends HTTPRequest{
     * @ingroup libraries_class
     */
    public function getPermissions($lib_id, $scope='available',$is_library_access=true ) {
-     $URL = $this->galaxy->getURL() . '/api/libraries/' . $lib_id .'/permissions/?scope='
-         . $scope . '&is_library_access='.$is_library_access. '/&ey='. $this->galaxy->getAPIKey();
+     $URL = $this->galaxy->getURL() . '/api/libraries/' . $lib_id . '/permissions/?scope='
+         . $scope . '&is_library_access='.$is_library_access. '/&key='. $this->galaxy->getAPIKey();
 
-     return $this->rest->httpGET($URL);
+     $response = $this->httpGET($URL);
+     return $this->expectArray($response);
    }
 
   /**
@@ -213,7 +217,8 @@ class Libraries extends HTTPRequest{
       'modify_ids[]'=>$modify_ids,
     );
 
-    return $this->rest->httpPOST($URL, $elements);
-   }
+    $response = $this->httpPOST($URL, $elements);
+    return $this->expectArray($response);
+  }
 
 }

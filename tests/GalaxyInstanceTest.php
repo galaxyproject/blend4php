@@ -18,13 +18,6 @@ class GalaxyInstanceTest extends PHPUnit_Framework_TestCase {
    *
    * This test ensures that the URLs used by those library are properly
    * constructed for both HTTP and HTTPs.
-   *
-   * @param $host
-   *   The hostname of the server running Galaxy.
-   * @param $port
-   *   The port where galaxy is running on the remote server.
-   * @param $use_https
-   *   Set to TRUE if the remote galaxy instance uses HTTPS and FALSE otherwise.
    */
   public function testGetURL() {
 
@@ -58,7 +51,8 @@ class GalaxyInstanceTest extends PHPUnit_Framework_TestCase {
     // Test a connection to an instance that is properly instantiated.
     $galaxy = new GalaxyInstance($config['host'], $config['port'], FALSE);
     $version = $galaxy->getVersion();
-    $this->assertTrue(array_key_exists('version_major', $version));
+    $this->assertTrue(is_array($version), $galaxy->getErrorMessage() . " Please ensure Galaxy is running and the connection details are correct.");
+    $this->assertTrue(array_key_exists('version_major', $version),  "The version array is missing the 'version_major' index. Please ensure Galaxy is running and the connection details are correct.");
 
   }
 

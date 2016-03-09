@@ -88,7 +88,8 @@ class Histories extends HTTPRequest {
        }
      }
 
-     return $this->galaxy->httpPOST($URL, $notNullInputs);
+     $response = $this->httpPOST($URL, $notNullInputs);
+     return $this->expectArray($response);
    }
 
    /**
@@ -139,8 +140,8 @@ class Histories extends HTTPRequest {
     */
    public function show($history_id){
      $URL = $this->galaxy->getURL() . '/api/histories/' . $history_id . '/?key=' . $this->galaxy->getAPIKey();
-     $result = $this->httpGET($URL);
-     return $result;
+     $response = $this->httpGET($URL);
+     return $this->expectArray($response);
    }
 
    /**
@@ -185,7 +186,7 @@ class Histories extends HTTPRequest {
    *   the encoded id of the history to export.
    *
    * @return
-   *   Json url of where to download the export.
+   *   A URL of where to download the export.
    *
    * @ingroup histories_class
    */
@@ -194,7 +195,6 @@ class Histories extends HTTPRequest {
      $URL = $this->galaxy->getURL() . '/api/histories/' . $history_id . '/exports/?key=' . $this->galaxy->getAPIKey();
      $input = array('id' => $history_id);
      return $this->httpPUT($URL, $input);
-
    }
 
    /**
@@ -208,13 +208,14 @@ class Histories extends HTTPRequest {
     *   To obtain history_id's, please use this classes' index() function.
     *
     * @return
-    *   Json information of history deleted.
+    *   An array of deleted histories.
     *
     * @ingroup histories_class
     */
    public function deleteHistory($history_id){
      $URL = $this->galaxy->getURL() . '/api/histories/'. $history_id . '/?key=' . $this->galaxy->getAPIKey();
-     return $this->httpDELETE($URL);
+     $response =  $this->httpDELETE($URL);
+     return $this->expectArray($response);
    }
 
    /**
@@ -228,13 +229,14 @@ class Histories extends HTTPRequest {
     *   To obtain history_id's, please use this classes' index() function.
     *
     * @return
-    *   Json information of history undeleted.
+    *   An array of undeleted histories.
     *
     * @ingroup histories_class
     */
    public function undelete($history_id){
      $URL = $this->galaxy->getURL() . '/api/histories/deleted/'. $history_id . '/undelete?key=' . $this->galaxy->getAPIKey();
-     return $this->httpPOST($URL);
+     $response = $this->httpPOST($URL);
+     return $this->expectArray($response);
    }
 
    /**
@@ -248,13 +250,14 @@ class Histories extends HTTPRequest {
     *   To obtain history_id's, please use this classes' index() function.
     *
     * @return
-    *   Json information of history undeleted.
+    *   An array of citations.
     *
     * @ingroup histories_class
     */
    public function citations($history_id){
      $URL = $this->galaxy->getURL() . '/api/histories/'. $history_id . '/citations?key=' . $this->galaxy->getAPIKey();
-     return $this->httpGET($URL);
+     $response = $this->httpGET($URL);
+     return $this->expectArray($response);
    }
 
    /**
@@ -264,32 +267,30 @@ class Histories extends HTTPRequest {
     *   GET /api/histories/published:
     *
     * @return
-    *   Json information of published histories.
+    *   An array of published histories.
     *
     * @ingroup histories_class
     */
    public function published(){
      $URL = $this->galaxy->getURL() . '/api/histories/published/?key=' . $this->galaxy->getAPIKey();
-     return $this->httpGET($URL);
+     $response = $this->httpGET($URL);
+     return $this->expectArray($response);
    }
 
-   /**
-    * Retreive all histories that are shared with the current user.
-    *
-    * Corresponds to the Galaxy API method and path:
-    *   GET /api/histories/shared_with_me:
-    *
-    * @return
-    *   Json information of histories shared with the user.
-    *
-    * @ingroup histories_class
-    */
-   public function sharedWithMe(){
-     $URL = $this->galaxy->getURL() . '/api/histories/shared_with_me/?key=' . $this->galaxy->getAPIKey();
-     return $this->httpGET($URL);
-   }
-
-
+  /**
+  * Retreive all histories that are shared with the current user.
+  *
+  * Corresponds to the Galaxy API method and path:
+  *   GET /api/histories/shared_with_me:
+  *
+  * @return
+  *   An array histories shared with the current user.
+  *
+  * @ingroup histories_class
+  */
+  public function sharedWithMe(){
+    $URL = $this->galaxy->getURL() . '/api/histories/shared_with_me/?key=' . $this->galaxy->getAPIKey();
+    $response = $this->httpGET($URL);
+    return $this->expectArray($response);
+  }
 }
-
- ?>

@@ -24,20 +24,20 @@ require_once 'HTTPRequest.inc';
 class Datatypes extends HTTPRequest {
   private $galaxy;
 
-	/**
-	 * The DataTypes constructor.
-	 *
-	 * @param GalaxyInstance $galaxy
-	 *   A GalaxyInstance object.
-	 *
-	 * @return
-	 *   An instance of a Datatypes object.
-	 *
-	 * @ingroup data_sets_class
-	 */
+  /**
+   * The DataTypes constructor.
+   *
+   * @param GalaxyInstance $galaxy
+   *   A GalaxyInstance object.
+   *
+   * @return
+   *   An instance of a Datatypes object.
+   *
+   * @ingroup data_sets_class
+   */
     public function __construct($galaxy) {
       $this->galaxy = galaxy;
-   	  parent::__construct();
+       parent::__construct();
      }
 
 
@@ -48,13 +48,14 @@ class Datatypes extends HTTPRequest {
      *   GET /api/datatypes/sniffers
      *
      * @return
-     *   JSON array containing sniffers of all datatypes
+     *   An array containing sniffers of all datatypes
      *
-	 * @ingroup data_types_class
+     * @ingroup data_types_class
      */
     public function sniffers(){
-   	  $URL = $this->galaxy->getURL() . '/api/datatypes/sniffers/?key=' . $this->galaxy->getAPIKey();
-   	  return $this->rest->httpGET($URL);
+      $URL = $this->galaxy->getURL() . '/api/datatypes/sniffers/?key=' . $this->galaxy->getAPIKey();
+      $response = $this->httpGET($URL);
+      return $this->expectArray($response);
     }
 
     /**
@@ -64,13 +65,15 @@ class Datatypes extends HTTPRequest {
      *   GET /api/datatypes/converters
      *
      * @return
-     *   JSON array containing converters of all datatypes
+     *   An array containing converters of all datatypes
      *
      * @ingroup data_types_class
      */
     public function converters(){
-   	 $URL = $this->galaxy->getURL() . '/api/datatypes/converters/?key=' . $this->galaxy->getAPIKey();
-   	 return $this->rest->httpGET($URL);
+      $URL = $this->galaxy->getURL() . '/api/datatypes/converters/?key=' . $this->galaxy->getAPIKey();
+
+      $response = $this->httpGET($URL);
+      return $this->expectArray($response);
     }
 
     /**
@@ -80,13 +83,14 @@ class Datatypes extends HTTPRequest {
      *   GET /api/datatypes/edam_formats
      *
      * @return
-     *   JSON array containing all datatypes in edam_format.
+     *   An array containing all datatypes in edam_format.
      *
      * @ingroup data_types_class
      */
    public function edam_formats(){
-   	$URL = $this->galaxy->getURL() . '/api/datatypes/edam_formats/?key=' . $this->galaxy->getAPIKey();
-   	return $this->rest->httpGET($URL);
+     $URL = $this->galaxy->getURL() . '/api/datatypes/edam_formats/?key=' . $this->galaxy->getAPIKey();
+     $response = $this->httpGET($URL);
+     return $this->expectArray($response);
    }
 
    /**
@@ -96,13 +100,14 @@ class Datatypes extends HTTPRequest {
     *   GET /api/datatypes/mapping.
     *
     * @return
-    *   JSON array containing all datatypes in mapping.
+    *   An array containing all datatypes in mapping.
     *
     * @ingroup data_types_class
     */
    public function mapping () {
-   	$URL = $this->galaxy->getURL() . '/api/datatypes/mapping/?key=' . $this->galaxy->getAPIKey();
-   	return $this->rest->httpGET($URL);
+     $URL = $this->galaxy->getURL() . '/api/datatypes/mapping/?key=' . $this->galaxy->getAPIKey();
+     $response = $this->httpGET($URL);
+     return $this->expectArray($response);
    }
 
    /**
@@ -112,14 +117,15 @@ class Datatypes extends HTTPRequest {
     *   GET /api/datatypes/
     *
     * @return
-    *   JSON array containing all datatypes
+    *   An array containing all datatypes
     *
     * @ingroup data_types_class
     */
- 	public function index(){
- 	 $URL = $this->galaxy->getURL() . '/api/datatypes/?key=' . $this->galaxy->getAPIKey();
- 	 return $this->rest->httpGET($URL);
- 	}
+  public function index(){
+    $URL = $this->galaxy->getURL() . '/api/datatypes/?key=' . $this->galaxy->getAPIKey();
+    $response = $this->httpGET($URL);
+    return $this->expectArray($response);
+  }
 
 }
 

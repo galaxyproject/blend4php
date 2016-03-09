@@ -57,18 +57,7 @@ class GroupUsers extends HTTPRequest {
   public function index($group_id) {
     $URL = $this->galaxy->getURL() .'/api/groups/' .$group_id .'/users/?key=' .$this->galaxy->getAPIKey();
     $response = $this->httpGET($URL);
-
-    // There seems to be a bug in the Galaxy code in that it doesn't send
-    // an error message if the query failes. It just sends a string indicating
-    // the problem.  So, if we don't get an array as expected just use the
-    // string as an error and return false.
-    // TODO: find out if this is a bug in Galaxy API or if if its intended.
-    if ($response !== FALSE and !is_array($response)) {
-      $this->setError('Galaxy', $response);
-      return FALSE;
-    }
-
-    return $response;
+    return $this->expectArray($response);
   }
 
   /**
@@ -90,11 +79,12 @@ class GroupUsers extends HTTPRequest {
    */
   public function show($group_id, $user_id) {
     $URL = $this->galaxy->getURL() .'/api/groups/' .$group_id .'/users/' .$user_id .'/?key=' .$this->galaxy->getAPIKey();
-    return $this->httpGET($URL);
+    $response = $this->httpGET($URL);
+    return $this->expectArray($response);
   }
 
   /**
-   * Supports adding a user to a given group.
+   * Adds a user to a given group.
    *
    * Corresponds to the Galaxy API method and path:
    * PUT /api/groups/{encoded_group_id}/users/{encoded_user_id}.
@@ -112,11 +102,12 @@ class GroupUsers extends HTTPRequest {
    */
   public function update($group_id, $user_id) {
     $URL = $this->galaxy->getURL() . '/api/groups/' . $group_id .'/users/' . $user_id .'/?key=' . $this->galaxy->getAPIKey();
-    return $this->httpPUT($URL);
+    $response = $this->httpPUT($URL);
+    return $this->expectArray($response);
   }
 
   /**
-   * Supports deleting a user from a given group.
+   * Deletes a user from a given group.
    *
    * Corresponds to the Galaxy API method and path:
    * DELETE /api/groups/{encoded_group_id}/users/{encoded_user_id}.
@@ -135,16 +126,6 @@ class GroupUsers extends HTTPRequest {
   public function delete($group_id, $user_id) {
     $URL = $this->galaxy->getURL() . '/api/groups/' . $group_id . '/users/' . $user_id . '/?key=' . $this->galaxy->getAPIKey();
     $response =  $this->httpDELETE($URL);
-
-    // There seems to be a bug in the Galaxy code in that it doesn't send
-    // an error message if one is encountered. Just a string indicating
-    // the problem.  So, if we don't get an array as expected just use the
-    // string as an error and return false.
-    // TODO: find out if this is a bug in Galaxy API or if if its intended.
-    if ($response !== FALSE and !is_array($response)) {
-      $this->setError('Galaxy', $response);
-      return FALSE;
-    }
-    return $response;
+    return $this->expectArray($response);
   }
 }

@@ -90,7 +90,18 @@ class GalaxyInstance extends HTTPRequest {
    */
   public function authenticate($username, $password, &$message = '') {
 
-    $response = $this->auth($this->getURL() . '/api/authenticate/baseauth', $username, $password);
+    // First just try to get the version.  If not, then this means
+    // Galaxy may not be available and we should error out before trying
+    // further.
+    $URL = $this->getURL();
+    $version = $this->getVersion();
+    if (!$version) {
+      $this->setError('Galaxy', "Cannot connect to Galaxy server: $URL.");
+      return FALSE;
+    }
+
+    // Now try to authenticate.
+    $response = $this->auth($URL . '/api/authenticate/baseauth', $username, $password);
     if (!$response) {
       return FALSE;
     }

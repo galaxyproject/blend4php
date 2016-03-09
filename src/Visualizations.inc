@@ -53,8 +53,9 @@ class Visualizations extends HTTPRequest{
    * @ingroup visualizations_class
    */
   function index(){
-    $url = $this->galaxy->getURL() . '/api/visualizations/?key=' . $this->galaxy->getAPIKey();
-    return $this->httpGET($url);
+    $URL = $this->galaxy->getURL() . '/api/visualizations/?key=' . $this->galaxy->getAPIKey();
+    $response = $this->httpGET($URL);
+    return $this->expectArray($response);
   }
 
   /**
@@ -69,8 +70,9 @@ class Visualizations extends HTTPRequest{
    * @ingroup visualizations_class
    */
   function show($viz_id){
-    $url = $this->galaxy->getURL() . '/api/visualizations/'. $viz_id . '?/key=' . $this->galaxy->getAPIKey();
-    return $this->rest->httpGET($url);
+    $URL = $this->galaxy->getURL() . '/api/visualizations/'. $viz_id . '?/key=' . $this->galaxy->getAPIKey();
+    $response = $this->httpGET($URL);
+    return $this->expectArray($response);
   }
 
   /**
@@ -96,17 +98,19 @@ class Visualizations extends HTTPRequest{
    */
   function create($type, $title, $dbkey, $import_id = NULL){
     if($import_id != NULL) {
-      $url = $this->galaxy->getURL() . '/api/visualizations/?import_id=' . $import_id . '&key=' . $this->galaxy->getAPIKey();
-      return $this->httpPOST($url);
+      $URL = $this->galaxy->getURL() . '/api/visualizations?import_id=' . $import_id . '&key=' . $this->galaxy->getAPIKey();
+      $response = $this->httpPOST($URL);
+      return $this->expectArray($response);
     }
 
-    $url = $this->galaxy->getURL() . '/api/visualizations/?key=' . $this->galaxy->getAPIKey();
+    $URL = $this->galaxy->getURL() . '/api/visualizations?key=' . $this->galaxy->getAPIKey();
     $elements = array(
-      'type'=> $type,
-      'title'=>$title,
-      'dbkey'=>$dbkey,
+      'type' => $type,
+      'title' => $title,
+      'dbkey' => $dbkey,
     );
-    return $this->httpPOST($url, $elements);
+    $response = $this->httpPOST($URL, $elements);
+    return $this->expectArray($response);
   }
 
 
@@ -127,12 +131,12 @@ class Visualizations extends HTTPRequest{
    *   The configuration of the visualization.
    *
    * @return
-   *   A Json object containing the updated visualizaiton.
+   *   An array containing the updated visualizaiton.
    *
    * @ingroup visualizations_class
    */
   function update($viz_id, $title=null, $dbkey=null, $config=null){
-    $url = $this->galaxy->getURL() . '/api/visualizations/' .$viz_id. '/?key=' . $this->galaxy->getAPIKey();
+    $URL = $this->galaxy->getURL() . '/api/visualizations/' .$viz_id. '/?key=' . $this->galaxy->getAPIKey();
     $inputs = array(
       'title'=>$title,
       'dbkey'=>$dbkey,
@@ -146,7 +150,8 @@ class Visualizations extends HTTPRequest{
       }
     }
 
-    return $this->rest->httpPUT($url,$elements);
+    $response = $this->httpPUT($URL, $elements);
+    return $this->expectArray($response);
 
   }
 }
