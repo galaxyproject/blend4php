@@ -335,7 +335,7 @@ class HTTPRequest  {
    * @param $type
    * @param $message
    */
-  public function setError($type, $message) {
+  protected function setError($type, $message) {
     $this->error->setError($type, $message);
   }
 
@@ -352,7 +352,7 @@ class HTTPRequest  {
    *
    * @param unknown $response
    */
-  public function expectArray($response) {
+  protected function expectArray($response) {
 
     if ($response !== FALSE and !is_array($response)) {
       $this->setError('Galaxy', $response);
