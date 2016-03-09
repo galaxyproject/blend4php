@@ -140,7 +140,7 @@ class HTTPRequest  {
       // Case 7:  No error found.
       return $response;
     }
-    $this->error->setError('HTTP', 'Unsupported content-type: ' . trim($content_type) . '.');
+    $this->error->setError('HTTP', 'Unsupported content-type: ' . trim($content_type) . "\nContent:\n" . print_r($output, TRUE));
     return FALSE;
   }
 

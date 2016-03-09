@@ -171,8 +171,8 @@ class GroupRolesTest extends PHPUnit_Framework_TestCase {
     $role_id = $roles_list[0]['id'];
 
     // Case 1: The delete function should return an array of the group.
-    $deleted_group = $group_roles->delete($group_id, $role_id);
-    $this->assertTrue(is_array($deleted_group), $group_roles->getErrorMessage());
+    $role = $group_roles->delete($group_id, $role_id);
+    $this->assertTrue(is_array($role), $group_roles->getErrorMessage());
 
     // Case 2: There should be no users left in the group
     $roles_list = $group_roles->index($group['id']);

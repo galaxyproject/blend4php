@@ -35,31 +35,31 @@ class Libraries extends HTTPRequest{
   * @ingroup libraries_class
   */
    public function __construct($galaxy) {
-     $this->galaxy = galaxy;
+     $this->galaxy = $galaxy;
      parent ::__construct();
    }
 
 
   /**
-    * Creates a new library.
-    *
-    * Corresponds to the Galaxy Api/path:
-    *   POST /api/libraries:
-    *
-    * @param Name
-    *   The new library's name.
-    * @param description'
-    *   Optional the new library's description.
-    * @param synopsis
-    *   Optional The new library's synopsis.
-    *
-    * @return
-    *   An array containing the new library created.
-    *
-  * @ingroup libraries_class
-    */
-   public function create($name, $description=NULL, $synopsis=NULL) {
-     $URL = $this->galaxy->getURL() .'/api/libraries/?key='. $this->galaxy->getAPIKey();
+   * Creates a new library.
+   *
+   * Corresponds to the Galaxy Api/path:
+   *   POST /api/libraries:
+   *
+   * @param Name
+   *   The new library's name.
+   * @param description'
+   *   Optional the new library's description.
+   * @param synopsis
+   *   Otional a string containing a synopsis.
+   *
+   * @return
+   *   An array containing the new library created.
+   *
+   * @ingroup libraries_class
+   */
+   public function create($name, $description = NULL, $synopsis = NULL) {
+     $URL = $this->galaxy->getURL() . '/api/libraries/?key=' . $this->galaxy->getAPIKey();
      $inputs = array(
        'name' => $name,
        'description'=> $description,
@@ -69,6 +69,18 @@ class Libraries extends HTTPRequest{
      return $this->expectArray($response);
    }
 
+   /**
+    * Updates library.
+    *
+    * Corresponds to the Galaxy Api/path:
+    *   PATCH /api/libraries/{encoded_id}
+    *
+    * @ingroup libraries_class
+    */
+   public function update($name, $description = NULL, $synopsis = NULL) {
+     // TODO: we need to implement this function
+   }
+
   /**
     * Retreives a list of summary data for all libraries.
     *
@@ -76,7 +88,7 @@ class Libraries extends HTTPRequest{
     *   GET /api/libraries
     *
     * @param deleted
-    *   If True, show deleted libraries.
+    *   if TRUE, show only deleted libraries, if FALSE show only non-deleted.
     *
     * @return
     *   An array of all of libraries. And all of the deleted libraries if
@@ -84,8 +96,11 @@ class Libraries extends HTTPRequest{
     *
     * @ingroup libraries_class
     */
-   public function index($deleted=false){
-     $URL = $this->galaxy->getURL() . '/api/libraries/?deleted=' . $deleted . '&key='. $this->galaxy->getAPIKey();
+   public function index($deleted = FALSE){
+     $URL = $this->galaxy->getURL() . '/api/libraries?key='. $this->galaxy->getAPIKey();
+     if ($deleted) {
+       $URL .= '?deleted=' . $deleted;
+     }
      $response = $this->httpGET($URL);
      return $this->expectArray($response);
   }
@@ -94,10 +109,10 @@ class Libraries extends HTTPRequest{
     * Retreives detailed infromation about a specific library.
     *
     * Corresponds t the Galaxy Api functions at
-    *   GET /api/libraries/lib_id and
-    *   GET /api/libraries/deleted/lib_id
+    *   GET /api/libraries/{encoded_id} and
+    *   GET /api/libraries/deleted/{encoded_id}
     *
-    * @param lib_id
+    * @param library_id
     *   The id of the library to show. To obtain library ids, please use this
     *   class's index() function.
     * @param deleted
@@ -108,12 +123,13 @@ class Libraries extends HTTPRequest{
     *
     * @ingroup libraries_class
     */
-   public function show($lib_id, $deleted=false){
+   public function show($library_id, $deleted = FALSE){
+
      if(!$deleted) {
-       $URL = $this->galaxy->getURL() . '/api/libraries/' . $lib_id . '/?key='. $this->galaxy->getAPIKey();
+       $URL = $this->galaxy->getURL() . '/api/libraries/' . $library_id . '?key='. $this->galaxy->getAPIKey();
      }
      else {
-       $URL =  $this->galaxy->getURL() . '/api/libraries/deleted/' . $lib_id . '/?key='. $this->galaxy->getAPIKey();
+       $URL = $this->galaxy->getURL() . '/api/libraries/deleted/' . $library_id . '/?key='. $this->galaxy->getAPIKey();
      }
      $response = $this->httpGET($URL);
      return $this->expectArray($response);
@@ -124,25 +140,35 @@ class Libraries extends HTTPRequest{
     * Marks a specific library as deleted or a deleted library as not-deleted.
     *
     * Corresponds to the Galaxy Api/path at
-    *   DELETE /api/libraries/{id}
+    *   DELETE /api/libraries/{encoded_id}
     *
-    * @param lib_id
+    * @param $library_id
     *   The id of the library to delete or undelete, to obtain library id's
     *   please use this class's index() function.
     * @param undelete
-    *   If true,function will undelete the item.
+    *   If TRUE, the library will be undeleted if it is already deleted.
     *
     * @return
     *   An array containing details of the deleted or undeleted library.
     *
     * @ingroup libraries_class
     */
-   public function delete($lib_id,$undelete=false){
-     $URL = $this->galaxy->getURL() . '/api/libraries/' . $lib_id . '/?key='. $this->galaxy->getAPIKey();
-     $elements = array(
-       'undelete' => $undelete,
-     );
-     return $this->rest->delete($URL, $elements);
+   public function delete($library_id, $undelete = FALSE){
+
+     if (!$library_id) {
+       $this->setError('API', 'Please provide a value for the $library_id argument.');
+       return FALSE;
+     }
+
+     $URL = $this->galaxy->getURL() . '/api/libraries/' . $library_id .
+            '/?key=' . $this->galaxy->getAPIKey();
+
+     $inpput = array();
+     if ($undelete) {
+       $inpput['undelete'] = 'True';
+     }
+     $response = $this->httpDELETE($URL, $inpput);
+     return $this->expectArray($response);
    }
 
   /**
@@ -151,7 +177,7 @@ class Libraries extends HTTPRequest{
     * Corresponds to the Galaxy API/path
     *   GET /api/libraries/{encoded_library_id}/permissions
     *
-    * @param lib_id
+    * @param library_id
     *   The if of the library to receive permissions for. To obtain library
     *   id's please use this class's index function
 .   * @param scope
@@ -164,8 +190,8 @@ class Libraries extends HTTPRequest{
     *
     * @ingroup libraries_class
     */
-   public function getPermissions($lib_id, $scope='available',$is_library_access=true ) {
-     $URL = $this->galaxy->getURL() . '/api/libraries/' . $lib_id . '/permissions/?scope='
+   public function getPermissions($library_id, $scope='available',$is_library_access=true ) {
+     $URL = $this->galaxy->getURL() . '/api/libraries/' . $library_id . '/permissions/?scope='
          . $scope . '&is_library_access='.$is_library_access. '/&key='. $this->galaxy->getAPIKey();
 
      $response = $this->httpGET($URL);
@@ -175,17 +201,17 @@ class Libraries extends HTTPRequest{
   /**
     * Sets the permissions for a specified library.
     *
-    * Corresponds to the Galaxy Api function at
+    * Corresponds to the Galaxy API function at
     *   POST /api/libraries/{encoded_library_id}/permissions
     *
-    * @param lib_id
+    * @param library_id
     *   The id of the library to set permissions to. To obtain the library id
     *   refer to this class's index() function.
     * @param action
     *   Set to either. 'remove_restrictions' or 'set_permissions', to specify
     *   appropriate action for the function.
     * @param access_ids
-    *   A list of role id deining roles that should have access permissions
+    *   A list of role ids defining roles that should have access permissions
     *   on the library. To obtain role id's please refer to the roles class.
     * @param add_ids
     *   A list of role id defining roles that should have add item permissions
@@ -203,11 +229,11 @@ class Libraries extends HTTPRequest{
     *
     * @ingroup libraries_class
     */
-   public function setPermissions($lib_id, $action='set_permissions',
+   public function setPermissions($library_id, $action='set_permissions',
      $access_ids = array(), $add_ids=array(), $manage_ids = array(),
      $modify_ids = array()){
 
-    $URL = $this->galaxy->getURL() . '/api/libraries/' . $lib_id . '/permissions/?key='. $this->galaxy->getAPIKey();
+    $URL = $this->galaxy->getURL() . '/api/libraries/' . $library_id . '/permissions/?key='. $this->galaxy->getAPIKey();
 
     $elements= array(
       'action' => $action,
