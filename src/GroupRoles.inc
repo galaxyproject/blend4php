@@ -129,7 +129,7 @@ class GroupRoles extends HTTPRequest {
    public function delete($group_id,$role_id) {
      $URL = $this->galaxy->getURL() . '/api/groups/' . $group_id . '/roles/' . $role_id . '/?key=' . $this->galaxy->getAPIKey();
 
-     $response = $this->httpPUT($URL);
+     $response = $this->httpDELETE($URL);
      return $this->expectArray($response);
    }
 
