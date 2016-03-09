@@ -11,7 +11,7 @@
 
 
 
-/*
+
 $config = array(
   "host" =>  'localhost',
   "user" =>  'bob',
@@ -21,11 +21,11 @@ $config = array(
   "api_key" =>  '7ef496ca9fee28566c59bc2c9d8bddae',
 
 );
-*/
 
 
 
-$config = array(
+
+/*$config = array(
   "host" =>  'localhost',
   "user" =>  'spficklin',
   "email" =>  'spficklin@gmail.com',
@@ -33,3 +33,4 @@ $config = array(
   "port" =>  '8090',
   "api_key" =>  'afcbaa548c3af9cd0478d1c8543a55da',
 );
+*/

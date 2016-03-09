@@ -38,7 +38,7 @@ class HistoryContents extends HTTPRequest {
    */
   public function __construct($galaxy) {
     parent::__construct();
-    $this->galaxy = galaxy;
+    $this->galaxy = $galaxy;
   }
 
   /**

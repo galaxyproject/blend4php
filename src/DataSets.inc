@@ -36,7 +36,7 @@ class Datasets extends HTTPRequest {
    * @ingroup data_sets_class
    */
    public function __construct($galaxy) {
-     $this->galaxy = galaxy;
+     $this->galaxy = $galaxy;
 
      parent::__construct();
    }

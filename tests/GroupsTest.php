@@ -132,14 +132,16 @@ class GroupsTest extends PHPUnit_Framework_TestCase {
    *
    */
   public function testUpdate($galaxy, $group) {
-    $groups = new Groups($galaxy);
+  	global $config;
+  	$groups = new Groups($galaxy);
 
     // Case 1:  Change the name.   * @depends testCreate
-
+		print_r($group);
     $group_id = $group['id'];
     $group_name = $group['name'] . '-updated';
-    $updated_group = $groups->update($group_id, $group_name);
+    $updated_group = $groups->update($group_id, $group_name,'f2db41e1fa331b3e');
     $this->assertTrue(is_array($updated_group), $groups->getErrorMessage());
+    
     $this->assertEquals($updated_group['name'], $group_name, 'Updating of the group name failed: ' . print_r($updated_group, TRUE));
   }
 }
