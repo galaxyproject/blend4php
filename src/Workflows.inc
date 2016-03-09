@@ -26,16 +26,16 @@ class Workflows extends HTTPRequest{
   private $galaxy;
 
   /**
-	* The Workflows constructor.
-	*
-	* @param GalaxyInstance $galaxy
-	*   A GalaxyInstance object.
-	*
-	* @return
-	*   An instance of a workflows object.
-	*
-	* @ingroup workflows_class
-	*/
+  * The Workflows constructor.
+  *
+  * @param GalaxyInstance $galaxy
+  *   A GalaxyInstance object.
+  *
+  * @return
+  *   An instance of a workflows object.
+  *
+  * @ingroup workflows_class
+  */
   function __construct($galaxy) {
     $this->galaxy = galaxy;
 
@@ -55,14 +55,14 @@ class Workflows extends HTTPRequest{
     * @return
     *   An array containing all of the workflows in Galaxy.
     *
-  	* @ingroup workflows_class
+    * @ingroup workflows_class
     */
   public function index($is_published = NULL){
     $i = curl_init();
     $api_key = $this->galaxy->getAPIKey();
 
-    $url = $this->galaxy->getURL() . '/api/workflows/' . '?key=' . $api_key;
-    $result = $this->rest->httpGET($url);
+    $URL = $this->galaxy->getURL() . '/api/workflows/' . '?key=' . $api_key;
+    $result = $this->httpGET($URL);
     $array = json_decode($result, true);
 
     if (!empty($is_published)){
@@ -95,12 +95,13 @@ class Workflows extends HTTPRequest{
     * @return
     *   An array containing the details of a workflow.
     *
-  	* @ingroup workflows_class
+    * @ingroup workflows_class
     */
    public function show($workflow_id, $show_published=true){
      $URL = $this->galaxy->getURL() . '/api/workflows/' .$workflow_id. '/?key=' . $this->galaxy->getAPIKey();
      $URL .= '&show_published=' . $show_published;
-     return $this->rest->httpGET($URL);
+     $response = $this->httpGET($URL);
+     return $this->expectArray($response);
    }
 
    /**
@@ -113,12 +114,12 @@ class Workflows extends HTTPRequest{
     *   The id of the workflow to delete. To obtain a workflow id
     *   please use this class's index function.
     *
-  	* @ingroup workflows_class
+    * @ingroup workflows_class
     */
    public function delete($workflow_id) {
      $api_key = $this->galaxy->getAPIKey();
-     $url = $this->galaxy->getURL() . '/api/workflows/' . $workflow_id . '?key=' . $api_key;
-    return $this->rest->delete($url);
+     $URL = $this->galaxy->getURL() . '/api/workflows/' . $workflow_id . '?key=' . $api_key;
+    return $this->rest->delete($URL);
    }
 
    /**
@@ -128,17 +129,17 @@ class Workflows extends HTTPRequest{
     *   Encoded workflow ID.
     *
     * @return
-    *   Dict representing the workflow requested.
-    *   This "Dict" is synonymous with metadata
+    *   An array representing the workflow requested.
     *
     * @ingroup workflows_class
     */
    public function export($workflow_id) {
      $api_key = $this->galaxy->getAPIKey();
 
-     $url = $this->galaxy->getURL() . '/api/workflows/' . $workflow_id . '?key=' . $api_key;
+     $URL = $this->galaxy->getURL() . '/api/workflows/' . $workflow_id . '?key=' . $api_key;
 
-    return $this->rest->httpGET($url);
+     $response = $this->httpGET($URL);
+     return $this->expectArray($response);
    }
 
   /**
@@ -161,7 +162,7 @@ class Workflows extends HTTPRequest{
    *   full file path including filename.
    *
    * @return
-   *   A Json dictionary of the selected workflow.
+   *   An array of the selected workflow.
    *
    * @ingroup workflows_class
    */
@@ -170,23 +171,10 @@ class Workflows extends HTTPRequest{
 
     $api_key = $this->galaxy->getAPIKey();
 
-    $url = $this->galaxy->getURL() . '/api/workflows/' . $workflow_id . '?key=' . $api_key;
+    $URL = $this->galaxy->getURL() . '/api/workflows/' . $workflow_id . '?key=' . $api_key;
 
-    $result = $this->rest->httpGET($url);
-
-    return $result.
-
-    $array = json_decode($result, true);
-
-    if ($use_default_filename == TRUE){
-
-      $success = file_put_contents($file_local_path . '/' . 'Galaxy-Workflow-' . $array['name'] . '.ga', $result);
-    }
-    else {
-      $success = file_put_contents($file_local_path, $result);
-    }
-
-    //return $success; Not sure what return to place here, if this function even needs a return
+    $response = $this->httpGET($URL);
+    return $this->expectArray($response);
 
   }
 
@@ -200,7 +188,7 @@ class Workflows extends HTTPRequest{
      $from_history_id=NULL, $job_ids = NULL, $dataset_ids = NULL, $dataset_collection_ids=NULL,
      $workflow_name = NULL, $allow_tool_state_corrections = NULL){
 
-    $url = $this->galaxy->getURL() . '/api/workflows/'. $workflow_id . '/?key=' . $this->galaxy->getAPIKey();
+    $URL = $this->galaxy->getURL() . '/api/workflows/'. $workflow_id . '/?key=' . $this->galaxy->getAPIKey();
 
     $elements = array(
         'workflow_id' => $workflow_id,
@@ -208,15 +196,15 @@ class Workflows extends HTTPRequest{
         'workflow' => 'bob',
         'from_history_id' => $from_history_id,
         'parameters' => $parameters,
-        'ds_map'=>$ds_map,
-        'no_add_to_history'=>$no_add_to_history,
-        'history' =>$history,
+        'ds_map' => $ds_map,
+        'no_add_to_history' =>$no_add_to_history,
+        'history'  => $history,
         'replacement_params' => $replacement_params,
         'from_history_id' => $from_history_id,
-        'jobs_id'=>$job_ids,
-        'dataset_ids'=>$dataset_ids,
-        'dataset_collection_ids'=>$dataset_collection_ids,
-        'workflow_name'=>$workflow_name,
+        'jobs_id' => $job_ids,
+        'dataset_ids'  => $dataset_ids,
+        'dataset_collection_ids'=> $dataset_collection_ids,
+        'workflow_name'=> $workflow_name,
         'allow_tool_state_corrections' => $allow_tool_state_corrections,
     );
 
@@ -227,7 +215,9 @@ class Workflows extends HTTPRequest{
         $notNullInputs[$element] = $value;
       }
     }
-    return $this->rest->httpPUT($url, $notNullInputs);
+
+    $response = $this->httpPUT($URL, $notNullInputs);
+    return $this->expectArray($response);
   }
 
 
@@ -235,40 +225,38 @@ class Workflows extends HTTPRequest{
     *  TODO incomplete
     *
     */
-   public function buildModule($tool_id,$tool_input_ids=NULL, $tool_version=NULL,
-      $annotation=NULL){
+   public function buildModule($tool_id, $tool_input_ids = NULL,
+       $tool_version = NULL, $annotation=NULL) {
 
-    $url = $this->galaxy->getURL() . '/api/workflows/build_module/?key=' . $this->galaxy->getAPIKey();
+    $URL = $this->galaxy->getURL() . '/api/workflows/build_module/?key=' . $this->galaxy->getAPIKey();
     $i =0;
     // Follow same formating at imputting ids as invoke
     $input_ids = array();
-      if($tool_input_ids !=NULL){
-
-        foreach($tool_input_ids as &$tool_input_id){
-          $input_ids[$i] = array('id'=> $tool_input_id, 'src'=>'hda');
-          $i++;
-        }
+    if ($tool_input_ids != NULL) {
+      foreach ($tool_input_ids as &$tool_input_id) {
+        $input_ids[$i] = array('id'=> $tool_input_id, 'src'=>'hda');
+        $i++;
       }
+    }
 
-     $elements = array(
-      'tool_id'=>$tool_id,
-      'tool_version'=>$tool_version,
-      'tool_inputs'=>$input_ids,
-      'annotation'=>$annotation,
-
+    $elements = array(
+      'tool_id' => $tool_id,
+      'tool_version' => $tool_version,
+      'tool_inputs' => $input_ids,
+      'annotation' => $annotation,
      );
 
-    // Use only the elements that are not null
+     // Use only the elements that are not null
     $notNullInputs = array();
     foreach($elements as $element=>$value) {
       if($value != NULL ) {
         $notNullInputs[$element] = $value;
+      }
     }
 
-    return $this->rest->httpPOST($url, $notNullInputs);
+    $response = $this->httpPOST($URL, $notNullInputs);
+    return $this->expectArray($response);
   }
-
- }
 
    /**
     * Retreive a list of the workflow invocations for a given workflow.
@@ -285,9 +273,10 @@ class Workflows extends HTTPRequest{
     * @ingroup workflows_class
     */
    public function indexInvocations($workflow_id){
-     $url = $this->galaxy->getURL() . '/api/workflows/' .
+     $URL = $this->galaxy->getURL() . '/api/workflows/' .
      $workflow_id . 'invocations/?key=' . $this->galaxy->getAPIKey();
-     return $this->rest->httpGET($url);
+     $response = $this->httpGET($URL);
+     return $this->expectArray($response);
    }
 
    /**
@@ -310,9 +299,10 @@ class Workflows extends HTTPRequest{
     * @ingroup workflows_class
     */
    public function showInvocations($workflow_id, $invocation_id) {
-     $url = $this->galaxy->getURL() . '/api/workflows/' .
+     $URL = $this->galaxy->getURL() . '/api/workflows/' .
         $workflow_id . 'invocations/'.$invocation_id.'/?key=' . $this->galaxy->getAPIKey();
-     return $this->rest->httpGET($url);
+     $response = $this->httpGET($URL);
+     return $this->expectArray($response);
    }
 
 
@@ -334,9 +324,9 @@ class Workflows extends HTTPRequest{
     * @ingroup workflows_class
     */
    public function cancelInvocation($workflow_id, $invocation_id){
-     $url = $this->galaxy->getURL() . '/api/workflows/' .
+     $URL = $this->galaxy->getURL() . '/api/workflows/' .
         $workflow_id . 'invocations/'.$invocation_id.'/?key=' . $this->galaxy->getAPIKey();
-     return $this->rest->delete($url);
+     return $this->rest->delete($URL);
    }
 
 
@@ -362,9 +352,9 @@ class Workflows extends HTTPRequest{
     * @ingroup workflows_class
     */
    public function invocationSteps($workflow_id, $invocation_id, $step_id){
-     $url = $this->galaxy->getURL() . '/api/workflows/' .
+     $URL = $this->galaxy->getURL() . '/api/workflows/' .
          $workflow_id . 'invocations/'.$invocation_id.'/?key=' . $this->galaxy->getAPIKey();
-     return $this->rest->delete($url);
+     return $this->rest->delete($URL);
    }
 
 
@@ -389,10 +379,12 @@ class Workflows extends HTTPRequest{
     * @ingroup workflows_class
     */
    public function updateInvocationSteps($workflow_id, $invocation_id, $step_id){
-    $url = $this->galaxy->getURL() . '/api/workflows/' .
-       $workflow_id . '/invocations/'.$invocation_id.'/steps/'
-           .$step_id . '/?key=' . $this->galaxy->getAPIKey();
-    return $this->rest->httpPUT($url);
+     $URL = $this->galaxy->getURL() . '/api/workflows/' .
+       $workflow_id . '/invocations/' . $invocation_id . '/steps/' .
+       $step_id . '?key=' . $this->galaxy->getAPIKey();
+
+     $response = $this->httpPUT($URL);
+     return $this->expectArray($response);;
    }
 
 
@@ -420,31 +412,37 @@ class Workflows extends HTTPRequest{
    *   is to be created.
    *
    * @return
-   *   A Json object containing information on the workflow invoked.
+   *   An array containing information on the workflow invoked.
    *
    * @ingroup workflows_class
    */
   public function invoke($workflow_id, $input_dataset_ids, $hist_name=NULL,$hist_id=NULL,
       $dont_add_to_history=FALSE) {
 
-    $url = $this->galaxy->getURL() . '/api/workflows/' .$workflow_id. '/invocations/?key=' . $this->galaxy->getAPIKey();
+    $URL = $this->galaxy->getURL() . '/api/workflows/' .
+           $workflow_id . '/invocations/?key=' . $this->galaxy->getAPIKey();
     $input_ids = array();
     $i = 0;
 
     foreach($input_dataset_ids as &$input_dataset_id){
-      $input_ids[$i] = array('id'=> $input_dataset_id, 'src'=>'hda');
+      $input_ids[$i] = array(
+        'id' => $input_dataset_id,
+        'src'=>'hda'
+      );
       $i++;
     }
     $history_input='';
     if($hist_id !== NULL) {$history_input = 'hist_id='.$hist_id; }
     else {$history_input = $hist_name;}
     $elements = array(
-      'inputs'=>json_encode($input_ids,JSON_FORCE_OBJECT),
-      'dataset_map'=>json_encode($input_ids,JSON_FORCE_OBJECT),
-      'no_add_to_history'=>$dont_add_to_history,
-      'history'=>$history_input,
+      'inputs' => json_encode($input_ids,JSON_FORCE_OBJECT),
+      'dataset_map' => json_encode($input_ids,JSON_FORCE_OBJECT),
+      'no_add_to_history' => $dont_add_to_history,
+      'history' => $history_input,
     );
-    return  $this->rest->httpPOST($url, $elements);
+
+    $response = $this->httpPOST($URL, $elements);
+    return $this->expectArray($response);
   }
 
 
@@ -497,7 +495,7 @@ class Workflows extends HTTPRequest{
     *   running workflow, defaults to False.
     *
     *  @return
-    *   A Json object containing the created workflow.
+    *   An array containing the created workflow.
     *
     * @ingroup workflows_class
     **/
@@ -506,21 +504,21 @@ class Workflows extends HTTPRequest{
       $from_history_id=NULL, $job_ids = NULL, $dataset_ids = NULL, $dataset_collection_ids=NULL,
       $workflow_name = NULL, $allow_tool_state_corrections = NULL ) {
 
-    $url = $this->galaxy->getURL() . '/api/workflows/?key=' . $this->galaxy->getAPIKey();
+    $URL = $this->galaxy->getURL() . '/api/workflows/?key=' . $this->galaxy->getAPIKey();
 
     $elements = array(
       'workflow_id' => $workflow_id,
       'from_history_id' => $from_history_id,
       'parameters' => $parameters,
-      'ds_map'=>$ds_map,
-      'no_add_to_history'=>$no_add_to_history,
-      'history' =>$history,
+      'ds_map' => $ds_map,
+      'no_add_to_history' => $no_add_to_history,
+      'history' => $history,
       'replacement_params' => $replacement_params,
       'from_history_id' => $from_history_id,
-      'jobs_id'=>$job_ids,
-      'dataset_ids'=>$dataset_ids,
-      'dataset_collection_ids'=>$dataset_collection_ids,
-      'workflow_name'=>$workflow_name,
+      'jobs_id' => $job_ids,
+      'dataset_ids' => $dataset_ids,
+      'dataset_collection_ids' => $dataset_collection_ids,
+      'workflow_name' => $workflow_name,
       'allow_tool_state_corrections' => $allow_tool_state_corrections,
       );
 
@@ -532,7 +530,8 @@ class Workflows extends HTTPRequest{
       }
     }
 
-    return $this->rest->httpPOST($url, $notNullInputs);
+    $response = $this->httpPOST($URL, $notNullInputs);
+    return $this->expectArray($response);
   }
 
 

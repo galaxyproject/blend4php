@@ -54,7 +54,8 @@ class Groups extends HTTPRequest {
    */
   public function index() {
     $URL = $this->galaxy->getURL() . '/api/groups/?key=' . $this->galaxy->getAPIKey();
-    return $this->httpGET($URL);
+    $response = $this->httpGET($URL);
+    return $this->expectArray($response);
   }
 
   /**
@@ -92,21 +93,17 @@ class Groups extends HTTPRequest {
     }
 
     $response = $this->httpPOST($URL, $inputs);
+    $response = $this->expectArray($response);
 
-    // There seems to be a bug in the Galaxy code in that it doesn't send
-    // an error message if the group already exists. Just a string indicating
-    // the problem.  So, if we don't get an array as expected just use the
-    // string as an error and return false.
+    // For some reason we get an array containing the associative array with
+    // the role details.  So, we'll just return the associative array.
     // TODO: find out if this is a bug in Galaxy API or if if its intended.
-    if ($response !== FALSE and !is_array($response)) {
-      $this->setError('Galaxy', $response);
-      return FALSE;
+    if (is_array($response)) {
+      return $response[0];
     }
-
-    // For some reason we get an array containing hte associative array with
-    // the group details.  So, we'll just return the associative array.
-    // TODO: find out if this is a bug in Galaxy API or if if its intended.
-    return $response[0];
+    else {
+      return $response;
+    }
   }
 
   /**
@@ -125,7 +122,8 @@ class Groups extends HTTPRequest {
    */
   public function show($group_id) {
     $URL = $this->galaxy->getURL() . '/api/groups/' . $group_id . '/?key=' . $this->galaxy->getAPIKey();
-    return $this->httpGET($URL);
+    $response = $this->httpGET($URL);
+    return $this->expectArray($response);
   }
 
   /**
@@ -172,6 +170,7 @@ class Groups extends HTTPRequest {
       return FALSE;
     }
 
-    return $this->httpPUT($URL, $inputs);
+    $response = $this->httpPUT($URL, $inputs);
+    return $this->expectArray($response);
   }
 }

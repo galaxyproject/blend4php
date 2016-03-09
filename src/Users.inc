@@ -58,8 +58,8 @@ class Users extends HTTPRequest {
     *   (optional) If true, Filter on username OR email.
     *
     * @return
-    *    An array containing information on the the users the  API function
-    *    retreived
+    *   An array containing information on the the users the  API function
+    *   retreived
     *
     * @ingroup users_class
     */
@@ -80,7 +80,8 @@ class Users extends HTTPRequest {
      }
      $URL .= $endURL;
      // $URL2 = $this->galaxy->getURL() . '/api/users/deleted'. $user_id ."/api_key/?key=" . $this->galaxy->getAPIKey();
-     return $this->httpGET($URL);
+     $response = $this->httpGET($URL);
+     return $this->expectArray($response);
    }
 
   /**
@@ -100,7 +101,8 @@ class Users extends HTTPRequest {
    */
   function show($user_id) {
     $URL = $this->galaxy->getURL() .'/api/users/' .$user_id .'/?key=' .$this->galaxy->getAPIKey();
-    return $this->httpGET($URL);
+    $response = $this->httpGET($URL);
+    return $this->expectArray($response);
   }
 
   /**
@@ -114,14 +116,13 @@ class Users extends HTTPRequest {
    *   class's index function.
    *
    * @return
-   *   An array containing the details of the user.
+   *   The API key of the user.
    *
    * @ingroup users_class
    */
   function apiKey($user_id) {
     $URL = $this->galaxy->getURL() . '/api/users/' . $user_id . '/api_key/?key=' . $this->galaxy->getAPIKey();
     return $this->httpPOST($URL);
-
   }
 
   /**
@@ -149,9 +150,14 @@ class Users extends HTTPRequest {
   function create($username, $user_email, $password) {
     $URL = $this->galaxy->getURL() . '/api/users/' . '?key=' . $this->galaxy->getAPIKey();
 
-    $input = array('username' => $username,'email' => $user_email,'password' => $password);
+    $input = array(
+      'username' => $username,
+      'email' => $user_email,
+      'password' => $password
+    );
 
-    return $this->httpPOST($URL, $input);
+    $response = $this->httpPOST($URL, $input);
+    return $this->expectArray($response);
   }
 
   /**
@@ -179,7 +185,7 @@ class Users extends HTTPRequest {
    *   (Optional) if true, the user will be completely erased from Galaxy.
    *
    * @return
-   *   JSON array containing details of the deleted user, or FALSE on failure.
+   *   An array containing details of the deleted user, or FALSE on failure.
    *
    * @ingroup users_class
    */
@@ -189,7 +195,8 @@ class Users extends HTTPRequest {
     if ($purge) {
       $URL .= '&purge=True';
     }
-    return $this->httpDELETE($URL);
+    $response =  $this->httpDELETE($URL);
+    return $this->expectArray($response);
   }
 
   /**
