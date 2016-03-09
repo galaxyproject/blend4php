@@ -55,7 +55,7 @@ class Tools extends HTTPRequest{
     *   If true, return tools marked as trackster.
     *
     *  @return
-    *   Json array containing all the tools in galaxy that match the
+    *   An array containing all the tools in galaxy that match the
     *   the specified search.
     *
     * @ingroup tools_class
@@ -108,7 +108,8 @@ class Tools extends HTTPRequest{
       $URL = $URL . '?key=' . $this->galaxy->getAPIKey();
       print_r($URL);
     }
-    return  $this->httpGET($URL);
+    $response = $this->httpGET($URL);
+     return $this->expectArray($response);
    }
 
   /**
@@ -122,12 +123,14 @@ class Tools extends HTTPRequest{
    *   please use this class's index funciton.
    *
    * @return
-   *   Json object containing detailed information about a specific tool.
+   *   An array containing detailed information about a specific tool.
    *
    * @ingroup tools_class
    */
   public function show($tool_id){
     $URL = $this->galaxy->getURL() . '/api/tools/' . $tool_id .'/'. $this->galaxy->getAPIKey();
+    $response = $this->httpGET($URL);
+    return $this->expectArray($response);
   }
 
   /**
@@ -141,15 +144,14 @@ class Tools extends HTTPRequest{
    *   please see this class's index function.
    *
    * @return
-   *   Jsob object contaiing information about the diagnostics of a tool.
+   *   An array contaiing information about the diagnostics of a tool.
    *
    * @ingroup tools_class
    */
    public function diagnostics($tool_id){
      $URL = $this->galaxy->getURL() . '/api/tools/'. $tool_id . '/diagnostics/?key=' . $this->galaxy->getAPIKey();
-     $this->rest->httpGET($URL);
-
-     return $output;
+     $response = $this->httpGET($URL);
+     return $this->expectArray($response);
    }
 
   /**
@@ -162,13 +164,14 @@ class Tools extends HTTPRequest{
    *   The id of the tool to reload.
    *
    * @return
-   *  Json array of the tool that was reloaded.
+   *   An array of the tool that was reloaded.
    *
    * @ingroup tools_class
    */
    public function reload($tool_id){
      $URL = $this->galaxy->getURL() . '/api/tools/'. $tool_id . '/reload/?key=' . $this->galaxy->getAPIKey();
-     return   $this->rest->httpGET($URL);
+     $response = $this->httpGET($URL);
+     return $this->expectArray($response);
    }
 
   /**
@@ -189,7 +192,7 @@ class Tools extends HTTPRequest{
    *   Optional, the version of the tool.
    *
    * @return
-   *  Json array containing the build model of the tool.
+   *   An array containing the build model of the tool.
    *
    * @ingroup tools_class
    */
@@ -202,7 +205,8 @@ class Tools extends HTTPRequest{
      $URL = $URL . '/?key=' . $this->galaxy->getAPIKey();
      $URL .= '&history_id=' . $history_id;
 
-     return   $this->rest->httpGET($URL);
+     $response = $this->httpGET($URL);
+     return $this->expectArray($response);
    }
 
   /**
@@ -216,14 +220,15 @@ class Tools extends HTTPRequest{
    *   class' index() function.
    *
    * @return
-   *   Json object containing infromation about the citations of the specified
+   *   An array containing infromation about the citations of the specified
    *   tool.
    *
    * @ingroup tools_class
    */
    public function citations($tool_id){
      $URL = $this->galaxy->getURL() . '/api/tools/' . $tool_id . '/citations/?key=' . $this->galaxy->getAPIKey();
-     return $this->rest->httpGET($URL);
+     $response = $this->httpGET($URL);
+     return $this->expectArray($response);
    }
 
 
@@ -244,7 +249,8 @@ class Tools extends HTTPRequest{
    */
    public function download($tool_id){
      $URL = $this->galaxy->getURL() . '/api/tools/'. $tool_id . '/download/?key=' . $this->galaxy->getAPIKey();
-     return $this->rest->httpGET($URL);
+     $response = $this->httpGET($URL);
+     return $this->expectArray($response);
    }
 
 
@@ -271,7 +277,7 @@ class Tools extends HTTPRequest{
    *   Please see the datasets class to obtain id's.
    *
    * @return
-   *   Json array containing information about the created or executed tool.
+   *   An array containing information about the created or executed tool.
    *
    * @ingroup tools_class
    */
@@ -304,7 +310,8 @@ class Tools extends HTTPRequest{
        }
      }
 
-     return $this->rest->httpPOST($URL, $notNullInputs);
+     $response = $this->httpPOST($URL, $notNullInputs);
+     return $this->expectArray($response);
    }
  }
 

@@ -49,14 +49,17 @@ class Genomes extends HTTPRequest{
    *   GET /api/genomes
    *
    * @return
-   *   A JSON object containing a list of all of the genome entities in Galaxy.
+   *   An array containing a list of all of the genome entities in Galaxy.
    *
    * @ingroup genomes_class
    */
   public function index(){
     $api_key = $this->galaxy->getAPIKey();
-    $url = $this->galaxy->getURL() . '/api/genomes/'  .  '?key=' . $api_key;
-    return $this->rest->httpGET($url);
+
+    $URL = $this->galaxy->getURL() . '/api/genomes/'  .  '?key=' . $api_key;
+
+    $response = $this->httpGET($URL);
+    return $this->expectArray($response);
   }
 
   /**
@@ -77,7 +80,10 @@ class Genomes extends HTTPRequest{
    */
   public function show($genome_id){
     $api_key = $this->galaxy->getAPIKey();
-    $url = $this->galaxy->getURL() . '/api/genomes/' . $genome_id .  '?key=' . $api_key;
+    $URL = $this->galaxy->getURL() . '/api/genomes/' . $genome_id .  '?key=' . $api_key;
+
+    $response = $this->httpGET($URL);
+    return $this->expectArray($response);
   }
 
 

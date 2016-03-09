@@ -26,19 +26,19 @@ class Folders extends HTTPRequest {
   private $galaxy;
 
   /**
-	* The Folders constructor.
-	*
-	* @param GalaxyInstance $galaxy
-	*   A GalaxyInstance object.
-	*
-	* @return
-	*   An instance of a Folders object.
-	*
-	* @ingroup folders_class
-	*/
+  * The Folders constructor.
+  *
+  * @param GalaxyInstance $galaxy
+  *   A GalaxyInstance object.
+  *
+  * @return
+  *   An instance of a Folders object.
+  *
+  * @ingroup folders_class
+  */
    public function __construct($galaxy) {
      $this->galaxy = galaxy;
-   	 parent::__construct();
+      parent::__construct();
    }
 
    /**
@@ -52,13 +52,14 @@ class Folders extends HTTPRequest {
     *   function in this class to obtain folder ids.
     *
     * @return
-    *   JSON array containing information about the specified folder.
+    *   An array containing information about the specified folder.
     *
-	* @ingroup folder_contents_class
+  * @ingroup folder_contents_class
     */
    public function show ($folder_id) {
-   	$URL = $this->galaxy->getURL() . '/api/folders/' . 'F' . $folder_id .'/?key=' . $this->galaxy->getAPIKey();
-   	return $this->rest->httpGET($URL);
+     $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' . $folder_id .'/?key=' . $this->galaxy->getAPIKey();
+     $response = $this->httpGET($URL);
+     return $this->expectArray($response);
    }
 
    /**
@@ -77,125 +78,128 @@ class Folders extends HTTPRequest {
     * @return
     *   An array containing information on the new folder.
     *
-	* @ingroup folder_contents_class
+  * @ingroup folder_contents_class
     */
    public function create($parent_folder_id, $name, $description){
-   	$URL = $this->galaxy->getURL() . '/api/folders/' . 'F' . $parent_folder_id . '/?key=' . $this->galaxy->getAPIKey();
-   	$postfields = array(
-   			'name' => $name,
-   			'description' => $description
-   	);
-   	return $this->rest->httpPOST($URL, $postfields);
+     $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' . $parent_folder_id . '/?key=' . $this->galaxy->getAPIKey();
+     $postfields = array(
+         'name' => $name,
+         'description' => $description
+     );
+     $response = $this->httpPOST($URL, $postfields);
+     return $this->expectArray($response);
    }
 
-	/**
-	 * Load all permissions for the folder with the given id.
-	 *
-	 * Corresponds to the Galaxy API/Path:
-	 *   GET /api/folders/{folder_id}/permissions
-	 *
-	 * @param $folder_id
-	 *   The id of the folder to view permissions. The id can be ontained
-	 *   using the index() function in this class.
-	 *
+  /**
+   * Load all permissions for the folder with the given id.
+   *
+   * Corresponds to the Galaxy API/Path:
+   *   GET /api/folders/{folder_id}/permissions
+   *
+   * @param $folder_id
+   *   The id of the folder to view permissions. The id can be ontained
+   *   using the index() function in this class.
+   *
      * @return
      *   An array containing permission information on a specified folder.
      *
-	 * @ingroup folder_contents_class
-	 */
- 	public function getPermissions($folder_id){
- 	 $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' .$folder_id . '/permissions' .'?key=' . $this->galaxy->getAPIKey();
- 	 return $this->rest->httpGET($URL);
- 	}
+   * @ingroup folder_contents_class
+   */
+   public function getPermissions($folder_id){
+    $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' .$folder_id . '/permissions' .'?key=' . $this->galaxy->getAPIKey();
+     $response = $this->httpGET($URL);
+     return $this->expectArray($response);
+   }
 
- 	/**
- 	 * Set permissions for a specified folder.
- 	 *
- 	 * Corresponds to the Galaxy API function/path at:
- 	 *   POST /api/folders/{folder_id}/permissions
- 	 * There are 3 options that can be manipulated:
- 	 * 1. Modify library item: Users can modify this library ($folder_id) item
- 	 * 2. Add library item: Users can add library items to this ($folder_id) item
- 	 * 3. Manage library permissions: Users can manage roles associated with
- 	 * 	  permissions on this library item
- 	 *
- 	 * @param $folder_id
- 	 *   The folder you want to view permissions. To obtain a folder id, please
- 	 *   use the index() function in this class.
- 	 * @param $add_ids
- 	 *   List of users that will have add item permission on the folder. To
- 	 *   obtain a user id, please use the user class's index() function.
- 	 * @param $manage_ids
- 	 *   List of users that will have manage permission on the folder
- 	 * @param $modify_ids
- 	 *   List of users that will have modify permission on the folder
- 	 *
- 	 * @ingroup folders_class
- 	 */
- 	public function setPermissions($folder_id, $add_ids, $manage_ids, $modify_ids){
- 		$URL = $this->galaxy->getURL() . '/api/folders/' . 'F' .$folder_id . '/permissions' .'?key=' . $this->galaxy->getAPIKey();
- 		$postfields = array(
- 				'action' => 'set_permissions',
- 				'add_ids[]' => $add_ids,
- 				'manage_ids[]' => $manage_ids,
- 				'modify_ids[]' => $modify_ids
- 		);
- 		return $this->rest->httpPOST($URL, $postfields);
- 	}
+   /**
+    * Set permissions for a specified folder.
+    *
+    * Corresponds to the Galaxy API function/path at:
+    *   POST /api/folders/{folder_id}/permissions
+    * There are 3 options that can be manipulated:
+    * 1. Modify library item: Users can modify this library ($folder_id) item
+    * 2. Add library item: Users can add library items to this ($folder_id) item
+    * 3. Manage library permissions: Users can manage roles associated with
+    *     permissions on this library item
+    *
+    * @param $folder_id
+    *   The folder you want to view permissions. To obtain a folder id, please
+    *   use the index() function in this class.
+    * @param $add_ids
+    *   List of users that will have add item permission on the folder. To
+    *   obtain a user id, please use the user class's index() function.
+    * @param $manage_ids
+    *   List of users that will have manage permission on the folder
+    * @param $modify_ids
+    *   An array of users that will have modify permission on the folder
+    *
+    * @ingroup folders_class
+    */
+   public function setPermissions($folder_id, $add_ids, $manage_ids, $modify_ids){
+     $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' .$folder_id . '/permissions' .'?key=' . $this->galaxy->getAPIKey();
+     $postfields = array(
+         'action' => 'set_permissions',
+         'add_ids[]' => $add_ids,
+         'manage_ids[]' => $manage_ids,
+         'modify_ids[]' => $modify_ids
+     );
+     $response = $this->httpPOST($URL, $postfields);
+     return $this->expectArray($response);
+   }
 
- 	/**
- 	 * Mark the folder as 'deleted' or 'undeleted'.
- 	 *
- 	 * Corresponds to the Galaxy API function at
- 	 *   DELETE /api/folders/{folder_id}/
- 	 *
- 	 * Only admin users can delete/undelete folders
- 	 *
- 	 * @param $folder_id
- 	 *   The folder you want to delete/undelete. To obtain a folder id, please
- 	 *   use this class's index() function.
- 	 * @param $undelete
- 	 *   Specifying whether the item should be deleted(true) or undeleted
- 	 *   (false).
- 	 *
- 	 * @return
- 	 *   Json Array containing information on the deleted (or undeleted)
- 	 *   folder.
- 	 *
- 	 * @ingroup folders_class
- 	 */
- 	public function delete($folder_id, $undelete = FALSE){
- 		if ($undelete == FALSE){
- 		$URL = $this->galaxy->getURL() . '/api/folders/' . 'F' .$folder_id .'?key=' . $this->galaxy->getAPIKey();
- 		return $this->rest->delete($URL);
- 		}
- 		else{
- 			$URL = $this->galaxy->getURL() . '/api/folders/' . 'F' .$folder_id  .'?key=' . $this->galaxy->getAPIKey(). '&undelete=True';
- 			return $this->rest->delete($URL);
- 		}
- 	}
+   /**
+    * Mark the folder as 'deleted' or 'undeleted'.
+    *
+    * Corresponds to the Galaxy API function at
+    *   DELETE /api/folders/{folder_id}/
+    *
+    * Only admin users can delete/undelete folders
+    *
+    * @param $folder_id
+    *   The folder you want to delete/undelete. To obtain a folder id, please
+    *   use this class's index() function.
+    * @param $undelete
+    *   Specifying whether the item should be deleted(true) or undeleted
+    *   (false).
+    *
+    * @return
+    *   Json Array containing information on the deleted (or undeleted)
+    *   folder.
+    *
+    * @ingroup folders_class
+    */
+   public function delete($folder_id, $undelete = FALSE){
+     if ($undelete == FALSE){
+     $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' .$folder_id .'?key=' . $this->galaxy->getAPIKey();
+     return $this->rest->delete($URL);
+     }
+     else{
+       $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' .$folder_id  .'?key=' . $this->galaxy->getAPIKey(). '&undelete=True';
+       return $this->rest->delete($URL);
+     }
+   }
 
- 	/**
- 	 * Updated the folder's name and description.
- 	 *
- 	 * Corresponds to the Galaxy API/path at:
- 	 *   PATCH /api/folders/{folder_id}/
- 	 *
- 	 *  Only admin users can update folders.
- 	 *
- 	 * @param $folder_id
- 	 *   The folder you want to update
- 	 * @param $payload
- 	 *   An array that contains 'name' => [new_name] and 'description' => [can be null].
- 	 *
- 	 * @return
- 	 *   Json array containing details about the deleted file history content.
- 	 *
- 	 * @ingroup folders_class
- 	 */
- 	public function update($folder_id, $payload){
- 	  $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' .$folder_id .'/?key=' . $this->galaxy->getAPIKey();
- 	  return $this->rest->PATCH($URL, $payload);
- 	}
+   /**
+    * Updated the folder's name and description.
+    *
+    * Corresponds to the Galaxy API/path at:
+    *   PATCH /api/folders/{folder_id}/
+    *
+    *  Only admin users can update folders.
+    *
+    * @param $folder_id
+    *   The folder you want to update
+    * @param $payload
+    *   An array that contains 'name' => [new_name] and 'description' => [can be null].
+    *
+    * @return
+    *   Json array containing details about the deleted file history content.
+    *
+    * @ingroup folders_class
+    */
+   public function update($folder_id, $payload){
+     $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' .$folder_id .'/?key=' . $this->galaxy->getAPIKey();
+     return $this->rest->PATCH($URL, $payload);
+   }
 
 }

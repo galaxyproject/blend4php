@@ -24,19 +24,19 @@ require_once 'HTTPRequest.inc';
 class Jobs extends HTTPRequest{
   private $galaxy;
   /**
-	* The Jobs constructor.
-	*
-	* @param GalaxyInstance $galaxy
-	*   A GalaxyInstance object.
-	*
-	* @return
-	*   An instance of a Jobs object.
-	*
-	* @ingroup jobs_class
-	*/
+  * The Jobs constructor.
+  *
+  * @param GalaxyInstance $galaxy
+  *   A GalaxyInstance object.
+  *
+  * @return
+  *   An instance of a Jobs object.
+  *
+  * @ingroup jobs_class
+  */
    public function __construct($galaxy){
      $this->galaxy = galaxy;
-	   parent::__construct();
+     parent::__construct();
     }
 
   /**
@@ -52,14 +52,15 @@ class Jobs extends HTTPRequest{
     *   The job id can be ontained from this class's index() function.
     *
     * @return
-    *   JSON object containing ouput informaiton of the tool that has been
+    *   An array containing ouput informaiton of the tool that has been
     *   built.
     *
     * @ingroup jobs_class
     */
    public function buildForRerun($job_id){
-	 $URL = $this->galaxy->getURL() . '/api/jobs/' . $job_id . '/build_for_rerun/?key=' . $this->galaxy->getAPIKey();
-	 return $this->rest->httpGET($URL);
+   $URL = $this->galaxy->getURL() . '/api/jobs/' . $job_id . '/build_for_rerun/?key=' . $this->galaxy->getAPIKey();
+   $response = $this->httpGET($URL);
+     return $this->expectArray($response);
    }
 
    /**
@@ -73,13 +74,14 @@ class Jobs extends HTTPRequest{
     *   The job id can be ontained from this class's index() function.
     *
     * @return
-    *   JSON object containing ouput informaiton of the job input.
+    *   An array containing ouput informaiton of the job input.
     *
     * @ingroup jobs_class
     */
    public function inputs($job_id){
-	 $URL = $this->galaxy->getURL() . '/api/jobs/' . $job_id . '/inputs/?key=' . $this->galaxy->getAPIKey();
-	 return $this->rest->httpGET($URL);
+   $URL = $this->galaxy->getURL() . '/api/jobs/' . $job_id . '/inputs/?key=' . $this->galaxy->getAPIKey();
+   $response = $this->httpGET($URL);
+     return $this->expectArray($response);
    }
 
    /**
@@ -93,13 +95,14 @@ class Jobs extends HTTPRequest{
     *   The job id can be ontained from this class's index() function.
     *
     * @return
-    *   JSON object containing ouput informaiton of the job outputs.
+    *   An array containing ouput informaiton of the job outputs.
     *
     * @ingroup jobs_class
     */
    public function outputs($job_id){
-	 $URL = $this->galaxy->getURL() . '/api/jobs/' . $job_id . '/outputs/?key=' . $this->galaxy->getAPIKey();
-	 return $this->rest->httpGET($URL);
+   $URL = $this->galaxy->getURL() . '/api/jobs/' . $job_id . '/outputs/?key=' . $this->galaxy->getAPIKey();
+   $response = $this->httpGET($URL);
+     return $this->expectArray($response);
    }
 
    /**
@@ -118,7 +121,7 @@ class Jobs extends HTTPRequest{
     * @ingroup jobs_class
     */
    public function show($job_id){
-	 $URL = $this->galaxy->getURL() . '/api/jobs/' . $job_id . '/?key=' . $this->galaxy->getAPIKey();
+   $URL = $this->galaxy->getURL() . '/api/jobs/' . $job_id . '/?key=' . $this->galaxy->getAPIKey();
    }
 
   /**
@@ -144,36 +147,37 @@ class Jobs extends HTTPRequest{
     *   To find the history id, please refer to the history class.
     *
     * @return
-    *   JSON array ocntaining a list of all the jobs that matched
+    *   An array containing a list of all the jobs that matched
     *   the given parameters.
     *
     * @ingroup jobs_class
     */
    public function index($state, $tool_ids = null, $date_range_min = null, $date_range_max=null,
-		$history_id = null){
-	 $URL = $this->galaxy->getURL() . '/api/jobs/?';
-	 if($tool_ids !== null){
-	 	if(!is_array($tool_id))
-	 	{ return "tool_id must be an array of tool_id's, or null"; }
+    $history_id = null){
+   $URL = $this->galaxy->getURL() . '/api/jobs/?';
+   if($tool_ids !== null){
+     if(!is_array($tool_id))
+     { return "tool_id must be an array of tool_id's, or null"; }
 
-	    foreach($tool_ids as &$tool_id) {
-	    	$URL .= 'tool_id=' . $tool_id . '&';
-	    }
-	 }
+      foreach($tool_ids as &$tool_id) {
+        $URL .= 'tool_id=' . $tool_id . '&';
+      }
+   }
 
-	if($date_range_min !==null) {
-		$URL .= 'date_range_min='. $date_range_min . '&';
-	}
-	if($date_range_max !== null) {
-		$URL .='date_range_max='.$date_range_max . '&';
-	}
-	if($history_id !== null ){
-		$URL .='history_id=' . $history_id . '&';
-	}
+  if($date_range_min !==null) {
+    $URL .= 'date_range_min='. $date_range_min . '&';
+  }
+  if($date_range_max !== null) {
+    $URL .='date_range_max='.$date_range_max . '&';
+  }
+  if($history_id !== null ){
+    $URL .='history_id=' . $history_id . '&';
+  }
 
-	$URL .= 'key=' . $this->galaxy->getAPIKey();
+  $URL .= 'key=' . $this->galaxy->getAPIKey();
 
-	return $this->rest->httpGET($URL);
+  $response = $this->httpGET($URL);
+     return $this->expectArray($response);
    }
 
 
@@ -192,7 +196,7 @@ class Jobs extends HTTPRequest{
     * @ingroup jobs_class
     */
    public function create(){
-	 return null;
+   return null;
    }
 
 
@@ -222,39 +226,45 @@ class Jobs extends HTTPRequest{
     *   Array of dataset id's where the tool should grab the inputs from,
     *   similar to workflow_invoke.
     *
+    * @return
+    *   An array of jobs matching the provided arguments.
+    *
     * @ingroup jobs_class
     */
-   public function search($tool_id=NULL,  $input_dataset_ids=array(), $history_id = NULL,$tool_version=NULL,
- 		$region = NULL,  $action = NULL){
- 	 $URL = $this->galaxy->getURL() . '/api/jobs/search/?key=' . $this->galaxy->getAPIKey();
+   public function search($tool_id = NULL,  $input_dataset_ids = array(),
+     $history_id = NULL, $tool_version = NULL, $region = NULL,  $action = NULL){
 
- 	 $input_ids = array();
- 	 $i =0;
+    $URL = $this->galaxy->getURL() . '/api/jobs/search/?key=' . $this->galaxy->getAPIKey();
 
- 	 foreach($input_dataset_ids as &$input_dataset_id){
- 		$input_ids[$i] = array('id'=> $input_dataset_id, 'src'=>'hda');
- 		$i++;
- 	 }
+    $input_ids = array();
+    $i =0;
 
- 	 $elements = array(
-		'tool_id' => $tool_id,
-		'tool_version' => $tool_version,
- 		'inputs' => json_encode($input_ids,JSON_FORCE_OBJECT),
- 		'history_id'=>$history_id,
- 		'region' => $region,
- 		'action' => $action,
-	 );
- 	 //create a list of input items that is not null
- 	 $notNullInputs = array();
- 	 foreach($elements as $element=>$value) {
- 	 	if($value != NULL) {
- 	 		$notNullInputs[$element] = $value;
- 	 	}
- 	 }
+    foreach($input_dataset_ids as &$input_dataset_id){
+      $input_ids[$i] = array('id'=> $input_dataset_id, 'src'=>'hda');
+      $i++;
+    }
 
- 	return $this->rest->httpPOST($URL, $notNullInputs);
+    $elements = array(
+      'tool_id' => $tool_id,
+      'tool_version' => $tool_version,
+      'inputs' => json_encode($input_ids,JSON_FORCE_OBJECT),
+      'history_id'=>$history_id,
+      'region' => $region,
+      'action' => $action,
+    );
 
-   }
+    // Create a list of input items that is not null.
+    $notNullInputs = array();
+    foreach($elements as $element=>$value) {
+      if($value != NULL) {
+        $notNullInputs[$element] = $value;
+      }
+    }
+
+    $response = $this->httpPOST($URL, $notNullInputs);
+    return $this->expectArray($response);
+
+  }
 }
 
 

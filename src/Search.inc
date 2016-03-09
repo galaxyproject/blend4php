@@ -24,44 +24,45 @@ include_once 'HTTPRequest.inc';
 class Search extends HTTPRequest{
   private $galaxy;
 
-	/**
-	 * Implements the Search constructor.
-	 *
-	 * @param GalaxyInstance galaxy
-	 *   A Galaxy Instance object.
-	 *
-	 * @return
-	 *   An instance of a search object.
-	 *
+  /**
+   * Implements the Search constructor.
+   *
+   * @param GalaxyInstance galaxy
+   *   A Galaxy Instance object.
+   *
+   * @return
+   *   An instance of a search object.
+   *
      * @ingroup search_class
-	 */
-	function __construct($galaxy) {
-	  $this->galaxy = galaxy;
-		parent::__construct();
-	}
+   */
+  function __construct($galaxy) {
+    $this->galaxy = galaxy;
+    parent::__construct();
+  }
 
 
-	/**
-	 * Performs a search of the various elements in Galaxy.
-	 *
-	 * Corresponds to the galaxy method/path:
-	 *   Post /api/search
+  /**
+   * Performs a search of the various elements in Galaxy.
+   *
+   * Corresponds to the galaxy method/path:
+   *   Post /api/search
      *
-	 * @param $query,
-	 *   must be a valid, lowercase,  SQL expression, example:
-	 *   'select * from history where id = \'290670ee50ab85f0\''
-	 *
-	 * @return
-	 *   JSON object of the Galaxy element that matches the query.
-	 *
+   * @param $query,
+   *   must be a valid, lowercase,  SQL expression, example:
+   *   'select * from history where id = \'290670ee50ab85f0\''
+   *
+   * @return
+   *   An array of the Galaxy elements that matches the query.
+   *
      * @ingroup search_class
-	 */
+   */
    function create($query) {
-   	$url = $this->galaxy->getURL() . '/api/search/?key=' . $this->galaxy->getAPIKey();
-   	$elements = array (
-   		'query'=>$query,
-   	);
-   	return  $this->rest->httpPOST($url, $elements);
+     $URL = $this->galaxy->getURL() . '/api/search/?key=' . $this->galaxy->getAPIKey();
+     $elements = array (
+       'query'=> $query,
+     );
+     $response = $this->httpPOST($URL, $elements);
+     return $this->expectArray($response);
    }
 
 

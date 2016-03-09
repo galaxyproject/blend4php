@@ -64,7 +64,7 @@ class HistoryContents extends HTTPRequest {
    *   Or refer to the Datasets class
    *
    * @return
-   * Json array containing information about the new History content component.
+   *   An array containing information about the new History content component.
    *
    * @ingroup history_content_class
    */
@@ -77,7 +77,8 @@ class HistoryContents extends HTTPRequest {
         $notNullInputs[$element] = $value;
       }
     }
-    return $this->rest->httpPOST($URL, $notNullInputs);
+    $response = $this->httpPOST($URL, $notNullInputs);
+     return $this->expectArray($response);
   }
 
   /**
@@ -94,13 +95,14 @@ class HistoryContents extends HTTPRequest {
    *   'Histories' class.
    *
    * @return
-   *   Json array containing detailed HDA (history dataset association) information.
+   *   An array containing detailed HDA (history dataset association) information.
    *
    * @ingroup history_content_class
    */
   public function show($history_id, $content_id) {
     $URL = $this->galaxy->getURL() .'/api/histories/' .$history_id .'/contents/' .$content_id .'/?key=' .$this->galaxy->getAPIKey();
-    return $this->rest->httpGET($URL);
+    $response = $this->httpGET($URL);
+    return $this->expectArray($response);
   }
 
   /**
@@ -122,14 +124,17 @@ class HistoryContents extends HTTPRequest {
    *   annotation for the hda
    *
    * @return
-   *   Json array containing detailed HDA (history dataset association) information.
+   *   An array containing detailed HDA (history dataset association)
+   *   information.
    *
    * @ingroup history_content_class
    */
   public function update($history_id, $content_id, $annotation = '') {
     $URL = $this->galaxy->getURL() .'/api/histories/' .$history_id .'/contents/' .$content_id .'/?key=' .$this->galaxy->getAPIKey();
     $elements = array('annotation' => $annotation);
-    return $this->rest->httpPUT($URL, $elements);
+
+    $response = $this->httpPUT($URL, $elements);
+    return $this->expectArray($response);
   }
 
   /**
@@ -152,16 +157,19 @@ class HistoryContents extends HTTPRequest {
    *   page as well.
    *
    * @return
-   *   Json array containing detailed HDA (history dataset association) information.
+   *   An array containing detailed HDA (history dataset association)
+   *   information.
    *
    * @ingroup history_content_class
    */
   public function delete($history_id, $content_id, $purge = false) {
-    $URL = $this->galaxy->getURL() .'/api/histories/' .$history_id .'/contents/' .$content_id .'/?key=' .$this->galaxy->getAPIKey();
+    $URL = $this->galaxy->getURL() . '/api/histories/' . $history_id .
+           '/contents/' . $content_id . '/?key=' . $this->galaxy->getAPIKey();
     if ($purge) {
       $URL .= '&purge=true';
     }
-    return $this->rest->delete($URL);
+    $response =  $this->httpDELETE($URL);
+    return $this->expectArray($response);
   }
 
   /**
@@ -178,8 +186,8 @@ class HistoryContents extends HTTPRequest {
    *   The return JSON.
    *
    * @return
-   *   JSON information containing summary or
-   *   detailed HDA(history dataset association) of all the history contents.
+   *   An array containing a summary or detailed HDA(history dataset
+   *   association) of all the history contents.
    *
    * @ingroup history_content_class
    */
@@ -189,6 +197,8 @@ class HistoryContents extends HTTPRequest {
     if ($ids !==NULL) {
       $URL .= '/&ids=' .$ids;
     }
-    return $this->rest->httpGET($URL);
+
+    $response = $this->httpGET($URL);
+    return $this->expectArray($response);
   }
 }

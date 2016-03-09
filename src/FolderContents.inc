@@ -26,19 +26,19 @@ class FolderContents extends HTTPRequest {
   private $galaxy;
 
   /**
-	* The FolderContents constructor.
-	*
-	* @param GalaxyInstance $galaxy
-	*   A GalaxyInstance object.
-	*
-	* @return
-	*   An instance of a FolderContents object.
-	*
-	* @ingroup folder_contents_class
-	*/
+  * The FolderContents constructor.
+  *
+  * @param GalaxyInstance $galaxy
+  *   A GalaxyInstance object.
+  *
+  * @return
+  *   An instance of a FolderContents object.
+  *
+  * @ingroup folder_contents_class
+  */
    public function __construct($galaxy) {
      $this->galaxy = galaxy;
-   	 parent::__construct();
+      parent::__construct();
    }
 
    /**
@@ -51,13 +51,14 @@ class FolderContents extends HTTPRequest {
     *   Id of the folder whos contents to display.
     *   To obtain id, see the index() function in the Folder class.
     * @return
-    *   JSON array of The specified folder's contents
+    *   An array of The specified folder's contents
     *
-	* @ingroup folder_contents_class
+    * @ingroup folder_contents_class
     */
    public function index ($folder_id) {
-   	$URL = $this->galaxy->getURL() . '/api/folders/' . 'F' . $folder_id . '/contents' .'/?key=' . $this->galaxy->getAPIKey();
-   	return $this->rest->httpGET($URL);
+     $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' . $folder_id . '/contents' .'/?key=' . $this->galaxy->getAPIKey();
+     $response = $this->httpGET($URL);
+     return $this->expectArray($response);
    }
 
    /**
@@ -79,57 +80,58 @@ class FolderContents extends HTTPRequest {
     *   item.
     *
     * @return
-    *   JSON array containing the newly created folder content
+    *   An array containing the newly created folder content.
     *
-	* @ingroup folder_contents_class
+  * @ingroup folder_contents_class
     */
    public function create($parent_folder_id, $from_hda_id = NULL, $ldda_message = NULL, $extended_metadata = NULL){
-   	$URL = $this->galaxy->getURL() . '/api/folders/' . 'F' . $parent_folder_id . '/contents/?key=' . $this->galaxy->getAPIKey();
-   	$postfields = array(
-   			'name' => $name,
-   			'description' => $description,
-   	);
-   	if($from_hda_id !== NULL){
-   	  $postfields['from_hda_id'] = $from_hda_id;
-   	}
-   	if($ldda_message!==NULL){
-   		$postfields['ldda_message'] = $ldda_message;
-   	}
+     $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' . $parent_folder_id . '/contents/?key=' . $this->galaxy->getAPIKey();
+     $postfields = array(
+         'name' => $name,
+         'description' => $description,
+     );
+     if($from_hda_id !== NULL){
+       $postfields['from_hda_id'] = $from_hda_id;
+     }
+     if($ldda_message!==NULL){
+       $postfields['ldda_message'] = $ldda_message;
+     }
 
-   	return $this->rest->httpPOST($URL, $postfields);
+     $response = $this->httpPOST($URL, $postfields);
+     return $this->expectArray($response);
    }
 
-	/**
-	 * Retreive details of for a specified folder.
-	 *
-	 * Corresponds to the Galaxy API/path:
-	 *   GET /api/folders/{folder_id}/
-	 *
-	 * @param $folder_id
-	 *   The id of the folder to view
-	 *
-	 * @return
-	 *   False.
-	 *
-	 * @ingroup folder_contents_class
-	 */
- 	public function show($folder_id){
-	  //Not implemented in the python counterpart
- 	  return FALSE;
- 	}
+  /**
+   * Retreive details of for a specified folder.
+   *
+   * Corresponds to the Galaxy API/path:
+   *   GET /api/folders/{folder_id}/
+   *
+   * @param $folder_id
+   *   The id of the folder to view
+   *
+   * @return
+   *   False.
+   *
+   * @ingroup folder_contents_class
+   */
+   public function show($folder_id){
+    //Not implemented in the python counterpart
+     return FALSE;
+   }
 
- 	/**
- 	 * Update the contents to a specific folder
- 	 *
- 	 * Corresponds to the Galaxy API/PATH
- 	 *   PUT /api/folders/{folder_id}/
- 	 *
- 	 * @return
- 	 *   False.
- 	 *
+   /**
+    * Update the contents to a specific folder
+    *
+    * Corresponds to the Galaxy API/PATH
+    *   PUT /api/folders/{folder_id}/
+    *
+    * @return
+    *   False.
+    *
      * @ingroup folder_contents_class
- 	 */
- 	public function update($folder_id, $add_ids, $manage_ids, $modify_ids){
+    */
+   public function update($folder_id, $add_ids, $manage_ids, $modify_ids){
     //Not implemented by the python counterpart.
     return FALSE;
   }
