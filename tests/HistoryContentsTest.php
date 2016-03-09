@@ -1,5 +1,6 @@
 <?php
 require_once '../src/HistoryContents.inc';
+require_once '../src/Tools.inc';
 require_once '../src/GalaxyInstance.inc';
 require_once './testConfig.inc';
 require_once './testConfig.inc';
@@ -13,25 +14,40 @@ class HistoryContentsTest extends PHPUnit_Framework_TestCase {
 	 * Intializes the Galaxy object for all of the tests.
 	 *
 	 * This function provides the $galaxy object to all other tests as they
-	 * are dependent on this one.
-	 *
-	 *
+	 * are  on this one.
 	 */
 	function testInitGalaxy() {
 		global $config;
 	
 		// Connect to Galaxy.
 		$galaxy = new GalaxyInstance($config['host'], $config['port'], FALSE);
-		$success = $galaxy->authenticate($config['email'], $config['pass']);
-		$this->assertTrue($success, $galaxy->getErrorMessage());
 	
+		$response = $galaxy->authenticate($config['email'], $config['pass']);
+	
+
 		return $galaxy;
-	}	
+	}
+	
+	/**
+	 * 
+	 * @depends testInitGalaxy
+	 */
+	function testSetUp($galaxy){
+		global $config;
+		
+		//Create a tool for uploading files
+		$tool = new Tools($galaxy, array('1'), '500665cb113baad6' );
+		$uploadTool = $tool->create('upload1');
+		print(" \t \n This is the contents of the tool!!!! \n");
+		print_r($uploadTool);
+		//print($uploadTool->getErrorMessage());
+	}
+	
 	
 	/**
 	 * Tests the history content index function
 	 * 
-	 * @depends testInitGalaxy
+	 * @depends setUp
 	 */
 	function testIndex($galaxy){
 		global $config;
@@ -58,7 +74,7 @@ class HistoryContentsTest extends PHPUnit_Framework_TestCase {
 	 * 
 	 * creates a new histor content
 	 * 
-	 * @depends testInitGalaxy
+	 * @depends testIndex
 	 */
 	function testCreate($galaxy){
 		global $config;

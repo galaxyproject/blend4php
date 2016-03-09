@@ -267,7 +267,7 @@ class Tools extends HTTPRequest{
    *
    * @ingroup tools_class
    */
-   public function create($tool_id,  $input_dataset_ids, $history_id = NULL, $tool_version=NULL,
+   public function create($tool_id,  $input_dataset_ids = array(), $history_id = NULL, $tool_version=NULL,
         $region = NULL, $action = NULL ) {
 
      $URL = $this->galaxy->getURL() . '/api/tools/?key=' . $this->galaxy->getAPIKey();
@@ -279,6 +279,8 @@ class Tools extends HTTPRequest{
        $i++;
      }
 
+     //EDIT: PLAYING WITH FILEUPLOAD. HENCE THE 'FILES' ELEMENT
+     // Poop.jpg is located in my galaxy directory
      $elements = array(
        'tool_id' => $tool_id,
        'tool_version' => $tool_version,
@@ -286,6 +288,7 @@ class Tools extends HTTPRequest{
        'history_id' => $history_id,
        'region' => $region,
        'action' => $action,
+     	 'files_' => json_encode(array('/poop.jpg'),JSON_FORCE_OBJECT),
      );
 
      // Create a list of input items that is not null

@@ -25,7 +25,7 @@ class DataSetsTest extends PHPUnit_Framework_TestCase {
 	}	
 	
   /**
-   *  Tests the index() function.
+   *  Tests the index() function.q
    *
    *  The index function retrieves a list of data sets.
    */
