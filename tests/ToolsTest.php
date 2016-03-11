@@ -39,6 +39,7 @@ class ToolsTest extends PHPUnit_Framework_TestCase {
     // it installed on the given instance.
     // This particular id is found in the default instances of galaxy.
     $tools_list = $tools->index('upload1');
+    print_r ($tools_list);
     $this->assertTrue(is_array($tools_list), $tools->getErrorMessage());
 
     // Case 3: Specify a given text query on whether the name of a tool exists.
@@ -75,6 +76,7 @@ class ToolsTest extends PHPUnit_Framework_TestCase {
 
     // Case 1: View all tools, no filtering out.
     $tool = $tools->show($tools_list[0]['elems'][0]['id']);
+    print_r($tool);
     $this->assertTrue(is_array($tool), $tools->getErrorMessage());
   }
 
@@ -164,6 +166,6 @@ class ToolsTest extends PHPUnit_Framework_TestCase {
    */
   public function testCreate($galaxy){
     $tools = new Tools($galaxy);
-		
+    //
   }
 }

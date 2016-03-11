@@ -69,8 +69,8 @@ class HistoryContents extends HTTPRequest {
    * @ingroup history_content_class
    */
   public function create($history_id, $content_id, $source = 'hda') {
-    $URL = $this->galaxy->getURL() .'/api/histories/' . $history_id .'/contents/dataset/?key=' . $this->galaxy->getAPIKey();
-    $elements = array('source' => $source,'content' => $content_id);//,'collection_type' => $collection_type,'element_identifiers' => $element_identifiers,'collection_type' => $collection_type);
+    $URL = $this->galaxy->getURL() . '/api/histories/' . $history_id . '/contents/dataset/?key=' . $this->galaxy->getAPIKey();
+    $elements = array('source' => $source, 'content' => $content_id);
     $notNullInputs = array();
     foreach ($elements as $element => $value) {
       if ($value != NULL) {
@@ -100,7 +100,7 @@ class HistoryContents extends HTTPRequest {
    * @ingroup history_content_class
    */
   public function show($history_id, $content_id) {
-    $URL = $this->galaxy->getURL() .'/api/histories/' .$history_id .'/contents/' .$content_id .'/?key=' .$this->galaxy->getAPIKey();
+    $URL = $this->galaxy->getURL() . '/api/histories/' . $history_id . '/contents/' . $content_id .'/?key=' . $this->galaxy->getAPIKey();
     $response = $this->httpGET($URL);
     return $this->expectArray($response);
   }
@@ -130,7 +130,7 @@ class HistoryContents extends HTTPRequest {
    * @ingroup history_content_class
    */
   public function update($history_id, $content_id, $annotation = '') {
-    $URL = $this->galaxy->getURL() .'/api/histories/' .$history_id .'/contents/' .$content_id .'/?key=' .$this->galaxy->getAPIKey();
+    $URL = $this->galaxy->getURL() . '/api/histories/' . $history_id . '/contents/' . $content_id . '/?key=' . $this->galaxy->getAPIKey();
     $elements = array('annotation' => $annotation);
 
     $response = $this->httpPUT($URL, $elements);
@@ -163,8 +163,7 @@ class HistoryContents extends HTTPRequest {
    * @ingroup history_content_class
    */
   public function delete($history_id, $content_id, $purge = false) {
-    $URL = $this->galaxy->getURL() . '/api/histories/' . $history_id .
-           '/contents/' . $content_id . '/?key=' . $this->galaxy->getAPIKey();
+    $URL = $this->galaxy->getURL() . '/api/histories/' . $history_id . '/contents/' . $content_id . '/?key=' . $this->galaxy->getAPIKey();
     if ($purge) {
       $URL .= '&purge=true';
     }
@@ -192,9 +191,8 @@ class HistoryContents extends HTTPRequest {
    * @ingroup history_content_class
    */
   public function index($history_id, $ids = NULL) {
-    $URL = $this->galaxy->getURL() .'/api/histories/' .$history_id .'/contents';
-    $URL .= '/?key=' .$this->galaxy->getAPIKey();
-    if ($ids !==NULL) {
+    $URL = $this->galaxy->getURL() . '/api/histories/' . $history_id . '/contents' . '/?key=' . $this->galaxy->getAPIKey();
+    if ($ids !== NULL) {
       $URL .= '/&ids=' .$ids;
     }
 

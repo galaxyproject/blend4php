@@ -288,7 +288,7 @@ class Tools extends HTTPRequest{
        'history_id' => $history_id,
        'region' => $region,
        'action' => $action,
-     	 'files_' => json_encode(array('/poop.jpg'),JSON_FORCE_OBJECT),
+       'files_' => json_encode(array('/poop.jpg'),JSON_FORCE_OBJECT),
      );
 
      // Create a list of input items that is not null

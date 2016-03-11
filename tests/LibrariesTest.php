@@ -30,7 +30,7 @@ class LibrariesTest extends PHPUnit_Framework_TestCase {
     $libraries = new Libraries($galaxy);
 
     // Case 1: Create a new library.
-    $library_name = uniqid('galaxy-php-test-library1-');
+    $library_name = uniqid('galaxy-php-test-library1');
     $library = $libraries->create($library_name, 'Test library #1', 'Synopsis string.');
     $this->assertTrue(is_array($library), $libraries->getErrorMessage());
 

@@ -51,16 +51,16 @@ class Histories extends HTTPRequest {
     *    Note the option to pass 'keys' and 'views' is currently not supported
     *
     * @param name
-    *   the new history's name
+    *   The new history's name
     * @param history_id
     *   The id of the history to copy (will copy contents to new history)
     *   To obtain history_id's, please use this classes' index() function.
-    * @param bool all_datasets
-    *   Copy deleted hdas/hdcas  'True' or 'False', defaults to True.
     * @param archive_source
     *   The url that will generate the archive to import.
     * @param archive_type
     *   'url' (default)
+    * @param bool all_datasets
+    *   Copy deleted hdas/hdcas  'True' or 'False', defaults to True.
     *
     * @return
     *    An array containing information about the new History component.

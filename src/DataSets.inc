@@ -125,7 +125,7 @@ class Datasets extends HTTPRequest {
      * @defgroup data_sets_class
     */
    public function show($dataset_id){
-     $URL = $this->galaxy->getURL().'/api/datasets/'.$dataset_id.'/?key=' . $this->galaxy->getAPIKey();
+     $URL = $this->galaxy->getURL().'/api/datasets/' . $dataset_id . '/?key=' . $this->galaxy->getAPIKey();
      $response = $this->httpGET($URL);
      return $this->expectArray($response);
    }
