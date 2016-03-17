@@ -12,20 +12,31 @@
  */
 
  // just use control + shift
-// $config = array(
-//   "host" =>  'localhost',
-//   "user" =>  'bob',
-//   "email" => 'bob@gmail.com',
-//   "pass" =>  'password',
-//   "port" =>  '8080',
-//   "api_key" =>  '7ef496ca9fee28566c59bc2c9d8bddae',
+/* $config = array(
+  "host" =>  'localhost',
+  "user" =>  'bob',
+  "email" => 'bob@gmail.com',
+  "pass" =>  'password',
+  "port" =>  '8080',
+  "api_key" =>  '7ef496ca9fee28566c59bc2c9d8bddae',
 
-// );
+ ); 
+*/
+
+ //For a second computer
+ $config = array(
+ 		"host" =>  'localhost',
+ 		"user" =>  'bob',
+ 		"email" => 'bob@gmail.com',
+ 		"pass" =>  'password',
+ 		"port" =>  '8080',
+ 		"api_key" =>  '28a4542f4e1aa3f5bb930b34ccfb1217',
+ 
+ );
 
 
 
-
-
+/* 
 $config = array(
   "host" =>  'localhost',
   "user" =>  'spficklin',
@@ -33,4 +44,4 @@ $config = array(
   "pass" =>  'testing123',
   "port" =>  '8090',
   "api_key" =>  'afcbaa548c3af9cd0478d1c8543a55da',
-);
+); */

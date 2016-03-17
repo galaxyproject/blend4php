@@ -185,7 +185,7 @@ class HTTPRequest  {
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, True);
     if ($post_fields !== NULL) {
-      curl_setopt($ch, CURLOPT_POSTFIELDS, $post_fields);
+      curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($post_fields));
     }
 
     $response = $this->getCURLResponse($ch);

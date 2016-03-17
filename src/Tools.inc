@@ -28,7 +28,7 @@ class Tools extends HTTPRequest{
    *
    * @param GalaxyInstance $galaxy
    *   A GalaxyInstance object.
-   *
+   *   
    * @return
    *   An instance of a Tools object.
    *
