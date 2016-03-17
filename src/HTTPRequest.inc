@@ -178,16 +178,17 @@ class HTTPRequest  {
    *
    * @ingroup rest_manager_class
    */
-  protected function httpPOST($URL, $input = NULL) {
+  protected function httpPOST($URL, $post_fields = NULL) {
+
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $URL);
     curl_setopt($ch, CURLOPT_POST, 1);
-    if ($input !== NULL) {
-      curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($input));
-    }
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, True);
+    if ($post_fields !== NULL) {
+      curl_setopt($ch, CURLOPT_POSTFIELDS, $post_fields);
+    }
+
     $response = $this->getCURLResponse($ch);
-    curl_close($ch);
 
     return $response;
   }

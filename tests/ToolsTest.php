@@ -75,7 +75,6 @@ class ToolsTest extends PHPUnit_Framework_TestCase {
 
     // Case 1: View all tools, no filtering out.
     $tool = $tools->show($tools_list[0]['elems'][0]['id']);
-    print_r($tool);
     $this->assertTrue(is_array($tool), $tools->getErrorMessage());
   }
 
@@ -153,7 +152,7 @@ class ToolsTest extends PHPUnit_Framework_TestCase {
     // or may not be compatible with other workflows/datasets etc.
     $build = $tools->build($tools_list[0]['elems'][0]['id'], $history_list[0]['id'], $tools_list[0]['elems'][0]['version']);
     $this->assertTrue(is_array($build), $tools->getErrorMessage());
-  }
+   }
 
   /**
    * This funciton executes the specified tool given the inputs.
@@ -165,6 +164,25 @@ class ToolsTest extends PHPUnit_Framework_TestCase {
    */
   public function testCreate($galaxy){
     $tools = new Tools($galaxy);
-    //
+
+    // We need a history object in which to place uploaded files for the tool.
+    $histories = new Histories($galaxy);
+    $history_list = $histories->index();
+
+    // Case 1: Upload a file usinng the upload1 tool
+    //Be sure to make the file something every tester can use
+    $files = array(
+      'file_names' => array(
+         0=> 'test.bed',
+       ),
+      'file_paths' => array(
+         0=> getcwd() . '/files/test.bed',
+       )
+     );
+    $tool = $tools->create('upload1', $history_list[0]['id'], $files);
+    $this->assertTrue(is_array($tool), $tools->getErrorMessage());
+
+    // Case 2:  Check that a job was actually added.
+    $this->assertTrue(array_key_exists('jobs', $tool), "File uploaded to upload1 tool, but job was not created: " . print_r($tool, TRUE));
   }
 }

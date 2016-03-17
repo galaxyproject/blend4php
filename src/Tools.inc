@@ -246,50 +246,101 @@ class Tools extends HTTPRequest{
    * Corresponds to the Galaxy API/path at
    *   POST /api/tools
    *
-   * @param action
-   *   Optional, 'rerun' to rerun the tool and not execute
    * @param $tool_id
    *   The id of the specified tool. To obtain a tool id, please use this
    *   class index() function.
-   * @param tool_version
-   *   Optional, specify specific tool version for the tool.
    * @param history_id
    *   The history_id where the tool is located. To obtain history id's please
    *   see the history class.
-   * @param region
-   *   Optional information on the region of the genome being rerun.
+   * @param files an array of file infromation, the array should be NULL or in the
+   *   following format:
+         $files = array(
+           0 => array(
+             'name' => [file name],
+             'path' => [full path to the file],
+           ),
+           1 => array(
+            'name' => [file name],
+             'path' => [full path to the file],
+           ),
+           ...
+         );
+   *   where index i of filepaths and index i of
+   *   filenames corresponds to the same file.
    * @param input_dataset_ds
    *   Array of dataset id's where the tool should grab the inputs from.
    *   Please see the datasets class to obtain id's.
+   * @param tool_version
+   *   Optional, specify specific tool version for the tool.
+   * @param region
+   *   Optional information on the region of the genome being rerun.
+   * @param action
+   *   Optional, 'rerun' to rerun the tool and not execute
    *
    * @return
    *   An array containing information about the created or executed tool.
    *
    * @ingroup tools_class
    */
-   public function create($tool_id,  $input_dataset_ids = array(), $history_id = NULL, $tool_version=NULL,
-        $region = NULL, $action = NULL ) {
+   public function create($tool_id, $history_id, $files = NULL,
+       $input_dataset_ids = array(), $tool_version = NULL, $region = NULL,
+       $action = NULL) {
 
-     $URL = $this->galaxy->getURL() . '/api/tools/?key=' . $this->galaxy->getAPIKey();
+     if (!$tool_id) {
+       $this->setError('API', 'Please provide a tool_id');
+     }
+     if (!$history_id) {
+       $this->setError('API', 'Please provide a history_id');
+     }
+
+     $URL = $this->galaxy->getURL() . '/api/tools?key=' . $this->galaxy->getAPIKey();
 
      $input_ids = array();
      $i = 0;
-     foreach ($input_dataset_ids as &$input_dataset_id) {
+     // Add any pre-existing Dataset ids to the inputs variables
+     foreach ($input_dataset_ids as $input_dataset_id) {
        $input_ids[$i] = array('id'=> $input_dataset_id, 'src'=>'hda');
        $i++;
      }
+     $inputs = $input_ids;
 
-     //EDIT: PLAYING WITH FILEUPLOAD. HENCE THE 'FILES' ELEMENT
-     // Poop.jpg is located in my galaxy directory
+     if($files !== NULL){
+       //Append the appropriate file informaiton:
+       $index =0;
+       if( array_key_exists("file_names", $files) and array_key_exists("file_paths", $files)){
+         foreach($files['file_paths'] as $file_path){
+           $file_data = "files_" . $index . "|file_data";
+           $file_name = "files_" . $index . "|NAME";
+           $file_to_posix_lines = "files_" . $index . "|to_posix_lines";
+           $file_space_to_tab = "files_" . $index . "|space_to_tab";
+           $files_type = "files_" . $index . "|type";
+           //The inputs should look like:
+           //  files_0|file_data => /path/to/file
+           //  files_0|NAME => file_name
+           //  files_0|File_to_posix_lines = false
+           // ... etc
+           $inputs[$file_data] = "@" . $files['file_paths'][$index];
+           $inputs[$file_name] = $files['file_names'][$index];
+           $inputs[$file_to_posix_lines] = FALSE;
+           $inputs[$file_space_to_tab] = FALSE;
+           $inputs[$files_type] = "upload_dataset";
+           $index++;
+         }
+        }
+
+       //$inputs['dbkey'] = "?";
+
+     }
+
+    // The post fields to be given to galaxy
      $elements = array(
        'tool_id' => $tool_id,
        'tool_version' => $tool_version,
-       'inputs' => json_encode($input_ids,JSON_FORCE_OBJECT),
        'history_id' => $history_id,
        'region' => $region,
        'action' => $action,
-       'files_' => json_encode(array('/poop.jpg'),JSON_FORCE_OBJECT),
      );
+     $elements = array_merge($elements, $inputs);
 
      // Create a list of input items that is not null
      $notNullInputs = array();
@@ -302,6 +353,7 @@ class Tools extends HTTPRequest{
      $response = $this->httpPOST($URL, $notNullInputs);
      return $this->expectArray($response);
    }
+
  }
 
 ?>
