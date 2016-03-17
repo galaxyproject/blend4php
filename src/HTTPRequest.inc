@@ -178,13 +178,41 @@ class HTTPRequest  {
    *
    * @ingroup rest_manager_class
    */
-  protected function httpPOST($URL, $input = NULL) {
-    $ch = curl_init();
+  protected function httpPOST($URL, $input = NULL, $attaching_file = FALSE) {
+/**
+ * 
+$url = 'http://some-server.com/api';
+$header = array('Content-Type: multipart/form-data');
+$fields = array('file' => '@' . $_FILES['file']['tmp_name'][0]);
+$token = 'NfxoS9oGjA6MiArPtwg4aR3Cp4ygAbNA2uv6Gg4m';
+ 
+$resource = curl_init();
+curl_setopt($resource, CURLOPT_URL, $url);
+curl_setopt($resource, CURLOPT_HTTPHEADER, $header);
+curl_setopt($resource, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($resource, CURLOPT_POST, 1);
+curl_setopt($resource, CURLOPT_POSTFIELDS, $fields);
+curl_setopt($resource, CURLOPT_COOKIE, 'apiToken=' . $token);
+$result = json_decode(curl_exec($resource));
+curl_close($resource);
+ */    
+  	$ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $URL);
     curl_setopt($ch, CURLOPT_POST, 1);
+    
+    // If we are attaching a file, be sure to upload the appropriate
+    // Data.
+    if($attaching_file == TRUE){
+    	$header = array('Content-Type: multipart/form-data');
+    	$token = 'NfxoS9oGjA6MiArPtwg4aR3Cp4ygAbNA2uv6Gg4m';
+    	curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+    	curl_setopt($ch, CURLOPT_COOKIE, 'apiToken=' . $token);
+    }
+    
     if ($input !== NULL) {
       curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($input));
     }
+    
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, True);
     $response = $this->getCURLResponse($ch);
     curl_close($ch);

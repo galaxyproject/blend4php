@@ -165,7 +165,21 @@ class ToolsTest extends PHPUnit_Framework_TestCase {
    * @depends testInitGalaxy
    */
   public function testCreate($galaxy){
-    $tools = new Tools($galaxy);
-    //
+    print("Running the create test !");
+  	$tools = new Tools($galaxy);
+  	
+  	//Be sure to make the file something every tester can use
+  	$files = array(
+  	  'file_names' => array(
+  		   0=> 'test_upload',				 
+			 ),
+  		'file_paths' => array(
+  		   0=> '/home/dude/Desktop/test_upload.dat',
+  		 ) 		
+  	 );
+  	$response = $tools->create('upload1', $files);
+  	print_r($response);
+  	$this->assertTrue(is_array($response), $tools->getErrorMessage());
+    
   }
 }

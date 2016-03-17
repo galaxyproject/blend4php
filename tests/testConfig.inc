@@ -1,6 +1,6 @@
 <?php
 
-
+/*
  $config = array(
     "host"=> 'localhost',
     "user" => 'brotato',
@@ -9,18 +9,18 @@
     "port" => '8080',
     "api_key" => '636a1ff620704091c81ae2559d8c4d2c',
 );
-
+*/
 
  // just use control + shift
-// $config = array(
-//   "host" =>  'localhost',
-//   "user" =>  'bob',
-//   "email" => 'bob@gmail.com',
-//   "pass" =>  'password',
-//   "port" =>  '8080',
-//   "api_key" =>  '7ef496ca9fee28566c59bc2c9d8bddae',
+ $config = array(
+   "host" =>  'localhost',
+   "user" =>  'bob',
+   "email" => 'bob@gmail.com',
+   "pass" =>  'password',
+   "port" =>  '8080',
+   "api_key" =>  '7ef496ca9fee28566c59bc2c9d8bddae',
 
-// );
+ );
 
 
 
