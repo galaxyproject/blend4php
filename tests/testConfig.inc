@@ -1,7 +1,7 @@
 <?php
 
 
- $config = array(
+/*  $config = array(
     "host"=> 'localhost',
     "user" => 'brotato',
     "email" => 'cgpwytko@gmail.com',
@@ -9,7 +9,7 @@
     "port" => '8080',
     "api_key" => '636a1ff620704091c81ae2559d8c4d2c',
 );
-
+ */
 
  // just use control + shift
 // $config = array(
@@ -26,7 +26,7 @@
 
 
 
-/*$config = array(
+$config = array(
   "host" =>  'localhost',
   "user" =>  'spficklin',
   "email" =>  'spficklin@gmail.com',
@@ -34,4 +34,3 @@
   "port" =>  '8090',
   "api_key" =>  'afcbaa548c3af9cd0478d1c8543a55da',
 );
-*/

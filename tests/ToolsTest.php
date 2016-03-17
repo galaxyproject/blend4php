@@ -39,7 +39,6 @@ class ToolsTest extends PHPUnit_Framework_TestCase {
     // it installed on the given instance.
     // This particular id is found in the default instances of galaxy.
     $tools_list = $tools->index('upload1');
-    print_r ($tools_list);
     $this->assertTrue(is_array($tools_list), $tools->getErrorMessage());
 
     // Case 3: Specify a given text query on whether the name of a tool exists.
