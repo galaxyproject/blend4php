@@ -28,7 +28,7 @@ class Tools extends HTTPRequest{
    *
    * @param GalaxyInstance $galaxy
    *   A GalaxyInstance object.
-   *   
+   *
    * @return
    *   An instance of a Tools object.
    *
@@ -307,26 +307,27 @@ class Tools extends HTTPRequest{
      if($files !== NULL){
        //Append the appropriate file informaiton:
        $index =0;
-       if( array_key_exists("file_names", $files) and array_key_exists("file_paths", $files)){
-         foreach($files['file_paths'] as $file_path){
-           $file_data = "files_" . $index . "|file_data";
-           $file_name = "files_" . $index . "|NAME";
-           $file_to_posix_lines = "files_" . $index . "|to_posix_lines";
-           $file_space_to_tab = "files_" . $index . "|space_to_tab";
-           $files_type = "files_" . $index . "|type";
-           //The inputs should look like:
-           //  files_0|file_data => /path/to/file
-           //  files_0|NAME => file_name
-           //  files_0|File_to_posix_lines = false
-           // ... etc
-           $inputs[$file_data] = "@" . $files['file_paths'][$index];
-           $inputs[$file_name] = $files['file_names'][$index];
-           $inputs[$file_to_posix_lines] = FALSE;
-           $inputs[$file_space_to_tab] = FALSE;
-           $inputs[$files_type] = "upload_dataset";
-           $index++;
-         }
+
+     foreach($files as $file){
+       if( array_key_exists("name", $file) and array_key_exists("path", $file)){
+         $file_data = "files_" . $index . "|file_data";
+         $file_name = "files_" . $index . "|NAME";
+         $file_to_posix_lines = "files_" . $index . "|to_posix_lines";
+         $file_space_to_tab = "files_" . $index . "|space_to_tab";
+         $files_type = "files_" . $index . "|type";
+         //The inputs should look like:
+         //  files_0|file_data => /path/to/file
+         //  files_0|NAME => file_name
+         //  files_0|File_to_posix_lines = false
+         // ... etc
+         $inputs[$file_data] = "@" . $file['path'];
+         $inputs[$file_name] = $file['name'];
+         $inputs[$file_to_posix_lines] = FALSE;
+         $inputs[$file_space_to_tab] = FALSE;
+         $inputs[$files_type] = "upload_dataset";
+         $index++;
         }
+       }
 
        //$inputs['dbkey'] = "?";
 
@@ -349,7 +350,7 @@ class Tools extends HTTPRequest{
          $notNullInputs[$element] = $value;
        }
      }
-
+     print_r($notNullInputs);
      $response = $this->httpPOST($URL, $notNullInputs);
      return $this->expectArray($response);
    }

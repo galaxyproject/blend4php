@@ -45,23 +45,16 @@ class HistoryContents extends HTTPRequest {
    * Create a new HistoryContents component to a given history
    *
    * Corresponds to the Galaxy API method at:
-   *  POST /api/histories/{history_id}/contents/datasets
-   *
-   * create a new History Dataset Association by copying an
-   *  accessible LibraryDataset or History Dataset Association, and assigning it to the given history_id
-   *  NOTE, currently, only creating new 'datasets' is supported,
-   *  as opposed to creating dataset Collections
+   *  POST /api/histories/{history_id}/contents/{type}
+   *  Types will be "datasets" by default. The other option "dataset_collection"
+   *  is currently not supported.
    *
    * @param history_id
-   *   history id of the history to update. To find, please refer to
-   *   'Histories' class.
-   * @param source
-   *   The source of the new dataset, either hda or library
+   *   The id of the history to add contents to. To obtain history id's, please
+   *   refer to the index() function of the history class.
    * @param content_id
-   *   the content to add (dataset id's work)
-   *   to find dataset id's go to:
-   *   /api/histories/<history_id>/content only 'ok' state datasets work
-   *   Or refer to the Datasets class
+   *   The id of the content to add to the history. To obtian content_id's please
+   *   refor to this class's index() function.
    *
    * @return
    *   An array containing information about the new History content component.
@@ -69,7 +62,7 @@ class HistoryContents extends HTTPRequest {
    * @ingroup history_content_class
    */
   public function create($history_id, $content_id, $source = 'hda') {
-    $URL = $this->galaxy->getURL() . '/api/histories/' . $history_id . '/contents/dataset/?key=' . $this->galaxy->getAPIKey();
+    $URL = $this->galaxy->getURL() . '/api/histories/' . $history_id . '/contents/datasets/?key=' . $this->galaxy->getAPIKey();
     $elements = array('source' => $source, 'content' => $content_id);
     $notNullInputs = array();
     foreach ($elements as $element => $value) {

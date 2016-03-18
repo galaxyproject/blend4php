@@ -143,12 +143,12 @@ class ToolsTest extends PHPUnit_Framework_TestCase {
     $history_list = $histories->index();
 
     $tools_list = $tools->index();
-	
+
     print(" \n This is the tools list in build tools: \n");
     //print_r($tools_list);
     //rint("\n This is the histopry list object: \n");
     print_r($history_list);
-    
+
     // Case 1: Present just the tool model and place it in the selected history
     // denoted by its id.
     $build = $tools->build($tools_list[0]['elems'][0]['id'], $history_list[0]['id']);
@@ -177,17 +177,15 @@ class ToolsTest extends PHPUnit_Framework_TestCase {
     $history_list = $histories->index();
 
     // Case 1: Upload a file usinng the upload1 tool
-    //Be sure to make the file something every tester can use
     $files = array(
-      'file_names' => array(
-         0=> 'test.bed',
-       ),
-      'file_paths' => array(
-         0=> getcwd() . '/files/test.bed',
-       )
-     );
-    
+      0=> array(
+        'name'=> 'test.bed',
+        'path'=> getcwd() . '/files/test.bed',
+      ),
+    );
+
     $tool = $tools->create('upload1', $history_list[0]['id'], $files);
+
     $this->assertTrue(is_array($tool), $tools->getErrorMessage());
 
     // Case 2:  Check that a job was actually added.
