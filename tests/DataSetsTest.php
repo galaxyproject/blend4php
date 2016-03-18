@@ -63,6 +63,6 @@ class DataSetsTest extends PHPUnit_Framework_TestCase {
     $histories = new Histories($galaxy);
 
     $history_list = $histories->index();
-    print_r($history_list);
+    //print_r($history_list);
   }
 }

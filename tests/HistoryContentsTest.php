@@ -56,7 +56,7 @@ class HistoryContentsTest extends PHPUnit_Framework_TestCase {
     $history_id = $history_list[0]['id'];
 
     $response = $history_content->index('f597429621d6eb2b');
-    print_r($response);
+    //print_r($response);
     $this->assertTrue(is_array($response), $history_content->getErrorMessage());
 
     // Case 2, user inputs a bad id
@@ -85,7 +85,7 @@ class HistoryContentsTest extends PHPUnit_Framework_TestCase {
     print("! ! ! ! The history id is: " . $history_id);
     $content_list = $history_content->index($history_id);
     print("This is the contents of the history contents list: ");
-    print_r($content_list);
+    //print_r($content_list);
     $content_id = $content_list['id'];
 
     //Case 1, correctly create a history_content

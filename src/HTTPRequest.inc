@@ -181,8 +181,12 @@ class HTTPRequest  {
   protected function httpPOST($URL, $post_fields = NULL) {
 
     $ch = curl_init();
+    $curl_log = fopen('curl.log', 'w');
     curl_setopt($ch, CURLOPT_URL, $URL);
     curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_SAFE_UPLOAD, 0);
+    //curl_setopt($ch, CURLOPT_VERBOSE, 1);
+    //curl_setopt($ch, CURLOPT_STDERR, STDERR);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, True);
     if ($post_fields !== NULL) {
       curl_setopt($ch, CURLOPT_POSTFIELDS, $post_fields);
