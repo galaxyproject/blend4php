@@ -189,7 +189,7 @@ class HTTPRequest  {
     //curl_setopt($ch, CURLOPT_STDERR, STDERR);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, True);
     if ($post_fields !== NULL) {
-      curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($post_fields));
+      curl_setopt($ch, CURLOPT_POSTFIELDS, $post_fields);
     }
 
     $response = $this->getCURLResponse($ch);
@@ -216,8 +216,7 @@ class HTTPRequest  {
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
     if ($input != NULL) {
-      http_build_query($input);
-      curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($input));
+      curl_setopt($ch, CURLOPT_POSTFIELDS, $input);
     }
     $response = $this->getCURLResponse($ch);
     curl_close($ch);
@@ -276,7 +275,7 @@ class HTTPRequest  {
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, True);
 
     if ($input != NULL) {
-      curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($input));
+      curl_setopt($ch, CURLOPT_POSTFIELDS, $input);
     }
 
     $response = $this->getCURLResponse($ch);
