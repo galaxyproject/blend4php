@@ -151,9 +151,85 @@ class HistoryContentsTest extends PHPUnit_Framework_TestCase {
     $content = $history_content->show($history_id, $content_id);
     $this->assertTrue(is_array($content), $history_content->getErrorMessage());
 
+    // Case 2 given an incorrect history id, make sure it still returns an array
+    // containing info9rmation abot the content.
+    $content2 = $history_content->show('@@', $content_id);
+    $this->assertTrue(is_array($content2), $history_content->getErrorMessage());
+
+    print_r($content2);
+
+    // Case 3 given an incorect content_id, make sure it returns false.
+    $content2 = $history_content->show($history_id, '@@');
+    $this->assertFalse(is_array($content2), $history_content->getErrorMessage());
   }
 
-  function test
+  /**
+   * Tests the update function of history content
+   *
+   * Updates an existing history content, (places a pre-existing dataset into a
+   *   given history)
+   *
+   * @depends testInitGalaxy
+   * @depends testCreate
+   * @depends testIndex
+   */
+  function testUpdate($galaxy, $content_id){
+   global $config;
+
+   // Declare history content and history objects
+   $histories = new Histories($galaxy);
+   $history_content = new HistoryContents($galaxy);
+  // Obtain history id
+   $history_list = $histories->index();
+   $history_id = $history_list[0]['id'];
+
+   // Case 1, update successfully
+   $updated = $history_content->update($history_id, $content_id, "This is a new annotation");
+   $this->assertTrue(is_array($updated), $history_content->getErrorMessage());
+
+   // Case 2, incorrect history_id provided, make sure it still returns an array
+   $updated = $history_content->update("123", $content_id, "This is a new annotation");
+   $this->assertTrue(is_array($updated), $history_content->getErrorMessage());
+
+
+   // Case 3, incorrect content _id provided, make sure it returns false
+   $updated = $history_content->update($history_id, "123", "This is a new annotation");
+   $this->assertFalse(is_array($updated), $history_content->getErrorMessage());
+
+ }
+
+ /**
+  * Tests the delete function of the history content.
+  *
+  * Deletes a given history content from a history.
+  *
+  * @depends testInitGalaxy
+  * @depends testCreate
+  * @depends testIndex
+  * @depends testShow
+  * @depends testUpdate
+  */
+ function testDelete($galaxy, $content_id){
+   global $config;
+
+   // Declare history content and history objects
+   $histories = new Histories($galaxy);
+   $history_content = new HistoryContents($galaxy);
+   // Obtain history id
+   $history_list = $histories->index();
+   $history_id = $history_list[0]['id'];
+
+
+   $deleted = $history_content->delete($history_id, $content_id);
+   print_r($deleted);
+   // Obtan the content_id of the content in the 0'th index
+   $content_list = $history_content->index($history_id);
+
+   // Case 1 make sure the history content is marked as deleted.
+   $this->assertTrue($content_list[0]['deleted'] == 1);
+ }
+
+
 
 
 }

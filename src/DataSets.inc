@@ -60,7 +60,8 @@ class Datasets extends HTTPRequest {
     * @defgroup data_sets_class
     */
    public function converted($dataset_id, $extension=NULL) {
-     if($URL !== NULL) {
+     $URL = "";
+     if($extension !== NULL) {
        $URL = $this->galaxy->getURL() . '/api/datasets/' . $dataset_id . '/converted/' . $extension . '/?key=' . $this->galaxy->getAPIKey();
      }
      else {

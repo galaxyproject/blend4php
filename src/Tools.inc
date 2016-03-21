@@ -350,7 +350,7 @@ class Tools extends HTTPRequest{
          $notNullInputs[$element] = $value;
        }
      }
-     print_r($notNullInputs);
+
      $response = $this->httpPOST($URL, $notNullInputs);
      return $this->expectArray($response);
    }
