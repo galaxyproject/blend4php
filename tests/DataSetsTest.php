@@ -104,12 +104,34 @@ class DataSetsTest extends PHPUnit_Framework_TestCase {
     // Case 2: Return false given incorrect informaiton
     $display = $datasets->display("123", "456");
     $this->assertFalse(is_array($display), "Datasets function did not return false on incorrect input.");
-
-
   }
 
-  public function testIndex(){
+  /**
+   * Tests the Display function on datasets
+   *
+   * Retreives a list of dataset id's associated with a given history and content
+   *
+   * @depends testInitGalaxy
+   * @depends testIndex
+   * @depends testConverted
+   */
+  function testShow($galaxy){
+    global $config;
 
+    // Obtain a content_id
+    $historyContentsTest = new HistoryContentsTest();
+    $content_id = $historyContentsTest->testCreate($galaxy);
+
+    // Declare a new datasets
+    $datasets = new Datasets($galaxy);
+
+    // Case 1: We successfully obtain an array given correct inputs.
+    $details = $datasets->show($content_id);
+    $this->assertTrue(is_array($details), $datasets->getErrorMessage());
+
+    // Case 2: We successfully obtain 'FALSE' given incorrect inputs.
+    $details = $datasets->show("123");
+    $this->assertFalse(is_array($details), "Datasets did not successfully return false given incorrect inputs.");
   }
 
 }
