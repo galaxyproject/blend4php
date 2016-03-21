@@ -36,7 +36,7 @@ class Datatypes extends HTTPRequest {
    * @ingroup data_sets_class
    */
     public function __construct($galaxy) {
-      $this->galaxy = galaxy;
+      $this->galaxy = $galaxy;
        parent::__construct();
      }
 
@@ -87,7 +87,7 @@ class Datatypes extends HTTPRequest {
      *
      * @ingroup data_types_class
      */
-   public function edam_formats(){
+   public function edamFormats(){
      $URL = $this->galaxy->getURL() . '/api/datatypes/edam_formats/?key=' . $this->galaxy->getAPIKey();
      $response = $this->httpGET($URL);
      return $this->expectArray($response);

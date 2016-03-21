@@ -1,4 +1,6 @@
 <?php
+require_once '../src/GalaxyInstance.inc';
+require_once './testConfig.inc';
 require_once '../src/DataTypes.inc';
 
 
@@ -22,17 +24,86 @@ class DataTypesTest extends PHPUnit_Framework_TestCase {
   }
 
   /**
+   * Tests Datatypes sniffers() function
+   *
+   * Retreives the sniffer datatypes.
+   *
    * @depends testInitGalaxy
    */
   function testSniffers($galaxy){
-  global $config;
+    global $config;
+    $datatypes = new Datatypes($galaxy);
 
-
+    // Case 1: Sniffer datatypes returned in an array successfully.
+    $sniffer = $datatypes->sniffers();
+    $this->assertTrue(is_array($sniffer), $datatypes->getErrorMessage());
 
   }
 
+  /**
+   * Tests Datatypes converters() function
+   *
+   * Retreives the converter datatypes.
+   *
+   * @depends testInitGalaxy
+   */
+  function testConverters($galaxy){
+    global $config;
+    $datatypes = new Datatypes($galaxy);
 
+    // Case 1: Converter datatypes returned in an array successfully.
+    $converter = $datatypes->converters();
+    $this->assertTrue(is_array($converter), $datatypes->getErrorMessage());
+  }
 
+  /**
+   * Tests Datatypes edamFormats() function.
+   *
+   * Retreives the edam format datatypes.
+   *
+   * @depends testInitGalaxy
+   */
+  function testEdamFormats($galaxy){
+    global $config;
+    $datatypes = new Datatypes($galaxy);
+
+    // Case 1: Edam Formats datatypes returned in an array successfully.
+    $edam = $datatypes->edamFormats();
+    $this->assertTrue(is_array($edam), $datatypes->getErrorMessage());
+  }
+
+  /**
+   * Tests Datatype mapping() function.
+   *
+   * Retreives the edam format datatypes.
+   *
+   * @depends testInitGalaxy
+   */
+  function testMapping($galaxy){
+    global $config;
+    $datatypes = new Datatypes($galaxy);
+
+    // Case 1: Mapper datatypes are returned in an array successfully.
+    $mapping = $datatypes->mapping();
+    $this->assertTrue(is_array($mapping), $datatypes->getErrorMessage());
+  }
+
+  /**
+   * Tests Datatype index() function.
+   *
+   * Retreives a list of all of the datatypes.
+   *
+   * @depends testInitGalaxy
+   */
+  function testIndex($galaxy){
+    global $config;
+    $datatypes = new Datatypes($galaxy);
+
+    // Case 1: A list of datatypes is successfully retreived in an array.
+    $datatypes_list = $datatypes->mapping();
+    $this->assertTrue(is_array($datatypes_list), $datatypes->getErrorMessage());
+
+  }
 
 
 
