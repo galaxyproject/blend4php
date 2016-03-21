@@ -100,9 +100,8 @@ class DataTypesTest extends PHPUnit_Framework_TestCase {
     $datatypes = new Datatypes($galaxy);
 
     // Case 1: A list of datatypes is successfully retreived in an array.
-    $datatypes_list = $datatypes->mapping();
+    $datatypes_list = $datatypes->index();
     $this->assertTrue(is_array($datatypes_list), $datatypes->getErrorMessage());
-
   }
 
 

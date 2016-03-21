@@ -35,10 +35,10 @@ class Datatypes extends HTTPRequest {
    *
    * @ingroup data_sets_class
    */
-    public function __construct($galaxy) {
-      $this->galaxy = $galaxy;
-       parent::__construct();
-     }
+  public function __construct($galaxy) {
+    $this->galaxy = $galaxy;
+    parent::__construct();
+  }
 
 
     /**

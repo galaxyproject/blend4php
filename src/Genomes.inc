@@ -19,11 +19,10 @@
  * @}
  */
 
-require_once "GalaxyInstance.inc";
+//require_once "GalaxyInstance.inc";
 require_once 'HTTPRequest.inc';
 
 class Genomes extends HTTPRequest{
-
   private $galaxy;
 
   /**
@@ -37,9 +36,9 @@ class Genomes extends HTTPRequest{
    *
    * @ingroup genomes_class
    */
-  function __construct($galaxy) {
-    $this->galaxy = galaxy;
-    parent::__contruct();
+  public function __construct($galaxy) {
+    $this->galaxy = $galaxy;
+    parent::__construct();
   }
 
   /**
@@ -63,7 +62,7 @@ class Genomes extends HTTPRequest{
   }
 
   /**
-   * Returns  detailed infromation about a specific Galaxy genome.
+   * Returns  detailed information about a specific Galaxy genome.
    *
    * Corresponds to the Galaxy api function/path:
    *   GET /api/genomes/{encodedGenomeid}
