@@ -185,10 +185,12 @@ class ToolsTest extends PHPUnit_Framework_TestCase {
     );
 
     $tool = $tools->create('upload1', $history_list[0]['id'], $files);
-
     $this->assertTrue(is_array($tool), $tools->getErrorMessage());
+
 
     // Case 2:  Check that a job was actually added.
     $this->assertTrue(array_key_exists('jobs', $tool), "File uploaded to upload1 tool, but job was not created: " . print_r($tool, TRUE));
+
+
   }
 }

@@ -38,6 +38,7 @@ class HistoriesTest extends PHPUnit_Framework_TestCase {
     $history = $histories->create('testhistorycreate');
     $this->assertTrue(is_array($history), $histories->getErrorMessage());
 
+    return $history['id'];
   }
 
   /**
