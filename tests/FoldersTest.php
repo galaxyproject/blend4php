@@ -29,12 +29,13 @@ class FoldersTest extends PHPUnit_Framework_TestCase {
   function testIndex($galaxy) {
     $folders = new Folders($galaxy);
 
-    // Currently, the 'index' function is implemented in the Galaxy API.
-    // Therefore we skip this test.
-    //$folder_list = $folders->index();
-    //$this->assertTrue(is_array($folder_list), $folders->getErrorMessage());
+    // Case 1: The index function is currently not implemented.
+    // Gracefully return false.
+   $folder_list = $folders->index();
+   $this->assertFalse(is_array($folder_list), $folders->getErrorMessage());
 
   }
+
   /**
    * Tests the show() function.
    *
@@ -42,8 +43,8 @@ class FoldersTest extends PHPUnit_Framework_TestCase {
    */
   function testShow($galaxy) {
     $folders = new Folders($galaxy);
+    $folder_list = $folders->show($folder_id);
 
-    // $folder_list = $folders->show($folder_id);
   }
   /**
    * Tests the create() function.

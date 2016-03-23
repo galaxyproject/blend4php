@@ -151,7 +151,7 @@ class Groups extends HTTPRequest {
    */
   public function update($group_id, $name = NULL, $user_ids = array(), $role_ids = array()) {
 
-    $URL = $this->galaxy->getURL() . '/api/groups/' . $group_id . '/?key=' . $this->galaxy->getAPIKey();
+/*     $URL = $this->galaxy->getURL() . '/api/groups/' . $group_id . '/?key=' . $this->galaxy->getAPIKey();
 
     $inputs = array();
 
@@ -163,14 +163,15 @@ class Groups extends HTTPRequest {
     }
     if (count($role_ids) > 0) {
       $inputs['role_ids'] = json_encode($role_ids);
-    }
+    } */
 
-    if (count($inputs) == 0) {
+/*     if (count($inputs) == 0) {
       $this->setError('API', "At least one optional argument must be provided to the Groups::update() function.");
       return FALSE;
-    }
+    } */
 
-    $response = $this->httpPUT($URL, $inputs);
+    $response = False;
+    $this->setError('API', "This funciton has not been implemented by Galaxy. You can view our discussion on the issue here: https://github.com/galaxyproject/galaxy/issues/1987");
     return $this->expectArray($response);
   }
 }

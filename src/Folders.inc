@@ -59,6 +59,7 @@ class Folders extends HTTPRequest {
      $response = $this->httpGET($URL);
      return $this->expectArray($response);
    }
+
    /**
     * Retreive information about a specific folder
     *

@@ -17,7 +17,7 @@ $config = array(
   "email" => 'bob@gmail.com',
   "pass" =>  'password',
   "port" =>  '8080',
-  "api_key" =>  'e61587135b254f99e4d042f268918f69',
+  "api_key" =>'e61587135b254f99e4d042f268918f69',
 
 );
 

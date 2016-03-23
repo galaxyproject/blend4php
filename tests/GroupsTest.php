@@ -127,6 +127,7 @@ class GroupsTest extends PHPUnit_Framework_TestCase {
   /**
    * Test the update() function of the Groups class.
    *
+   * This function has not been implemented by galaxy
    * @depends testInitGalaxy
    * @depends testCreate
    *
@@ -139,9 +140,9 @@ class GroupsTest extends PHPUnit_Framework_TestCase {
     //print_r($group);
     $group_id = $group['id'];
     $group_name = $group['name'] . '-updated';
-    $updated_group = $groups->update($group_id, $group_name,'f2db41e1fa331b3e');
-    $this->assertTrue(is_array($updated_group), $groups->getErrorMessage());
+    //Case 1, obtain false, the funciton has not been implemented by galaxy.
+    $updated_group = $groups->update($group_id,$group_name, array('f597429621d6eb2b'), array('f597429621d6eb2b'));
+    $this->assertFalse(is_array($updated_group), $groups->getErrorMessage());
 
-    $this->assertEquals($updated_group['name'], $group_name, 'Updating of the group name failed: ' . print_r($updated_group, TRUE));
   }
 }
