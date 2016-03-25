@@ -7,7 +7,6 @@ require_once '../src/Tools.inc';
 
 class HistoryContentsTest extends PHPUnit_Framework_TestCase {
 
-
   /**
    * Intializes the Galaxy object for all of the tests.
    *
@@ -39,7 +38,6 @@ class HistoryContentsTest extends PHPUnit_Framework_TestCase {
 //     print_r($uploadTool);
 //     //print($uploadTool->getErrorMessage());
 //   }
-
 
   /**
    * Tests the history content index function
@@ -73,7 +71,6 @@ class HistoryContentsTest extends PHPUnit_Framework_TestCase {
     // return the history_id.
     return $history_id;
   }
-
 
   /**
    * Test the create function
@@ -156,7 +153,7 @@ class HistoryContentsTest extends PHPUnit_Framework_TestCase {
     $content2 = $history_content->show('@@', $content_id);
     $this->assertTrue(is_array($content2), $history_content->getErrorMessage());
 
-    print_r($content2);
+    //print_r($content2);
 
     // Case 3 given an incorect content_id, make sure it returns false.
     $content2 = $history_content->show($history_id, '@@');
@@ -221,7 +218,7 @@ class HistoryContentsTest extends PHPUnit_Framework_TestCase {
 
 
    $deleted = $history_content->delete($history_id, $content_id);
-   print_r($deleted);
+
    // Obtan the content_id of the content in the 0'th index
    $content_list = $history_content->index($history_id);
 
@@ -233,3 +230,4 @@ class HistoryContentsTest extends PHPUnit_Framework_TestCase {
 
 
 }
+?>

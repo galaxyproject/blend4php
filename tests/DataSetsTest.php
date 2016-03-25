@@ -1,10 +1,14 @@
 <?php
 require_once '../src/GalaxyInstance.inc';
-require_once '../src/Histories.inc';
-require_once '../src/DataSets.inc';
 require_once './testConfig.inc';
-require_once './HistoryContentsTest.php';
 require_once '../src/Histories.inc';
+require_once '../src/HistoryContents.inc';
+require_once '../src/Tools.inc';
+
+require_once '../src/DataSets.inc';
+
+
+
 
 class DataSetsTest extends PHPUnit_Framework_TestCase {
 
@@ -58,9 +62,31 @@ class DataSetsTest extends PHPUnit_Framework_TestCase {
   public function testConverted($galaxy){
     global $config;
 
-    //Declare a history test to obtain the content id.
-    $historyContentsTest = new HistoryContentsTest();
-    $content_id = $historyContentsTest->testCreate($galaxy);
+    // Create the necessary obejcts for this function:
+    $histories = new Histories($galaxy);
+    $history_content = new HistoryContents($galaxy);
+    $tools = new Tools($galaxy);
+
+    // Create our very own history for this test!
+    $ourHistory = $histories->create("Testing HistoryContentsCreate!");
+    $history_list = $histories->index();
+    $history_id = $history_list[0]['id'];
+
+    // Now we need some content!
+    $files = array(
+      0=> array(
+        'name'=> 'test.bed',
+        'path'=> getcwd() . '/files/test.bed',
+      ),
+    );
+    $tool = $tools->create('upload1', $history_id, $files);
+
+    // Now history_list[0] should have some content to it
+    $content_list = $history_content->index($history_id);
+
+    // Make sure the count of this list is greater than 0
+    $this->assertTrue((count($content_list) > 0) , "Content was not added to history.");
+    $content_id = $content_list[0]['id'];
 
     //Declare a new datasets
     $datasets = new Datasets($galaxy);
@@ -89,10 +115,34 @@ class DataSetsTest extends PHPUnit_Framework_TestCase {
   public function testDisplay($galaxy) {
     global $config;
 
-    // We need a content and history id from the historyContentTest Object
-    $historyContentsTest = new HistoryContentsTest();
-    $content_id = $historyContentsTest->testCreate($galaxy);
-    $history_id = $historyContentsTest->testIndex($galaxy);
+    // Create the necessary obejcts for this function:
+    $histories = new Histories($galaxy);
+    $history_content = new HistoryContents($galaxy);
+    $tools = new Tools($galaxy);
+
+    // Create our very own history for this test!
+    $ourHistory = $histories->create("Testing HistoryContentsCreate!");
+    $history_list = $histories->index();
+    $history_id = $history_list[0]['id'];
+
+    // Now we need some content!
+    $files = array(
+      0=> array(
+        'name'=> 'test.bed',
+        'path'=> getcwd() . '/files/test.bed',
+      ),
+    );
+    $tool = $tools->create('upload1', $history_id, $files);
+
+    // Now history_list[0] should have some content to it
+    $content_list = $history_content->index($history_id);
+
+    // Make sure the count of this list is greater than 0
+    $this->assertTrue((count($content_list) > 0) , "Content was not added to history.");
+    $content_id = $content_list[0]['id'];
+
+    $history_id = $ourHistory->index();
+    $history_id = $history_id[0];
 
     //Declare a new datasets
     $datasets = new Datasets($galaxy);
@@ -119,8 +169,31 @@ class DataSetsTest extends PHPUnit_Framework_TestCase {
     global $config;
 
     // Obtain a content_id
-    $historyContentsTest = new HistoryContentsTest();
-    $content_id = $historyContentsTest->testCreate($galaxy);
+    // Create the necessary obejcts for this function:
+    $histories = new Histories($galaxy);
+    $history_content = new HistoryContents($galaxy);
+    $tools = new Tools($galaxy);
+
+    // Create our very own history for this test!
+    $ourHistory = $histories->create("Testing HistoryContentsCreate!");
+    $history_list = $histories->index();
+    $history_id = $history_list[0]['id'];
+
+    // Now we need some content!
+    $files = array(
+      0=> array(
+        'name'=> 'test.bed',
+        'path'=> getcwd() . '/files/test.bed',
+      ),
+    );
+    $tool = $tools->create('upload1', $history_id, $files);
+
+    // Now history_list[0] should have some content to it
+    $content_list = $history_content->index($history_id);
+
+    // Make sure the count of this list is greater than 0
+    $this->assertTrue((count($content_list) > 0) , "Content was not added to history.");
+    $content_id = $content_list[0]['id'];
 
     // Declare a new datasets
     $datasets = new Datasets($galaxy);
@@ -130,7 +203,7 @@ class DataSetsTest extends PHPUnit_Framework_TestCase {
     $this->assertTrue(is_array($details), $datasets->getErrorMessage());
 
     // Case 2: We successfully obtain 'FALSE' given incorrect inputs.
-    $details = $datasets->show("123");
+    $details = $datasets->show("@@");
     $this->assertFalse(is_array($details), "Datasets did not successfully return false given incorrect inputs.");
   }
 

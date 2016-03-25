@@ -281,7 +281,7 @@ class Workflows extends HTTPRequest{
     */
    public function showInvocations($workflow_id, $invocation_id) {
      $URL = $this->galaxy->getURL() . '/api/workflows/' .
-        $workflow_id . 'invocations/'.$invocation_id.'/?key=' . $this->galaxy->getAPIKey();
+        $workflow_id . '/invocations/' . $invocation_id . '/?key=' . $this->galaxy->getAPIKey();
      $response = $this->httpGET($URL);
      return $this->expectArray($response);
    }
@@ -376,17 +376,18 @@ class Workflows extends HTTPRequest{
    * Corresponds to the Galaxy API method/path at
    *   POST /api/workflows/{encoded_workflow_id}/invocations
    *
+   * If a $hist_id or $hist_name are not provided then a new history is
+   * created.
+   *
+   * @param $workflow_id
+   *   The ID of the workflow to invoke.
    * @param $input_dataset_ids:
    *   The list of id's of the datasets to enter into the workflow.
    *   These id's can be found using the dataset class's index() function.
    *   For right now the dataset must come from a history.
    *   Also The dataset 'state' must be 'ok and 'deleted' must be set to false.
-   * @param $don't_add_to_history
-   *   Defaults to false. Id true, the function will add the results to a
-   *   specified history.
-   * @param $hist_name
-   *   The name of the history to output the results to,
-   *   if a new history is being created
+   * @param $parameters
+   *   Workflow tool parameters.
    * @param $hist_id
    *   Optional. The id of the history to export the results to.
    *   If a new history is not created. Leave this ommitted if a new history
@@ -397,8 +398,7 @@ class Workflows extends HTTPRequest{
    *
    * @ingroup workflows_class
    */
-  public function invoke($workflow_id, $input_dataset_ids, $hist_name=NULL,$hist_id=NULL,
-      $dont_add_to_history=FALSE) {
+  public function invoke($workflow_id, $input_dataset_ids, $parameters = NULL, $hist_id = NULL) {
 
     $URL = $this->galaxy->getURL() . '/api/workflows/' .
            $workflow_id . '/invocations/?key=' . $this->galaxy->getAPIKey();
@@ -413,12 +413,12 @@ class Workflows extends HTTPRequest{
       $i++;
     }
     $history_input='';
-    if($hist_id !== NULL) {$history_input = 'hist_id='.$hist_id; }
-    else {$history_input = $hist_name;}
+    if ($hist_id !== NULL) {
+      $history_input = 'hist_id=' . $hist_id;
+    }
     $elements = array(
       'inputs' => json_encode($input_ids,JSON_FORCE_OBJECT),
       'dataset_map' => json_encode($input_ids,JSON_FORCE_OBJECT),
-      'no_add_to_history' => $dont_add_to_history,
       'history' => $history_input,
     );
 
@@ -436,46 +436,45 @@ class Workflows extends HTTPRequest{
     * @param $params
     *   A key value (associative array) where the keys can be the following:
     *
-    *     If importing a Json workflow:
+    *   If importing a Json workflow:
     *   - workflow:  A json representation of a workflow to be inserted into
-    *     the database.
+    *       the database.
     *
-    *     If running workflow from pre-existing workflow:
+    *   If running workflow from pre-existing workflow:
     *   - workflow_id:  An existing workflow id. Either workflow_id,
-    *     installed_repository_file or from_history_id must be specified.
-    *     To obtain a workflow id, please see this class's index() function.
+    *       installed_repository_file or from_history_id must be specified.
+    *       To obtain a workflow id, please see this class's index() function.
     *   - parameters: If workflow_id is set, specify the parameters for the
-    *     workflow. See this class's invoke() for more details.
+    *       workflow. See this class's invoke() for more details.
     *   - ds_map: If workflow_id is set - a dictionary mapping each input step
-    *     id to a dictionary with 2 keys: ‘src’ (which can be ‘ldda’,
-    *     ‘ld’ or ‘hda’) and ‘id’ (which should be the id of a
-    *     LibraryDatasetDatasetAssociation, LibraryDataset or
-    *     HistoryDatasetAssociation respectively).
+    *       id to a dictionary with 2 keys: ‘src’ (which can be ‘ldda’,
+    *       ‘ld’ or ‘hda’) and ‘id’ (which should be the id of a
+    *       LibraryDatasetDatasetAssociation, LibraryDataset or
+    *       HistoryDatasetAssociation respectively).
     *   - no_add_to_history: If workflow_id is set; if present in the payload
-    *     with any value, the input datasets will not be added to the selected
-    *     history.
+    *       with any value, the input datasets will not be added to the
+    *       selected history.
     *   - replacement_params:  If workflow_id is set  an optional dictionary
-    *     used when renaming datasets.
+    *       used when renaming datasets.
     *   - history:  If workflow_id is set  optional history where to run the
-    *     workflow, either the name of a new history or “hist_id=HIST_ID”
-    *     where HIST_ID is the id of an existing history. If not specified, the
-    *     workflow will be run a new unnamed history.  To obtain a history ID
-    *     Please refer to the index() function in the histories class.
+    *       workflow, either the name of a new history or “hist_id=HIST_ID”
+    *       where HIST_ID is the id of an existing history. If not specified,
+    *       the workflow will be run a new unnamed history.  To obtain a history
+    *       ID Please refer to the index() function in the histories class.
     *
-    *     If Creating / Running workflows from a History
+    *   If Creating / Running workflows from a History
     *   - from_history_id:  Id of history to extract a workflow from. Either
-    *     workflow_id, installed_repository_file or from_history_id must be
-    *     specified.
+    *       workflow_id, installed_repository_file or from_history_id must be
+    *       specified.
     *   - job_ids:  If from_history_id is set, optional list of jobs to include
-    *     when extracting a workflow from history.
+    *       when extracting a workflow from history.
     *   - dataset_collection_ids: If from_history_id is set - optional list of
-    *     HDCA hid`s corresponding to workflow inputs when extracting a workflow
-    *     from history.
+    *       HDCA hid`s corresponding to workflow inputs when extracting a
+    *       workflow from history.
     *   - workflow_name: If from_history_id is set; name of the workflow to
-    *     create when extracting a workflow from history.
-    *   - Allow_tool_state_corrections
-    *     If set to True, any Tool parameter changes will not prevent
-    *     running workflow, defaults to False.
+    *       create when extracting a workflow from history.
+    *   - allow_tool_state_corrections: if set to True, any Tool parameter
+    *       changes will not prevent running workflow, defaults to False.
     *
     *  @return
     *   An array containing the created workflow.

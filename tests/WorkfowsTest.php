@@ -1,8 +1,12 @@
 <?php
+
 require_once '../src/GalaxyInstance.inc';
 require_once './testConfig.inc';
-require_once '.././src/Workflows.inc';
-require_once './HistoryContentsTest.php';
+require_once '../src/Histories.inc';
+require_once '../src/HistoryContents.inc';
+require_once '../src/Tools.inc';
+require_once '../src/Workflows.inc';
+
 
 class WorkflowsTest extends PHPUnit_Framework_TestCase {
 
@@ -14,7 +18,7 @@ class WorkflowsTest extends PHPUnit_Framework_TestCase {
    */
   function testInitGalaxy() {
     global $config;
-
+    print("TESTING! \n \n");
     // Connect to Galaxy.
     $galaxy = new GalaxyInstance($config['host'], $config['port'], FALSE);
 
@@ -118,16 +122,72 @@ class WorkflowsTest extends PHPUnit_Framework_TestCase {
     global $config;
     $workflows = new Workflows($galaxy);
 
-    // We need a dataset_id
-    $history_contents_test = new HistoryContentsTest();
-    $content_id = $history_contents_test->testCreate($galaxy);
+    // Create the necessary obejcts for this function:
+    $histories = new Histories($galaxy);
+    $history_content = new HistoryContents($galaxy);
+    $tools = new Tools($galaxy);
 
-    $workflow_results = $workflows->invoke($workflow_id, array($content_id));
-    print("\n THIS IS THE RESULTS FROM THE WORKFLOW! \n");
-    print_r($workflow_results);
+    // Create our very own history for this test!
+    $ourHistory = $histories->create("Testing Workflows invoke");
+    $history_list = $histories->index();
+    $history_id = $history_list[0]['id'];
+
+    // Now we need some content!
+    $files = array(
+      0=> array(
+        'name'=> 'test.bed',
+        'path'=> getcwd() . '/files/test.bed',
+      ),
+    );
+    $tool = $tools->create('upload1', $history_id, $files);
+
+    // Now history_list[0] should have some content to it
+    $content_list = $history_content->index($history_id);
+
+    // Make sure the count of this list is greater than 0
+    $this->assertTrue((count($content_list) > 0) , "Content was not added to history.");
+    $content_id = $content_list[0]['id'];
+
+    // Case 1: Successfully execute workflow with defualt perameters
+    $invocation = $workflows->invoke($workflow_id, array($content_id));
+    print_r($invocation);
+    flush();
+    $this->assertTrue(is_array($invocation), $workflows->getErrorMessage());
+    $this->assertTrue(array_key_exists('state', $invocation) and $invocation['state'] == 'new',
+        "Workflow invoked returned an array but the workflow is not in the proper state.");
+
+
+    // This workflow needs to complete before we can check the history.  Loop
+    // until the state is no longer
+    while ($invocation['state'] == 'running' or
+           $invocation['state'] == 'new' or
+           $invocation['state'] == 'scheduled') {
+       print $invocation['state'] . "\n";
+       flush();
+      sleep(1);
+      $invocation =  $workflows->showInvocations($workflow_id, $invocation['id']);
+      $this->assertTrue(is_array($invocation), $workflows->getErrorMessage());
+
+    }
+
+return;
+    // Case 2: Successfully execute workflow with history id
+    $invocation = $workflows->invoke($workflow_id, array($content_id), NULL, $history_id);
+    $this->assertTrue(is_array($invocation), $workflows->getErrorMessage());
+
+    // Check to make sure history has the outputted has the dataset
+    $content_list = $history_content->index($history_id);
+    print_r($content_list);
+    $this->assertTrue(count($content_list) > 1 and
+        array_key_exists('Line/Word/Character count on data 1', $content_list[1]), "Content not in the desired history");
+    $history_id = $history_list[$history_id]['id'];
+
+    // Case 3: Successfully execute workflow with history name
+    $workflow_results = $workflows->invoke($workflow_id, array($content_id), "Testing workflow invoke");
     $this->assertTrue(is_array($workflow_results), $workflows->getErrorMessage());
 
-
+   /* $ourHistory = $histories->create("Testing Workflows invoke");
+    $history_list = $histories->index(); */
   }
 
 }
