@@ -323,7 +323,7 @@ class HTTPRequest  {
    */
   public function getErrorMessage() {
     $error = $this->error->getError();
-    return $error['message'];
+    return $error['type'] . ': ' . $error['message'];
   }
   /**
    *

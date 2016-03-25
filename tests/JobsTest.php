@@ -107,7 +107,7 @@ class JobsTest extends PHPUnit_Framework_TestCase {
    *
    * The jobs function will rely on the tools working
    */
-  function testInputs($default, $galaxy){
+  public function testInputs($default, $galaxy){
     $jobs = new Jobs($galaxy);
 
     $inputs = $jobs->inputs($default[0]['id']);
@@ -123,7 +123,7 @@ class JobsTest extends PHPUnit_Framework_TestCase {
    *
    * The jobs function will rely on the tools working
    */
-  function testOutputs($default, $galaxy){
+  public function testOutputs($default, $galaxy){
     $jobs = new Jobs($galaxy);
 
     $outputs = $jobs->outputs($default[0]['id']);
@@ -139,11 +139,33 @@ class JobsTest extends PHPUnit_Framework_TestCase {
    *
    * The jobs function will rely on the tools working
    */
-  function testShow($default, $galaxy){
+  public function testShow($default, $galaxy){
     $jobs = new Jobs($galaxy);
 
     $show = $jobs->show($default[0]['id']);
 
     $this->assertTrue(is_array($show), $jobs->getErrorMessage());
+  }
+
+  /**
+   *
+   *
+   *
+   * @depends testIndex
+   * @depends testInitGalaxy
+   */
+  public function testSearch($default, $galaxy){
+
+    $jobs = new Jobs($galaxy);
+
+    $job = $jobs->search(array(
+      'tool_id' => 'wc_gnu',
+      //'id' => '4ff6f47412c3e65e',
+      'inputs' => array('id' => '03501d7626bd192f', 'dataset_id' => '03501d7626bd192f'),
+//       'status' => 'ok',
+    ));
+    print_r($job);
+    $this->assertTrue(is_array($job), $jobs->getErrorMessage());
+    $this->assertTrue(!empty($job), "Job search returned no results.");
   }
 }

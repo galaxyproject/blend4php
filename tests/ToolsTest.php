@@ -113,8 +113,6 @@ class ToolsTest extends PHPUnit_Framework_TestCase {
   /**
    * Will download a tool specified by the tool_id into the '/tmp/' directory.
    *
-   * TODO: This funciton has been seg faulting, this needs to be fixed.
-   *
    * @depends testInitGalaxy
    */
   public function testDownload($galaxy){
@@ -178,9 +176,9 @@ class ToolsTest extends PHPUnit_Framework_TestCase {
 
     // Case 1: Upload a file usinng the upload1 tool
     $files = array(
-      0=> array(
-        'name'=> 'test.bed',
-        'path'=> getcwd() . '/files/test.bed',
+      0 => array(
+        'name' => 'test.bed',
+        'path' => getcwd() . '/files/test.bed',
       ),
     );
 

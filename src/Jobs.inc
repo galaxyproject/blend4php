@@ -234,51 +234,53 @@ class Jobs extends HTTPRequest{
     *   This can be used to minimize, the amount of repeated work,
     *   and simplyrecycle the old results.
     *
-    * @param action
-    *   optional, 'rerun' to rerun the tool and not execute.
-    * @param tool_id
-    *   The tool id to execute. To find the tool id, use the index function of
-    *   this class.
-    * @param tool_version
-    *   Optional, specify specific tool version to search for.
-    * @param history_id
-    *   The history_id where tool is located.
-    * @param region
-    *   Optional information on the region of the genome being rerun.
-    * @param input_dataset_ds
-    *   Array of dataset id's where the tool should grab the inputs from,
-    *   similar to workflow_invoke.
-    *
+    * @param $params
+    *   A key value (associative array) where the keys can be the following:
+    *   - tool_id:  Required. The tool id to execute. To find the tool id, use
+    *     the index function of this class.
+    *   - inputs:  Required. An associative array of key/value pairs where
+    *     valid keys are 'id' and 'src' and 'id' is a tool_id (e.g. wc_gnu),
+    *     and 'src' is is optional but defaults to 'hda'.  Alternatively, if
+    *     multiple inputs are desired, this can be an array of associative
+    *     arrays.
+    *   - state: Optional. The state of the job: 'running', 'queued',
+    *     'waiting', 'ok'.
     * @return
     *   An array of jobs matching the provided arguments.
     *
     * @ingroup jobs_class
     */
-  public function search($tool_id = NULL,  $input_dataset_ids = array(),
-    $history_id = NULL, $tool_version = NULL, $region = NULL,  $action = NULL){
+  public function search($params) {
 
     $URL = $this->galaxy->getURL() . '/api/jobs/search/?key=' . $this->galaxy->getAPIKey();
 
-    $input_ids = array();
-    $i = 0;
-
-    foreach($input_dataset_ids as &$input_dataset_id){
-      $input_ids[$i] = array('id' => $input_dataset_id, 'src' => 'hda');
-      $i++;
+    // Check that incoming arguments are appropriate.
+    if (!array_key_exists('tool_id', $params)) {
+      $this->setError('API', 'The "tool_id" paremeter is required');
+      return FALSE;
     }
 
-    $elements = array(
-      'tool_id' => $tool_id,
-      'tool_version' => $tool_version,
-      'inputs' => json_encode($input_ids,JSON_FORCE_OBJECT),
-      'history_id' => $history_id,
-      'region' => $region,
-      'action' => $action,
-    );
+    // Make sure if the inputs argument exists then it's an associative array.
+//     if (array_key_exists('inputs', $params)) {
+//       $keys = array_keys($params['inputs']);
+//       foreach ($keys as $key) {
+//         if ($key !== 'src' and $key !== 'id') {
+//           $this->setError('API', "The \"inputs\" parameter must be an associative array with keys either 'id' or 'src'.");
+//           return FALSE;
+//         }
+//       }
+//     }
+
+    // We can't include arrays as POST arguemtns. They must strings,
+    // so we'll convert to a JSON array which Galaxy likes.
+    if (array_key_exists('inputs', $params)) {
+      $params['inputs'] = json_encode($params['inputs']);
+    }
+
 
     // Create a list of input items that is not NULL.
     $notNULLInputs = array();
-    foreach($elements as $element => $value) {
+    foreach($params as $element => $value) {
       if($value != NULL) {
         $notNULLInputs[$element] = $value;
       }
