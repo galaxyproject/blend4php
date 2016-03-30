@@ -186,10 +186,11 @@ class HistoryContents extends HTTPRequest {
   public function index($history_id, $ids = NULL) {
     $URL = $this->galaxy->getURL() . '/api/histories/' . $history_id . '/contents' . '/?key=' . $this->galaxy->getAPIKey();
     if ($ids !== NULL) {
-      $URL .= '/&ids=' .$ids;
+      $URL .= '/&ids=' . json_encode($ids);
     }
 
     $response = $this->httpGET($URL);
+    print_r($response);
     return $this->expectArray($response);
   }
 }

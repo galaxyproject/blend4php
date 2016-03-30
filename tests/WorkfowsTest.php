@@ -129,9 +129,8 @@ class WorkflowsTest extends PHPUnit_Framework_TestCase {
     $tools = new Tools($galaxy);
 
     // Create our very own history for this test!
-    $ourHistory = $histories->create("Testing Workflows invoke");
-    $history_list = $histories->index();
-    $history_id = $history_list[0]['id'];
+    $ourHistory = $histories->create("Testing Workflows Invoke");
+    $history_id = $ourHistory['id'];
 
     // Now we need some content!
     $files = array(
@@ -152,9 +151,6 @@ class WorkflowsTest extends PHPUnit_Framework_TestCase {
 
     // Case 1: Successfully execute workflow with defualt perameters
     $invocation = $workflows->invoke($workflow_id, array($content_id));
-    print_r($invocation);
-
-    //flush();
     $this->assertTrue(is_array($invocation), $workflows->getErrorMessage());
     $this->assertTrue(array_key_exists('state', $invocation) and $invocation['state'] == 'new',
         "Workflow invoked returned an array but the workflow is not in the proper state.");
@@ -163,8 +159,6 @@ class WorkflowsTest extends PHPUnit_Framework_TestCase {
     // Make sure the newly created invoke workflow is not of state 'new' or state
     // 'running'.
     while ($invocation['state'] == 'running' or $invocation['state'] == 'new' ) {
-       print $invocation['state'] . "\n";
-       //flush();
       sleep(1);
       $invocation =  $workflows->showInvocations($workflow_id, $invocation['id']);
       $this->assertTrue(is_array($invocation), $workflows->getErrorMessage());
@@ -174,8 +168,9 @@ class WorkflowsTest extends PHPUnit_Framework_TestCase {
     $invocation = $workflows->invoke($workflow_id, array($content_id), NULL, $history_id);
     $this->assertTrue(is_array($invocation), $workflows->getErrorMessage());
 
-    // Check to make sure history has the outputted has the dataset
+    // Check to make sure history has the outputted dataset
     $content_list = $history_content->index($history_id);
+    print($history_id);
     print_r($content_list);
     $this->assertTrue(count($content_list) > 1); //and
         //array_key_exists('Line/Word/Character count on data 1', $content_list[1]), "Content not in the desired history");
