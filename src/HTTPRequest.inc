@@ -52,7 +52,7 @@ class HTTPRequest  {
     // Make sure we get the header included with the output.
     curl_setopt($ch, CURLOPT_HEADER, 1);
     $output = curl_exec($ch);
-    print "OUTPUT: $output\n";
+
     if ($output === FALSE) {
       $this->error->setError('HTTP', curl_error($ch));
       return FALSE;
@@ -161,7 +161,7 @@ class HTTPRequest  {
     curl_setopt($ch, CURLOPT_URL, $URL);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, True);
     $response = $this->getCURLResponse($ch);
-    print_r($response);
+    //print_r($response);
     curl_close($ch);
 
     return $response;

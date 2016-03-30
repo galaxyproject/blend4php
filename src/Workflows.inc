@@ -164,13 +164,14 @@ class Workflows extends HTTPRequest{
     * TODO: incomplete
     *
     */
-   public function update($workflow_id, $parameters = NULL, $ds_map = NULL,
-     $no_add_to_history = TRUE, $history =NULL, $replacement_params = NULL,
-     $from_history_id=NULL, $job_ids = NULL, $dataset_ids = NULL, $dataset_collection_ids=NULL,
-     $workflow_name = NULL, $allow_tool_state_corrections = NULL){
+   public function update($workflow_id, $JSON_Workflow){
 
     $URL = $this->galaxy->getURL() . '/api/workflows/'. $workflow_id . '/?key=' . $this->galaxy->getAPIKey();
-
+    $elements = array(
+      'workflow'=> $JSON_Workflow,
+    );
+/*
+ *
     $elements = array(
         'workflow_id' => $workflow_id,
         'description' => 'bob',
@@ -195,9 +196,9 @@ class Workflows extends HTTPRequest{
       if($value != NULL ) {
         $notNullInputs[$element] = $value;
       }
-    }
+    } */
 
-    $response = $this->httpPUT($URL, $notNullInputs);
+    $response = $this->httpPUT($URL, $elements);
     return $this->expectArray($response);
   }
 
@@ -255,7 +256,7 @@ class Workflows extends HTTPRequest{
     */
    public function indexInvocations($workflow_id){
      $URL = $this->galaxy->getURL() . '/api/workflows/' .
-     $workflow_id . 'invocations/?key=' . $this->galaxy->getAPIKey();
+     $workflow_id . '/invocations/?key=' . $this->galaxy->getAPIKey();
      $response = $this->httpGET($URL);
      return $this->expectArray($response);
    }
@@ -310,7 +311,6 @@ class Workflows extends HTTPRequest{
      return $this->rest->delete($URL);
    }
 
-
    /**
     * Returns the invocation steps for a workflow.
     *
@@ -334,10 +334,11 @@ class Workflows extends HTTPRequest{
     */
    public function invocationSteps($workflow_id, $invocation_id, $step_id){
      $URL = $this->galaxy->getURL() . '/api/workflows/' .
-         $workflow_id . 'invocations/'.$invocation_id.'/?key=' . $this->galaxy->getAPIKey();
-     return $this->rest->delete($URL);
-   }
+         $workflow_id . '/invocations/'.$invocation_id.'/?key=' . $this->galaxy->getAPIKey();
 
+     $response = $this->httpGET($URL);
+     return $this->expectArray($response);
+   }
 
   /**
     * Update state of running workflow step invocations.
@@ -353,19 +354,21 @@ class Workflows extends HTTPRequest{
     *   please use this class's indexInvocation function.
     * @param step_id
     *   The id of the step to update.
-    *
+    * @param payload
+    *   The workflow as a JSON object (in an array), containing any or all update fields for
+    *   the workflow.
     * @return
     *   An array containing information of the updated invocation step.
     *
     * @ingroup workflows_class
     */
-   public function updateInvocationSteps($workflow_id, $invocation_id, $step_id){
+   public function updateInvocationSteps($workflow_id, $invocation_id, $step_id, $payload = array()){
      $URL = $this->galaxy->getURL() . '/api/workflows/' .
        $workflow_id . '/invocations/' . $invocation_id . '/steps/' .
        $step_id . '?key=' . $this->galaxy->getAPIKey();
 
-     $response = $this->httpPUT($URL);
-     return $this->expectArray($response);;
+     $response = $this->httpPUT($URL, $payload);
+     return $this->expectArray($response);
    }
 
 
