@@ -18,11 +18,11 @@
  * @}
  */
 
-require_once "GalaxyInstance.inc";
+require_once 'HTTPRequest.inc';
 
 
-class ToolShedRepositories extends GalaxyRequest{
-   private $galaxy = NULL;
+class ToolShedRepositories extends HTTPRequest{
+   private $galaxy;
 
   /**
    * The Tools constructor.
@@ -72,57 +72,37 @@ class ToolShedRepositories extends GalaxyRequest{
   * Corresponds to the Galaxy API/path at
   *   POST /api/tool_shed_repositories/get_latest_installable_revision
   *
-  * @param $admin_api_key
-  *  The current Galaxy admin user's API key. To locate, please refer
-  *   to the users class.
   * @param $tool_shed_url
   *   The URL of the Tool Shed from which to retrieve the Repo revision
   *   This should be something similar to this:
   *   https://toolshed.g2.bx.psu.edu/repository?repository_id=253e22fdaf6a52c1
   * @param $name_of_repo
   *   The name of the repository
-  * @param $name_owner_of_repo
+  * @param $owner_of_repo
   *   The name of the owner of the repository
   *
   * @return
-  *   An array containing information on the latest version of the
-  *   given tool shed repository.
+  *   A changeset_revision hash yo (describes the revison 'number' of the tool)
+  *   i.e 1:7002b364c3f8
+  *   1 being the true rev. number (the larger the more changes it's been
+  *   through, behind the colon is a supposed unique hash string, though
+  *   collisions happen)
   *
   * @ingroup tool_shed_repositories_class
   */
-  public function getLatestInstallable ($admin_api_key, $tool_shed_url, $name_of_repo, $name_owner_of_repo){
-    $i = curl_init();
-    $api_key = $this->galaxy->getAPIKey();
+   public function getLatestInstallable ($tool_shed_url, $name_of_repo, $owner_of_repo){
+     $URL = $this->galaxy->getURL() . '/api/tool_shed_repositories/' . 'get_latest_installable_revision' . '?key=' . $this->galaxy->getAPIKey();
 
-    $URL = $this->galaxy->getURL() . '/api/tool_shed_repositories/' . 'get_latest_installable_revision' . '?key=' . $api_key;
+     $data = array(
+       'tool_shed_url' => $tool_shed_url,
+       'name' => $name_of_repo,
+       'owner' => $owner_of_repo,
+     );
 
-    $data = array(
-        'tool_shed_url' => 'https://toolshed.g2.bx.psu.edu/repository?repository_id=f3d4583fe94434e9',
-        'name' => 'blockclust_workflow',
-        'owner' => 'rnateam'
-//         'key' => $api_key
-    );
-    $data_string = '';
-    foreach($data as $key=>$value) {
-      $data_string .= $key.'='.$value.'&';
-    }
-    //rtrim($data_string, '&');
-    print($data_string);
-    print "\n\n\n";
-    curl_setopt($i, CURLOPT_CUSTOMREQUEST, "POST");
-    curl_setopt($i, CURLOPT_URL, $URL);
-    curl_setopt($i, CURLOPT_POSTFIELDS,http_build_query($data));
-    curl_setopt($i, CURLOPT_POST, count($data));
-    curl_setopt($i, CURLOPT_POSTFIELDS, $data_string);
-    curl_setopt($i, CURLOPT_RETURNTRANSFER, true);
+     $response = $this->httpPOST($URL, $data);
 
-    $result = curl_exec($i);
-
-    $info = curl_getinfo($i);
-
-    curl_close($i);
-
-    return $result;
+     // This will NOT be an array, just a simple hash string
+     return $response;
   }
 
   /**
@@ -134,80 +114,45 @@ class ToolShedRepositories extends GalaxyRequest{
   * @param $tool_shed_repo_id
   *   The encoded id of the Tool Shed Repository object
   *
+  * @param $index
+  *   The location of the workflow to import from within the specified
+  *   toolshed, defaults to 0
   * @return
   *   An array containing informaiton of the imported workflow.
   *
   * @ingroup tool_shed_repositories_class
   */
-   public function importWorkflow ($tool_shed_repo_id){
-     $i = curl_init();
-   $api_key = $this->galaxy->getAPIKey();
+   public function importWorkflow ($tool_shed_repo_id, $index = 0){
+     $URL = $this->galaxy->getURL() . '/api/tool_shed_repositories/' . $tool_shed_repo_id . '/import_workflow?key=' . $this->galaxy->getAPIKey();
 
-   $URL = $this->galaxy->getURL() . '/api/tool_shed_repositories/' . 'import_workflow';
+     $data = array(
+       'id' => $tool_shed_repo_id,
+       'index' => $index,
+     );
 
-   print $URL;
-   $data = array(
+   $result = $this->httpPOST($URL, $data);
 
-    'id' => $tool_shed_repo_id,
-    'key' => $api_key
-
-   );
-   $data_string = '';
-   foreach($data as $key=>$value) {
-    $data_string .= $key.'='.$value.'&';
-   }
-   rtrim($data_string, '&');
-   print($data_string);
-   print "\n";
-
-   curl_setopt($i, CURLOPT_URL, $URL);
-   curl_setopt($i,CURLOPT_POST, count($data));
-   curl_setopt($i, CURLOPT_POSTFIELDS, $data_string);
-   curl_setopt($i, CURLOPT_CUSTOMREQUEST, "POST");
-    //curl_setopt($i, CURLOPT_RETURNTRANSFER, true);
-
-   $result = curl_exec($i);
-
-   $info = curl_getinfo($i);
-
-    //$array = json_decode($result, true);
-   curl_close($i);
-
-   return $result;
-
+   return $this->expectArray($result);
   }
 
   /**
-  * Display a list containing all of Galaxy's tool shed repositories
+  * Display metadata on external tool shed repositories in galaxy instance
   *
   * Corresponds to the Galaxy API/path at
   *   GET /api/tool_shed_repositories
   *
   * @return
-  *   An array containing infromation on all of Galaxy's tool shed
-  *   repos.
+  *   Json containing metadata on remote toolsheds galaxy instance
   *
   * @ingroup tool_shed_repositories_class
   */
-   public function index (){
-   $i = curl_init();
-   $URL = $this->galaxy->getURL() . '/api/tool_shed_repositories' . '?key=' . $this->galaxy->getAPIKey();
+  public function index (){
+    $URL = $this->galaxy->getURL() . '/api/tool_shed_repositories' . '?key=' . $this->galaxy->getAPIKey();
 
+    $result = $this->httpGET($URL);
 
-
-   curl_setopt($i, CURLOPT_CUSTOMREQUEST, "GET");
-   curl_setopt($i, CURLOPT_URL, $URL);
-   curl_setopt($i, CURLOPT_RETURNTRANSFER, true);
-
-   $result = curl_exec($i);
-   curl_close($i);
-    //$info = curl_getinfo($i);
-   return $result;
-    //$array = json_decode($result, true);
-
-    //print_r ($array);
-
-   }
+    return $this->expectArray($result);
+  }
 
    /**
    * Install a specified repository revision from a specified tool shed repo.
@@ -215,8 +160,6 @@ class ToolShedRepositories extends GalaxyRequest{
    * Corresponds to the Galaxy API/path
    *   POST /api/tool_shed_repositories/install_repository_revision
    *
-   * @param $admin_api_key
-   *  The current Galaxy admin user's API key
    * @param $tool_shed_url
    *   The base URL of the Tool Shed from which to install the repo
    * @param $name_of_repo
@@ -254,7 +197,7 @@ class ToolShedRepositories extends GalaxyRequest{
    *
    * @ingroup tool_shed_repositories_class
    */
-  public function install_repository_revision ($admin_api_key, $tool_shed_url, $name_of_repo, $name_owner_of_repo, $changeset_revision,
+  public function install_repository_revision ($tool_shed_url, $name_of_repo, $name_owner_of_repo, $changeset_revision,
       $new_tool_panel_section_label = NULL, $tool_panel_section_id = NULL, $install_repo_dependencies = FALSE, $shed_tool_conf = NULL){
 
   }

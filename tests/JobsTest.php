@@ -148,7 +148,9 @@ class JobsTest extends PHPUnit_Framework_TestCase {
   }
 
   /**
-   *
+   * TODO: Input params are not correct
+   *  We need to fix them at some point
+   *  https://github.com/spficklin/GalaxyPAPI/issues/7
    *
    *
    * @depends testIndex
