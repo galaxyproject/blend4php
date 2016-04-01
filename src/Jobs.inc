@@ -60,7 +60,9 @@ class Jobs extends HTTPRequest{
   public function buildForRerun($job_id){
     $URL = $this->galaxy->getURL() . '/api/jobs/' . $job_id . '/build_for_rerun/?key=' . $this->galaxy->getAPIKey();
     $response = $this->httpGET($URL);
-    return $this->expectArray($response);
+    $this->setError("API", "This function is not complete, the corresponding Galaxy API
+        function wants a history_id, why or how is still uknown. Please see our issues page on Github for more information");
+    return FALSE;
   }
 
  /**
@@ -287,7 +289,9 @@ class Jobs extends HTTPRequest{
     }
 
     $response = $this->httpPOST($URL, $notNULLInputs);
-    return $this->expectArray($response);
+    $this->setError("API", "This function is incomplete, please see our issues page on GitHub for
+        more information");
+    return FALSE;
 
   }
 }
