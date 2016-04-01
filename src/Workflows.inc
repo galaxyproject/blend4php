@@ -124,7 +124,8 @@ class Workflows extends HTTPRequest{
    }
 
   /**
-   * Returns a selected workflow as a json dictionary.
+   * Returns a selected workflow (using a filepath) to download. It is similar
+   *   to export except the returned JSON does no include a 'inputs' field.
    *
    * Corresponds to the Galaxy API/path
    *   GET /api/workflows/{encoded_workflow_id}/download
@@ -147,12 +148,11 @@ class Workflows extends HTTPRequest{
    *
    * @ingroup workflows_class
    */
-  public function workflowDict($workflow_id, $file_local_path,
-    $use_default_filename = TRUE) {
+  public function download($workflow_id) {
 
     $api_key = $this->galaxy->getAPIKey();
 
-    $URL = $this->galaxy->getURL() . '/api/workflows/' . $workflow_id . '?key=' . $api_key;
+    $URL = $this->galaxy->getURL() . '/api/workflows/' . $workflow_id . '/download/?key=' . $api_key;
 
     $response = $this->httpGET($URL);
     return $this->expectArray($response);
@@ -161,8 +161,22 @@ class Workflows extends HTTPRequest{
 
 
    /**
-    * TODO: incomplete
+    * Updates an existing workflow using a pre-built JSON object
     *
+    * Corresponds to the Galaxy API method and path
+    *   PUT /api/workflows/{encoded_workflow_id}
+    *
+    * @param workflow_id
+    *   The id of the workflow to update. You can obtain a workflow id through
+    *   this class's index() function.
+    * @param JSON_Workflow
+    *   The JSON representation of what the final workflow should look like,
+    *   including the updates.
+    *
+    * @return
+    *   An array containing the updated workflow.
+    *
+    * @ingroup workflows_class
     */
    public function update($workflow_id, $JSON_Workflow){
 
@@ -170,33 +184,6 @@ class Workflows extends HTTPRequest{
     $elements = array(
       'workflow'=> $JSON_Workflow,
     );
-/*
- *
-    $elements = array(
-        'workflow_id' => $workflow_id,
-        'description' => 'bob',
-        'workflow' => 'bob',
-        'from_history_id' => $from_history_id,
-        'parameters' => $parameters,
-        'ds_map' => $ds_map,
-        'no_add_to_history' =>$no_add_to_history,
-        'history'  => $history,
-        'replacement_params' => $replacement_params,
-        'from_history_id' => $from_history_id,
-        'jobs_id' => $job_ids,
-        'dataset_ids'  => $dataset_ids,
-        'dataset_collection_ids'=> $dataset_collection_ids,
-        'workflow_name'=> $workflow_name,
-        'allow_tool_state_corrections' => $allow_tool_state_corrections,
-    );
-
-    // Use only the elements that are not null
-    $notNullInputs = array();
-    foreach($elements as $element=>$value) {
-      if($value != NULL ) {
-        $notNullInputs[$element] = $value;
-      }
-    } */
 
     $response = $this->httpPUT($URL, $elements);
     return $this->expectArray($response);
@@ -236,8 +223,8 @@ class Workflows extends HTTPRequest{
       }
     }
 
-    $response = $this->httpPOST($URL, $notNullInputs);
-    return $this->expectArray($response);
+    $this->setError('API', "The PHP implementation of this is not yet complete. Please see our 'issues' page on github for more informaiton");
+    return FALSE;
   }
 
    /**
@@ -287,7 +274,6 @@ class Workflows extends HTTPRequest{
      return $this->expectArray($response);
    }
 
-
    /**
     * Cancel an invocation request.
     *
@@ -308,7 +294,8 @@ class Workflows extends HTTPRequest{
    public function cancelInvocation($workflow_id, $invocation_id){
      $URL = $this->galaxy->getURL() . '/api/workflows/' .
         $workflow_id . 'invocations/'.$invocation_id.'/?key=' . $this->galaxy->getAPIKey();
-     return $this->rest->delete($URL);
+      $this->setError("API", "This function has not yet been implemented by PHP. Please see our issues thread on github to learn more.");
+      return FALSE;
    }
 
    /**
@@ -368,10 +355,11 @@ class Workflows extends HTTPRequest{
        $step_id . '?key=' . $this->galaxy->getAPIKey();
 
      $response = $this->httpPUT($URL, $payload);
-     return $this->expectArray($response);
+     // TODO: It is unclear how this function should operate
+     $this->setError("API", "It is unclear how this function should operate, and is therefore incomplete,
+         please see our issues page on github for more information");
+     return FALSE;
    }
-
-
 
   /**
    * Invokes (runs) a specified workflow.

@@ -261,9 +261,10 @@ class WorkflowsTest extends PHPUnit_Framework_TestCase {
  }
 
  /**
-  * Tests the workflows updateInvocationSteps parameter
+  * Tests the workflows updateInvocationSteps function
   *
   * Updates the steps to a given workflow
+  * This workflow function is incomplete and should return false.
   *
   * @depends testInitGalaxy
   * @depends testCreate
@@ -272,17 +273,30 @@ class WorkflowsTest extends PHPUnit_Framework_TestCase {
   */
  function testUpdateInvocation($galaxy, $workflow_id, $invocation_id, $step_id){
    global $config;
-   // TODO:
    $workflows = new Workflows($galaxy);
-/*
-   $json_workflow = file_get_contents("./files/Galaxy-Workflow-update.ga");
-   $updated = $workflows->updateInvocationSteps($workflow_id, $invocation_id, $step_id, $json_workflow);
 
-   print_r($updated);
-   $this->assertTrue(is_array($updated), $workflows->getErrorMessage()); */
+   $error = $workflows->updateInvocationSteps($workflow_id, $invocation_id, $step_id);
+   $this->assertFalse($error,"updateInvocations function should return false");
  }
 
+ /**
+  * Tests the workflows cancelInvocation function
+  *
+  * Deletes an invocation
+  * This workflow function is incomplete and should return false.
+  *
+  * @depends testInitGalaxy
+  * @depends testCreate
+  * @depends testIndexInvocation
+  * @depends testShowInvocation
+  */
+ function testCancelInvocation($galaxy, $workflow_id, $invocation_id){
+   global $config;
+   $workflows = new Workflows($galaxy);
 
+   $error = $workflows->cancelInvocation($workflow_id, $invocation_id);
+   $this->assertFalse($error,"updateInvocations function should return false");
+ }
 
  /**
   * Tests Workflows update function
@@ -312,6 +326,107 @@ class WorkflowsTest extends PHPUnit_Framework_TestCase {
 
  }
 
+ /**
+  * Tests Workflows export function
+  *
+  * Exports a workflow as an array!
+  *
+  * @depends testInitGalaxy
+  * @depends testCreate
+  */
+ function testExport($galaxy, $workflow_id){
+   global $config;
+
+   $workflows = new Workflows($galaxy);
+
+   // Case 1: Successfully export workflow as an array
+   $exported_workflow = $workflows->export($workflow_id);
+   $this->assertTrue(is_array($exported_workflow), $workflows->getError());
+
+   // Case 2: given incorrect workflow_id, gracefully return false
+   $exported_workflow = $workflows->export("@@@");
+   $this->assertFalse(is_array($exported_workflow), $workflows->getError());
+
+ }
+
+ /**
+  * Tests downloads
+  *
+  * Obtains a workflow and returns it as if to download. It differs from export
+  * in terms of its returned 'input' parameters.
+  *
+  * @depends testInitGalaxy
+  * @depends testCreate
+  */
+ function testDownload($galaxy, $workflow_id){
+   global $config;
+
+   $workflows = new Workflows($galaxy);
+
+   // Case 1: Successfully export workflow as an array
+   $array_workflow = $workflows->download($workflow_id);
+   $this->assertTrue(is_array($array_workflow), $workflows->getError());
+
+   // Case 2: Gracefully return false if an incorrect workflow id is entered.
+   $array_workflow = $workflows->download("@@@");
+   $this->assertFalse(is_array($array_workflow), $workflows->getError());
+ }
+
+ /**
+  * Tests the buildModule() funciton
+  *
+  * Builds a workflow module.
+  * This workflow function is incomplete and should return false.
+  *
+  * @depends testInitGalaxy
+  * @depends testCreate
+  */
+ function testBuildModule($galaxy, $workflow_id){
+   global $config;
+
+   $workflows = new Workflows($galaxy);
+
+   // Case 1: Successfully export workflow as an array
+   $error = $workflows->buildModule(NULL);
+   $this->assertFalse($error, "the buildModule function should return false");
+
+ }
+ /**
+  * Tests the deletion of a workflow
+  *
+  * @depends testInitGalaxy
+  * @depends testCreate
+  * @depends testIndex
+  * @depends testShow
+  * @depends testInvoke
+  * @depends testIndexInvocation
+  * @depends testShowInvocation
+  * @depends testInvocationSteps
+  * @depends testUpdateInvocation
+  * @depends testCancelInvocation
+  * @depends testUpdate
+  * @depends testExport
+  * @depends testDownload
+  * @depends testBuildModule
+  *
+  */
+ function delete($galaxy, $workflow_id){
+   global $config;
+
+   $workflows = new Workflows($galaxy);
+
+   // Case 1: Successfully export workflow as an array
+   $deleted = $workflows->delete($workflow_id);
+   $this->assertTrue(is_array($deleted), $workflows->getError());
+
+   $marked_deleted = $deleted['deleted'] =="true";
+   $this->assertTrue($marked_deleted, "Workflow not marked as deleted");
+
+   // Case 2: Gracefully return false upon incorrect wokrflow id
+   $deleted = $workflows->delete("@@@");
+   $this->assertFalse(is_array($deleted), "Deleting a non-existing workflow should return false");
+
+ }
 
 
 
