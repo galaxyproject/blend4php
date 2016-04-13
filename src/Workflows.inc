@@ -11,16 +11,6 @@ include_once 'HTTPRequest.inc';
  * and are named similarly to their Python counterparts.
  */
 
-/**
- * @defgroup workflowa_class Workflows Class
- * @{
- *   The Workflows class interacts with Galaxy to manage contents of a Galaxy
- *   workflow. The functions in this class correspond to the Galaxy API
- *   functions and are named similarly to their Python counterparts.
- * @}
- */
-
-
 class Workflows extends HTTPRequest{
 
   private $galaxy;
@@ -418,7 +408,7 @@ class Workflows extends HTTPRequest{
   }
 
 
-   /***
+   /**
     * Creates or edits a workflow with the given parameters.
     *
     * Corresponds to the Galaxy api/path at
@@ -427,8 +417,8 @@ class Workflows extends HTTPRequest{
     * @param $params
     *   A key value (associative array) where the keys can be the following:
     *
-    *   If importing a Json workflow:
-    *   - workflow:  A json representation of a workflow to be inserted into
+    *   If importing a JSON workflow:
+    *   - workflow: A JSON representation of a workflow to be inserted into
     *       the database.
     *
     *   If running workflow from pre-existing workflow:

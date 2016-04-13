@@ -10,14 +10,6 @@
  *
  */
 
-/**
- * @defgroup data_sets_class DataSets class
- * @{
- *   The DataSets Class interacts with Galaxy to manage DataSets.
- *   The functions in this class correspond to the Galaxy API functions and
- *   are named similarly to their Python counterpart.
- * @}
- */
 require_once 'HTTPRequest.inc';
 
 
@@ -57,7 +49,6 @@ class Datasets extends HTTPRequest {
     * @return
     *   An array containing information about the matching dataset(s).
     *
-    * @defgroup data_sets_class
     */
    public function converted($dataset_id, $extension=NULL) {
      $URL = "";
@@ -88,7 +79,6 @@ class Datasets extends HTTPRequest {
     * @return
     *   An array containing information about the matching dataset(s).
     *
-    * @defgroup data_sets_class
     */
    public function display($hist_id, $hist_content_id){
      $URL = $this->galaxy->getURL() . '/api/histories/' . $hist_id . '/contents/' . $hist_content_id. '/?key=' . $this->galaxy->getAPIKey();
@@ -102,7 +92,6 @@ class Datasets extends HTTPRequest {
     *
     * Currently not supported by the Galaxy API
     *
-    * @defgroup data_sets_class
     */
    public function index(){
      $URL = $this->galaxy->getURL() . '/api/datasets/?key=' . $this->galaxy->getAPIKey();
@@ -120,10 +109,9 @@ class Datasets extends HTTPRequest {
     *   The dataset id whos information the function is retreiving.
     *   To obtain the dataset id, please use the Display function.
     *
-     * @return
-     *   An array containing information about the matching dataset.
+    * @return
+    *   An array containing information about the matching dataset.
     *
-     * @defgroup data_sets_class
     */
    public function show($dataset_id){
      $URL = $this->galaxy->getURL().'/api/datasets/' . $dataset_id . '/?key=' . $this->galaxy->getAPIKey();
