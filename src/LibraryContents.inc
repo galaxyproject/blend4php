@@ -12,7 +12,7 @@ class LibraryContents extends HTTPRequest{
    * @return
    *   An instance of a Libraries object.
    *
-   * @ingroup libraries_class
+   * 
    */
   public function __construct($galaxy) {
     $this->galaxy = $galaxy;

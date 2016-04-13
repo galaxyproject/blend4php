@@ -35,7 +35,7 @@ class Groups extends HTTPRequest {
    * @return
    *   An instance of a Groups object.
    *
-   * @ingroup group_class
+   * 
    */
   public function __construct($galaxy) {
     $this->galaxy = $galaxy;
@@ -50,7 +50,7 @@ class Groups extends HTTPRequest {
    * @return
    *   An array of all groups.
    *
-   * @ingroup group_class
+   * 
    */
   public function index() {
     $URL = $this->galaxy->getURL() . '/api/groups/?key=' . $this->galaxy->getAPIKey();
@@ -75,7 +75,7 @@ class Groups extends HTTPRequest {
    * @return
    *   An array of the group that contains the users and roles.
    *
-   * @ingroup group_class
+   * 
    */
   public function create($name, $user_ids = array(), $role_ids = array()) {
 
@@ -118,7 +118,7 @@ class Groups extends HTTPRequest {
    * @return
    *   An array containing details about the group.
    *
-   * @ingroup group_class
+   * 
    */
   public function show($group_id) {
     $URL = $this->galaxy->getURL() . '/api/groups/' . $group_id . '/?key=' . $this->galaxy->getAPIKey();
@@ -147,7 +147,7 @@ class Groups extends HTTPRequest {
    * @return
    *   An array of the group that contains the users and roles.
    *
-   * @ingroup group_class
+   * 
    */
   public function update($group_id, $name = NULL, $user_ids = array(), $role_ids = array()) {
 

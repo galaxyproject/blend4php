@@ -33,7 +33,7 @@ class Roles extends HTTPRequest{
    * @return
    *   An instance of a roles object.
    *
-   * @ingroup roles_class
+   * 
    */
   public function __construct($galaxy) {
     parent ::__construct();
@@ -49,7 +49,7 @@ class Roles extends HTTPRequest{
    * @return
    *   An array containing details of all the roles in Galaxy.
    *
-   * @ingroup roles_class
+   * 
    */
   public function index(){
     $URL = $this->galaxy->getURL() . '/api/roles/?key=' . $this->galaxy->getAPIKey();
@@ -70,7 +70,7 @@ class Roles extends HTTPRequest{
    * @return
    *   An array containing details about the specified role.
    *
-   * @ingroup roles_class
+   * 
    */
   public function show($role_id){
     $URL = $this->galaxy->getURL() . '/api/roles/' . $role_id . '/?key=' . $this->galaxy->getAPIKey();
@@ -102,7 +102,7 @@ class Roles extends HTTPRequest{
    * @return
    *   An array containing informaiton about the new role.
    *
-   * @ingroup roles_class
+   * 
    */
   public function create($name, $description, $user_ids = array(), $group_ids = array()) {
 

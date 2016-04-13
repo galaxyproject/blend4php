@@ -34,7 +34,7 @@ class Histories extends HTTPRequest {
    * @return
    *   An instance of a Histories object.
    *
-   * @ingroup histories_class
+   * 
    */
    public function __construct($galaxy) {
      $this->galaxy = $galaxy;
@@ -65,7 +65,7 @@ class Histories extends HTTPRequest {
     * @return
     *    An array containing information about the new History component.
     *
-    * @ingroup histories_class
+    * 
     */
    public function create($name, $history_id = NULL, $archive_source = NULL,
        $archive_type = NULL, $all_datasets = TRUE){
@@ -103,7 +103,7 @@ class Histories extends HTTPRequest {
     * @return
     *    An array containing list of histories in galaxy instance.
     *
-    * @ingroup histories_class
+    * 
     */
    public function index(){
 
@@ -136,7 +136,7 @@ class Histories extends HTTPRequest {
     * @return
     *    Json array containing information about the specified history
     *
-    * @ingroup histories_class
+    * 
     */
    public function show($history_id){
      $URL = $this->galaxy->getURL() . '/api/histories/' . $history_id . '/?key=' . $this->galaxy->getAPIKey();
@@ -164,7 +164,7 @@ class Histories extends HTTPRequest {
     * @return
     *    TRUE if the download was successful and FALSE otherwise.
     *
-    * @ingroup histories_class
+    * 
     */
    public function archiveDownload($history_id, $file_path) {
 
@@ -188,7 +188,7 @@ class Histories extends HTTPRequest {
    * @return
    *   A URL of where to download the export.
    *
-   * @ingroup histories_class
+   * 
    */
    public function archiveExport($history_id){
 
@@ -210,7 +210,7 @@ class Histories extends HTTPRequest {
     * @return
     *   An array of deleted histories.
     *
-    * @ingroup histories_class
+    * 
     */
    public function deleteHistory($history_id){
      $URL = $this->galaxy->getURL() . '/api/histories/'. $history_id . '/?key=' . $this->galaxy->getAPIKey();
@@ -231,7 +231,7 @@ class Histories extends HTTPRequest {
     * @return
     *   An array of undeleted histories.
     *
-    * @ingroup histories_class
+    * 
     */
    public function undelete($history_id){
      $URL = $this->galaxy->getURL() . '/api/histories/deleted/'. $history_id . '/undelete?key=' . $this->galaxy->getAPIKey();
@@ -252,7 +252,7 @@ class Histories extends HTTPRequest {
     * @return
     *   An array of citations.
     *
-    * @ingroup histories_class
+    * 
     */
    public function citations($history_id){
      $URL = $this->galaxy->getURL() . '/api/histories/'. $history_id . '/citations?key=' . $this->galaxy->getAPIKey();
@@ -269,7 +269,7 @@ class Histories extends HTTPRequest {
     * @return
     *   An array of published histories.
     *
-    * @ingroup histories_class
+    * 
     */
    public function published(){
      $URL = $this->galaxy->getURL() . '/api/histories/published/?key=' . $this->galaxy->getAPIKey();
@@ -286,7 +286,7 @@ class Histories extends HTTPRequest {
   * @return
   *   An array histories shared with the current user.
   *
-  * @ingroup histories_class
+  * 
   */
   public function sharedWithMe(){
     $URL = $this->galaxy->getURL() . '/api/histories/shared_with_me/?key=' . $this->galaxy->getAPIKey();

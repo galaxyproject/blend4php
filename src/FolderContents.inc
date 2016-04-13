@@ -34,7 +34,7 @@ class FolderContents extends HTTPRequest {
   * @return
   *   An instance of a FolderContents object.
   *
-  * @ingroup folder_contents_class
+  * 
   */
    public function __construct($galaxy) {
      $this->galaxy = galaxy;
@@ -53,7 +53,7 @@ class FolderContents extends HTTPRequest {
     * @return
     *   An array of The specified folder's contents
     *
-    * @ingroup folder_contents_class
+    * 
     */
    public function index ($folder_id) {
      $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' . $folder_id . '/contents' .'/?key=' . $this->galaxy->getAPIKey();
@@ -82,7 +82,7 @@ class FolderContents extends HTTPRequest {
     * @return
     *   An array containing the newly created folder content.
     *
-  * @ingroup folder_contents_class
+  * 
     */
    public function create($parent_folder_id, $from_hda_id = NULL, $ldda_message = NULL, $extended_metadata = NULL){
      $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' . $parent_folder_id . '/contents/?key=' . $this->galaxy->getAPIKey();
@@ -113,7 +113,7 @@ class FolderContents extends HTTPRequest {
    * @return
    *   False.
    *
-   * @ingroup folder_contents_class
+   * 
    */
    public function show($folder_id){
     //Not implemented in the python counterpart
@@ -129,7 +129,7 @@ class FolderContents extends HTTPRequest {
     * @return
     *   False.
     *
-     * @ingroup folder_contents_class
+     * 
     */
    public function update($folder_id, $add_ids, $manage_ids, $modify_ids){
     //Not implemented by the python counterpart.

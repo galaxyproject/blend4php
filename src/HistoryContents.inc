@@ -34,7 +34,7 @@ class HistoryContents extends HTTPRequest {
    * @return
    *   An instance of a HistoryContents object.
    *
-   * @ingroup history_content_class
+   * 
    */
   public function __construct($galaxy) {
     parent::__construct();
@@ -59,7 +59,7 @@ class HistoryContents extends HTTPRequest {
    * @return
    *   An array containing information about the new History content component.
    *
-   * @ingroup history_content_class
+   * 
    */
   public function create($history_id, $content_id, $source = 'hda') {
     $URL = $this->galaxy->getURL() . '/api/histories/' . $history_id . '/contents/datasets/?key=' . $this->galaxy->getAPIKey();
@@ -90,7 +90,7 @@ class HistoryContents extends HTTPRequest {
    * @return
    *   An array containing detailed HDA (history dataset association) information.
    *
-   * @ingroup history_content_class
+   * 
    */
   public function show($history_id, $content_id) {
     $URL = $this->galaxy->getURL() . '/api/histories/' . $history_id . '/contents/' . $content_id .'/?key=' . $this->galaxy->getAPIKey();
@@ -120,7 +120,7 @@ class HistoryContents extends HTTPRequest {
    *   An array containing detailed HDA (history dataset association)
    *   information.
    *
-   * @ingroup history_content_class
+   * 
    */
   public function update($history_id, $content_id, $annotation = '') {
     $URL = $this->galaxy->getURL() . '/api/histories/' . $history_id . '/contents/' . $content_id . '/?key=' . $this->galaxy->getAPIKey();
@@ -153,7 +153,7 @@ class HistoryContents extends HTTPRequest {
    *   An array containing detailed HDA (history dataset association)
    *   information.
    *
-   * @ingroup history_content_class
+   * 
    */
   public function delete($history_id, $content_id, $purge = false) {
     $URL = $this->galaxy->getURL() . '/api/histories/' . $history_id . '/contents/' . $content_id . '/?key=' . $this->galaxy->getAPIKey();
@@ -181,7 +181,7 @@ class HistoryContents extends HTTPRequest {
    *   An array containing a summary or detailed HDA(history dataset
    *   association) of all the history contents.
    *
-   * @ingroup history_content_class
+   * 
    */
   public function index($history_id, $ids = NULL) {
     $URL = $this->galaxy->getURL() . '/api/histories/' . $history_id . '/contents' . '/?key=' . $this->galaxy->getAPIKey();

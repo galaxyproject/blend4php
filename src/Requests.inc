@@ -24,7 +24,7 @@ class Requests extends HTTPRequest {
    * @return
    *   An instance of a Request object.
    *
-   * @ingroup request_class
+   * 
    */
   function __construct($galaxy) {
     $this->galaxy = $galaxy;
@@ -36,7 +36,7 @@ class Requests extends HTTPRequest {
    * @return
    *   An array of the requests.
    *
-   * @ingroup request_class
+   * 
    */
   public function index (){
     $api_key = $this->galaxy->getAPIKey();
@@ -58,7 +58,7 @@ class Requests extends HTTPRequest {
    *   An array containing detailed information about the requested
    *   galaxy entitiy.
    *
-   * @ingroup request_class
+   * 
    */
   public function show($encoded_request_id){
     $api_key = $this->galaxy->getAPIKey();
@@ -79,7 +79,7 @@ class Requests extends HTTPRequest {
    * @return
    *   An array containing information on the updated Galaxy entity.
    *
-   * @ingroup request_class
+   * 
    */
   public function update ($encoded_request_id){
     $api_key = $this->galaxy->getAPIKey();

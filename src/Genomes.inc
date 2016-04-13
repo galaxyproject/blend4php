@@ -34,7 +34,7 @@ class Genomes extends HTTPRequest{
    * @return
    *   An instance of a Genomes object.
    *
-   * @ingroup genomes_class
+   * 
    */
   public function __construct($galaxy) {
     $this->galaxy = $galaxy;
@@ -50,7 +50,7 @@ class Genomes extends HTTPRequest{
    * @return
    *   An array containing a list of all of the genome entities in Galaxy.
    *
-   * @ingroup genomes_class
+   * 
    */
   public function index(){
     $api_key = $this->galaxy->getAPIKey();
@@ -75,7 +75,7 @@ class Genomes extends HTTPRequest{
    *   A JSON object containint detailed information about the specified
    *   Galaxy Genome.
    *
-   * @ingroup genomes_class
+   * 
    */
   public function show($genome_id){
     $api_key = $this->galaxy->getAPIKey();

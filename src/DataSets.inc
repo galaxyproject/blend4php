@@ -33,7 +33,7 @@ class Datasets extends HTTPRequest {
    * @return
    *   An instance of a DataSet object.
    *
-   * @ingroup data_sets_class
+   * 
    */
    public function __construct($galaxy) {
      $this->galaxy = $galaxy;

@@ -33,7 +33,7 @@ class GroupUsers extends HTTPRequest {
    * @return
    *   An instance of a Groups Users object.
    *
-   * @ingroup group_users_class
+   * 
    */
    public function __construct($galaxy) {
      $this->galaxy = $galaxy;
@@ -52,7 +52,7 @@ class GroupUsers extends HTTPRequest {
     * @return
     *   An array of all users of a given group.
     *
-    * @ingroup group_users_class
+    * 
     */
   public function index($group_id) {
     $URL = $this->galaxy->getURL() .'/api/groups/' .$group_id .'/users/?key=' .$this->galaxy->getAPIKey();
@@ -75,7 +75,7 @@ class GroupUsers extends HTTPRequest {
    * @return
    *   An array containing details about the user of a given group.
    *
-   * @ingroup group_users_class
+   * 
    */
   public function show($group_id, $user_id) {
     $URL = $this->galaxy->getURL() .'/api/groups/' .$group_id .'/users/' .$user_id .'/?key=' .$this->galaxy->getAPIKey();
@@ -98,7 +98,7 @@ class GroupUsers extends HTTPRequest {
    * @return
    *   An array of the user that has added to the group
    *
-   * @ingroup group_users_class
+   * 
    */
   public function update($group_id, $user_id) {
     $URL = $this->galaxy->getURL() . '/api/groups/' . $group_id .'/users/' . $user_id .'/?key=' . $this->galaxy->getAPIKey();
@@ -121,7 +121,7 @@ class GroupUsers extends HTTPRequest {
    * @return
    *   An array of the user that has been removed from the group.
    *
-   * @ingroup group_users_class
+   * 
    */
   public function delete($group_id, $user_id) {
     $URL = $this->galaxy->getURL() . '/api/groups/' . $group_id . '/users/' . $user_id . '/?key=' . $this->galaxy->getAPIKey();

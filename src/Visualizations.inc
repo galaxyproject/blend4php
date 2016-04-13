@@ -34,7 +34,7 @@ class Visualizations extends HTTPRequest{
    * @return
    *   An instance of a Visualizations object
    *
-   * @ingroup visualizations_class
+   * 
    */
   function __construct($galaxy) {
     $this->galaxy = $galaxy;
@@ -50,7 +50,7 @@ class Visualizations extends HTTPRequest{
    * @return
    *   An array containing all of galaxy's visualizations.
    *
-   * @ingroup visualizations_class
+   * 
    */
   function index(){
     $URL = $this->galaxy->getURL() . '/api/visualizations/?key=' . $this->galaxy->getAPIKey();
@@ -67,7 +67,7 @@ class Visualizations extends HTTPRequest{
    * @param viz_id
    *   The visualization id whos details to display.
    *
-   * @ingroup visualizations_class
+   * 
    */
   function show($viz_id){
     $URL = $this->galaxy->getURL() . '/api/visualizations/'. $viz_id . '?/key=' . $this->galaxy->getAPIKey();
@@ -94,7 +94,7 @@ class Visualizations extends HTTPRequest{
    * @return
    *   An array containing the created visualization.
    *
-   * @ingroup visualizations_class
+   * 
    */
   function create($type, $title, $dbkey, $import_id = NULL){
     if($import_id != NULL) {
@@ -133,7 +133,7 @@ class Visualizations extends HTTPRequest{
    * @return
    *   An array containing the updated visualizaiton.
    *
-   * @ingroup visualizations_class
+   * 
    */
   function update($viz_id, $title=null, $dbkey=null, $config=null){
     $URL = $this->galaxy->getURL() . '/api/visualizations/' .$viz_id. '/?key=' . $this->galaxy->getAPIKey();

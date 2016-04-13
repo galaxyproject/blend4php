@@ -11,7 +11,7 @@
  */
 
 /**
- * @defgroup jobs_class
+ * @defgroup Jobs
  * @{
  *   The Jobs Class interacts with Galaxy to manage
  *   its folders. The functions in this class correspond to the Galaxy
@@ -32,7 +32,7 @@ class Jobs extends HTTPRequest{
   * @return
   *   An instance of a Jobs object.
   *
-  * @ingroup jobs_class
+  * 
   */
   public function __construct($galaxy){
     $this->galaxy = $galaxy;
@@ -55,7 +55,7 @@ class Jobs extends HTTPRequest{
    *   An array containing ouput informaiton of the tool that has been
    *   built.
    *
-   * @ingroup jobs_class
+   * 
    */
   public function buildForRerun($job_id){
     $URL = $this->galaxy->getURL() . '/api/jobs/' . $job_id . '/build_for_rerun/?key=' . $this->galaxy->getAPIKey();
@@ -78,7 +78,7 @@ class Jobs extends HTTPRequest{
   * @return
   *   An array containing ouput informaiton of the job input.
   *
-  * @ingroup jobs_class
+  * 
   */
   public function inputs($job_id){
     $URL = $this->galaxy->getURL() . '/api/jobs/' . $job_id . '/inputs/?key=' . $this->galaxy->getAPIKey();
@@ -99,7 +99,7 @@ class Jobs extends HTTPRequest{
   * @return
   *   An array containing ouput informaiton of the job outputs.
   *
-  * @ingroup jobs_class
+  * 
   */
   public function outputs($job_id){
     $URL = $this->galaxy->getURL() . '/api/jobs/' . $job_id . '/outputs/?key=' . $this->galaxy->getAPIKey();
@@ -120,7 +120,7 @@ class Jobs extends HTTPRequest{
   * @return
   *   JSON array containing information about the specified job.
   *
-  * @ingroup jobs_class
+  * 
   */
   public function show($job_id){
     $URL = $this->galaxy->getURL() . '/api/jobs/' . $job_id . '/?key=' . $this->galaxy->getAPIKey();
@@ -154,7 +154,7 @@ class Jobs extends HTTPRequest{
   *   An array containing a list of all the jobs that matched
   *   the given parameters.
   *
-  * @ingroup jobs_class
+  * 
   */
   public function index($state = NULL, $tool_ids = NULL, $date_range_min = NULL, $date_range_max = NULL,
     $history_id = NULL){
@@ -217,7 +217,7 @@ class Jobs extends HTTPRequest{
   * @return
   *   FALSE
   *
-  * @ingroup jobs_class
+  * 
   */
   public function create(){
      $this->setError('Galaxy', 'Not implemented: Creating/submitting a job is actually run under tools.py');
@@ -250,7 +250,7 @@ class Jobs extends HTTPRequest{
     * @return
     *   An array of jobs matching the provided arguments.
     *
-    * @ingroup jobs_class
+    * 
     */
   public function search($params) {
 

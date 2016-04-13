@@ -35,7 +35,7 @@ class GroupRoles extends HTTPRequest {
    * @return
    *   An instance of a Group Roles object.
    *
-   * @ingroup group_roles_class
+   * 
    */
     public function __construct($galaxy) {
       $this->galaxy = $galaxy;
@@ -54,7 +54,7 @@ class GroupRoles extends HTTPRequest {
     * @return
     *   An array of all group roles for a given group.
     *
-    * @ingroup group_roles_class
+    * 
     */
    public function index($group_id) {
      $URL = $this->galaxy->getURL() . '/api/groups/' . $group_id. '/roles/?key=' . $this->galaxy->getAPIKey();
@@ -77,7 +77,7 @@ class GroupRoles extends HTTPRequest {
     * @return
     *   An array containing details about the role of a given gorup.
     *
-    * @ingroup group_roles_class
+    * 
     */
    public function show($group_id, $role_id) {
      $URL = $this->galaxy->getURL() . '/api/groups/' . $group_id. '/roles/' . $role_id. '/?key=' . $this->galaxy->getAPIKey();
@@ -100,7 +100,7 @@ class GroupRoles extends HTTPRequest {
     * @return
     *   An array of the role that was added to the group
     *
-    * @ingroup group_roles_class
+    * 
     */
    public function update($group_id, $role_id) {
      $URL = $this->galaxy->getURL() . '/api/groups/' . $group_id . '/roles/' . $role_id. '/?key=' . $this->galaxy->getAPIKey();
@@ -124,7 +124,7 @@ class GroupRoles extends HTTPRequest {
     * @return
     *   An array of the role that was removed from the group.
     *
-    * @ingroup group_roles_class
+    * 
     */
    public function delete($group_id,$role_id) {
      $URL = $this->galaxy->getURL() . '/api/groups/' . $group_id . '/roles/' . $role_id . '/?key=' . $this->galaxy->getAPIKey();

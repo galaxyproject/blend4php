@@ -33,7 +33,7 @@ class ToolShedRepositories extends HTTPRequest{
    * @return
    *   An instance of a Tool shed repositories object.
    *
-   * @ingroup tool_shed_repositories_class
+   * 
    */
    function __construct($galaxy) {
      $this->galaxy = $galaxy;
@@ -56,7 +56,7 @@ class ToolShedRepositories extends HTTPRequest{
   *   An array containing information about a tool shed repositorie's
   *   exported workflow.
   *
-  * @ingroup tool_shed_repositories_class
+  * 
   */
     public function exportedWorkflows ($tool_shed_repo_id){
      $api_key = $this->galaxy->getAPIKey();
@@ -88,7 +88,7 @@ class ToolShedRepositories extends HTTPRequest{
   *   through, behind the colon is a supposed unique hash string, though
   *   collisions happen)
   *
-  * @ingroup tool_shed_repositories_class
+  * 
   */
    public function getLatestInstallable ($tool_shed_url, $name_of_repo, $owner_of_repo){
      $URL = $this->galaxy->getURL() . '/api/tool_shed_repositories/' . 'get_latest_installable_revision' . '?key=' . $this->galaxy->getAPIKey();
@@ -120,7 +120,7 @@ class ToolShedRepositories extends HTTPRequest{
   * @return
   *   An array containing informaiton of the imported workflow.
   *
-  * @ingroup tool_shed_repositories_class
+  * 
   */
    public function importWorkflow ($tool_shed_repo_id, $index = 0){
      $URL = $this->galaxy->getURL() . '/api/tool_shed_repositories/' . $tool_shed_repo_id . '/import_workflow?key=' . $this->galaxy->getAPIKey();
@@ -144,7 +144,7 @@ class ToolShedRepositories extends HTTPRequest{
   * @return
   *   Json containing metadata on remote toolsheds galaxy instance
   *
-  * @ingroup tool_shed_repositories_class
+  * 
   */
   public function index (){
     $URL = $this->galaxy->getURL() . '/api/tool_shed_repositories' . '?key=' . $this->galaxy->getAPIKey();
@@ -195,7 +195,7 @@ class ToolShedRepositories extends HTTPRequest{
    *   parameter is not set, a shed-related tool ppanel configuration file will
    *   be selected automatically
    *
-   * @ingroup tool_shed_repositories_class
+   * 
    */
   public function install_repository_revision ($tool_shed_url, $name_of_repo, $name_owner_of_repo, $changeset_revision,
       $new_tool_panel_section_label = NULL, $tool_panel_section_id = NULL, $install_repo_dependencies = FALSE, $shed_tool_conf = NULL){
@@ -221,7 +221,7 @@ class ToolShedRepositories extends HTTPRequest{
    *   The changeset_revision of the Repository Meta data object associated
    *   with the Repository
    *
-   * @ingroup tool_shed_repositories_class
+   * 
    */
   public function repair_repository_revision ($admin_api_key, $tool_shed_url, $name_of_repo, $owner_of_repo, $changeset_revision){
 
@@ -236,7 +236,7 @@ class ToolShedRepositories extends HTTPRequest{
   * @param $admin_api_key
   *   The current Galaxy damin user's API key
   *
-  * @ingroup tool_shed_repositories_class
+  * 
   */
    public function reset_metadata_on_installed_repositories ($admin_api_key){
 

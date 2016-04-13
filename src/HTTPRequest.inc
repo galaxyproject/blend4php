@@ -30,7 +30,7 @@ class HTTPRequest  {
     * @return
     *   An instance of a RestManager class.
     *
-    * @ingroup rest_manager_class
+    * 
     */
    function __construct() {
      $this->error = new RequestError();
@@ -45,7 +45,7 @@ class HTTPRequest  {
    * @return
    *   TRUE if error was found, FALSE otherwise.
    *
-   * @ingroup request_error_class
+   * 
    */
   private function getCURLResponse($ch) {
 
@@ -154,7 +154,7 @@ class HTTPRequest  {
    * @return
    *   curl server response.
    *
-   * @ingroup rest_manager_class
+   * 
    */
   protected function httpGET($URL) {
     $ch = curl_init();
@@ -178,7 +178,7 @@ class HTTPRequest  {
    * @return
    *   curl server response.
    *
-   * @ingroup rest_manager_class
+   * 
    */
   protected function httpPOST($URL, $post_fields = NULL) {
 
@@ -210,7 +210,7 @@ class HTTPRequest  {
    * @return
    *   curl server response.
    *
-   * @ingroup rest_manager_class
+   * 
    */
   protected function httpPUT($URL, $input = NULL) {
     $ch = curl_init();
@@ -268,7 +268,7 @@ class HTTPRequest  {
    * @return
    *   curl server response
    *
-   * @ingroup rest_manager_class
+   * 
    */
   protected function httpDELETE($URL, $input = NULL) {
     $ch = curl_init();
@@ -313,7 +313,7 @@ class HTTPRequest  {
    * @return
    *   string error message from the server or CURL.
    *
-   * @ingroup rest_manager_class
+   * 
    */
   public function getError() {
     return $this->error->getError();

@@ -34,7 +34,7 @@ class Folders extends HTTPRequest {
   * @return
   *   An instance of a Folders object.
   *
-  * @ingroup folders_class
+  * 
   */
    public function __construct($galaxy) {
      $this->galaxy = $galaxy;
@@ -49,7 +49,7 @@ class Folders extends HTTPRequest {
     * @return
     *   An array containing information about the specified folder.
     *
-    * @ingroup folder_contents_class
+    * 
     */
    public function index() {
      // Currentlly, listing all of the folders is not implmented. But we
@@ -73,7 +73,7 @@ class Folders extends HTTPRequest {
     * @return
     *   An array containing information about the specified folder.
     *
-    * @ingroup folder_contents_class
+    * 
     */
    public function show($folder_id) {
      $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' . $folder_id .'/?key=' . $this->galaxy->getAPIKey();
@@ -97,7 +97,7 @@ class Folders extends HTTPRequest {
     * @return
     *   An array containing information on the new folder.
     *
-  * @ingroup folder_contents_class
+  * 
     */
    public function create($parent_folder_id, $name, $description){
      $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' . $parent_folder_id . '/?key=' . $this->galaxy->getAPIKey();
@@ -122,7 +122,7 @@ class Folders extends HTTPRequest {
      * @return
      *   An array containing permission information on a specified folder.
      *
-   * @ingroup folder_contents_class
+   * 
    */
    public function getPermissions($folder_id){
     $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' .$folder_id . '/permissions' .'?key=' . $this->galaxy->getAPIKey();
@@ -152,7 +152,7 @@ class Folders extends HTTPRequest {
     * @param $modify_ids
     *   An array of users that will have modify permission on the folder
     *
-    * @ingroup folders_class
+    * 
     */
    public function setPermissions($folder_id, $add_ids, $manage_ids, $modify_ids){
      $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' .$folder_id . '/permissions' .'?key=' . $this->galaxy->getAPIKey();
@@ -185,7 +185,7 @@ class Folders extends HTTPRequest {
     *   Json Array containing information on the deleted (or undeleted)
     *   folder.
     *
-    * @ingroup folders_class
+    * 
     */
    public function delete($folder_id, $undelete = FALSE){
      if ($undelete == FALSE){
@@ -214,7 +214,7 @@ class Folders extends HTTPRequest {
     * @return
     *   Json array containing details about the deleted file history content.
     *
-    * @ingroup folders_class
+    * 
     */
    public function update($folder_id, $payload){
      $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' .$folder_id .'/?key=' . $this->galaxy->getAPIKey();

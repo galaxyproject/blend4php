@@ -34,7 +34,7 @@ class Workflows extends HTTPRequest{
   * @return
   *   An instance of a workflows object.
   *
-  * @ingroup workflows_class
+  * 
   */
   function __construct($galaxy) {
     $this->galaxy = $galaxy;
@@ -55,7 +55,7 @@ class Workflows extends HTTPRequest{
     * @return
     *   An array containing all of the workflows in Galaxy.
     *
-    * @ingroup workflows_class
+    * 
     */
   public function index($is_published = FALSE){
     $URL = $this->galaxy->getURL() . '/api/workflows/?is_published=' . $is_published .'/&key=' . $this->galaxy->getAPIKey(); ;
@@ -76,7 +76,7 @@ class Workflows extends HTTPRequest{
     * @return
     *   An array containing the details of a workflow.
     *
-    * @ingroup workflows_class
+    * 
     */
    public function show($workflow_id, $show_published=true){
      $URL = $this->galaxy->getURL() . '/api/workflows/' .$workflow_id. '/?key=' . $this->galaxy->getAPIKey();
@@ -95,7 +95,7 @@ class Workflows extends HTTPRequest{
     *   The id of the workflow to delete. To obtain a workflow id
     *   please use this class's index function.
     *
-    * @ingroup workflows_class
+    * 
     */
    public function delete($workflow_id) {
      $api_key = $this->galaxy->getAPIKey();
@@ -112,7 +112,7 @@ class Workflows extends HTTPRequest{
     * @return
     *   An array representing the workflow requested.
     *
-    * @ingroup workflows_class
+    * 
     */
    public function export($workflow_id) {
      $api_key = $this->galaxy->getAPIKey();
@@ -146,7 +146,7 @@ class Workflows extends HTTPRequest{
    * @return
    *   An array of the selected workflow.
    *
-   * @ingroup workflows_class
+   * 
    */
   public function download($workflow_id) {
 
@@ -176,7 +176,7 @@ class Workflows extends HTTPRequest{
     * @return
     *   An array containing the updated workflow.
     *
-    * @ingroup workflows_class
+    * 
     */
    public function update($workflow_id, $JSON_Workflow){
 
@@ -239,7 +239,7 @@ class Workflows extends HTTPRequest{
     * @return
     *   An array containing the invocations of a workflow.
     *
-    * @ingroup workflows_class
+    * 
     */
    public function indexInvocations($workflow_id){
      $URL = $this->galaxy->getURL() . '/api/workflows/' .
@@ -265,7 +265,7 @@ class Workflows extends HTTPRequest{
     * @return
     *   An array containing details of the specified invocation.
     *
-    * @ingroup workflows_class
+    * 
     */
    public function showInvocations($workflow_id, $invocation_id) {
      $URL = $this->galaxy->getURL() . '/api/workflows/' .
@@ -289,7 +289,7 @@ class Workflows extends HTTPRequest{
     * @return
     *   An array containing details of the specified invocation.
     *
-    * @ingroup workflows_class
+    * 
     */
    public function cancelInvocation($workflow_id, $invocation_id){
      $URL = $this->galaxy->getURL() . '/api/workflows/' .
@@ -317,7 +317,7 @@ class Workflows extends HTTPRequest{
     *   An array containing information for all the invocation steps of
     *   the given workflow invocation.
     *
-    * @ingroup workflows_class
+    * 
     */
    public function invocationSteps($workflow_id, $invocation_id, $step_id){
      $URL = $this->galaxy->getURL() . '/api/workflows/' .
@@ -347,7 +347,7 @@ class Workflows extends HTTPRequest{
     * @return
     *   An array containing information of the updated invocation step.
     *
-    * @ingroup workflows_class
+    * 
     */
    public function updateInvocationSteps($workflow_id, $invocation_id, $step_id, $payload = array()){
      $URL = $this->galaxy->getURL() . '/api/workflows/' .
@@ -387,7 +387,7 @@ class Workflows extends HTTPRequest{
    * @return
    *   An array containing information on the workflow invoked.
    *
-   * @ingroup workflows_class
+   * 
    */
   public function invoke($workflow_id, $input_dataset_ids, $parameters = NULL, $hist_id = NULL) {
 
@@ -470,7 +470,7 @@ class Workflows extends HTTPRequest{
     *  @return
     *   An array containing the created workflow.
     *
-    * @ingroup workflows_class
+    * 
     **/
    public function create($params) {
 

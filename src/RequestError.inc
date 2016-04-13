@@ -28,7 +28,7 @@ class RequestError {
    * @return
    *   An instance of a Request Error object.
    *
-   * @ingroup request_error_class
+   * 
    */
   public function __construct() {
     $errorMessage = "No Error has occured";
@@ -44,7 +44,7 @@ class RequestError {
    * @param $message
    *   The Error message.
    *
-   * @ingroup request_error_class
+   * 
    */
   public function setError($type, $message) {
     $this->errorMessage = $message;
@@ -57,7 +57,7 @@ class RequestError {
    * @return
    *   The error message of the objet.
    *
-   * @ingroup request_error_class
+   * 
    */
   public function getError() {
     return array(

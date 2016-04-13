@@ -32,7 +32,7 @@ class Tools extends HTTPRequest{
    * @return
    *   An instance of a Tools object.
    *
-   * @ingroup tools_class
+   * 
    */
    public function __construct($galaxy) {
      $this->galaxy = $galaxy;
@@ -58,7 +58,7 @@ class Tools extends HTTPRequest{
     *   An array containing all the tools in galaxy that match the
     *   the specified search.
     *
-    * @ingroup tools_class
+    * 
     */
    public function index($tool_id = NULL, $q = NULL, $in_panel = FALSE, $trackster = FALSE ) {
 
@@ -103,7 +103,7 @@ class Tools extends HTTPRequest{
    * @return
    *   An array containing detailed information about a specific tool.
    *
-   * @ingroup tools_class
+   * 
    */
   public function show($tool_id){
     $URL = $this->galaxy->getURL() . '/api/tools/' . $tool_id .'/?key='. $this->galaxy->getAPIKey();
@@ -124,7 +124,7 @@ class Tools extends HTTPRequest{
    * @return
    *   An array contaiing information about the diagnostics of a tool.
    *
-   * @ingroup tools_class
+   * 
    */
    public function diagnostics($tool_id){
      $URL = $this->galaxy->getURL() . '/api/tools/'. $tool_id . '/diagnostics/?key=' . $this->galaxy->getAPIKey();
@@ -144,7 +144,7 @@ class Tools extends HTTPRequest{
    * @return
    *   An array of the tool that was reloaded.
    *
-   * @ingroup tools_class
+   * 
    */
    public function reload($tool_id){
      $URL = $this->galaxy->getURL() . '/api/tools/'. $tool_id . '/reload/?key=' . $this->galaxy->getAPIKey();
@@ -172,7 +172,7 @@ class Tools extends HTTPRequest{
    * @return
    *   An array containing the build model of the tool.
    *
-   * @ingroup tools_class
+   * 
    */
    public function build($tool_id, $history_id, $tool_version = NULL){
 
@@ -206,7 +206,7 @@ class Tools extends HTTPRequest{
    *   An array containing infromation about the citations of the specified
    *   tool.
    *
-   * @ingroup tools_class
+   * 
    */
    public function citations($tool_id){
      $URL = $this->galaxy->getURL() . '/api/tools/' . $tool_id . '/citations/?key=' . $this->galaxy->getAPIKey();
@@ -231,7 +231,7 @@ class Tools extends HTTPRequest{
    * @return
    *   Gzip of the tool.
    *
-   * @ingroup tools_class
+   * 
    */
    public function download($tool_id, $file_path){
      $URL = $this->galaxy->getURL() . '/api/tools/'. $tool_id . '/download/?key=' . $this->galaxy->getAPIKey();
@@ -280,7 +280,7 @@ class Tools extends HTTPRequest{
    * @return
    *   An array containing information about the created or executed tool.
    *
-   * @ingroup tools_class
+   * 
    */
    public function create($tool_id, $history_id, $files = NULL,
        $input_dataset_ids = array(), $tool_version = NULL, $region = NULL,

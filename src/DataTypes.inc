@@ -33,7 +33,7 @@ class Datatypes extends HTTPRequest {
    * @return
    *   An instance of a Datatypes object.
    *
-   * @ingroup data_sets_class
+   * 
    */
   public function __construct($galaxy) {
     $this->galaxy = $galaxy;
@@ -50,7 +50,7 @@ class Datatypes extends HTTPRequest {
      * @return
      *   An array containing sniffers of all datatypes
      *
-     * @ingroup data_types_class
+     * 
      */
     public function sniffers(){
       $URL = $this->galaxy->getURL() . '/api/datatypes/sniffers/?key=' . $this->galaxy->getAPIKey();
@@ -67,7 +67,7 @@ class Datatypes extends HTTPRequest {
      * @return
      *   An array containing converters of all datatypes
      *
-     * @ingroup data_types_class
+     * 
      */
     public function converters(){
       $URL = $this->galaxy->getURL() . '/api/datatypes/converters/?key=' . $this->galaxy->getAPIKey();
@@ -85,7 +85,7 @@ class Datatypes extends HTTPRequest {
      * @return
      *   An array containing all datatypes in edam_format.
      *
-     * @ingroup data_types_class
+     * 
      */
    public function edamFormats(){
      $URL = $this->galaxy->getURL() . '/api/datatypes/edam_formats/?key=' . $this->galaxy->getAPIKey();
@@ -102,7 +102,7 @@ class Datatypes extends HTTPRequest {
     * @return
     *   An array containing all datatypes in mapping.
     *
-    * @ingroup data_types_class
+    * 
     */
    public function mapping () {
      $URL = $this->galaxy->getURL() . '/api/datatypes/mapping/?key=' . $this->galaxy->getAPIKey();
@@ -119,7 +119,7 @@ class Datatypes extends HTTPRequest {
     * @return
     *   An array containing all datatypes
     *
-    * @ingroup data_types_class
+    * 
     */
   public function index(){
     $URL = $this->galaxy->getURL() . '/api/datatypes/?key=' . $this->galaxy->getAPIKey();

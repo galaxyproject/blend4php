@@ -33,7 +33,7 @@ class Users extends HTTPRequest {
    * @return
    *   An instance of a Users object.
    *
-   * @ingroup users_class
+   * 
    */
    function __construct($galaxy) {
      $this->galaxy = $galaxy;
@@ -61,7 +61,7 @@ class Users extends HTTPRequest {
     *   An array containing information on the the users the  API function
     *   retreived
     *
-    * @ingroup users_class
+    * 
     */
    function index($deleted = false, $email = NULL, $username = NULL, $any = false) {
      $endURL = "&key=" . $this->galaxy->getAPIKey();
@@ -97,7 +97,7 @@ class Users extends HTTPRequest {
    * @return
    *   An array containing the details of the user.
    *
-   * @ingroup users_class
+   * 
    */
   function show($user_id) {
     $URL = $this->galaxy->getURL() .'/api/users/' .$user_id .'/?key=' .$this->galaxy->getAPIKey();
@@ -118,7 +118,7 @@ class Users extends HTTPRequest {
    * @return
    *   The API key of the user.
    *
-   * @ingroup users_class
+   * 
    */
   function apiKey($user_id) {
     $URL = $this->galaxy->getURL() . '/api/users/' . $user_id . '/api_key/?key=' . $this->galaxy->getAPIKey();
@@ -145,7 +145,7 @@ class Users extends HTTPRequest {
    *   An array containing details of the new user. On failure FALSE is
    *   returned.
    *
-   * @ingroup users_class
+   * 
    */
   function create($username, $user_email, $password) {
     $URL = $this->galaxy->getURL() . '/api/users/' . '?key=' . $this->galaxy->getAPIKey();
@@ -187,7 +187,7 @@ class Users extends HTTPRequest {
    * @return
    *   An array containing details of the deleted user, or FALSE on failure.
    *
-   * @ingroup users_class
+   * 
    */
   function delete($user_id, $purge = FALSE) {
 

@@ -32,7 +32,7 @@ class Libraries extends HTTPRequest{
   * @return
   *   An instance of a Libraries object.
   *
-  * @ingroup libraries_class
+  * 
   */
    public function __construct($galaxy) {
      $this->galaxy = $galaxy;
@@ -56,7 +56,7 @@ class Libraries extends HTTPRequest{
    * @return
    *   An array containing the new library created.
    *
-   * @ingroup libraries_class
+   * 
    */
    public function create($name, $description = NULL, $synopsis = NULL) {
      $URL = $this->galaxy->getURL() . '/api/libraries/?key=' . $this->galaxy->getAPIKey();
@@ -75,7 +75,7 @@ class Libraries extends HTTPRequest{
     * Corresponds to the Galaxy Api/path:
     *   PATCH /api/libraries/{encoded_id}
     *
-    * @ingroup libraries_class
+    * 
     */
    public function update($name, $description = NULL, $synopsis = NULL) {
      // TODO: we need to implement this function
@@ -94,7 +94,7 @@ class Libraries extends HTTPRequest{
     *   An array of all of libraries. And all of the deleted libraries if
     *   appropriate.
     *
-    * @ingroup libraries_class
+    * 
     */
    public function index($deleted = FALSE){
      $URL = $this->galaxy->getURL() . '/api/libraries?key='. $this->galaxy->getAPIKey();
@@ -121,7 +121,7 @@ class Libraries extends HTTPRequest{
     * @return
     *   An array containing details of the specified library.
     *
-    * @ingroup libraries_class
+    * 
     */
    public function show($library_id, $deleted = FALSE){
 
@@ -151,7 +151,7 @@ class Libraries extends HTTPRequest{
     * @return
     *   An array containing details of the deleted or undeleted library.
     *
-    * @ingroup libraries_class
+    * 
     */
    public function delete($library_id, $undelete = FALSE){
 
@@ -188,7 +188,7 @@ class Libraries extends HTTPRequest{
     * @return
     *   An array containing details of the permissions of all libraries.
     *
-    * @ingroup libraries_class
+    * 
     */
    public function getPermissions($library_id, $scope='available',$is_library_access=true ) {
      $URL = $this->galaxy->getURL() . '/api/libraries/' . $library_id . '/permissions/?scope='
@@ -227,7 +227,7 @@ class Libraries extends HTTPRequest{
     *   An array of librariy objects who's permissions have
     *   been modieifed.
     *
-    * @ingroup libraries_class
+    * 
     */
    public function setPermissions($library_id, $action='set_permissions',
      $access_ids = array(), $add_ids=array(), $manage_ids = array(),

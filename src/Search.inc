@@ -33,7 +33,7 @@ class Search extends HTTPRequest{
    * @return
    *   An instance of a search object.
    *
-     * @ingroup search_class
+     * 
    */
   function __construct($galaxy) {
     $this->galaxy = galaxy;
@@ -54,7 +54,7 @@ class Search extends HTTPRequest{
    * @return
    *   An array of the Galaxy elements that matches the query.
    *
-     * @ingroup search_class
+     * 
    */
    function create($query) {
      $URL = $this->galaxy->getURL() . '/api/search/?key=' . $this->galaxy->getAPIKey();

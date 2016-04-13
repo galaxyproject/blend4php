@@ -47,7 +47,7 @@ class GalaxyInstance extends HTTPRequest {
    * @return
    *   An instance of a GalaxyInstance object.
    *
-   * @ingroup galaxy_instance_class
+   * 
    */
   function __construct($hostname, $port, $use_https = FALSE) {
     $this->host = $hostname;
@@ -63,7 +63,7 @@ class GalaxyInstance extends HTTPRequest {
    * @return
    *
    *
-   * @ingroup galaxy_instance_class
+   * 
    */
   public function getVersion() {
     return $this->httpGET($this->getURL() . '/api/version');
@@ -86,7 +86,7 @@ class GalaxyInstance extends HTTPRequest {
    * @return
    *   TRUE if authentication was successful, FALSE otherwise.
    *
-   * @ingroup galaxy_instance_class
+   * 
    */
   public function authenticate($username, $password, &$message = '') {
 
@@ -119,7 +119,7 @@ class GalaxyInstance extends HTTPRequest {
    * @return string
    *   The URL for the remote Galaxy instance.
    *
-   * @ingroup galaxy_instance_class
+   * 
    */
   public function getURL() {
     if ($this->use_https) {
@@ -136,7 +136,7 @@ class GalaxyInstance extends HTTPRequest {
    * @param $api_key
    *   The API key of the Galaxy user.
    *
-   * @ingroup galaxy_instance_class
+   * 
    */
   public function setAPIKey($api_key) {
     $this->api_key = $api_key;
@@ -148,7 +148,7 @@ class GalaxyInstance extends HTTPRequest {
    * @return string
    *    The API key that authorizes a user to certain actions.
    *
-   * @ingroup galaxy_instance_class
+   * 
    */
   public function getAPIKey(){
     return $this->api_key;
