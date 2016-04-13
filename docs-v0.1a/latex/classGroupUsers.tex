@@ -1,0 +1,135 @@
+\hypertarget{classGroupUsers}{}\section{Group\+Users Class Reference}
+\label{classGroupUsers}\index{Group\+Users@{Group\+Users}}
+Inheritance diagram for Group\+Users\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classGroupUsers}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classGroupUsers_a125d93cc05e8407a2a583af2610e0698}{\+\_\+\+\_\+construct} (\$galaxy)
+\item 
+\hyperlink{classGroupUsers_a8369879632f0a6a70ca0cc1c10b212c0}{index} (\$group\+\_\+id)
+\item 
+\hyperlink{classGroupUsers_a49efdc7af6b1674c2c801189bde705c9}{show} (\$group\+\_\+id, \$user\+\_\+id)
+\item 
+\hyperlink{classGroupUsers_a2071b9abb888043c786a9a703aace443}{update} (\$group\+\_\+id, \$user\+\_\+id)
+\item 
+\hyperlink{classGroupUsers_a2b6abd239c7f8819ba0dfa9a5d904bb6}{delete} (\$group\+\_\+id, \$user\+\_\+id)
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Group\+Users@{Group\+Users}!\+\_\+\+\_\+construct@{\+\_\+\+\_\+construct}}
+\index{\+\_\+\+\_\+construct@{\+\_\+\+\_\+construct}!Group\+Users@{Group\+Users}}
+\subsubsection[{\texorpdfstring{\+\_\+\+\_\+construct(\$galaxy)}{\_\_construct($galaxy)}}]{\setlength{\rightskip}{0pt plus 5cm}Group\+Users\+::\+\_\+\+\_\+construct (
+\begin{DoxyParamCaption}
+\item[{}]{\$galaxy}
+\end{DoxyParamCaption}
+)}\hypertarget{classGroupUsers_a125d93cc05e8407a2a583af2610e0698}{}\label{classGroupUsers_a125d93cc05e8407a2a583af2610e0698}
+The \hyperlink{classGroupUsers}{Group\+Users} constructor.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\hyperlink{classGalaxyInstance}{Galaxy\+Instance} & {\em \$galaxy} & A \hyperlink{classGalaxyInstance}{Galaxy\+Instance} object.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An instance of a \hyperlink{classGroups}{Groups} \hyperlink{classUsers}{Users} object. 
+\end{DoxyReturn}
+
+
+\subsection{Member Function Documentation}
+\index{Group\+Users@{Group\+Users}!delete@{delete}}
+\index{delete@{delete}!Group\+Users@{Group\+Users}}
+\subsubsection[{\texorpdfstring{delete(\$group\+\_\+id, \$user\+\_\+id)}{delete($group\_id, $user\_id)}}]{\setlength{\rightskip}{0pt plus 5cm}Group\+Users\+::delete (
+\begin{DoxyParamCaption}
+\item[{}]{\$group\+\_\+id, }
+\item[{}]{\$user\+\_\+id}
+\end{DoxyParamCaption}
+)}\hypertarget{classGroupUsers_a2b6abd239c7f8819ba0dfa9a5d904bb6}{}\label{classGroupUsers_a2b6abd239c7f8819ba0dfa9a5d904bb6}
+Deletes a user from a given group.
+
+Corresponds to the Galaxy A\+PI method and path\+: D\+E\+L\+E\+TE /api/groups/\{encoded\+\_\+group\+\_\+id\}/users/\{encoded\+\_\+user\+\_\+id\}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$group\+\_\+id,The} & id of the group to modify. Group I\+Ds can be found using the \hyperlink{classGroupUsers_a8369879632f0a6a70ca0cc1c10b212c0}{index()} function of this class. \\
+\hline
+{\em \$user\+\_\+id} & A user id to deassociate any users from the group. Use the \hyperlink{classUsers}{Users} class to retreive a list of user I\+Ds. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array of the user that has been removed from the group. 
+\end{DoxyReturn}
+\index{Group\+Users@{Group\+Users}!index@{index}}
+\index{index@{index}!Group\+Users@{Group\+Users}}
+\subsubsection[{\texorpdfstring{index(\$group\+\_\+id)}{index($group\_id)}}]{\setlength{\rightskip}{0pt plus 5cm}Group\+Users\+::index (
+\begin{DoxyParamCaption}
+\item[{}]{\$group\+\_\+id}
+\end{DoxyParamCaption}
+)}\hypertarget{classGroupUsers_a8369879632f0a6a70ca0cc1c10b212c0}{}\label{classGroupUsers_a8369879632f0a6a70ca0cc1c10b212c0}
+Displays a collection (list) of users corresponding to a group..
+
+Corresponds to the Galaxy A\+PI method and path\+: G\+ET /api/groups/ \{encoded\+\_\+group\+\_\+id\}/users.
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$group\+\_\+id} & The id of the group whose users to list. Group I\+Ds can be found using the \hyperlink{classGroupUsers_a8369879632f0a6a70ca0cc1c10b212c0}{index()} function of the \hyperlink{classGroups}{Groups} class. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array of all users of a given group. 
+\end{DoxyReturn}
+\index{Group\+Users@{Group\+Users}!show@{show}}
+\index{show@{show}!Group\+Users@{Group\+Users}}
+\subsubsection[{\texorpdfstring{show(\$group\+\_\+id, \$user\+\_\+id)}{show($group\_id, $user\_id)}}]{\setlength{\rightskip}{0pt plus 5cm}Group\+Users\+::show (
+\begin{DoxyParamCaption}
+\item[{}]{\$group\+\_\+id, }
+\item[{}]{\$user\+\_\+id}
+\end{DoxyParamCaption}
+)}\hypertarget{classGroupUsers_a49efdc7af6b1674c2c801189bde705c9}{}\label{classGroupUsers_a49efdc7af6b1674c2c801189bde705c9}
+Retreive information about a specific group user.
+
+Corresponds to the Galaxy A\+PI method and path\+: G\+ET /api/groups/\{encoded\+\_\+group\+\_\+id\}/users/\{encoded\+\_\+user\+\_\+id\}
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$group\+\_\+id} & The id of the group whose users to list. Group I\+Ds can be found using the \hyperlink{classGroupUsers_a8369879632f0a6a70ca0cc1c10b212c0}{index()} function of the \hyperlink{classGroups}{Groups} class. \\
+\hline
+{\em \$user\+\_\+id} & The id of the specific user to show. User I\+DS can be found using the \hyperlink{classGroupUsers_a8369879632f0a6a70ca0cc1c10b212c0}{index()} function of the \hyperlink{classUsers}{Users} class \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array containing details about the user of a given group. 
+\end{DoxyReturn}
+\index{Group\+Users@{Group\+Users}!update@{update}}
+\index{update@{update}!Group\+Users@{Group\+Users}}
+\subsubsection[{\texorpdfstring{update(\$group\+\_\+id, \$user\+\_\+id)}{update($group\_id, $user\_id)}}]{\setlength{\rightskip}{0pt plus 5cm}Group\+Users\+::update (
+\begin{DoxyParamCaption}
+\item[{}]{\$group\+\_\+id, }
+\item[{}]{\$user\+\_\+id}
+\end{DoxyParamCaption}
+)}\hypertarget{classGroupUsers_a2071b9abb888043c786a9a703aace443}{}\label{classGroupUsers_a2071b9abb888043c786a9a703aace443}
+Adds a user to a given group.
+
+Corresponds to the Galaxy A\+PI method and path\+: P\+UT /api/groups/\{encoded\+\_\+group\+\_\+id\}/users/\{encoded\+\_\+user\+\_\+id\}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$group\+\_\+id,The} & id of the group to modify. Group I\+Ds can be found using the \hyperlink{classGroupUsers_a8369879632f0a6a70ca0cc1c10b212c0}{index()} function of this class. \\
+\hline
+{\em \$user\+\_\+id} & A user id to associate any new users to the group. Use the \hyperlink{classUsers}{Users} class to retreive a list of existing user I\+Ds. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array of the user that has added to the group 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{GroupUsers_8inc}{Group\+Users.\+inc}\end{DoxyCompactItemize}

@@ -1,0 +1,258 @@
+\hypertarget{classHistories}{}\section{Histories Class Reference}
+\label{classHistories}\index{Histories@{Histories}}
+Inheritance diagram for Histories\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classHistories}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classHistories_a27eb8affae85703d91bcb7d617209e66}{\+\_\+\+\_\+construct} (\$galaxy)
+\item 
+\hyperlink{classHistories_a69e4b7e9bde24290c1d40c29cd69a358}{create} (\$name, \$history\+\_\+id=N\+U\+LL, \$archive\+\_\+source=N\+U\+LL, \$archive\+\_\+type=N\+U\+LL, \$all\+\_\+datasets=T\+R\+UE)
+\item 
+\hyperlink{classHistories_a43a92a2839e481a5f39b6444971e616f}{index} ()
+\item 
+\hyperlink{classHistories_a5f32d9aa6597f3876fc9291614dae85a}{show} (\$history\+\_\+id)
+\item 
+\hyperlink{classHistories_acbd17070f53a4326029374878760846d}{archive\+Download} (\$history\+\_\+id, \$file\+\_\+path)
+\item 
+\hyperlink{classHistories_addacbe6d8744835911f6547d4b935b41}{archive\+Export} (\$history\+\_\+id)
+\item 
+\hyperlink{classHistories_a97773d15901aea83dc44ea8d15e98e8b}{delete\+History} (\$history\+\_\+id)
+\item 
+\hyperlink{classHistories_aa0317b96601a7a6b4ca607770714c821}{undelete} (\$history\+\_\+id)
+\item 
+\hyperlink{classHistories_aa613fec2475a87da10e7cabc7cf3b4c0}{citations} (\$history\+\_\+id)
+\item 
+\hyperlink{classHistories_a6fbbf74042939c393cf7163b481cd0b1}{published} ()
+\item 
+\hyperlink{classHistories_af5cc87c475e5b864af68772dd3329a82}{shared\+With\+Me} ()
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Histories@{Histories}!\+\_\+\+\_\+construct@{\+\_\+\+\_\+construct}}
+\index{\+\_\+\+\_\+construct@{\+\_\+\+\_\+construct}!Histories@{Histories}}
+\subsubsection[{\texorpdfstring{\+\_\+\+\_\+construct(\$galaxy)}{\_\_construct($galaxy)}}]{\setlength{\rightskip}{0pt plus 5cm}Histories\+::\+\_\+\+\_\+construct (
+\begin{DoxyParamCaption}
+\item[{}]{\$galaxy}
+\end{DoxyParamCaption}
+)}\hypertarget{classHistories_a27eb8affae85703d91bcb7d617209e66}{}\label{classHistories_a27eb8affae85703d91bcb7d617209e66}
+The \hyperlink{classHistories}{Histories} constructor.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\hyperlink{classGalaxyInstance}{Galaxy\+Instance} & {\em \$galaxy} & A \hyperlink{classGalaxyInstance}{Galaxy\+Instance} object.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An instance of a \hyperlink{classHistories}{Histories} object. 
+\end{DoxyReturn}
+
+
+\subsection{Member Function Documentation}
+\index{Histories@{Histories}!archive\+Download@{archive\+Download}}
+\index{archive\+Download@{archive\+Download}!Histories@{Histories}}
+\subsubsection[{\texorpdfstring{archive\+Download(\$history\+\_\+id, \$file\+\_\+path)}{archiveDownload($history\_id, $file\_path)}}]{\setlength{\rightskip}{0pt plus 5cm}Histories\+::archive\+Download (
+\begin{DoxyParamCaption}
+\item[{}]{\$history\+\_\+id, }
+\item[{}]{\$file\+\_\+path}
+\end{DoxyParamCaption}
+)}\hypertarget{classHistories_acbd17070f53a4326029374878760846d}{}\label{classHistories_acbd17070f53a4326029374878760846d}
+Download a given history with indicated history id.
+
+Corresponds to the Galaxy A\+PI method and path\+:
+
+P\+UT /api/histories/\{id\}/exports\textquotesingle{} and\+: G\+ET /api/histories/\{id\}/exports/\{jeha\+\_\+id\}
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$history\+\_\+id} & The id of the history to download To obtain history\+\_\+id\textquotesingle{}s, please use this classes\textquotesingle{} \hyperlink{classHistories_a43a92a2839e481a5f39b6444971e616f}{index()} function. \\
+\hline
+{\em \$file\+\_\+path} & The full path (including the file name) on the file systems where this file should be written. Ideally, the file name should have a .tar.\+gz extension as the downloaded file is tar\textquotesingle{}ed and gzip compressed.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+T\+R\+UE if the download was successful and F\+A\+L\+SE otherwise. 
+\end{DoxyReturn}
+\index{Histories@{Histories}!archive\+Export@{archive\+Export}}
+\index{archive\+Export@{archive\+Export}!Histories@{Histories}}
+\subsubsection[{\texorpdfstring{archive\+Export(\$history\+\_\+id)}{archiveExport($history\_id)}}]{\setlength{\rightskip}{0pt plus 5cm}Histories\+::archive\+Export (
+\begin{DoxyParamCaption}
+\item[{}]{\$history\+\_\+id}
+\end{DoxyParamCaption}
+)}\hypertarget{classHistories_addacbe6d8744835911f6547d4b935b41}{}\label{classHistories_addacbe6d8744835911f6547d4b935b41}
+Start Job to create history export for corresponding history.
+
+Corresponds to the Galaxy A\+PI method and path\+: P\+UT /api/histories/\{id\}/exports\+:
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$history\+\_\+id} & the encoded id of the history to export.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A U\+RL of where to download the export. 
+\end{DoxyReturn}
+\index{Histories@{Histories}!citations@{citations}}
+\index{citations@{citations}!Histories@{Histories}}
+\subsubsection[{\texorpdfstring{citations(\$history\+\_\+id)}{citations($history\_id)}}]{\setlength{\rightskip}{0pt plus 5cm}Histories\+::citations (
+\begin{DoxyParamCaption}
+\item[{}]{\$history\+\_\+id}
+\end{DoxyParamCaption}
+)}\hypertarget{classHistories_aa613fec2475a87da10e7cabc7cf3b4c0}{}\label{classHistories_aa613fec2475a87da10e7cabc7cf3b4c0}
+Retreive information of the citations of a specified history.
+
+Corresponds to the Galaxy A\+PI method and path\+: G\+ET /api/histories/\{encoded\+\_\+history\+\_\+id\}/citations
+
+
+\begin{DoxyParams}{Parameters}
+{\em history\+\_\+id} & The encoded id of the history to undelete. To obtain history\+\_\+id\textquotesingle{}s, please use this classes\textquotesingle{} \hyperlink{classHistories_a43a92a2839e481a5f39b6444971e616f}{index()} function.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array of citations. 
+\end{DoxyReturn}
+\index{Histories@{Histories}!create@{create}}
+\index{create@{create}!Histories@{Histories}}
+\subsubsection[{\texorpdfstring{create(\$name, \$history\+\_\+id=\+N\+U\+L\+L, \$archive\+\_\+source=\+N\+U\+L\+L, \$archive\+\_\+type=\+N\+U\+L\+L, \$all\+\_\+datasets=\+T\+R\+U\+E)}{create($name, $history\_id=NULL, $archive\_source=NULL, $archive\_type=NULL, $all\_datasets=TRUE)}}]{\setlength{\rightskip}{0pt plus 5cm}Histories\+::create (
+\begin{DoxyParamCaption}
+\item[{}]{\$name, }
+\item[{}]{\$history\+\_\+id = {\ttfamily NULL}, }
+\item[{}]{\$archive\+\_\+source = {\ttfamily NULL}, }
+\item[{}]{\$archive\+\_\+type = {\ttfamily NULL}, }
+\item[{}]{\$all\+\_\+datasets = {\ttfamily TRUE}}
+\end{DoxyParamCaption}
+)}\hypertarget{classHistories_a69e4b7e9bde24290c1d40c29cd69a358}{}\label{classHistories_a69e4b7e9bde24290c1d40c29cd69a358}
+Create a new History component in Galaxy.
+
+Corresponds to the Galaxy A\+PI method and path\+: P\+O\+ST /api/histories\+:
+
+Creates a new history in a galaxy instance Note the option to pass \textquotesingle{}keys\textquotesingle{} and \textquotesingle{}views\textquotesingle{} is currently not supported
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & The new history\textquotesingle{}s name \\
+\hline
+{\em history\+\_\+id} & The id of the history to copy (will copy contents to new history) To obtain history\+\_\+id\textquotesingle{}s, please use this classes\textquotesingle{} \hyperlink{classHistories_a43a92a2839e481a5f39b6444971e616f}{index()} function. \\
+\hline
+{\em archive\+\_\+source} & The url that will generate the archive to import. \\
+\hline
+{\em archive\+\_\+type} & \textquotesingle{}url\textquotesingle{} (default) \\
+\hline
+{\em bool} & all\+\_\+datasets Copy deleted hdas/hdcas \textquotesingle{}True\textquotesingle{} or \textquotesingle{}False\textquotesingle{}, defaults to True.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array containing information about the new History component. 
+\end{DoxyReturn}
+\index{Histories@{Histories}!delete\+History@{delete\+History}}
+\index{delete\+History@{delete\+History}!Histories@{Histories}}
+\subsubsection[{\texorpdfstring{delete\+History(\$history\+\_\+id)}{deleteHistory($history\_id)}}]{\setlength{\rightskip}{0pt plus 5cm}Histories\+::delete\+History (
+\begin{DoxyParamCaption}
+\item[{}]{\$history\+\_\+id}
+\end{DoxyParamCaption}
+)}\hypertarget{classHistories_a97773d15901aea83dc44ea8d15e98e8b}{}\label{classHistories_a97773d15901aea83dc44ea8d15e98e8b}
+Delete a specified history.
+
+Corresponds to the Galaxy A\+PI method and path\+: D\+E\+L\+E\+TE /api/histories/\{encoded\+\_\+history\+\_\+id\}
+
+
+\begin{DoxyParams}{Parameters}
+{\em history\+\_\+id} & The encoded id of the history to delete. To obtain history\+\_\+id\textquotesingle{}s, please use this classes\textquotesingle{} \hyperlink{classHistories_a43a92a2839e481a5f39b6444971e616f}{index()} function.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array of deleted histories. 
+\end{DoxyReturn}
+\index{Histories@{Histories}!index@{index}}
+\index{index@{index}!Histories@{Histories}}
+\subsubsection[{\texorpdfstring{index()}{index()}}]{\setlength{\rightskip}{0pt plus 5cm}Histories\+::index (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classHistories_a43a92a2839e481a5f39b6444971e616f}{}\label{classHistories_a43a92a2839e481a5f39b6444971e616f}
+Displays a collection of history components in Galaxy.
+
+This function combines the list of active and deleted histories and therefore, corresponds to both of the Galaxy A\+PI methods and paths\+:
+
+G\+ET /api/histories and G\+ET /api/histories/deleted
+
+\begin{DoxyReturn}{Returns}
+An array containing list of histories in galaxy instance. 
+\end{DoxyReturn}
+\index{Histories@{Histories}!published@{published}}
+\index{published@{published}!Histories@{Histories}}
+\subsubsection[{\texorpdfstring{published()}{published()}}]{\setlength{\rightskip}{0pt plus 5cm}Histories\+::published (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classHistories_a6fbbf74042939c393cf7163b481cd0b1}{}\label{classHistories_a6fbbf74042939c393cf7163b481cd0b1}
+Retreive all histories that have been published.
+
+Corresponds to the Galaxy A\+PI method and path\+: G\+ET /api/histories/published\+:
+
+\begin{DoxyReturn}{Returns}
+An array of published histories. 
+\end{DoxyReturn}
+\index{Histories@{Histories}!shared\+With\+Me@{shared\+With\+Me}}
+\index{shared\+With\+Me@{shared\+With\+Me}!Histories@{Histories}}
+\subsubsection[{\texorpdfstring{shared\+With\+Me()}{sharedWithMe()}}]{\setlength{\rightskip}{0pt plus 5cm}Histories\+::shared\+With\+Me (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classHistories_af5cc87c475e5b864af68772dd3329a82}{}\label{classHistories_af5cc87c475e5b864af68772dd3329a82}
+Retreive all histories that are shared with the current user.
+
+Corresponds to the Galaxy A\+PI method and path\+: G\+ET /api/histories/shared\+\_\+with\+\_\+me\+:
+
+\begin{DoxyReturn}{Returns}
+An array histories shared with the current user. 
+\end{DoxyReturn}
+\index{Histories@{Histories}!show@{show}}
+\index{show@{show}!Histories@{Histories}}
+\subsubsection[{\texorpdfstring{show(\$history\+\_\+id)}{show($history\_id)}}]{\setlength{\rightskip}{0pt plus 5cm}Histories\+::show (
+\begin{DoxyParamCaption}
+\item[{}]{\$history\+\_\+id}
+\end{DoxyParamCaption}
+)}\hypertarget{classHistories_a5f32d9aa6597f3876fc9291614dae85a}{}\label{classHistories_a5f32d9aa6597f3876fc9291614dae85a}
+Retreive detailed information about a particular history component.
+
+Corresponds to the Galaxy A\+PI method and path\+: P\+O\+ST /api/histories/\{encoded\+\_\+history\+\_\+id\}\+:
+
+
+\begin{DoxyParams}{Parameters}
+{\em history\+\_\+id} & The id of the history to retreive. To obtain history\+\_\+id\textquotesingle{}s, please use this classes\textquotesingle{} \hyperlink{classHistories_a43a92a2839e481a5f39b6444971e616f}{index()} function.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Json array containing information about the specified history 
+\end{DoxyReturn}
+\index{Histories@{Histories}!undelete@{undelete}}
+\index{undelete@{undelete}!Histories@{Histories}}
+\subsubsection[{\texorpdfstring{undelete(\$history\+\_\+id)}{undelete($history\_id)}}]{\setlength{\rightskip}{0pt plus 5cm}Histories\+::undelete (
+\begin{DoxyParamCaption}
+\item[{}]{\$history\+\_\+id}
+\end{DoxyParamCaption}
+)}\hypertarget{classHistories_aa0317b96601a7a6b4ca607770714c821}{}\label{classHistories_aa0317b96601a7a6b4ca607770714c821}
+Undelete a specified history.
+
+Corresponds to the Galaxy A\+PI method and path\+: D\+E\+L\+E\+TE /api/histories/deleted/\{encoded\+\_\+history\+\_\+id\}
+
+
+\begin{DoxyParams}{Parameters}
+{\em history\+\_\+id} & The encoded id of the history to undelete. To obtain history\+\_\+id\textquotesingle{}s, please use this classes\textquotesingle{} \hyperlink{classHistories_a43a92a2839e481a5f39b6444971e616f}{index()} function.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array of undeleted histories. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{Histories_8inc}{Histories.\+inc}\end{DoxyCompactItemize}

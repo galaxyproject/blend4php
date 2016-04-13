@@ -1,0 +1,136 @@
+\hypertarget{classGroups}{}\section{Groups Class Reference}
+\label{classGroups}\index{Groups@{Groups}}
+Inheritance diagram for Groups\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classGroups}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classGroups_a264cd82629a67236a9b575c09baa457c}{\+\_\+\+\_\+construct} (\$galaxy)
+\item 
+\hyperlink{classGroups_aa86a48d91213d4ef07f3324acb76f088}{index} ()
+\item 
+\hyperlink{classGroups_a78573fc592f294df38e1754c642bf708}{create} (\$name, \$user\+\_\+ids=array(), \$role\+\_\+ids=array())
+\item 
+\hyperlink{classGroups_a7000d16e81f12235fe14cf5c1dbea50a}{show} (\$group\+\_\+id)
+\item 
+\hyperlink{classGroups_ac8a367f511e6bea80962742e9e3e6834}{update} (\$group\+\_\+id, \$name=N\+U\+LL, \$user\+\_\+ids=array(), \$role\+\_\+ids=array())
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Groups@{Groups}!\+\_\+\+\_\+construct@{\+\_\+\+\_\+construct}}
+\index{\+\_\+\+\_\+construct@{\+\_\+\+\_\+construct}!Groups@{Groups}}
+\subsubsection[{\texorpdfstring{\+\_\+\+\_\+construct(\$galaxy)}{\_\_construct($galaxy)}}]{\setlength{\rightskip}{0pt plus 5cm}Groups\+::\+\_\+\+\_\+construct (
+\begin{DoxyParamCaption}
+\item[{}]{\$galaxy}
+\end{DoxyParamCaption}
+)}\hypertarget{classGroups_a264cd82629a67236a9b575c09baa457c}{}\label{classGroups_a264cd82629a67236a9b575c09baa457c}
+The \hyperlink{classGroups}{Groups} constructor.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\hyperlink{classGalaxyInstance}{Galaxy\+Instance} & {\em \$galaxy} & A \hyperlink{classGalaxyInstance}{Galaxy\+Instance} object.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An instance of a \hyperlink{classGroups}{Groups} object. 
+\end{DoxyReturn}
+
+
+\subsection{Member Function Documentation}
+\index{Groups@{Groups}!create@{create}}
+\index{create@{create}!Groups@{Groups}}
+\subsubsection[{\texorpdfstring{create(\$name, \$user\+\_\+ids=array(), \$role\+\_\+ids=array())}{create($name, $user\_ids=array(), $role\_ids=array())}}]{\setlength{\rightskip}{0pt plus 5cm}Groups\+::create (
+\begin{DoxyParamCaption}
+\item[{}]{\$name, }
+\item[{}]{\$user\+\_\+ids = {\ttfamily array()}, }
+\item[{}]{\$role\+\_\+ids = {\ttfamily array()}}
+\end{DoxyParamCaption}
+)}\hypertarget{classGroups_a78573fc592f294df38e1754c642bf708}{}\label{classGroups_a78573fc592f294df38e1754c642bf708}
+Create a new group.
+
+Corresponds to the Galaxy A\+PI method and path\+: P\+O\+ST /api/groups.
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$name} & Name of the group. \\
+\hline
+{\em \$user\+\_\+ids} & An array of user\+\_\+ids, if any, to associate user id\textquotesingle{}s to the group. Use the \hyperlink{classUsers}{Users} class to retrieve a list of users. \\
+\hline
+{\em \$role\+\_\+ids} & An array of role\+\_\+ids to associate any new roles to the group. Use the \hyperlink{classRoles}{Roles} class to retreive a list of existing role I\+Ds.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array of the group that contains the users and roles. 
+\end{DoxyReturn}
+\index{Groups@{Groups}!index@{index}}
+\index{index@{index}!Groups@{Groups}}
+\subsubsection[{\texorpdfstring{index()}{index()}}]{\setlength{\rightskip}{0pt plus 5cm}Groups\+::index (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classGroups_aa86a48d91213d4ef07f3324acb76f088}{}\label{classGroups_aa86a48d91213d4ef07f3324acb76f088}
+Displays a collection (list) of groups.
+
+Corresponds to the Galaxy A\+PI method and path\+: G\+ET /api/groups.
+
+\begin{DoxyReturn}{Returns}
+An array of all groups. 
+\end{DoxyReturn}
+\index{Groups@{Groups}!show@{show}}
+\index{show@{show}!Groups@{Groups}}
+\subsubsection[{\texorpdfstring{show(\$group\+\_\+id)}{show($group\_id)}}]{\setlength{\rightskip}{0pt plus 5cm}Groups\+::show (
+\begin{DoxyParamCaption}
+\item[{}]{\$group\+\_\+id}
+\end{DoxyParamCaption}
+)}\hypertarget{classGroups_a7000d16e81f12235fe14cf5c1dbea50a}{}\label{classGroups_a7000d16e81f12235fe14cf5c1dbea50a}
+Retreive information about a group.
+
+Corresponds to the Galaxy A\+PI method and path\+: G\+ET /api/groups/\{encoded\+\_\+group\+\_\+id\}
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$group\+\_\+id} & The id of the specific group to show. Group I\+Ds can be found using the \hyperlink{classGroups_aa86a48d91213d4ef07f3324acb76f088}{index()} function of this class. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array containing details about the group. 
+\end{DoxyReturn}
+\index{Groups@{Groups}!update@{update}}
+\index{update@{update}!Groups@{Groups}}
+\subsubsection[{\texorpdfstring{update(\$group\+\_\+id, \$name=\+N\+U\+L\+L, \$user\+\_\+ids=array(), \$role\+\_\+ids=array())}{update($group\_id, $name=NULL, $user\_ids=array(), $role\_ids=array())}}]{\setlength{\rightskip}{0pt plus 5cm}Groups\+::update (
+\begin{DoxyParamCaption}
+\item[{}]{\$group\+\_\+id, }
+\item[{}]{\$name = {\ttfamily NULL}, }
+\item[{}]{\$user\+\_\+ids = {\ttfamily array()}, }
+\item[{}]{\$role\+\_\+ids = {\ttfamily array()}}
+\end{DoxyParamCaption}
+)}\hypertarget{classGroups_ac8a367f511e6bea80962742e9e3e6834}{}\label{classGroups_ac8a367f511e6bea80962742e9e3e6834}
+Supports changes to a group including the name, users and roles.
+
+Corresponds to the Galaxy A\+PI method and path\+: P\+O\+ST /api/groups/\{encoded\+\_\+group\+\_\+id\}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$group\+\_\+id,The} & id of the group to modify. Group I\+Ds can be found using the \hyperlink{classGroups_aa86a48d91213d4ef07f3324acb76f088}{index()} function of this class. \\
+\hline
+{\em \$name,A} & new name, if any, to call the group. \\
+\hline
+{\em \$user\+\_\+ids} & An array of user\+\_\+ids, if any, to associate user id\textquotesingle{}s to the group. Use the \hyperlink{classUsers}{Users} class to retrieve a list of users. \\
+\hline
+{\em \$role\+\_\+ids} & An array of role\+\_\+ids to associate any new roles to the group. Use the \hyperlink{classRoles}{Roles} class to retreive a list of existing role I\+Ds.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array of the group that contains the users and roles. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{Groups_8inc}{Groups.\+inc}\end{DoxyCompactItemize}

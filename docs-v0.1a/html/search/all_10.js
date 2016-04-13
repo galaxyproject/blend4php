@@ -1,0 +1,13 @@
+var searchData=
+[
+  ['search',['Search',['../classSearch.html',1,'Search'],['../classJobs.html#a0f7e6dedeee443ad8c262ee4d55df136',1,'Jobs\search()']]],
+  ['search_2einc',['Search.inc',['../Search_8inc.html',1,'']]],
+  ['search_20class',['Search Class',['../group__search__class.html',1,'']]],
+  ['setapikey',['setAPIKey',['../classGalaxyInstance.html#a4e4c854e91c21917adebec78a655edd3',1,'GalaxyInstance']]],
+  ['seterror',['setError',['../classHTTPRequest.html#a4f9c6fcfb8efb81c4ec2aa1861de7ef0',1,'HTTPRequest\setError()'],['../classRequestError.html#a7b9cde1f37c70919c9370e1c1bae9570',1,'RequestError\setError()']]],
+  ['setpermissions',['setPermissions',['../classFolders.html#ab367992f8589996cf357d389045f06d5',1,'Folders\setPermissions()'],['../classLibraries.html#aea282014c5f7a983977c2b920885e798',1,'Libraries\setPermissions()']]],
+  ['sharedwithme',['sharedWithMe',['../classHistories.html#af5cc87c475e5b864af68772dd3329a82',1,'Histories']]],
+  ['show',['show',['../classDatasets.html#afb59c02a118b250d0a0d2a4abd29e064',1,'Datasets\show()'],['../classFolderContents.html#a502b2757e6a8d148a858701f7a6ca2fd',1,'FolderContents\show()'],['../classFolders.html#a7ec1832769976e6192b010e8c93bdcea',1,'Folders\show()'],['../classGenomes.html#a44a6fccdb31050f3d4eae4143482355c',1,'Genomes\show()'],['../classGroupRoles.html#a16f189b3452bd6ac8749a937234d0b35',1,'GroupRoles\show()'],['../classGroups.html#a7000d16e81f12235fe14cf5c1dbea50a',1,'Groups\show()'],['../classGroupUsers.html#a49efdc7af6b1674c2c801189bde705c9',1,'GroupUsers\show()'],['../classHistories.html#a5f32d9aa6597f3876fc9291614dae85a',1,'Histories\show()'],['../classHistoryContents.html#a5729d3c11cf8c8e3d317c802694ff633',1,'HistoryContents\show()'],['../classJobs.html#af95758c7cad6b00529344f0ddeb1e830',1,'Jobs\show()'],['../classLibraries.html#a8310b5f58da502f256e87b8d42915454',1,'Libraries\show()'],['../classLibraryContents.html#a6ef37835155eb3a1d6ca49245d12c21f',1,'LibraryContents\show()'],['../classRequests.html#a767527fe7a23f41746ad123af5a4271d',1,'Requests\show()'],['../classRoles.html#ae6e8905552f27d885368d5f2dae00f8d',1,'Roles\show()'],['../classTools.html#a4a86784cc0d4a366ba12e5ee736b6c0b',1,'Tools\show()'],['../classUsers.html#a9c2cf59f933e4e59745351a7533ce0ab',1,'Users\show()'],['../classVisualizations.html#a21c55eeee76f2d68990382405159e908',1,'Visualizations\show()'],['../classWorkflows.html#abcd6e69e5f6fb77b5476c2303dda0a28',1,'Workflows\show()']]],
+  ['showinvocations',['showInvocations',['../classWorkflows.html#a3dfd3d41b78c18c112ebeab8bac7f6cf',1,'Workflows']]],
+  ['sniffers',['sniffers',['../classDatatypes.html#a720d7d878f95c3e8be5123ca994813a6',1,'Datatypes']]]
+];

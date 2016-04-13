@@ -1,0 +1,240 @@
+\hypertarget{classHTTPRequest}{}\section{H\+T\+T\+P\+Request Class Reference}
+\label{classHTTPRequest}\index{H\+T\+T\+P\+Request@{H\+T\+T\+P\+Request}}
+Inheritance diagram for H\+T\+T\+P\+Request\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=12.000000cm]{classHTTPRequest}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classHTTPRequest_a4e8d9f9045aec31421fe7a351a670192}{\+\_\+\+\_\+construct} ()
+\item 
+\hyperlink{classHTTPRequest_acdbc89e298a3ab5beb0a00f4c67646ad}{get\+Error} ()
+\item 
+\hyperlink{classHTTPRequest_a8e705d701b167a71861e53c329f12824}{get\+Error\+Message} ()
+\item 
+\hyperlink{classHTTPRequest_a876aad5c328ef5a71345a04ff697def5}{get\+Error\+Type} ()
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classHTTPRequest_a99ceafd4438f0401b6c101753c7c3132}{http\+G\+ET} (\$U\+RL)
+\item 
+\hyperlink{classHTTPRequest_a7519cc4959bd359ef6d3749a0e430042}{http\+P\+O\+ST} (\$U\+RL, \$post\+\_\+fields=N\+U\+LL)
+\item 
+\hyperlink{classHTTPRequest_abbe45ffd58c968cf0dfd6de7c443bee5}{http\+P\+UT} (\$U\+RL, \$input=N\+U\+LL)
+\item 
+\hyperlink{classHTTPRequest_a6d34dd87ee714604d6d4aaa677d52729}{get\+Remote\+File} (\$U\+RL, \$file\+\_\+name)
+\item 
+\hyperlink{classHTTPRequest_a2a2d2264470fb233ae5e0878b021927e}{http\+D\+E\+L\+E\+TE} (\$U\+RL, \$input=N\+U\+LL)
+\item 
+\hyperlink{classHTTPRequest_a16855344f3ba37cb4247a5b9916798dd}{auth} (\$U\+RL, \$username, \$password)
+\item 
+\hyperlink{classHTTPRequest_a4f9c6fcfb8efb81c4ec2aa1861de7ef0}{set\+Error} (\$type, \$message)
+\item 
+\hyperlink{classHTTPRequest_a179b9f578b700fd35e4b31b448c824da}{expect\+Array} (\$response)
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{H\+T\+T\+P\+Request@{H\+T\+T\+P\+Request}!\+\_\+\+\_\+construct@{\+\_\+\+\_\+construct}}
+\index{\+\_\+\+\_\+construct@{\+\_\+\+\_\+construct}!H\+T\+T\+P\+Request@{H\+T\+T\+P\+Request}}
+\subsubsection[{\texorpdfstring{\+\_\+\+\_\+construct()}{\_\_construct()}}]{\setlength{\rightskip}{0pt plus 5cm}H\+T\+T\+P\+Request\+::\+\_\+\+\_\+construct (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classHTTPRequest_a4e8d9f9045aec31421fe7a351a670192}{}\label{classHTTPRequest_a4e8d9f9045aec31421fe7a351a670192}
+The Rest Manager constructor.
+
+
+\begin{DoxyParams}{Parameters}
+{\em \hyperlink{classRequestError}{Request\+Error}} & requesterror Optional, set the class\textquotesingle{}s request error to a pre-\/existing \hyperlink{classRequestError}{Request\+Error}.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An instance of a Rest\+Manager class. 
+\end{DoxyReturn}
+
+
+\subsection{Member Function Documentation}
+\index{H\+T\+T\+P\+Request@{H\+T\+T\+P\+Request}!auth@{auth}}
+\index{auth@{auth}!H\+T\+T\+P\+Request@{H\+T\+T\+P\+Request}}
+\subsubsection[{\texorpdfstring{auth(\$\+U\+R\+L, \$username, \$password)}{auth($URL, $username, $password)}}]{\setlength{\rightskip}{0pt plus 5cm}H\+T\+T\+P\+Request\+::auth (
+\begin{DoxyParamCaption}
+\item[{}]{\$\+U\+RL, }
+\item[{}]{\$username, }
+\item[{}]{\$password}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classHTTPRequest_a16855344f3ba37cb4247a5b9916798dd}{}\label{classHTTPRequest_a16855344f3ba37cb4247a5b9916798dd}
+
+\begin{DoxyParams}[1]{Parameters}
+unknown & {\em \$\+U\+RL} & \\
+\hline
+unknown & {\em \$username} & \\
+\hline
+unknown & {\em \$password} & \\
+\hline
+\end{DoxyParams}
+\index{H\+T\+T\+P\+Request@{H\+T\+T\+P\+Request}!expect\+Array@{expect\+Array}}
+\index{expect\+Array@{expect\+Array}!H\+T\+T\+P\+Request@{H\+T\+T\+P\+Request}}
+\subsubsection[{\texorpdfstring{expect\+Array(\$response)}{expectArray($response)}}]{\setlength{\rightskip}{0pt plus 5cm}H\+T\+T\+P\+Request\+::expect\+Array (
+\begin{DoxyParamCaption}
+\item[{}]{\$response}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classHTTPRequest_a179b9f578b700fd35e4b31b448c824da}{}\label{classHTTPRequest_a179b9f578b700fd35e4b31b448c824da}
+Checks if the provided value is an array and sets an error if not.
+
+This is a helper function to help children class deal with the case when Galaxy does not return a J\+S\+ON array as expected. Sometimes when there is an error the error message is returned in a J\+S\+ON array and can be handled by our get\+C\+U\+R\+L\+Response function. But otherwise that function can\textquotesingle{}t distinguish between a string that is returned and an error. So, this function allows children class to check that the response is an array if they expect that it should be.
+
+
+\begin{DoxyParams}[1]{Parameters}
+unknown & {\em \$response} & \\
+\hline
+\end{DoxyParams}
+\index{H\+T\+T\+P\+Request@{H\+T\+T\+P\+Request}!get\+Error@{get\+Error}}
+\index{get\+Error@{get\+Error}!H\+T\+T\+P\+Request@{H\+T\+T\+P\+Request}}
+\subsubsection[{\texorpdfstring{get\+Error()}{getError()}}]{\setlength{\rightskip}{0pt plus 5cm}H\+T\+T\+P\+Request\+::get\+Error (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classHTTPRequest_acdbc89e298a3ab5beb0a00f4c67646ad}{}\label{classHTTPRequest_acdbc89e298a3ab5beb0a00f4c67646ad}
+\begin{DoxyReturn}{Returns}
+string error message from the server or C\+U\+RL. 
+\end{DoxyReturn}
+\index{H\+T\+T\+P\+Request@{H\+T\+T\+P\+Request}!get\+Error\+Message@{get\+Error\+Message}}
+\index{get\+Error\+Message@{get\+Error\+Message}!H\+T\+T\+P\+Request@{H\+T\+T\+P\+Request}}
+\subsubsection[{\texorpdfstring{get\+Error\+Message()}{getErrorMessage()}}]{\setlength{\rightskip}{0pt plus 5cm}H\+T\+T\+P\+Request\+::get\+Error\+Message (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classHTTPRequest_a8e705d701b167a71861e53c329f12824}{}\label{classHTTPRequest_a8e705d701b167a71861e53c329f12824}
+\begin{DoxyReturn}{Returns}
+The 
+\end{DoxyReturn}
+\index{H\+T\+T\+P\+Request@{H\+T\+T\+P\+Request}!get\+Error\+Type@{get\+Error\+Type}}
+\index{get\+Error\+Type@{get\+Error\+Type}!H\+T\+T\+P\+Request@{H\+T\+T\+P\+Request}}
+\subsubsection[{\texorpdfstring{get\+Error\+Type()}{getErrorType()}}]{\setlength{\rightskip}{0pt plus 5cm}H\+T\+T\+P\+Request\+::get\+Error\+Type (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classHTTPRequest_a876aad5c328ef5a71345a04ff697def5}{}\label{classHTTPRequest_a876aad5c328ef5a71345a04ff697def5}
+\begin{DoxyReturn}{Returns}
+The 
+\end{DoxyReturn}
+\index{H\+T\+T\+P\+Request@{H\+T\+T\+P\+Request}!get\+Remote\+File@{get\+Remote\+File}}
+\index{get\+Remote\+File@{get\+Remote\+File}!H\+T\+T\+P\+Request@{H\+T\+T\+P\+Request}}
+\subsubsection[{\texorpdfstring{get\+Remote\+File(\$\+U\+R\+L, \$file\+\_\+name)}{getRemoteFile($URL, $file\_name)}}]{\setlength{\rightskip}{0pt plus 5cm}H\+T\+T\+P\+Request\+::get\+Remote\+File (
+\begin{DoxyParamCaption}
+\item[{}]{\$\+U\+RL, }
+\item[{}]{\$file\+\_\+name}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classHTTPRequest_a6d34dd87ee714604d6d4aaa677d52729}{}\label{classHTTPRequest_a6d34dd87ee714604d6d4aaa677d52729}
+
+\begin{DoxyParams}{Parameters}
+{\em \$\+U\+RL} & \\
+\hline
+{\em \$file\+\_\+name} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\index{H\+T\+T\+P\+Request@{H\+T\+T\+P\+Request}!http\+D\+E\+L\+E\+TE@{http\+D\+E\+L\+E\+TE}}
+\index{http\+D\+E\+L\+E\+TE@{http\+D\+E\+L\+E\+TE}!H\+T\+T\+P\+Request@{H\+T\+T\+P\+Request}}
+\subsubsection[{\texorpdfstring{http\+D\+E\+L\+E\+T\+E(\$\+U\+R\+L, \$input=\+N\+U\+L\+L)}{httpDELETE($URL, $input=NULL)}}]{\setlength{\rightskip}{0pt plus 5cm}H\+T\+T\+P\+Request\+::http\+D\+E\+L\+E\+TE (
+\begin{DoxyParamCaption}
+\item[{}]{\$\+U\+RL, }
+\item[{}]{\$input = {\ttfamily NULL}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classHTTPRequest_a2a2d2264470fb233ae5e0878b021927e}{}\label{classHTTPRequest_a2a2d2264470fb233ae5e0878b021927e}
+Universal D\+E\+L\+E\+TE request
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$input} & The input data to give to the url. \\
+\hline
+{\em \$\+U\+RL} & The path to perform the D\+E\+L\+E\+TE request.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+curl server response 
+\end{DoxyReturn}
+\index{H\+T\+T\+P\+Request@{H\+T\+T\+P\+Request}!http\+G\+ET@{http\+G\+ET}}
+\index{http\+G\+ET@{http\+G\+ET}!H\+T\+T\+P\+Request@{H\+T\+T\+P\+Request}}
+\subsubsection[{\texorpdfstring{http\+G\+E\+T(\$\+U\+R\+L)}{httpGET($URL)}}]{\setlength{\rightskip}{0pt plus 5cm}H\+T\+T\+P\+Request\+::http\+G\+ET (
+\begin{DoxyParamCaption}
+\item[{}]{\$\+U\+RL}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classHTTPRequest_a99ceafd4438f0401b6c101753c7c3132}{}\label{classHTTPRequest_a99ceafd4438f0401b6c101753c7c3132}
+Performs a G\+ET request.
+
+
+\begin{DoxyParams}{Parameters}
+{\em url} & The U\+RL to perform the G\+ET request on.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+curl server response. 
+\end{DoxyReturn}
+\index{H\+T\+T\+P\+Request@{H\+T\+T\+P\+Request}!http\+P\+O\+ST@{http\+P\+O\+ST}}
+\index{http\+P\+O\+ST@{http\+P\+O\+ST}!H\+T\+T\+P\+Request@{H\+T\+T\+P\+Request}}
+\subsubsection[{\texorpdfstring{http\+P\+O\+S\+T(\$\+U\+R\+L, \$post\+\_\+fields=\+N\+U\+L\+L)}{httpPOST($URL, $post\_fields=NULL)}}]{\setlength{\rightskip}{0pt plus 5cm}H\+T\+T\+P\+Request\+::http\+P\+O\+ST (
+\begin{DoxyParamCaption}
+\item[{}]{\$\+U\+RL, }
+\item[{}]{\$post\+\_\+fields = {\ttfamily NULL}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classHTTPRequest_a7519cc4959bd359ef6d3749a0e430042}{}\label{classHTTPRequest_a7519cc4959bd359ef6d3749a0e430042}
+Perform a P\+O\+ST request.
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\+RL} & The url to perform the P\+O\+ST request on. \\
+\hline
+{\em Input} & The input data to a given U\+RL.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+curl server response. 
+\end{DoxyReturn}
+\index{H\+T\+T\+P\+Request@{H\+T\+T\+P\+Request}!http\+P\+UT@{http\+P\+UT}}
+\index{http\+P\+UT@{http\+P\+UT}!H\+T\+T\+P\+Request@{H\+T\+T\+P\+Request}}
+\subsubsection[{\texorpdfstring{http\+P\+U\+T(\$\+U\+R\+L, \$input=\+N\+U\+L\+L)}{httpPUT($URL, $input=NULL)}}]{\setlength{\rightskip}{0pt plus 5cm}H\+T\+T\+P\+Request\+::http\+P\+UT (
+\begin{DoxyParamCaption}
+\item[{}]{\$\+U\+RL, }
+\item[{}]{\$input = {\ttfamily NULL}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classHTTPRequest_abbe45ffd58c968cf0dfd6de7c443bee5}{}\label{classHTTPRequest_abbe45ffd58c968cf0dfd6de7c443bee5}
+Perform a P\+UT request
+
+
+\begin{DoxyParams}{Parameters}
+{\em U\+RL} & The U\+RL to perform the P\+UT request on. \\
+\hline
+{\em Input} & The input data to give to the U\+RL.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+curl server response. 
+\end{DoxyReturn}
+\index{H\+T\+T\+P\+Request@{H\+T\+T\+P\+Request}!set\+Error@{set\+Error}}
+\index{set\+Error@{set\+Error}!H\+T\+T\+P\+Request@{H\+T\+T\+P\+Request}}
+\subsubsection[{\texorpdfstring{set\+Error(\$type, \$message)}{setError($type, $message)}}]{\setlength{\rightskip}{0pt plus 5cm}H\+T\+T\+P\+Request\+::set\+Error (
+\begin{DoxyParamCaption}
+\item[{}]{\$type, }
+\item[{}]{\$message}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}\hypertarget{classHTTPRequest_a4f9c6fcfb8efb81c4ec2aa1861de7ef0}{}\label{classHTTPRequest_a4f9c6fcfb8efb81c4ec2aa1861de7ef0}
+
+\begin{DoxyParams}{Parameters}
+{\em \$type} & \\
+\hline
+{\em \$message} & \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{HTTPRequest_8inc}{H\+T\+T\+P\+Request.\+inc}\end{DoxyCompactItemize}

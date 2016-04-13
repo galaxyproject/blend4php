@@ -1,0 +1,134 @@
+\hypertarget{classVisualizations}{}\section{Visualizations Class Reference}
+\label{classVisualizations}\index{Visualizations@{Visualizations}}
+Inheritance diagram for Visualizations\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classVisualizations}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classVisualizations_a718efd55867c65bbd67f6c9bb4c3803b}{\+\_\+\+\_\+construct} (\$galaxy)
+\item 
+\hyperlink{classVisualizations_ad5f186b859ab85b4246604fa28671c77}{index} ()
+\item 
+\hyperlink{classVisualizations_a21c55eeee76f2d68990382405159e908}{show} (\$viz\+\_\+id)
+\item 
+\hyperlink{classVisualizations_a8d6b51b5d14c79e698ce118ad05eb995}{create} (\$type, \$title, \$dbkey, \$import\+\_\+id=N\+U\+LL)
+\item 
+\hyperlink{classVisualizations_aed3835f460ec550d7e6128e43b7e2241}{update} (\$viz\+\_\+id, \$title=null, \$dbkey=null, \$config=null)
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Visualizations@{Visualizations}!\+\_\+\+\_\+construct@{\+\_\+\+\_\+construct}}
+\index{\+\_\+\+\_\+construct@{\+\_\+\+\_\+construct}!Visualizations@{Visualizations}}
+\subsubsection[{\texorpdfstring{\+\_\+\+\_\+construct(\$galaxy)}{\_\_construct($galaxy)}}]{\setlength{\rightskip}{0pt plus 5cm}Visualizations\+::\+\_\+\+\_\+construct (
+\begin{DoxyParamCaption}
+\item[{}]{\$galaxy}
+\end{DoxyParamCaption}
+)}\hypertarget{classVisualizations_a718efd55867c65bbd67f6c9bb4c3803b}{}\label{classVisualizations_a718efd55867c65bbd67f6c9bb4c3803b}
+The visualizations constructor.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\hyperlink{classGalaxyInstance}{Galaxy\+Instance} & {\em \$galaxy} & A \hyperlink{classGalaxyInstance}{Galaxy\+Instance} object\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An instance of a \hyperlink{classVisualizations}{Visualizations} object 
+\end{DoxyReturn}
+
+
+\subsection{Member Function Documentation}
+\index{Visualizations@{Visualizations}!create@{create}}
+\index{create@{create}!Visualizations@{Visualizations}}
+\subsubsection[{\texorpdfstring{create(\$type, \$title, \$dbkey, \$import\+\_\+id=\+N\+U\+L\+L)}{create($type, $title, $dbkey, $import\_id=NULL)}}]{\setlength{\rightskip}{0pt plus 5cm}Visualizations\+::create (
+\begin{DoxyParamCaption}
+\item[{}]{\$type, }
+\item[{}]{\$title, }
+\item[{}]{\$dbkey, }
+\item[{}]{\$import\+\_\+id = {\ttfamily NULL}}
+\end{DoxyParamCaption}
+)}\hypertarget{classVisualizations_a8d6b51b5d14c79e698ce118ad05eb995}{}\label{classVisualizations_a8d6b51b5d14c79e698ce118ad05eb995}
+Imports copy of existing visualizatiion into the workplace.
+
+Corresponds to the Galaxy A\+P\+I/paths at P\+O\+ST /api/visualizations or P\+O\+ST /api/visualizations?import\+\_\+id=\{encoded\+\_\+visualization\+\_\+id\}
+
+
+\begin{DoxyParams}{Parameters}
+{\em type} & The visualization type for the new visualization. \\
+\hline
+{\em title} & The title for the visualization. \\
+\hline
+{\em import\+\_\+id} & (optional)The id of the visualization to import, if the user desires to import a visualization.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array containing the created visualization. 
+\end{DoxyReturn}
+\index{Visualizations@{Visualizations}!index@{index}}
+\index{index@{index}!Visualizations@{Visualizations}}
+\subsubsection[{\texorpdfstring{index()}{index()}}]{\setlength{\rightskip}{0pt plus 5cm}Visualizations\+::index (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classVisualizations_ad5f186b859ab85b4246604fa28671c77}{}\label{classVisualizations_ad5f186b859ab85b4246604fa28671c77}
+Retreive a list of all visualizations.
+
+Corresponds to the Galaxy A\+P\+I/path G\+ET /api/visualizations
+
+\begin{DoxyReturn}{Returns}
+An array containing all of galaxy\textquotesingle{}s visualizations. 
+\end{DoxyReturn}
+\index{Visualizations@{Visualizations}!show@{show}}
+\index{show@{show}!Visualizations@{Visualizations}}
+\subsubsection[{\texorpdfstring{show(\$viz\+\_\+id)}{show($viz\_id)}}]{\setlength{\rightskip}{0pt plus 5cm}Visualizations\+::show (
+\begin{DoxyParamCaption}
+\item[{}]{\$viz\+\_\+id}
+\end{DoxyParamCaption}
+)}\hypertarget{classVisualizations_a21c55eeee76f2d68990382405159e908}{}\label{classVisualizations_a21c55eeee76f2d68990382405159e908}
+Retreive detailed information about a specific visualization.
+
+Corresponds to the Galaxy A\+P\+I/path G\+ET /api/visualizations/$<$viz\+\_\+id$>$
+
+
+\begin{DoxyParams}{Parameters}
+{\em viz\+\_\+id} & The visualization id whos details to display. \\
+\hline
+\end{DoxyParams}
+\index{Visualizations@{Visualizations}!update@{update}}
+\index{update@{update}!Visualizations@{Visualizations}}
+\subsubsection[{\texorpdfstring{update(\$viz\+\_\+id, \$title=null, \$dbkey=null, \$config=null)}{update($viz\_id, $title=null, $dbkey=null, $config=null)}}]{\setlength{\rightskip}{0pt plus 5cm}Visualizations\+::update (
+\begin{DoxyParamCaption}
+\item[{}]{\$viz\+\_\+id, }
+\item[{}]{\$title = {\ttfamily null}, }
+\item[{}]{\$dbkey = {\ttfamily null}, }
+\item[{}]{\$config = {\ttfamily null}}
+\end{DoxyParamCaption}
+)}\hypertarget{classVisualizations_aed3835f460ec550d7e6128e43b7e2241}{}\label{classVisualizations_aed3835f460ec550d7e6128e43b7e2241}
+Update a specific visualization
+
+Corresponds to the Galaxy A\+P\+I/path at P\+UT /api/visualizations/$<$visualizations id$>$=\char`\"{}\char`\"{}$>$
+
+
+\begin{DoxyParams}{Parameters}
+{\em viz\+\_\+id} & visualization id of the visualization to update. To obtain this id please use this class\textquotesingle{}s index method. \\
+\hline
+{\em title} & If the user is changing the title, include the new title. \\
+\hline
+{\em \$dbkey} & If the user is changing the new db key, include the new dbkey. \\
+\hline
+{\em \$config} & The configuration of the visualization.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array containing the updated visualizaiton. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{Visualizations_8inc}{Visualizations.\+inc}\end{DoxyCompactItemize}

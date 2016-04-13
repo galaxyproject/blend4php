@@ -1,0 +1,135 @@
+\hypertarget{classGroupRoles}{}\section{Group\+Roles Class Reference}
+\label{classGroupRoles}\index{Group\+Roles@{Group\+Roles}}
+Inheritance diagram for Group\+Roles\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classGroupRoles}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classGroupRoles_a3e20bcdb3805da9903a6a685e540caf6}{\+\_\+\+\_\+construct} (\$galaxy)
+\item 
+\hyperlink{classGroupRoles_a5105c5645a9de2c49d6c8a4b72687a70}{index} (\$group\+\_\+id)
+\item 
+\hyperlink{classGroupRoles_a16f189b3452bd6ac8749a937234d0b35}{show} (\$group\+\_\+id, \$role\+\_\+id)
+\item 
+\hyperlink{classGroupRoles_a1f348f13bc95acfdc2726e70148d8161}{update} (\$group\+\_\+id, \$role\+\_\+id)
+\item 
+\hyperlink{classGroupRoles_aeaba3d91a004c24198dfd92ab420b231}{delete} (\$group\+\_\+id, \$role\+\_\+id)
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Group\+Roles@{Group\+Roles}!\+\_\+\+\_\+construct@{\+\_\+\+\_\+construct}}
+\index{\+\_\+\+\_\+construct@{\+\_\+\+\_\+construct}!Group\+Roles@{Group\+Roles}}
+\subsubsection[{\texorpdfstring{\+\_\+\+\_\+construct(\$galaxy)}{\_\_construct($galaxy)}}]{\setlength{\rightskip}{0pt plus 5cm}Group\+Roles\+::\+\_\+\+\_\+construct (
+\begin{DoxyParamCaption}
+\item[{}]{\$galaxy}
+\end{DoxyParamCaption}
+)}\hypertarget{classGroupRoles_a3e20bcdb3805da9903a6a685e540caf6}{}\label{classGroupRoles_a3e20bcdb3805da9903a6a685e540caf6}
+The Group \hyperlink{classRoles}{Roles} constructor.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\hyperlink{classGalaxyInstance}{Galaxy\+Instance} & {\em \$galaxy} & A \hyperlink{classGalaxyInstance}{Galaxy\+Instance} object.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An instance of a Group \hyperlink{classRoles}{Roles} object. 
+\end{DoxyReturn}
+
+
+\subsection{Member Function Documentation}
+\index{Group\+Roles@{Group\+Roles}!delete@{delete}}
+\index{delete@{delete}!Group\+Roles@{Group\+Roles}}
+\subsubsection[{\texorpdfstring{delete(\$group\+\_\+id, \$role\+\_\+id)}{delete($group\_id, $role\_id)}}]{\setlength{\rightskip}{0pt plus 5cm}Group\+Roles\+::delete (
+\begin{DoxyParamCaption}
+\item[{}]{\$group\+\_\+id, }
+\item[{}]{\$role\+\_\+id}
+\end{DoxyParamCaption}
+)}\hypertarget{classGroupRoles_aeaba3d91a004c24198dfd92ab420b231}{}\label{classGroupRoles_aeaba3d91a004c24198dfd92ab420b231}
+Supports deleting a role from a given group.
+
+Corresponds to the Galaxy A\+PI method and path\+: D\+E\+L\+E\+TE /api/groups/\{encoded\+\_\+group\+\_\+id\}/roles/\{encoded\+\_\+role\+\_\+id\}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$group\+\_\+id,The} & id of the group to modify. Group I\+Ds can be found using the \hyperlink{classGroupRoles_a5105c5645a9de2c49d6c8a4b72687a70}{index()} function of this class. \\
+\hline
+{\em \$role\+\_\+id} & A role id to deassociate any roles from the group. Use the \hyperlink{classRoles}{Roles} class to retreive a list of role I\+Ds. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array of the role that was removed from the group. 
+\end{DoxyReturn}
+\index{Group\+Roles@{Group\+Roles}!index@{index}}
+\index{index@{index}!Group\+Roles@{Group\+Roles}}
+\subsubsection[{\texorpdfstring{index(\$group\+\_\+id)}{index($group\_id)}}]{\setlength{\rightskip}{0pt plus 5cm}Group\+Roles\+::index (
+\begin{DoxyParamCaption}
+\item[{}]{\$group\+\_\+id}
+\end{DoxyParamCaption}
+)}\hypertarget{classGroupRoles_a5105c5645a9de2c49d6c8a4b72687a70}{}\label{classGroupRoles_a5105c5645a9de2c49d6c8a4b72687a70}
+Displays a collection (list) of roles corresponding to a group..
+
+Corresponds to the Galaxy A\+PI method and path\+: G\+ET /api/groups/ \{encoded\+\_\+group\+\_\+id\}/roles.
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$group\+\_\+id} & The id of the group whose roles to list. Group I\+Ds can be found using the \hyperlink{classGroupRoles_a5105c5645a9de2c49d6c8a4b72687a70}{index()} function of the \hyperlink{classGroups}{Groups} class. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array of all group roles for a given group. 
+\end{DoxyReturn}
+\index{Group\+Roles@{Group\+Roles}!show@{show}}
+\index{show@{show}!Group\+Roles@{Group\+Roles}}
+\subsubsection[{\texorpdfstring{show(\$group\+\_\+id, \$role\+\_\+id)}{show($group\_id, $role\_id)}}]{\setlength{\rightskip}{0pt plus 5cm}Group\+Roles\+::show (
+\begin{DoxyParamCaption}
+\item[{}]{\$group\+\_\+id, }
+\item[{}]{\$role\+\_\+id}
+\end{DoxyParamCaption}
+)}\hypertarget{classGroupRoles_a16f189b3452bd6ac8749a937234d0b35}{}\label{classGroupRoles_a16f189b3452bd6ac8749a937234d0b35}
+Retreive information about a specific group role.
+
+Corresponds to the Galaxy A\+PI method and path\+: G\+ET /api/groups/\{encoded\+\_\+group\+\_\+id\}/roles/\{encoded\+\_\+role\+\_\+id\}
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$group\+\_\+id} & The id of the group whose roles to list. Group I\+Ds can be found using the \hyperlink{classGroupRoles_a5105c5645a9de2c49d6c8a4b72687a70}{index()} function of the \hyperlink{classGroups}{Groups} class. \\
+\hline
+{\em \$role\+\_\+id} & The id of the specific role to show. Role I\+DS can be found using the \hyperlink{classGroupRoles_a5105c5645a9de2c49d6c8a4b72687a70}{index()} function of the \hyperlink{classRoles}{Roles} class \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array containing details about the role of a given gorup. 
+\end{DoxyReturn}
+\index{Group\+Roles@{Group\+Roles}!update@{update}}
+\index{update@{update}!Group\+Roles@{Group\+Roles}}
+\subsubsection[{\texorpdfstring{update(\$group\+\_\+id, \$role\+\_\+id)}{update($group\_id, $role\_id)}}]{\setlength{\rightskip}{0pt plus 5cm}Group\+Roles\+::update (
+\begin{DoxyParamCaption}
+\item[{}]{\$group\+\_\+id, }
+\item[{}]{\$role\+\_\+id}
+\end{DoxyParamCaption}
+)}\hypertarget{classGroupRoles_a1f348f13bc95acfdc2726e70148d8161}{}\label{classGroupRoles_a1f348f13bc95acfdc2726e70148d8161}
+Supports adding a role to a given group.
+
+Corresponds to the Galaxy A\+PI method and path\+: P\+UT /api/groups/\{encoded\+\_\+group\+\_\+id\}/roles/\{encoded\+\_\+role\+\_\+id\}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$group\+\_\+id,The} & id of the group to modify. Group I\+Ds can be found using the \hyperlink{classGroupRoles_a5105c5645a9de2c49d6c8a4b72687a70}{index()} function of this class. \\
+\hline
+{\em \$role\+\_\+id} & A role id to associate any new roles to the group. Use the \hyperlink{classRoles}{Roles} class to retreive a list of existing role I\+Ds. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array of the role that was added to the group 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{GroupRoles_8inc}{Group\+Roles.\+inc}\end{DoxyCompactItemize}

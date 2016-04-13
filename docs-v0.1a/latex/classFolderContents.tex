@@ -1,0 +1,133 @@
+\hypertarget{classFolderContents}{}\section{Folder\+Contents Class Reference}
+\label{classFolderContents}\index{Folder\+Contents@{Folder\+Contents}}
+Inheritance diagram for Folder\+Contents\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classFolderContents}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classFolderContents_a2d36ebf77aded6b7d8a07e963d8a86dd}{\+\_\+\+\_\+construct} (\$galaxy)
+\item 
+\hyperlink{classFolderContents_a3df4eff77c36fb37793595824fac74e4}{index} (\$folder\+\_\+id)
+\item 
+\hyperlink{classFolderContents_a3a74d968f4694357667bbdeed38a218f}{create} (\$parent\+\_\+folder\+\_\+id, \$from\+\_\+hda\+\_\+id=N\+U\+LL, \$ldda\+\_\+message=N\+U\+LL, \$extended\+\_\+metadata=N\+U\+LL)
+\item 
+\hyperlink{classFolderContents_a502b2757e6a8d148a858701f7a6ca2fd}{show} (\$folder\+\_\+id)
+\item 
+\hyperlink{classFolderContents_aca18be7b8009a751aa27b09702ae5997}{update} (\$folder\+\_\+id, \$add\+\_\+ids, \$manage\+\_\+ids, \$modify\+\_\+ids)
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Folder\+Contents@{Folder\+Contents}!\+\_\+\+\_\+construct@{\+\_\+\+\_\+construct}}
+\index{\+\_\+\+\_\+construct@{\+\_\+\+\_\+construct}!Folder\+Contents@{Folder\+Contents}}
+\subsubsection[{\texorpdfstring{\+\_\+\+\_\+construct(\$galaxy)}{\_\_construct($galaxy)}}]{\setlength{\rightskip}{0pt plus 5cm}Folder\+Contents\+::\+\_\+\+\_\+construct (
+\begin{DoxyParamCaption}
+\item[{}]{\$galaxy}
+\end{DoxyParamCaption}
+)}\hypertarget{classFolderContents_a2d36ebf77aded6b7d8a07e963d8a86dd}{}\label{classFolderContents_a2d36ebf77aded6b7d8a07e963d8a86dd}
+The \hyperlink{classFolderContents}{Folder\+Contents} constructor.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\hyperlink{classGalaxyInstance}{Galaxy\+Instance} & {\em \$galaxy} & A \hyperlink{classGalaxyInstance}{Galaxy\+Instance} object.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An instance of a \hyperlink{classFolderContents}{Folder\+Contents} object. 
+\end{DoxyReturn}
+
+
+\subsection{Member Function Documentation}
+\index{Folder\+Contents@{Folder\+Contents}!create@{create}}
+\index{create@{create}!Folder\+Contents@{Folder\+Contents}}
+\subsubsection[{\texorpdfstring{create(\$parent\+\_\+folder\+\_\+id, \$from\+\_\+hda\+\_\+id=\+N\+U\+L\+L, \$ldda\+\_\+message=\+N\+U\+L\+L, \$extended\+\_\+metadata=\+N\+U\+L\+L)}{create($parent\_folder\_id, $from\_hda\_id=NULL, $ldda\_message=NULL, $extended\_metadata=NULL)}}]{\setlength{\rightskip}{0pt plus 5cm}Folder\+Contents\+::create (
+\begin{DoxyParamCaption}
+\item[{}]{\$parent\+\_\+folder\+\_\+id, }
+\item[{}]{\$from\+\_\+hda\+\_\+id = {\ttfamily NULL}, }
+\item[{}]{\$ldda\+\_\+message = {\ttfamily NULL}, }
+\item[{}]{\$extended\+\_\+metadata = {\ttfamily NULL}}
+\end{DoxyParamCaption}
+)}\hypertarget{classFolderContents_a3a74d968f4694357667bbdeed38a218f}{}\label{classFolderContents_a3a74d968f4694357667bbdeed38a218f}
+Create a new content for specified folder
+
+Corresponds to the Galaxy A\+P\+I/path at\+: P\+O\+ST /api/folders/\{folder\+\_\+id\}/contents
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$parent\+\_\+folder\+\_\+id} & The parent folder of the new item To obtain id, see the \hyperlink{classFolderContents_a3df4eff77c36fb37793595824fac74e4}{index()} function in the Folder class. \\
+\hline
+{\em \$from\+\_\+hda\+\_\+id} & (optional) The id of an accessible H\+DA to into the library To obtain this id, see \hyperlink{classFolderContents_a3df4eff77c36fb37793595824fac74e4}{index()} in \hyperlink{classHistoryContents}{History\+Contents} class. \\
+\hline
+{\em \$ldda\+\_\+messge} & (optional) Any message to send along with the Library\+Dataset\+Dataset\+Association. \\
+\hline
+{\em \$extented\+\_\+metadata} & (optional) Sub-\/dictionary containing any extended metadata to associate with the item.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array containing the newly created folder content. 
+\end{DoxyReturn}
+\index{Folder\+Contents@{Folder\+Contents}!index@{index}}
+\index{index@{index}!Folder\+Contents@{Folder\+Contents}}
+\subsubsection[{\texorpdfstring{index(\$folder\+\_\+id)}{index($folder\_id)}}]{\setlength{\rightskip}{0pt plus 5cm}Folder\+Contents\+::index (
+\begin{DoxyParamCaption}
+\item[{}]{\$folder\+\_\+id}
+\end{DoxyParamCaption}
+)}\hypertarget{classFolderContents_a3df4eff77c36fb37793595824fac74e4}{}\label{classFolderContents_a3df4eff77c36fb37793595824fac74e4}
+Displays all the contents of a folder.
+
+Corresponds to the Galaxy A\+P\+I/path\+: G\+ET /api/folders/F\{folder\+\_\+id\}/contents.
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$folder\+\_\+id} & Id of the folder whos contents to display. To obtain id, see the \hyperlink{classFolderContents_a3df4eff77c36fb37793595824fac74e4}{index()} function in the Folder class. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array of The specified folder\textquotesingle{}s contents 
+\end{DoxyReturn}
+\index{Folder\+Contents@{Folder\+Contents}!show@{show}}
+\index{show@{show}!Folder\+Contents@{Folder\+Contents}}
+\subsubsection[{\texorpdfstring{show(\$folder\+\_\+id)}{show($folder\_id)}}]{\setlength{\rightskip}{0pt plus 5cm}Folder\+Contents\+::show (
+\begin{DoxyParamCaption}
+\item[{}]{\$folder\+\_\+id}
+\end{DoxyParamCaption}
+)}\hypertarget{classFolderContents_a502b2757e6a8d148a858701f7a6ca2fd}{}\label{classFolderContents_a502b2757e6a8d148a858701f7a6ca2fd}
+Retreive details of for a specified folder.
+
+Corresponds to the Galaxy A\+P\+I/path\+: G\+ET /api/folders/\{folder\+\_\+id\}/
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$folder\+\_\+id} & The id of the folder to view\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+False. 
+\end{DoxyReturn}
+\index{Folder\+Contents@{Folder\+Contents}!update@{update}}
+\index{update@{update}!Folder\+Contents@{Folder\+Contents}}
+\subsubsection[{\texorpdfstring{update(\$folder\+\_\+id, \$add\+\_\+ids, \$manage\+\_\+ids, \$modify\+\_\+ids)}{update($folder\_id, $add\_ids, $manage\_ids, $modify\_ids)}}]{\setlength{\rightskip}{0pt plus 5cm}Folder\+Contents\+::update (
+\begin{DoxyParamCaption}
+\item[{}]{\$folder\+\_\+id, }
+\item[{}]{\$add\+\_\+ids, }
+\item[{}]{\$manage\+\_\+ids, }
+\item[{}]{\$modify\+\_\+ids}
+\end{DoxyParamCaption}
+)}\hypertarget{classFolderContents_aca18be7b8009a751aa27b09702ae5997}{}\label{classFolderContents_aca18be7b8009a751aa27b09702ae5997}
+Update the contents to a specific folder
+
+Corresponds to the Galaxy A\+P\+I/\+P\+A\+TH P\+UT /api/folders/\{folder\+\_\+id\}/
+
+\begin{DoxyReturn}{Returns}
+False. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{FolderContents_8inc}{Folder\+Contents.\+inc}\end{DoxyCompactItemize}

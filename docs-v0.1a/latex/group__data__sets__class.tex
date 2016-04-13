@@ -1,0 +1,46 @@
+\hypertarget{group__data__sets__class}{}\section{Data\+\_\+sets\+\_\+class}
+\label{group__data__sets__class}\index{Data\+\_\+sets\+\_\+class@{Data\+\_\+sets\+\_\+class}}
+Retreive information about datasets made by converting to a new file format.
+
+Corresponds to the galaxy A\+PI function at\+: G\+ET /api/datasets/\{dataset\+\_\+id\}/converted/\{ext\}
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$dataset\+\_\+id} & The dataset id of the information to pull. Can be obtained from this function\textquotesingle{}s display() \\
+\hline
+{\em \$extension} & (optional )The file extension to look for\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array containing information about the matching dataset(s).
+\end{DoxyReturn}
+Retreives a list of datasets associated with a given history.
+
+Corresponds to the Galaxy Api method and path\+: G\+ET /api/histories/\{encoded\+\_\+history\+\_\+id\}/contents/\{encoded\+\_\+content\+\_\+id\}/display history content (dataset).
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$hist\+\_\+id} & The history id of the datasets to find. \\
+\hline
+{\em \$hist\+\_\+content\+\_\+id} & The history content whose datasets to list. Please see the \hyperlink{classHistoryContents}{History\+Contents} class to obtain the history content id\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array containing information about the matching dataset(s).
+\end{DoxyReturn}
+Retreives a list of all datasets.
+
+Currently not supported by the Galaxy A\+PI
+
+Retreives detailed content on a specific dataset.
+
+Corresponds to the Galaxy Api function and path\+: G\+ET /api/datasets/\{encoded\+\_\+dataset\+\_\+id\}
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$dataset\+\_\+id} & The dataset id whos information the function is retreiving. To obtain the dataset id, please use the Display function.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array containing information about the matching dataset. 
+\end{DoxyReturn}

@@ -1,0 +1,150 @@
+\hypertarget{classGalaxyInstance}{}\section{Galaxy\+Instance Class Reference}
+\label{classGalaxyInstance}\index{Galaxy\+Instance@{Galaxy\+Instance}}
+Inheritance diagram for Galaxy\+Instance\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classGalaxyInstance}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classGalaxyInstance_a98d1b5f750ce3be53e96e435917b63b1}{\+\_\+\+\_\+construct} (\$hostname, \$port, \$use\+\_\+https=F\+A\+L\+SE)
+\item 
+\hyperlink{classGalaxyInstance_afbb7256306223f7f8ee85f85868e2de2}{get\+Version} ()
+\item 
+\hyperlink{classGalaxyInstance_a865740987c5a498a9740a5127838f04e}{authenticate} (\$username, \$password, \&\$message=\textquotesingle{}\textquotesingle{})
+\item 
+\hyperlink{classGalaxyInstance_a5b0c7191b82c21d857ec3d42068f3cf4}{get\+U\+RL} ()
+\item 
+\hyperlink{classGalaxyInstance_a4e4c854e91c21917adebec78a655edd3}{set\+A\+P\+I\+Key} (\$api\+\_\+key)
+\item 
+\hyperlink{classGalaxyInstance_a563deeb4f829462d7476d3684ed099cb}{get\+A\+P\+I\+Key} ()
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries \$host}\hypertarget{classGalaxyInstance_a68aaf747e0eae3b9338cd4c51711b514}{}\label{classGalaxyInstance_a68aaf747e0eae3b9338cd4c51711b514}
+
+\item 
+{\bfseries \$port}\hypertarget{classGalaxyInstance_ab70c08b0781f835e1a2e4388b1baa639}{}\label{classGalaxyInstance_ab70c08b0781f835e1a2e4388b1baa639}
+
+\item 
+{\bfseries \$use\+\_\+https}\hypertarget{classGalaxyInstance_ab920cbfc8f2f63f3793ba067ee523ca8}{}\label{classGalaxyInstance_ab920cbfc8f2f63f3793ba067ee523ca8}
+
+\item 
+{\bfseries \$api\+\_\+key}\hypertarget{classGalaxyInstance_a2a67b0838ca6175e9e01e3045b666caf}{}\label{classGalaxyInstance_a2a67b0838ca6175e9e01e3045b666caf}
+
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Galaxy\+Instance@{Galaxy\+Instance}!\+\_\+\+\_\+construct@{\+\_\+\+\_\+construct}}
+\index{\+\_\+\+\_\+construct@{\+\_\+\+\_\+construct}!Galaxy\+Instance@{Galaxy\+Instance}}
+\subsubsection[{\texorpdfstring{\+\_\+\+\_\+construct(\$hostname, \$port, \$use\+\_\+https=\+F\+A\+L\+S\+E)}{\_\_construct($hostname, $port, $use\_https=FALSE)}}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\+Instance\+::\+\_\+\+\_\+construct (
+\begin{DoxyParamCaption}
+\item[{}]{\$hostname, }
+\item[{}]{\$port, }
+\item[{}]{\$use\+\_\+https = {\ttfamily FALSE}}
+\end{DoxyParamCaption}
+)}\hypertarget{classGalaxyInstance_a98d1b5f750ce3be53e96e435917b63b1}{}\label{classGalaxyInstance_a98d1b5f750ce3be53e96e435917b63b1}
+The \hyperlink{classGalaxyInstance}{Galaxy\+Instance} constructor.
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$hostname} & The hostname where the Galaxy server is located. \\
+\hline
+{\em \$port} & The port on which the remote Galaxy instance is runinng. \\
+\hline
+{\em \$use\+\_\+https} & Should be set to T\+R\+UE if the remote server uses H\+T\+T\+PS. Defaults to T\+R\+UE.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An instance of a \hyperlink{classGalaxyInstance}{Galaxy\+Instance} object. 
+\end{DoxyReturn}
+
+
+\subsection{Member Function Documentation}
+\index{Galaxy\+Instance@{Galaxy\+Instance}!authenticate@{authenticate}}
+\index{authenticate@{authenticate}!Galaxy\+Instance@{Galaxy\+Instance}}
+\subsubsection[{\texorpdfstring{authenticate(\$username, \$password, \&\$message=\textquotesingle{}\textquotesingle{})}{authenticate($username, $password, \&$message='')}}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\+Instance\+::authenticate (
+\begin{DoxyParamCaption}
+\item[{}]{\$username, }
+\item[{}]{\$password, }
+\item[{\&}]{\$message = {\ttfamily \textquotesingle{}\textquotesingle{}}}
+\end{DoxyParamCaption}
+)}\hypertarget{classGalaxyInstance_a865740987c5a498a9740a5127838f04e}{}\label{classGalaxyInstance_a865740987c5a498a9740a5127838f04e}
+Authenticates a user with the remote Galaxy instance.
+
+Corresponds to the Galaxy A\+PI method and path\+: G\+ET /api/authenticate/baseauth
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$username} & The username of the user. \\
+\hline
+{\em \$password} & The password for the user. \\
+\hline
+{\em \$message} & If authentication fails then this variable will be set to contain the error message.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+T\+R\+UE if authentication was successful, F\+A\+L\+SE otherwise. 
+\end{DoxyReturn}
+\index{Galaxy\+Instance@{Galaxy\+Instance}!get\+A\+P\+I\+Key@{get\+A\+P\+I\+Key}}
+\index{get\+A\+P\+I\+Key@{get\+A\+P\+I\+Key}!Galaxy\+Instance@{Galaxy\+Instance}}
+\subsubsection[{\texorpdfstring{get\+A\+P\+I\+Key()}{getAPIKey()}}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\+Instance\+::get\+A\+P\+I\+Key (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classGalaxyInstance_a563deeb4f829462d7476d3684ed099cb}{}\label{classGalaxyInstance_a563deeb4f829462d7476d3684ed099cb}
+Acquires the A\+PI key
+
+\begin{DoxyReturn}{Returns}
+string The A\+PI key that authorizes a user to certain actions. 
+\end{DoxyReturn}
+\index{Galaxy\+Instance@{Galaxy\+Instance}!get\+U\+RL@{get\+U\+RL}}
+\index{get\+U\+RL@{get\+U\+RL}!Galaxy\+Instance@{Galaxy\+Instance}}
+\subsubsection[{\texorpdfstring{get\+U\+R\+L()}{getURL()}}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\+Instance\+::get\+U\+RL (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classGalaxyInstance_a5b0c7191b82c21d857ec3d42068f3cf4}{}\label{classGalaxyInstance_a5b0c7191b82c21d857ec3d42068f3cf4}
+Returns the U\+RL for the remote Galaxy server.
+
+The U\+RL returned will include the protocol (H\+T\+TP, H\+T\+T\+PS), the hostname and the port.
+
+\begin{DoxyReturn}{Returns}
+string The U\+RL for the remote Galaxy instance. 
+\end{DoxyReturn}
+\index{Galaxy\+Instance@{Galaxy\+Instance}!get\+Version@{get\+Version}}
+\index{get\+Version@{get\+Version}!Galaxy\+Instance@{Galaxy\+Instance}}
+\subsubsection[{\texorpdfstring{get\+Version()}{getVersion()}}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\+Instance\+::get\+Version (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classGalaxyInstance_afbb7256306223f7f8ee85f85868e2de2}{}\label{classGalaxyInstance_afbb7256306223f7f8ee85f85868e2de2}
+Retrieves the version of the Galaxy A\+PI.
+
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\index{Galaxy\+Instance@{Galaxy\+Instance}!set\+A\+P\+I\+Key@{set\+A\+P\+I\+Key}}
+\index{set\+A\+P\+I\+Key@{set\+A\+P\+I\+Key}!Galaxy\+Instance@{Galaxy\+Instance}}
+\subsubsection[{\texorpdfstring{set\+A\+P\+I\+Key(\$api\+\_\+key)}{setAPIKey($api\_key)}}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\+Instance\+::set\+A\+P\+I\+Key (
+\begin{DoxyParamCaption}
+\item[{}]{\$api\+\_\+key}
+\end{DoxyParamCaption}
+)}\hypertarget{classGalaxyInstance_a4e4c854e91c21917adebec78a655edd3}{}\label{classGalaxyInstance_a4e4c854e91c21917adebec78a655edd3}
+Sets the A\+PI Key for this Galaxy instance.
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$api\+\_\+key} & The A\+PI key of the Galaxy user. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{GalaxyInstance_8inc}{Galaxy\+Instance.\+inc}\end{DoxyCompactItemize}

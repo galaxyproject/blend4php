@@ -1,0 +1,202 @@
+\hypertarget{classUsers}{}\section{Users Class Reference}
+\label{classUsers}\index{Users@{Users}}
+Inheritance diagram for Users\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classUsers}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classUsers_a769aa9c30c6d94646c99f51807743c5c}{\+\_\+\+\_\+construct} (\$galaxy)
+\item 
+\hyperlink{classUsers_aae18145ee4c1d9b9eca0fd8e2d8d65d3}{index} (\$deleted=false, \$email=N\+U\+LL, \$username=N\+U\+LL, \$any=false)
+\item 
+\hyperlink{classUsers_a9c2cf59f933e4e59745351a7533ce0ab}{show} (\$user\+\_\+id)
+\item 
+\hyperlink{classUsers_a3169049c092532596a5d5c664f2d3fc5}{api\+Key} (\$user\+\_\+id)
+\item 
+\hyperlink{classUsers_a38f0657d88ec8be06dfc36c261b01814}{create} (\$username, \$user\+\_\+email, \$password)
+\item 
+\hyperlink{classUsers_a73e0c5b2dbcf185f32d9e72c3934e866}{update} ()
+\item 
+\hyperlink{classUsers_a84360c2388a75d4282a8aa789f13b982}{undelete} ()
+\item 
+\hyperlink{classUsers_aca99b21a27c17a7ee22546fc8145257d}{delete} (\$user\+\_\+id, \$purge=F\+A\+L\+SE)
+\item 
+\hyperlink{classUsers_a60cb5a1a81e5b7cdd9ca990d55f4624b}{get\+User\+ID} (\$username)
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Users@{Users}!\+\_\+\+\_\+construct@{\+\_\+\+\_\+construct}}
+\index{\+\_\+\+\_\+construct@{\+\_\+\+\_\+construct}!Users@{Users}}
+\subsubsection[{\texorpdfstring{\+\_\+\+\_\+construct(\$galaxy)}{\_\_construct($galaxy)}}]{\setlength{\rightskip}{0pt plus 5cm}Users\+::\+\_\+\+\_\+construct (
+\begin{DoxyParamCaption}
+\item[{}]{\$galaxy}
+\end{DoxyParamCaption}
+)}\hypertarget{classUsers_a769aa9c30c6d94646c99f51807743c5c}{}\label{classUsers_a769aa9c30c6d94646c99f51807743c5c}
+The \hyperlink{classUsers}{Users} constructor.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\hyperlink{classGalaxyInstance}{Galaxy\+Instance} & {\em \$galaxy} & A \hyperlink{classGalaxyInstance}{Galaxy\+Instance} object.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An instance of a \hyperlink{classUsers}{Users} object. 
+\end{DoxyReturn}
+
+
+\subsection{Member Function Documentation}
+\index{Users@{Users}!api\+Key@{api\+Key}}
+\index{api\+Key@{api\+Key}!Users@{Users}}
+\subsubsection[{\texorpdfstring{api\+Key(\$user\+\_\+id)}{apiKey($user\_id)}}]{\setlength{\rightskip}{0pt plus 5cm}Users\+::api\+Key (
+\begin{DoxyParamCaption}
+\item[{}]{\$user\+\_\+id}
+\end{DoxyParamCaption}
+)}\hypertarget{classUsers_a3169049c092532596a5d5c664f2d3fc5}{}\label{classUsers_a3169049c092532596a5d5c664f2d3fc5}
+Creates a new A\+PI key for specified user.
+
+Corresponds to the Galaxy A\+P\+I/path P\+O\+ST /api/users/\{encoded\+\_\+user\+\_\+id\}/api\+\_\+key
+
+
+\begin{DoxyParams}{Parameters}
+{\em user\+\_\+id} & The id of the specified user. To obtain a user id, please use this class\textquotesingle{}s index function.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The A\+PI key of the user. 
+\end{DoxyReturn}
+\index{Users@{Users}!create@{create}}
+\index{create@{create}!Users@{Users}}
+\subsubsection[{\texorpdfstring{create(\$username, \$user\+\_\+email, \$password)}{create($username, $user\_email, $password)}}]{\setlength{\rightskip}{0pt plus 5cm}Users\+::create (
+\begin{DoxyParamCaption}
+\item[{}]{\$username, }
+\item[{}]{\$user\+\_\+email, }
+\item[{}]{\$password}
+\end{DoxyParamCaption}
+)}\hypertarget{classUsers_a38f0657d88ec8be06dfc36c261b01814}{}\label{classUsers_a38f0657d88ec8be06dfc36c261b01814}
+Creates new galaxy user.
+
+Corresponds to the Galaxy A\+P\+I/path P\+O\+ST /api/users For this method to work, the Galaxy instance must have the allow\+\_\+user\+\_\+creation option set to True and use\+\_\+remote\+\_\+user option set to False in the config/galaxy.\+ini configuration file.
+
+
+\begin{DoxyParams}{Parameters}
+{\em username} & The username of the new user. \\
+\hline
+{\em user\+\_\+email} & The email of the new user. \\
+\hline
+{\em password} & The password of the new user.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array containing details of the new user. On failure F\+A\+L\+SE is returned. 
+\end{DoxyReturn}
+\index{Users@{Users}!delete@{delete}}
+\index{delete@{delete}!Users@{Users}}
+\subsubsection[{\texorpdfstring{delete(\$user\+\_\+id, \$purge=\+F\+A\+L\+S\+E)}{delete($user\_id, $purge=FALSE)}}]{\setlength{\rightskip}{0pt plus 5cm}Users\+::delete (
+\begin{DoxyParamCaption}
+\item[{}]{\$user\+\_\+id, }
+\item[{}]{\$purge = {\ttfamily FALSE}}
+\end{DoxyParamCaption}
+)}\hypertarget{classUsers_aca99b21a27c17a7ee22546fc8145257d}{}\label{classUsers_aca99b21a27c17a7ee22546fc8145257d}
+Mark a given user as deleted
+
+Corresponds to the Galaxy A\+P\+I/path D\+E\+L\+E\+TE /api/users/\{id\}
+
+
+\begin{DoxyParams}{Parameters}
+{\em user\+\_\+id} & The id of the user to delete. To obtain a user id, please use this class\textquotesingle{}s index function. \\
+\hline
+{\em purge} & (Optional) if true, the user will be completely erased from Galaxy.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array containing details of the deleted user, or F\+A\+L\+SE on failure. 
+\end{DoxyReturn}
+\index{Users@{Users}!get\+User\+ID@{get\+User\+ID}}
+\index{get\+User\+ID@{get\+User\+ID}!Users@{Users}}
+\subsubsection[{\texorpdfstring{get\+User\+I\+D(\$username)}{getUserID($username)}}]{\setlength{\rightskip}{0pt plus 5cm}Users\+::get\+User\+ID (
+\begin{DoxyParamCaption}
+\item[{}]{\$username}
+\end{DoxyParamCaption}
+)}\hypertarget{classUsers_a60cb5a1a81e5b7cdd9ca990d55f4624b}{}\label{classUsers_a60cb5a1a81e5b7cdd9ca990d55f4624b}
+Retrieves the ID of a Galaxy user.
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$username} & The name of the user. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A string containing the user ID or F\+A\+L\+SE if the user could not be found. 
+\end{DoxyReturn}
+\index{Users@{Users}!index@{index}}
+\index{index@{index}!Users@{Users}}
+\subsubsection[{\texorpdfstring{index(\$deleted=false, \$email=\+N\+U\+L\+L, \$username=\+N\+U\+L\+L, \$any=false)}{index($deleted=false, $email=NULL, $username=NULL, $any=false)}}]{\setlength{\rightskip}{0pt plus 5cm}Users\+::index (
+\begin{DoxyParamCaption}
+\item[{}]{\$deleted = {\ttfamily false}, }
+\item[{}]{\$email = {\ttfamily NULL}, }
+\item[{}]{\$username = {\ttfamily NULL}, }
+\item[{}]{\$any = {\ttfamily false}}
+\end{DoxyParamCaption}
+)}\hypertarget{classUsers_aae18145ee4c1d9b9eca0fd8e2d8d65d3}{}\label{classUsers_aae18145ee4c1d9b9eca0fd8e2d8d65d3}
+Displays a collection of Galaxy users.
+
+Corresponds to the Galaxy A\+P\+I/paths at G\+ET /api/users and G\+ET /api/users/deleted
+
+
+\begin{DoxyParams}{Parameters}
+{\em deleted} & (optional) If true, show deleted users. \\
+\hline
+{\em email} & (optional) An email address to filter results based on. \\
+\hline
+{\em name} & (optional) A username to filter results based on. \\
+\hline
+{\em any} & (optional) If true, Filter on username OR email.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array containing information on the the users the A\+PI function retreived 
+\end{DoxyReturn}
+\index{Users@{Users}!show@{show}}
+\index{show@{show}!Users@{Users}}
+\subsubsection[{\texorpdfstring{show(\$user\+\_\+id)}{show($user\_id)}}]{\setlength{\rightskip}{0pt plus 5cm}Users\+::show (
+\begin{DoxyParamCaption}
+\item[{}]{\$user\+\_\+id}
+\end{DoxyParamCaption}
+)}\hypertarget{classUsers_a9c2cf59f933e4e59745351a7533ce0ab}{}\label{classUsers_a9c2cf59f933e4e59745351a7533ce0ab}
+Retreive detailed information on a specific user.
+
+Corresponds to the Galaxy A\+P\+I/path G\+ET /api/users/\{encoded\+\_\+user\+\_\+id\}
+
+
+\begin{DoxyParams}{Parameters}
+{\em user\+\_\+id} & The id of the user whos details to retreive. To obtain a user id please use this class\textquotesingle{}s \hyperlink{classUsers_aae18145ee4c1d9b9eca0fd8e2d8d65d3}{index()} function.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array containing the details of the user. 
+\end{DoxyReturn}
+\index{Users@{Users}!undelete@{undelete}}
+\index{undelete@{undelete}!Users@{Users}}
+\subsubsection[{\texorpdfstring{undelete()}{undelete()}}]{\setlength{\rightskip}{0pt plus 5cm}Users\+::undelete (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classUsers_a84360c2388a75d4282a8aa789f13b982}{}\label{classUsers_a84360c2388a75d4282a8aa789f13b982}
+The actual python implementation is not complete \index{Users@{Users}!update@{update}}
+\index{update@{update}!Users@{Users}}
+\subsubsection[{\texorpdfstring{update()}{update()}}]{\setlength{\rightskip}{0pt plus 5cm}Users\+::update (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classUsers_a73e0c5b2dbcf185f32d9e72c3934e866}{}\label{classUsers_a73e0c5b2dbcf185f32d9e72c3934e866}
+The actual python implementation is not complete 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{Users_8inc}{Users.\+inc}\end{DoxyCompactItemize}

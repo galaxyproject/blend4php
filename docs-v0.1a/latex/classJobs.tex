@@ -1,0 +1,203 @@
+\hypertarget{classJobs}{}\section{Jobs Class Reference}
+\label{classJobs}\index{Jobs@{Jobs}}
+Inheritance diagram for Jobs\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classJobs}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classJobs_ad7a85851751aa89c92294c55aa9fcc87}{\+\_\+\+\_\+construct} (\$galaxy)
+\item 
+\hyperlink{classJobs_abadc1a5ebccaeb6b5b977328609f5a34}{build\+For\+Rerun} (\$job\+\_\+id)
+\item 
+\hyperlink{classJobs_a4859adf323104d74772c2d9cbcb04331}{inputs} (\$job\+\_\+id)
+\item 
+\hyperlink{classJobs_a6fa75d976f7dcbe31cb1191effa0a9ea}{outputs} (\$job\+\_\+id)
+\item 
+\hyperlink{classJobs_af95758c7cad6b00529344f0ddeb1e830}{show} (\$job\+\_\+id)
+\item 
+\hyperlink{classJobs_a428dddc2ccac56c7e3c83f524d9f719c}{index} (\$state=N\+U\+LL, \$tool\+\_\+ids=N\+U\+LL, \$date\+\_\+range\+\_\+min=N\+U\+LL, \$date\+\_\+range\+\_\+max=N\+U\+LL, \$history\+\_\+id=N\+U\+LL)
+\item 
+\hyperlink{classJobs_a4707d2d193d37086cbac02f9c7463eab}{create} ()
+\item 
+\hyperlink{classJobs_a0f7e6dedeee443ad8c262ee4d55df136}{search} (\$params)
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Jobs@{Jobs}!\+\_\+\+\_\+construct@{\+\_\+\+\_\+construct}}
+\index{\+\_\+\+\_\+construct@{\+\_\+\+\_\+construct}!Jobs@{Jobs}}
+\subsubsection[{\texorpdfstring{\+\_\+\+\_\+construct(\$galaxy)}{\_\_construct($galaxy)}}]{\setlength{\rightskip}{0pt plus 5cm}Jobs\+::\+\_\+\+\_\+construct (
+\begin{DoxyParamCaption}
+\item[{}]{\$galaxy}
+\end{DoxyParamCaption}
+)}\hypertarget{classJobs_ad7a85851751aa89c92294c55aa9fcc87}{}\label{classJobs_ad7a85851751aa89c92294c55aa9fcc87}
+The \hyperlink{classJobs}{Jobs} constructor.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\hyperlink{classGalaxyInstance}{Galaxy\+Instance} & {\em \$galaxy} & A \hyperlink{classGalaxyInstance}{Galaxy\+Instance} object.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An instance of a \hyperlink{classJobs}{Jobs} object. 
+\end{DoxyReturn}
+
+
+\subsection{Member Function Documentation}
+\index{Jobs@{Jobs}!build\+For\+Rerun@{build\+For\+Rerun}}
+\index{build\+For\+Rerun@{build\+For\+Rerun}!Jobs@{Jobs}}
+\subsubsection[{\texorpdfstring{build\+For\+Rerun(\$job\+\_\+id)}{buildForRerun($job\_id)}}]{\setlength{\rightskip}{0pt plus 5cm}Jobs\+::build\+For\+Rerun (
+\begin{DoxyParamCaption}
+\item[{}]{\$job\+\_\+id}
+\end{DoxyParamCaption}
+)}\hypertarget{classJobs_abadc1a5ebccaeb6b5b977328609f5a34}{}\label{classJobs_abadc1a5ebccaeb6b5b977328609f5a34}
+Retreive a tool input template populated with this job\textquotesingle{}s information.
+
+Corresponds to the Galaxy Api/path at\+: G\+ET /api/jobs/\{encoded\+\_\+job\+\_\+id\}/build\+\_\+for\+\_\+rerun This function is suitable for rerunning or rendering parameters of the job.
+
+
+\begin{DoxyParams}{Parameters}
+{\em job} & id The job id of the job whose information to retreive. The job id can be ontained from this class\textquotesingle{}s \hyperlink{classJobs_a428dddc2ccac56c7e3c83f524d9f719c}{index()} function.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array containing ouput informaiton of the tool that has been built. 
+\end{DoxyReturn}
+\index{Jobs@{Jobs}!create@{create}}
+\index{create@{create}!Jobs@{Jobs}}
+\subsubsection[{\texorpdfstring{create()}{create()}}]{\setlength{\rightskip}{0pt plus 5cm}Jobs\+::create (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classJobs_a4707d2d193d37086cbac02f9c7463eab}{}\label{classJobs_a4707d2d193d37086cbac02f9c7463eab}
+This function is not implemented by its python counterpart
+
+N\+O\+TE\+: Creating/submitting a job is actually run under tools.\+py in the Galaxy api
+
+\begin{DoxyReturn}{Returns}
+F\+A\+L\+SE 
+\end{DoxyReturn}
+\index{Jobs@{Jobs}!index@{index}}
+\index{index@{index}!Jobs@{Jobs}}
+\subsubsection[{\texorpdfstring{index(\$state=\+N\+U\+L\+L, \$tool\+\_\+ids=\+N\+U\+L\+L, \$date\+\_\+range\+\_\+min=\+N\+U\+L\+L, \$date\+\_\+range\+\_\+max=\+N\+U\+L\+L, \$history\+\_\+id=\+N\+U\+L\+L)}{index($state=NULL, $tool\_ids=NULL, $date\_range\_min=NULL, $date\_range\_max=NULL, $history\_id=NULL)}}]{\setlength{\rightskip}{0pt plus 5cm}Jobs\+::index (
+\begin{DoxyParamCaption}
+\item[{}]{\$state = {\ttfamily NULL}, }
+\item[{}]{\$tool\+\_\+ids = {\ttfamily NULL}, }
+\item[{}]{\$date\+\_\+range\+\_\+min = {\ttfamily NULL}, }
+\item[{}]{\$date\+\_\+range\+\_\+max = {\ttfamily NULL}, }
+\item[{}]{\$history\+\_\+id = {\ttfamily NULL}}
+\end{DoxyParamCaption}
+)}\hypertarget{classJobs_a428dddc2ccac56c7e3c83f524d9f719c}{}\label{classJobs_a428dddc2ccac56c7e3c83f524d9f719c}
+Retreive a list of jobs for current user.
+
+Corresponds to the Galaxy Api method/path\+: G\+ET /api/jobs
+
+
+\begin{DoxyParams}{Parameters}
+{\em state} & filter job search by any one of these conditions\+: \textquotesingle{}new\textquotesingle{}, \textquotesingle{}upload\textquotesingle{}, \textquotesingle{}waiting\textquotesingle{}, \textquotesingle{}queued\textquotesingle{}, \textquotesingle{}running\textquotesingle{}, \textquotesingle{}ok\textquotesingle{}, \textquotesingle{}error\textquotesingle{}, \textquotesingle{}paused\textquotesingle{}, \textquotesingle{}deleted\textquotesingle{}, \textquotesingle{}deleted\+\_\+now\textquotesingle{} \\
+\hline
+{\em tool\+\_\+ids.} & A list of tool ids that limit the search to include only those with given tool\+\_\+ids. To find tool id\textquotesingle{}s, please refer to this class\textquotesingle{}s \hyperlink{classJobs_a428dddc2ccac56c7e3c83f524d9f719c}{index()} function. \\
+\hline
+{\em date\+\_\+range\+\_\+min} & Limit the search of jobs updated after this date. \\
+\hline
+{\em date\+\_\+range\+\_\+max} & Limit the search of jobs updated before this date. \\
+\hline
+{\em history\+\_\+id} & Limit listing of jobs to those that match history\+\_\+id. To find the history id, please refer to the history class.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array containing a list of all the jobs that matched the given parameters. 
+\end{DoxyReturn}
+\index{Jobs@{Jobs}!inputs@{inputs}}
+\index{inputs@{inputs}!Jobs@{Jobs}}
+\subsubsection[{\texorpdfstring{inputs(\$job\+\_\+id)}{inputs($job\_id)}}]{\setlength{\rightskip}{0pt plus 5cm}Jobs\+::inputs (
+\begin{DoxyParamCaption}
+\item[{}]{\$job\+\_\+id}
+\end{DoxyParamCaption}
+)}\hypertarget{classJobs_a4859adf323104d74772c2d9cbcb04331}{}\label{classJobs_a4859adf323104d74772c2d9cbcb04331}
+Retreive the input datasets created from the specified job.
+
+Corresponds to the Galaxy Api/path at\+: G\+E\+T/api/jobs/\{encoded\+\_\+job\+\_\+id\}/inputs
+
+
+\begin{DoxyParams}{Parameters}
+{\em job\+\_\+id} & The job id of the job whose information to retreive. The job id can be ontained from this class\textquotesingle{}s \hyperlink{classJobs_a428dddc2ccac56c7e3c83f524d9f719c}{index()} function.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array containing ouput informaiton of the job input. 
+\end{DoxyReturn}
+\index{Jobs@{Jobs}!outputs@{outputs}}
+\index{outputs@{outputs}!Jobs@{Jobs}}
+\subsubsection[{\texorpdfstring{outputs(\$job\+\_\+id)}{outputs($job\_id)}}]{\setlength{\rightskip}{0pt plus 5cm}Jobs\+::outputs (
+\begin{DoxyParamCaption}
+\item[{}]{\$job\+\_\+id}
+\end{DoxyParamCaption}
+)}\hypertarget{classJobs_a6fa75d976f7dcbe31cb1191effa0a9ea}{}\label{classJobs_a6fa75d976f7dcbe31cb1191effa0a9ea}
+Retreive the output datasets created from the specified job.
+
+Corresponds to the Galaxy Api/path at\+: G\+E\+T/api/jobs/\{encoded\+\_\+job\+\_\+id\}/inputs.
+
+
+\begin{DoxyParams}{Parameters}
+{\em job\+\_\+id} & The job id of the job whose information to retreive. The job id can be ontained from this class\textquotesingle{}s \hyperlink{classJobs_a428dddc2ccac56c7e3c83f524d9f719c}{index()} function.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array containing ouput informaiton of the job outputs. 
+\end{DoxyReturn}
+\index{Jobs@{Jobs}!search@{search}}
+\index{search@{search}!Jobs@{Jobs}}
+\subsubsection[{\texorpdfstring{search(\$params)}{search($params)}}]{\setlength{\rightskip}{0pt plus 5cm}Jobs\+::search (
+\begin{DoxyParamCaption}
+\item[{}]{\$params}
+\end{DoxyParamCaption}
+)}\hypertarget{classJobs_a0f7e6dedeee443ad8c262ee4d55df136}{}\label{classJobs_a0f7e6dedeee443ad8c262ee4d55df136}
+\hyperlink{classSearch}{Search} for previously created jobs.
+
+Corresponds to the Galaxy api/path at\+: P\+O\+ST /api/jobs/search
+
+This method is designed to scan the list of previously run jobs and find records of jobs that had the exact some input parameters and datasets. This can be used to minimize, the amount of repeated work, and simplyrecycle the old results.
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$params} & A key value (associative array) where the keys can be the following\+:
+\begin{DoxyItemize}
+\item tool\+\_\+id\+: Required. The tool id to execute. To find the tool id, use the index function of this class.
+\item inputs\+: Required. An associative array of key/value pairs where valid keys are \textquotesingle{}id\textquotesingle{} and \textquotesingle{}src\textquotesingle{} and \textquotesingle{}id\textquotesingle{} is a tool\+\_\+id (e.\+g. wc\+\_\+gnu), and \textquotesingle{}src\textquotesingle{} is is optional but defaults to \textquotesingle{}hda\textquotesingle{}. Alternatively, if multiple inputs are desired, this can be an array of associative arrays.
+\item state\+: Optional. The state of the job\+: \textquotesingle{}running\textquotesingle{}, \textquotesingle{}queued\textquotesingle{}, \textquotesingle{}waiting\textquotesingle{}, \textquotesingle{}ok\textquotesingle{}. 
+\end{DoxyItemize}\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array of jobs matching the provided arguments. 
+\end{DoxyReturn}
+\index{Jobs@{Jobs}!show@{show}}
+\index{show@{show}!Jobs@{Jobs}}
+\subsubsection[{\texorpdfstring{show(\$job\+\_\+id)}{show($job\_id)}}]{\setlength{\rightskip}{0pt plus 5cm}Jobs\+::show (
+\begin{DoxyParamCaption}
+\item[{}]{\$job\+\_\+id}
+\end{DoxyParamCaption}
+)}\hypertarget{classJobs_af95758c7cad6b00529344f0ddeb1e830}{}\label{classJobs_af95758c7cad6b00529344f0ddeb1e830}
+Retreive information about a specific job
+
+Corresponds to the Galaxy A\+PI function/path\+: G\+ET /api/jobs/\{folder\+\_\+id\}
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$folder\+\_\+id} & The folder that you would like to see. Please see the \hyperlink{classJobs_a428dddc2ccac56c7e3c83f524d9f719c}{index()} function in this class to obtain folder ids.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+J\+S\+ON array containing information about the specified job. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{Jobs_8inc}{Jobs.\+inc}\end{DoxyCompactItemize}

@@ -1,0 +1,91 @@
+\hypertarget{classRequests}{}\section{Requests Class Reference}
+\label{classRequests}\index{Requests@{Requests}}
+Inheritance diagram for Requests\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classRequests}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classRequests_ad4f6b224dace74a82e24345455de19e7}{\+\_\+\+\_\+construct} (\$galaxy)
+\item 
+\hyperlink{classRequests_ae974e9e6c8ac78bea994e66ee3f1c65f}{index} ()
+\item 
+\hyperlink{classRequests_a767527fe7a23f41746ad123af5a4271d}{show} (\$encoded\+\_\+request\+\_\+id)
+\item 
+\hyperlink{classRequests_a493a6e9e3597e39070464a9424f2d6ff}{update} (\$encoded\+\_\+request\+\_\+id)
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Requests@{Requests}!\+\_\+\+\_\+construct@{\+\_\+\+\_\+construct}}
+\index{\+\_\+\+\_\+construct@{\+\_\+\+\_\+construct}!Requests@{Requests}}
+\subsubsection[{\texorpdfstring{\+\_\+\+\_\+construct(\$galaxy)}{\_\_construct($galaxy)}}]{\setlength{\rightskip}{0pt plus 5cm}Requests\+::\+\_\+\+\_\+construct (
+\begin{DoxyParamCaption}
+\item[{}]{\$galaxy}
+\end{DoxyParamCaption}
+)}\hypertarget{classRequests_ad4f6b224dace74a82e24345455de19e7}{}\label{classRequests_ad4f6b224dace74a82e24345455de19e7}
+The Request constructor.
+
+\begin{DoxyReturn}{Returns}
+An instance of a Request object. 
+\end{DoxyReturn}
+
+
+\subsection{Member Function Documentation}
+\index{Requests@{Requests}!index@{index}}
+\index{index@{index}!Requests@{Requests}}
+\subsubsection[{\texorpdfstring{index()}{index()}}]{\setlength{\rightskip}{0pt plus 5cm}Requests\+::index (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classRequests_ae974e9e6c8ac78bea994e66ee3f1c65f}{}\label{classRequests_ae974e9e6c8ac78bea994e66ee3f1c65f}
+Displays a collection (list) of sequencing requests.
+
+\begin{DoxyReturn}{Returns}
+An array of the requests. 
+\end{DoxyReturn}
+\index{Requests@{Requests}!show@{show}}
+\index{show@{show}!Requests@{Requests}}
+\subsubsection[{\texorpdfstring{show(\$encoded\+\_\+request\+\_\+id)}{show($encoded\_request\_id)}}]{\setlength{\rightskip}{0pt plus 5cm}Requests\+::show (
+\begin{DoxyParamCaption}
+\item[{}]{\$encoded\+\_\+request\+\_\+id}
+\end{DoxyParamCaption}
+)}\hypertarget{classRequests_a767527fe7a23f41746ad123af5a4271d}{}\label{classRequests_a767527fe7a23f41746ad123af5a4271d}
+Displays details of a sequencing request.
+
+G\+ET /api/requests/\{encoded\+\_\+request\+\_\+id\}
+
+
+\begin{DoxyParams}{Parameters}
+{\em encoded\+\_\+request\+\_\+id} & The id of the galaxy entity to show.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array containing detailed information about the requested galaxy entitiy. 
+\end{DoxyReturn}
+\index{Requests@{Requests}!update@{update}}
+\index{update@{update}!Requests@{Requests}}
+\subsubsection[{\texorpdfstring{update(\$encoded\+\_\+request\+\_\+id)}{update($encoded\_request\_id)}}]{\setlength{\rightskip}{0pt plus 5cm}Requests\+::update (
+\begin{DoxyParamCaption}
+\item[{}]{\$encoded\+\_\+request\+\_\+id}
+\end{DoxyParamCaption}
+)}\hypertarget{classRequests_a493a6e9e3597e39070464a9424f2d6ff}{}\label{classRequests_a493a6e9e3597e39070464a9424f2d6ff}
+Updates a request state, sample state or sample dataset transfer status.
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$encoded\+\_\+request\+\_\+id} & The id of the galaxy entity to update.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array containing information on the updated Galaxy entity. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{Requests_8inc}{Requests.\+inc}\end{DoxyCompactItemize}

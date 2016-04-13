@@ -1,0 +1,214 @@
+\hypertarget{classLibraries}{}\section{Libraries Class Reference}
+\label{classLibraries}\index{Libraries@{Libraries}}
+Inheritance diagram for Libraries\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classLibraries}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classLibraries_a84aba8841f094815b3af6e4affed79c0}{\+\_\+\+\_\+construct} (\$galaxy)
+\item 
+\hyperlink{classLibraries_a5090fa7a9be0e26a91590d651a32abe9}{create} (\$name, \$description=N\+U\+LL, \$synopsis=N\+U\+LL)
+\item 
+\hyperlink{classLibraries_a66d9b028c4fde6edef8e3b7e0582d884}{update} (\$name, \$description=N\+U\+LL, \$synopsis=N\+U\+LL)
+\item 
+\hyperlink{classLibraries_a93ffa5a990c77a0872a3adb2f0a69158}{index} (\$deleted=F\+A\+L\+SE)
+\item 
+\hyperlink{classLibraries_a8310b5f58da502f256e87b8d42915454}{show} (\$library\+\_\+id, \$deleted=F\+A\+L\+SE)
+\item 
+\hyperlink{classLibraries_a3de3c2fdbaa21d621ad6fd7bb4f83a49}{delete} (\$library\+\_\+id, \$undelete=F\+A\+L\+SE)
+\item 
+\hyperlink{classLibraries_abad2211e5699eb1c296db1ac22bf478c}{get\+Permissions} (\$library\+\_\+id, \$scope=\textquotesingle{}available\textquotesingle{}, \$is\+\_\+library\+\_\+access=true)
+\item 
+\hyperlink{classLibraries_aea282014c5f7a983977c2b920885e798}{set\+Permissions} (\$library\+\_\+id, \$action=\textquotesingle{}set\+\_\+permissions\textquotesingle{}, \$access\+\_\+ids=array(), \$add\+\_\+ids=array(), \$manage\+\_\+ids=array(), \$modify\+\_\+ids=array())
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Libraries@{Libraries}!\+\_\+\+\_\+construct@{\+\_\+\+\_\+construct}}
+\index{\+\_\+\+\_\+construct@{\+\_\+\+\_\+construct}!Libraries@{Libraries}}
+\subsubsection[{\texorpdfstring{\+\_\+\+\_\+construct(\$galaxy)}{\_\_construct($galaxy)}}]{\setlength{\rightskip}{0pt plus 5cm}Libraries\+::\+\_\+\+\_\+construct (
+\begin{DoxyParamCaption}
+\item[{}]{\$galaxy}
+\end{DoxyParamCaption}
+)}\hypertarget{classLibraries_a84aba8841f094815b3af6e4affed79c0}{}\label{classLibraries_a84aba8841f094815b3af6e4affed79c0}
+The \hyperlink{classFolders}{Folders} constructor.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\hyperlink{classGalaxyInstance}{Galaxy\+Instance} & {\em \$galaxy} & A \hyperlink{classGalaxyInstance}{Galaxy\+Instance} object.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An instance of a \hyperlink{classLibraries}{Libraries} object. 
+\end{DoxyReturn}
+
+
+\subsection{Member Function Documentation}
+\index{Libraries@{Libraries}!create@{create}}
+\index{create@{create}!Libraries@{Libraries}}
+\subsubsection[{\texorpdfstring{create(\$name, \$description=\+N\+U\+L\+L, \$synopsis=\+N\+U\+L\+L)}{create($name, $description=NULL, $synopsis=NULL)}}]{\setlength{\rightskip}{0pt plus 5cm}Libraries\+::create (
+\begin{DoxyParamCaption}
+\item[{}]{\$name, }
+\item[{}]{\$description = {\ttfamily NULL}, }
+\item[{}]{\$synopsis = {\ttfamily NULL}}
+\end{DoxyParamCaption}
+)}\hypertarget{classLibraries_a5090fa7a9be0e26a91590d651a32abe9}{}\label{classLibraries_a5090fa7a9be0e26a91590d651a32abe9}
+Creates a new library.
+
+Corresponds to the Galaxy Api/path\+: P\+O\+ST /api/libraries\+:
+
+
+\begin{DoxyParams}{Parameters}
+{\em Name} & The new library\textquotesingle{}s name. \\
+\hline
+{\em description\textquotesingle{}} & Optional the new library\textquotesingle{}s description. \\
+\hline
+{\em synopsis} & Otional a string containing a synopsis.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array containing the new library created. 
+\end{DoxyReturn}
+\index{Libraries@{Libraries}!delete@{delete}}
+\index{delete@{delete}!Libraries@{Libraries}}
+\subsubsection[{\texorpdfstring{delete(\$library\+\_\+id, \$undelete=\+F\+A\+L\+S\+E)}{delete($library\_id, $undelete=FALSE)}}]{\setlength{\rightskip}{0pt plus 5cm}Libraries\+::delete (
+\begin{DoxyParamCaption}
+\item[{}]{\$library\+\_\+id, }
+\item[{}]{\$undelete = {\ttfamily FALSE}}
+\end{DoxyParamCaption}
+)}\hypertarget{classLibraries_a3de3c2fdbaa21d621ad6fd7bb4f83a49}{}\label{classLibraries_a3de3c2fdbaa21d621ad6fd7bb4f83a49}
+Marks a specific library as deleted or a deleted library as not-\/deleted.
+
+Corresponds to the Galaxy Api/path at D\+E\+L\+E\+TE /api/libraries/\{encoded\+\_\+id\}
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$library\+\_\+id} & The id of the library to delete or undelete, to obtain library id\textquotesingle{}s please use this class\textquotesingle{}s \hyperlink{classLibraries_a93ffa5a990c77a0872a3adb2f0a69158}{index()} function. \\
+\hline
+{\em undelete} & If T\+R\+UE, the library will be undeleted if it is already deleted.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array containing details of the deleted or undeleted library. 
+\end{DoxyReturn}
+\index{Libraries@{Libraries}!get\+Permissions@{get\+Permissions}}
+\index{get\+Permissions@{get\+Permissions}!Libraries@{Libraries}}
+\subsubsection[{\texorpdfstring{get\+Permissions(\$library\+\_\+id, \$scope=\textquotesingle{}available\textquotesingle{}, \$is\+\_\+library\+\_\+access=true)}{getPermissions($library\_id, $scope='available', $is\_library\_access=true)}}]{\setlength{\rightskip}{0pt plus 5cm}Libraries\+::get\+Permissions (
+\begin{DoxyParamCaption}
+\item[{}]{\$library\+\_\+id, }
+\item[{}]{\$scope = {\ttfamily \textquotesingle{}available\textquotesingle{}}, }
+\item[{}]{\$is\+\_\+library\+\_\+access = {\ttfamily true}}
+\end{DoxyParamCaption}
+)}\hypertarget{classLibraries_abad2211e5699eb1c296db1ac22bf478c}{}\label{classLibraries_abad2211e5699eb1c296db1ac22bf478c}
+Retreives the permission details for a given library.
+
+Corresponds to the Galaxy A\+P\+I/path G\+ET /api/libraries/\{encoded\+\_\+library\+\_\+id\}/permissions
+
+
+\begin{DoxyParams}{Parameters}
+{\em library\+\_\+id} & The if of the library to receive permissions for. To obtain library id\textquotesingle{}s please use this class\textquotesingle{}s index function . $\ast$ \\
+\hline
+{\em scope} & The scope of the permission, either \textquotesingle{}available\textquotesingle{} or \textquotesingle{}current\textquotesingle{}. \\
+\hline
+{\em is\+\_\+library\+\_\+access} & If false, the function will not look for libraries with user access.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array containing details of the permissions of all libraries. 
+\end{DoxyReturn}
+\index{Libraries@{Libraries}!index@{index}}
+\index{index@{index}!Libraries@{Libraries}}
+\subsubsection[{\texorpdfstring{index(\$deleted=\+F\+A\+L\+S\+E)}{index($deleted=FALSE)}}]{\setlength{\rightskip}{0pt plus 5cm}Libraries\+::index (
+\begin{DoxyParamCaption}
+\item[{}]{\$deleted = {\ttfamily FALSE}}
+\end{DoxyParamCaption}
+)}\hypertarget{classLibraries_a93ffa5a990c77a0872a3adb2f0a69158}{}\label{classLibraries_a93ffa5a990c77a0872a3adb2f0a69158}
+Retreives a list of summary data for all libraries.
+
+Corresponds to the Galaxy Api/path\+: G\+ET /api/libraries
+
+
+\begin{DoxyParams}{Parameters}
+{\em deleted} & if T\+R\+UE, show only deleted libraries, if F\+A\+L\+SE show only non-\/deleted.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array of all of libraries. And all of the deleted libraries if appropriate. 
+\end{DoxyReturn}
+\index{Libraries@{Libraries}!set\+Permissions@{set\+Permissions}}
+\index{set\+Permissions@{set\+Permissions}!Libraries@{Libraries}}
+\subsubsection[{\texorpdfstring{set\+Permissions(\$library\+\_\+id, \$action=\textquotesingle{}set\+\_\+permissions\textquotesingle{}, \$access\+\_\+ids=array(), \$add\+\_\+ids=array(), \$manage\+\_\+ids=array(), \$modify\+\_\+ids=array())}{setPermissions($library\_id, $action='set\_permissions', $access\_ids=array(), $add\_ids=array(), $manage\_ids=array(), $modify\_ids=array())}}]{\setlength{\rightskip}{0pt plus 5cm}Libraries\+::set\+Permissions (
+\begin{DoxyParamCaption}
+\item[{}]{\$library\+\_\+id, }
+\item[{}]{\$action = {\ttfamily \textquotesingle{}set\+\_\+permissions\textquotesingle{}}, }
+\item[{}]{\$access\+\_\+ids = {\ttfamily array()}, }
+\item[{}]{\$add\+\_\+ids = {\ttfamily array()}, }
+\item[{}]{\$manage\+\_\+ids = {\ttfamily array()}, }
+\item[{}]{\$modify\+\_\+ids = {\ttfamily array()}}
+\end{DoxyParamCaption}
+)}\hypertarget{classLibraries_aea282014c5f7a983977c2b920885e798}{}\label{classLibraries_aea282014c5f7a983977c2b920885e798}
+Sets the permissions for a specified library.
+
+Corresponds to the Galaxy A\+PI function at P\+O\+ST /api/libraries/\{encoded\+\_\+library\+\_\+id\}/permissions
+
+
+\begin{DoxyParams}{Parameters}
+{\em library\+\_\+id} & The id of the library to set permissions to. To obtain the library id refer to this class\textquotesingle{}s \hyperlink{classLibraries_a93ffa5a990c77a0872a3adb2f0a69158}{index()} function. \\
+\hline
+{\em action} & Set to either. \textquotesingle{}remove\+\_\+restrictions\textquotesingle{} or \textquotesingle{}set\+\_\+permissions\textquotesingle{}, to specify appropriate action for the function. \\
+\hline
+{\em access\+\_\+ids} & A list of role ids defining roles that should have access permissions on the library. To obtain role id\textquotesingle{}s please refer to the roles class. \\
+\hline
+{\em add\+\_\+ids} & A list of role id defining roles that should have add item permissions on the library. \\
+\hline
+{\em \$manage\+\_\+ids} & A list of role id defining roles that should have manage permissions on the library. \\
+\hline
+{\em \$modify\+\_\+ids} & A list of role id defining roles that should have modify permissions on the library.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array of librariy objects who\textquotesingle{}s permissions have been modieifed. 
+\end{DoxyReturn}
+\index{Libraries@{Libraries}!show@{show}}
+\index{show@{show}!Libraries@{Libraries}}
+\subsubsection[{\texorpdfstring{show(\$library\+\_\+id, \$deleted=\+F\+A\+L\+S\+E)}{show($library\_id, $deleted=FALSE)}}]{\setlength{\rightskip}{0pt plus 5cm}Libraries\+::show (
+\begin{DoxyParamCaption}
+\item[{}]{\$library\+\_\+id, }
+\item[{}]{\$deleted = {\ttfamily FALSE}}
+\end{DoxyParamCaption}
+)}\hypertarget{classLibraries_a8310b5f58da502f256e87b8d42915454}{}\label{classLibraries_a8310b5f58da502f256e87b8d42915454}
+Retreives detailed infromation about a specific library.
+
+Corresponds t the Galaxy Api functions at G\+ET /api/libraries/\{encoded\+\_\+id\} and G\+ET /api/libraries/deleted/\{encoded\+\_\+id\}
+
+
+\begin{DoxyParams}{Parameters}
+{\em library\+\_\+id} & The id of the library to show. To obtain library ids, please use this class\textquotesingle{}s \hyperlink{classLibraries_a93ffa5a990c77a0872a3adb2f0a69158}{index()} function. \\
+\hline
+{\em deleted} & If true, the function may return a deleted library.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array containing details of the specified library. 
+\end{DoxyReturn}
+\index{Libraries@{Libraries}!update@{update}}
+\index{update@{update}!Libraries@{Libraries}}
+\subsubsection[{\texorpdfstring{update(\$name, \$description=\+N\+U\+L\+L, \$synopsis=\+N\+U\+L\+L)}{update($name, $description=NULL, $synopsis=NULL)}}]{\setlength{\rightskip}{0pt plus 5cm}Libraries\+::update (
+\begin{DoxyParamCaption}
+\item[{}]{\$name, }
+\item[{}]{\$description = {\ttfamily NULL}, }
+\item[{}]{\$synopsis = {\ttfamily NULL}}
+\end{DoxyParamCaption}
+)}\hypertarget{classLibraries_a66d9b028c4fde6edef8e3b7e0582d884}{}\label{classLibraries_a66d9b028c4fde6edef8e3b7e0582d884}
+Updates library.
+
+Corresponds to the Galaxy Api/path\+: P\+A\+T\+CH /api/libraries/\{encoded\+\_\+id\} 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{Libraries_8inc}{Libraries.\+inc}\end{DoxyCompactItemize}
