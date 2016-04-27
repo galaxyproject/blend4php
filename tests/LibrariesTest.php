@@ -31,7 +31,7 @@ class LibrariesTest extends PHPUnit_Framework_TestCase {
     $libraries = new Libraries($galaxy);
 
     // Case 1: Create a new library.
-    $library_name = uniqid('galaxy-php-test-library1');
+    $library_name = uniqid('galaxy-php-test-library1-');
     
     $newLibParams = array(
       "name" => $library_name,
@@ -118,7 +118,7 @@ class LibrariesTest extends PHPUnit_Framework_TestCase {
     $libraries = new Libraries($galaxy);
 
     // Create a new library for this test.
-    $library_name = uniqid('galaxy-php-test-library2');
+    $library_name = uniqid('galaxy-php-test-library2-');
     $newLibParams = array(
       "name" => $library_name,
       "description" => 'Test library #2',
@@ -185,17 +185,46 @@ class LibrariesTest extends PHPUnit_Framework_TestCase {
     // argument
   }
 
-
   /**
    * Tests the setPermissions() function.
    * This is the function that relies on the 'Roles.inc' file
    *
    * @depends testInitGalaxy
+   * @depends testCreate
+   *
    */
-  function testSetPermissions($galaxy) {
+  function testSetPermissions($galaxy, $library) {
     $libraries = new Libraries($galaxy);
+    $roles = new Roles($galaxy);
+    
+    // Case 1: Provide the library_id and action but no id manipulations
+    $inputs = array(
+      "library_id" => $library['id'],
+      "action" => 'set_permissions'
+    );
+    
+    $response = $libraries->setPermissions($inputs);
+    $this->assertTrue(is_array($response), $libraries->getErrorMessage());
+    
+    // Case 2: Provide the library_id, action, and some of the id fields
+    $inputs["access_ids"] = $roles->index();
+    $inputs["add_ids"] = $roles->index();
+    $response = $libraries->setPermissions($inputs);
+    $this->assertTrue(is_array($response), $libraries->getErrorMessage());
+    
+    // Case 3: Provide the library_id, action, and all of the id fields
+    $inputs["manage_ids"] = $roles->index();
+    $inputs["modify_ids"] = $roles->index();
+    $response = $libraries->setPermissions($inputs);
+    $this->assertTrue(is_array($response), $libraries->getErrorMessage());
+    
+    // Case 4: Provide invalid parameters
+    $invalidInput = array();
+    $response = $libraries->setPermissions($invalidInput);
+    $this->assertFalse(is_array($response), $libraries->getErrorMessage());
     
   }
+  
   /**
    * Tests the getPermissions() function.
    *
@@ -210,6 +239,9 @@ class LibrariesTest extends PHPUnit_Framework_TestCase {
     // Case 1: Simply looking at the permissions using the library_id only
     $library = $libraries->getPermissions($inputs);
     $this->assertTrue(is_array($library), $libraries->getErrorMessage());
+    
+    // Any subsequent tests include the library_id with the exception of the 
+    // last test
     
     // Case 2: Look at the permissions with the scope parameter set ONLY
     $inputs['scope'] = 'available';

@@ -59,12 +59,14 @@ class RolesTest extends PHPUnit_Framework_TestCase {
 
     // Use the history ID of the first history in the list to test the
     // show() function.
-    $role_id = $roles_list[0]['id'];
+    $inputs = array(
+      "role_id" => $roles_list[0]['id']
+    );
 
     // Case 1:  Are we getting an array?  If so, that's all we need to
     // test. We don't need to do unit testing for galaxy. We assume the
     // array is correct.
-    $role = $roles->show($role_id);
+    $role = $roles->show($inputs);
     $this->assertTrue(is_array($role), $roles->getErrorMessage());
   }
 
@@ -87,18 +89,27 @@ class RolesTest extends PHPUnit_Framework_TestCase {
     }
 
     // Case 1: Create a role without any users.
-    $role_name = uniqid('galaxy-php-test-create1-');
-    $role = $roles->create($role_name, 'Test role #1');
+    $inputOne = array(
+      "name" => uniqid('galaxy-php-test-create1-'),
+      "description" => 'Test role #1'
+    );
+    
+    $role = $roles->create($inputOne);
     $this->assertTrue(is_array($role), $roles->getErrorMessage());
 
     // Case 2: Try recreating the role with the same name. We should
     // recieve a FALSE return value.
-    $role = $roles->create($role_name, 'Test role #1');
+    $role = $roles->create($inputOne);
     $this->assertFalse($role, 'If the role already exists the create() function should return FALSE: ' . print_r($role, TRUE));
 
     // Case 3: Create another role and add all the users to it.
-    $role_name = uniqid('galaxy-php-test-create2-');
-    $role = $roles->create($role_name, 'Test role #2', $user_ids);
+    
+    $inputTwo = array(
+      "name" => uniqid('galaxy-php-test-create2-'),
+      "description" => 'Test role #2',
+      "user_ids" => $user_ids
+    );
+    $role = $roles->create($inputTwo);
     $this->assertTrue(is_array($role), $roles->getErrorMessage());
     // TODO: need a way to determine if all of the users were added to the role?
 
@@ -122,14 +133,23 @@ class RolesTest extends PHPUnit_Framework_TestCase {
     $this->assertTrue(is_array($group), $groups->getErrorMessage());
     $group_ids[] = $group['id'];
 
-    $role_name = uniqid('galaxy-php-test-create3-');
-    $role = $roles->create($role_name, 'Test role #3', array(), $group_ids);
+    $inputThree = array(
+      "name" => uniqid('galaxy-php-test-create3-'),
+      "description" => 'Test role #3',
+      "group_ids" => $group_ids
+    );
+    $role = $roles->create($inputThree);
     $this->assertTrue(is_array($role), $roles->getErrorMessage());
     // TODO: need a way to determine if the groups were added to the role?
 
     // Case 5: Create another user and add both users and groups.
-    $role_name = uniqid('galaxy-php-test-create4-');
-    $role = $roles->create($role_name, 'Test role #4', $user_ids, $group_ids);
+    $inputFour = array(
+      "name" => uniqid('galaxy-php-test-create4-'),
+      "description" => 'Test role #4',
+      "user_ids" => $user_ids,
+      "group_ids" => $group_ids
+    );
+    $role = $roles->create($inputFour);
     $this->assertTrue(is_array($role), $roles->getErrorMessage());
     // TODO: need a way to determine if the users and groups were added to the role?
 

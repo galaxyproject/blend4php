@@ -282,10 +282,18 @@ class Libraries extends HTTPRequest{
    */
    public function setPermissions($params){
 
-    $URL = $this->galaxy->getURL() . '/api/libraries/' . $library_id . '/permissions/?key='. $this->galaxy->getAPIKey();
-
     if(array_key_exists('library_id', $params)) {
+      $URL = $this->galaxy->getURL() . '/api/libraries/' . $params['library_id'] . '/permissions/?key='. $this->galaxy->getAPIKey();
       if(array_key_exists('action', $params)) {
+        if(array_key_exists('access_ids', $params))
+          $params['access_ids'] = json_encode($params['access_ids']);
+        if(array_key_exists('add_ids', $params))
+          $params['add_ids'] = json_encode($params['add_ids']);
+        if(array_key_exists('manage_ids', $params))
+          $params['manage_ids'] = json_encode($params['manage_ids']);
+        if(array_key_exists('modify_ids', $params))
+          $params['modify_ids'] = json_encode($params['modify_ids']);
+        
         $response = $this->httpPOST($URL, $params);
         return $this->expectArray($response);
       }

@@ -53,20 +53,27 @@ class Roles extends HTTPRequest{
    *
    * Corresponds to the Galaxy API/path:
    *   GET /api/roles/{encoded_id}
-     *
-   * @param $role_id
-   *   The id of the role whos informaiton to retreive. Please use
-   *   this class's index function to retreive a list of role id's.
+   *
+   * @param $params
+   *   A key value (associative array) where the keys can be the following:
+   *
+   *   - role_id: The id of the role whos informaiton to retreive. Please use
+   *       this class's index function to retreive a list of role id's.
    *
    * @return
    *   An array containing details about the specified role.
    *
    * 
    */
-  public function show($role_id){
-    $URL = $this->galaxy->getURL() . '/api/roles/' . $role_id . '/?key=' . $this->galaxy->getAPIKey();
-    $response = $this->httpGET($URL);
-    return $this->expectArray($response);
+  public function show($params){
+    if(array_key_exists('role_id', $params)){
+      $URL = $this->galaxy->getURL() . '/api/roles/' . $params['role_id'] . '/?key=' . $this->galaxy->getAPIKey();
+      $response = $this->httpGET($URL);
+      return $this->expectArray($response);
+    }
+    
+    $this->setError('API', 'Please provide a value for the \'role_id\' argument.');
+    return FALSE;
   }
 
 
@@ -75,53 +82,45 @@ class Roles extends HTTPRequest{
    *
    * Corresponds to the Galaxy Api/path:
    *   POST /api/roles
+   *
    * NOTE: only type admin can be applied for new roles
    *
-   * @param $name
-   *   The name of the new role.
-   * @param $description
-   *   The description of the new role.
-   * @param $user_ids
-   *   An array of user ids to associate the new role with.
-   *   To obtain a user id, please use the index() function of
-   *   the users class.
-   * @param $group_ids
-   *   An array of group id's to associate the new role with.
-   *   To obtain a group id, please use the index() function of the
-   *   groups class.
+   * @param $params
+   *   A key value (associative array) where the keys can be the following:
+   *   
+   *   - name: The name of the new role.
+   *   - description: The description of the new role.
+   *   - user_ids: An array of user ids to associate the new role with.
+   *       To obtain a user id, please use the index() function of
+   *       the users class.
+   *   - group_ids: An array of group id's to associate the new role with.
+   *       To obtain a group id, please use the index() function of the
+   *       groups class.
    *
    * @return
    *   An array containing informaiton about the new role.
    *
    * 
    */
-  public function create($name, $description, $user_ids = array(), $group_ids = array()) {
+  public function create($params) {
 
     $URL = $this->galaxy->getURL() . '/api/roles/?key=' . $this->galaxy->getAPIKey();
 
-    $inputs = array(
-      'name' => $name,
-      'description' => $description,
-    );
+    if(array_key_exists('name', $params) and array_key_exists('description', $params)){
+      if(array_key_exists('user_ids', $params))
+        $params['user_ids'] = json_encode($params['user_ids']);
+      
+      if(array_key_exists('group_ids', $params))
+        $params['group_ids'] = json_encode($params['group_ids']);
+      
+      $response = $this->httpPOST($URL, $params);
+      $response = $this->expectArray($response);
 
-    if (count($user_ids) > 0) {
-      $inputs['user_ids'] = json_encode($user_ids);
-    }
-    if (count($group_ids) > 0) {
-      $inputs['group_ids'] = json_encode($group_ids);
-    }
-
-    $response = $this->httpPOST($URL, $inputs);
-    $response = $this->expectArray($response);
-
-    // For some reason we get an array containing the associative array with
-    // the role details.  So, we'll just return the associative array.
-    // TODO: find out if this is a bug in Galaxy API or if if its intended.
-    if (is_array($response)) {
-      return $response[0];
-    }
-    else {
       return $response;
     }
+    
+    $this->setError('API', 'Please provide at least a \'name\' AND \'description\' as inputs to this funciton.');
+    return FALSE;
+
   }
 }

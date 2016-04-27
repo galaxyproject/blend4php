@@ -39,55 +39,55 @@ class Tools extends HTTPRequest{
      parent ::__construct();
    }
 
-   /**
-    * Retreive a list of tools defined by the parameters.
-    *
-    * Corresponds to the Galaxy API/path:
-    *   GET /api/tools:
-    *
-    * @param $tool_id
-    *   Optional, the id of the tool to specify.
-    * @param $q
-    *   Optional, additional search details.
-    * @param $in_panel
-    *   If true, return tools marked as in panel.
-    * @param $trackster
-    *   If true, return tools marked as trackster.
-    *
-    *  @return
-    *   An array containing all the tools in galaxy that match the
-    *   the specified search.
-    *
-    * 
-    */
-   public function index($tool_id = NULL, $q = NULL, $in_panel = FALSE, $trackster = FALSE ) {
+  /**
+   * Retreive a list of tools defined by the parameters.
+   *
+   * Corresponds to the Galaxy API/path:
+   *   GET /api/tools:
+   *   
+   * @param $params
+   *   A key value (associative array) where the keys can be the following:
+   *
+   *   - tool_id: Optional, the id of the tool to specify.
+   *   - q: Optional, additional search details.
+   *   - in_panel: If TRUE, return tools marked as in panel.
+   *   - trackster: If TRUE, return tools marked as trackster.
+   *
+   *  @return
+   *   An array containing all the tools in galaxy that match the
+   *   the specified search.
+   *
+   * 
+   */
+   public function index($params) {
 
     $URL = $this->galaxy->getURL() . '/api/tools';
-    if ($tool_id !== NULL) {
-      $URL = $URL .'/'. $tool_id;
+    
+    if (array_key_exists('tool_id', $params)) {
+      $URL = $URL .'/'. $params['tool_id'];
     }
-    if ($trackster != FALSE ) {
-      $URL = $URL . '/?trackster=true';
+    if (array_key_exists('trackster', $params)) {
+      $URL = $URL . '/?trackster=' . $params['trackster'];
     }
-    if ($in_panel != FALSE ) {
-      $URL = $URL . '/?in_panel=true';
+    if (array_key_exists('in_panel', $params)) {
+      $URL = $URL . '/?in_panel=' . $params['in_panel'];
     }
-    if ($q != NULL) {
-      $URL = $URL . '/?q=' . urlencode($q);
+    if (array_key_exists('q', $params)) {
+      $URL = $URL . '/?q=' . urlencode($params['q']);
     }
 
     // All others are part of a query structure and therefore do not need a
     // qestion mark but an ampersand to include the key in the query.
-    if(!$tool_id && ($trackster || $in_panel || $q)){
+    if(!array_key_exists('tool_id', $params) and (array_key_exists('trackster', $params) or array_key_exists('in_panel', $params) or array_key_exists('q', $params)))
       $URL = $URL . '&key=' . $this->galaxy->getAPIKey();
-    }
+
     // tool_id is treated like a file accessing parameter.
     // This will also execute if all of the inputs are NULL
-    else{
+    else
       $URL = $URL . '?key=' . $this->galaxy->getAPIKey();
-    }
+
     $response = $this->httpGET($URL);
-     return $this->expectArray($response);
+    return $this->expectArray($response);
    }
 
   /**
@@ -96,19 +96,26 @@ class Tools extends HTTPRequest{
    * Corresponds to the Galaxy API/path
    *   GET /api/tools/{tool_id}
    *
-   * @param $tool_id
-   *   The id of the tool whos informaiton to obtain. To retreive a tool id
-   *   please use this class's index funciton.
+   *
+   * @param $params
+   *   A key value (associative array) where the keys can be the following:
+   *   
+   *   - tool_id: The id of the tool whos informaiton to obtain. To retreive a 
+   *       tool id please use this class's index funciton.
    *
    * @return
    *   An array containing detailed information about a specific tool.
    *
    * 
    */
-  public function show($tool_id){
-    $URL = $this->galaxy->getURL() . '/api/tools/' . $tool_id .'/?key='. $this->galaxy->getAPIKey();
-    $response = $this->httpGET($URL);
-    return $this->expectArray($response);
+  public function show($params){
+    if(array_key_exists('tool_id', $params)){
+      $URL = $this->galaxy->getURL() . '/api/tools/' . $params['tool_id'] .'/?key='. $this->galaxy->getAPIKey();
+      $response = $this->httpGET($URL);
+      return $this->expectArray($response);
+    }
+    $this->setError("API", "A 'tool_id' is required in order to invoke this call");
+    return FALSE;
   }
 
   /**
@@ -117,19 +124,25 @@ class Tools extends HTTPRequest{
    * Corresponds to the Galaxy API/path at
    *   GET /api/tools/{tool_id}/diagnostics
    *
-   * @param  $tool_id
-   *   The id of the tool to retreive diagnostics from, to obtain a tool id
-   *   please see this class's index function.
+   * @param $params
+   *   A key value (associative array) where the keys can be the following:
+   *   
+   *   - tool_id: The id of the tool whos informaiton to obtain. To retreive a 
+   *       tool id please use this class's index funciton.
    *
    * @return
    *   An array contaiing information about the diagnostics of a tool.
    *
    * 
    */
-   public function diagnostics($tool_id){
-     $URL = $this->galaxy->getURL() . '/api/tools/'. $tool_id . '/diagnostics/?key=' . $this->galaxy->getAPIKey();
-     $response = $this->httpGET($URL);
-     return $this->expectArray($response);
+   public function diagnostics($params){
+     if(array_key_exists('tool_id', $params)){
+       $URL = $this->galaxy->getURL() . '/api/tools/'. $params['tool_id'] . '/diagnostics/?key=' . $this->galaxy->getAPIKey();
+       $response = $this->httpGET($URL);
+       return $this->expectArray($response);
+     }
+     $this->setError("API", "A 'tool_id' is required in order to invoke this call");
+     return FALSE;
    }
 
   /**
@@ -138,22 +151,29 @@ class Tools extends HTTPRequest{
    * Corresponds to the Galaxy Api/path
    *   GET /api/tools/{tool_id}/reload
    *
-   * @param $tool_id
-   *   The id of the tool to reload.
+   * @param $params
+   *   A key value (associative array) where the keys can be the following:
+   * 
+   *   - tool_id: The id of the tool to reload.
    *
    * @return
    *   An array of the tool that was reloaded.
    *
    * 
    */
-   public function reload($tool_id){
-     $URL = $this->galaxy->getURL() . '/api/tools/'. $tool_id . '/reload/?key=' . $this->galaxy->getAPIKey();
-     $response = $this->httpGET($URL);
-     return $this->expectArray($response);
+   public function reload($params){
+     if(array_key_exists('tool_id', $params)){
+       $URL = $this->galaxy->getURL() . '/api/tools/'. $params['tool_id'] . '/reload/?key=' . $this->galaxy->getAPIKey();
+       $response = $this->httpGET($URL);
+       return $this->expectArray($response);
+     }
+     $this->setError("API", "A 'tool_id' is required in order to invoke this call");
+     return FALSE;
    }
 
   /**
    * Returns a tool model that includes its parameters.
+   * Returns a tool model including dynamic parameters and updated values.
    *
    * Corresponds to the Galaxy API/path
    *   GET /api/tools/{tool_id}/build
@@ -161,35 +181,39 @@ class Tools extends HTTPRequest{
    * Note the original python function allows for an 'inputs' parameter,
    *   this is not supported here.
    *
-   * @param $tool_id
-   *   id of the tool to perform this aciton on. Please use this class's
-   *   index() function to retreive a tool id.
-   * @param history_id
-   *   The id of the history to place the built tool.
-   * @param $tool_version
-   *   Optional, the version of the tool.
+   * @param $params
+   *   A key value (associative array) where the keys can be the following:
+   *   
+   *   - tool_id: The id of the tool to perform this aciton on. Please use
+   *       this class's index() function to retreive a tool id.
+   *   - history_id: The id of the history to place the built tool.
+   *   - tool_version: Optional, the version of the tool.
    *
    * @return
    *   An array containing the build model of the tool.
    *
    * 
    */
-   public function build($tool_id, $history_id, $tool_version = NULL){
+   public function build($params){
+     
+     if(array_key_exists('tool_id', $params)){
 
-     $URL = $this->galaxy->getURL() . '/api/tools/'. $tool_id . '/build';
-     if ($tool_version != NULL) {
-       $URL = $URL . '/?tool_version='. $tool_version;
-       $URL = $URL . '&key=' . $this->galaxy->getAPIKey();
+       $URL = $this->galaxy->getURL() . '/api/tools/'. $params['tool_id'] . '/build';
+     
+       if ($tool_version != NULL) {
+         $URL = $URL . '/?tool_version='. $tool_version;
+         $URL = $URL . '&key=' . $this->galaxy->getAPIKey();
+         $URL .= '&history_id=' . $history_id;
+         $response = $this->httpGET($URL);
+         return $this->expectArray($response);
+       }
+
+       $URL = $URL . '/?key=' . $this->galaxy->getAPIKey();
        $URL .= '&history_id=' . $history_id;
+
        $response = $this->httpGET($URL);
        return $this->expectArray($response);
      }
-
-     $URL = $URL . '/?key=' . $this->galaxy->getAPIKey();
-     $URL .= '&history_id=' . $history_id;
-
-     $response = $this->httpGET($URL);
-     return $this->expectArray($response);
    }
 
   /**

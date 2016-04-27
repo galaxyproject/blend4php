@@ -134,6 +134,10 @@ class ToolsTest extends PHPUnit_Framework_TestCase {
    * AttributeError: 'Tool' object has no attribute 'tool'
    */
   public function testBuild($galaxy){
+    // The problem with this testing suite currenlty is that we don't know
+    // how to use any one of the given tools properly
+    
+    // TODO: Working on it now
 /*     $tools = new Tools($galaxy);
 
     $histories = new Histories($galaxy);
@@ -144,7 +148,7 @@ class ToolsTest extends PHPUnit_Framework_TestCase {
 
     print(" \n This is the tools list in build tools: \n");
     //print_r($tools_list);
-    //rint("\n This is the histopry list object: \n");
+    //print("\n This is the history list object: \n");
     print_r($history_list);
 
     // Case 1: Present just the tool model and place it in the selected history
