@@ -9,113 +9,116 @@
  * are named similarly to their Python counterpart.
  *
  */
-
 require_once 'HTTPRequest.inc';
-
-
 class Datasets extends HTTPRequest {
   private $galaxy;
-
-   /**
+  
+  /**
    * The DataSets constructor.
    *
    * @param GalaxyInstance $galaxy
-   *   A GalaxyInstance object.
-   *
-   * @return
-   *   An instance of a DataSet object.
-   *
-   * 
+   *          A GalaxyInstance object.
+   *          
+   * @return An instance of a DataSet object.
+   *        
+   *        
    */
-   public function __construct($galaxy) {
-     $this->galaxy = $galaxy;
-
-     parent::__construct();
-   }
-
-   /**
-    * Retreive information about datasets made by converting
-    *  to a new file format.
-    *
-    * Corresponds to the galaxy API function at:
-    *  GET /api/datasets/{dataset_id}/converted/{ext}
-  *
-    * @param $dataset_id
-    *   The dataset id of the information to pull.
-    *   Can be obtained from this function's display()
-    * @param $extension
-    *   (optional )The file extension to look for
-    *
-    * @return
-    *   An array containing information about the matching dataset(s).
-    *
-    */
-   public function converted($dataset_id, $extension=NULL) {
-     $URL = "";
-     if($extension !== NULL) {
-       $URL = $this->galaxy->getURL() . '/api/datasets/' . $dataset_id . '/converted/' . $extension . '/?key=' . $this->galaxy->getAPIKey();
-     }
-     else {
-       $URL = $this->galaxy->getURL() . '/api/datasets/' . $dataset_id . '/converted/?key=' . $this->galaxy->getAPIKey();
-     }
-
-     $response = $this->httpGET($URL);
-     return $this->expectArray($response);
-   }
-
-   /**
-    * Retreives a list of datasets associated with a given history.
-    *
-    * Corresponds to the Galaxy Api method and path:
-    *   GET /api/histories/{encoded_history_id}/contents/{encoded_content_id}/display
-    *   history content (dataset).
-    *
-    * @param $hist_id
-    *   The history id of the datasets to find.
-    * @param $hist_content_id
-    *   The history content whose datasets to list.
-    *   Please see the HistoryContents class to obtain the history content id
-    *
-    * @return
-    *   An array containing information about the matching dataset(s).
-    *
-    */
-   public function display($hist_id, $hist_content_id){
-     $URL = $this->galaxy->getURL() . '/api/histories/' . $hist_id . '/contents/' . $hist_content_id. '/?key=' . $this->galaxy->getAPIKey();
-
-     $response = $this->httpGET($URL);
-     return $this->expectArray($response);
-   }
-
-   /**
-    * Retreives a list of all datasets.
-    *
-    * Currently not supported by the Galaxy API
-    *
-    */
-   public function index(){
-     $URL = $this->galaxy->getURL() . '/api/datasets/?key=' . $this->galaxy->getAPIKey();
-     $response = $this->httpGET($URL);
-     return $this->expectArray($response);
-   }
-
-   /**
-    * Retreives detailed content on a specific dataset.
-    *
-    * Corresponds to the Galaxy Api function and path:
-    *   GET /api/datasets/{encoded_dataset_id}
-    *
-    * @param $dataset_id
-    *   The dataset id whos information the function is retreiving.
-    *   To obtain the dataset id, please use the Display function.
-    *
-    * @return
-    *   An array containing information about the matching dataset.
-    *
-    */
-   public function show($dataset_id){
-     $URL = $this->galaxy->getURL().'/api/datasets/' . $dataset_id . '/?key=' . $this->galaxy->getAPIKey();
-     $response = $this->httpGET($URL);
-     return $this->expectArray($response);
-   }
+  public function __construct($galaxy) {
+    $this->galaxy = $galaxy;
+    
+    parent::__construct();
+  }
+  
+  /**
+   * Retreive information about datasets made by converting
+   * to a new file format.
+   *
+   * Corresponds to the galaxy API function at:
+   * GET /api/datasets/{dataset_id}/converted/{ext}
+   *
+   * @param $params 
+   *   A key value (asoociatve array_ where the keys can be the following:
+   *          
+   *   - dataset_id:
+   *       The dataset id of the information to pull.
+   *       This can be obtained from this function's display().
+   *   - extension:
+   *       A specific file extension (optional).
+   *          
+   * @return 
+   *   An array containing information about the matching dataset(s).
+   *        
+   */
+  public function converted($params) {
+    $URL = "";
+    
+    if (! array_key_exists('dataset_id', $params))
+      $this->setError("API", "dataset_id is required, this function presents the details of a specified dataset.");
+    
+    else {
+      if (array_key_exists('extension', $params)) {
+        $URL = $this->galaxy->getURL() . '/api/datasets/' . $params ['dataset_id'] . '/converted/' . $params ['extension'] . '/?key=' . $this->galaxy->getAPIKey();
+      }
+      else {
+        $URL = $this->galaxy->getURL() . '/api/datasets/' . $params ['dataset_id'] . '/converted/?key=' . $this->galaxy->getAPIKey();
+      }
+    }
+    
+    $response = $this->httpGET($URL);
+    
+    return $this->expectArray($response);
+  }
+  
+  /**
+   * Retreives a list of datasets associated with a given history.
+   *
+   * Corresponds to the Galaxy Api method and path:
+   * GET /api/histories/{encoded_history_id}/contents/{encoded_content_id}/display
+   * history content (dataset).
+   *
+   * @param $hist_id The
+   *          history id of the datasets to find.
+   * @param $hist_content_id The
+   *          history content whose datasets to list.
+   *          Please see the HistoryContents class to obtain the history content id
+   *          
+   * @return An array containing information about the matching dataset(s).
+   *        
+   */
+  public function display($hist_id, $hist_content_id) {
+    $URL = $this->galaxy->getURL() . '/api/histories/' . $hist_id . '/contents/' . $hist_content_id . '/?key=' . $this->galaxy->getAPIKey();
+    
+    $response = $this->httpGET($URL);
+    return $this->expectArray($response);
+  }
+  
+  /**
+   * Retreives a list of all datasets.
+   *
+   * Currently not supported by the Galaxy API
+   */
+  public function index() {
+    $URL = $this->galaxy->getURL() . '/api/datasets/?key=' . $this->galaxy->getAPIKey();
+    $response = $this->httpGET($URL);
+    return $this->expectArray($response);
+  }
+  
+  /**
+   * Retreives detailed content on a specific dataset.
+   *
+   * Corresponds to the Galaxy Api function and path:
+   * GET /api/datasets/{encoded_dataset_id}
+   *
+   * @param $dataset_id The
+   *          dataset id whos information the function is retreiving.
+   *          To obtain the dataset id, please use the Display function.
+   *          
+   * @return An array containing information about the matching dataset.
+   *        
+   */
+  public function show($dataset_id) {
+    $URL = $this->galaxy->getURL() . '/api/datasets/' . $dataset_id . '/?key=' . $this->galaxy->getAPIKey();
+    $response = $this->httpGET($URL);
+    return $this->expectArray($response);
+  }
 }

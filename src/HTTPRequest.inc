@@ -186,7 +186,7 @@ class HTTPRequest  {
     $curl_log = fopen('curl.log', 'w');
     curl_setopt($ch, CURLOPT_URL, $URL);
     curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_SAFE_UPLOAD, 0);
+    curl_setopt($ch, CURLOPT_SAFE_UPLOAD, 1);
     //curl_setopt($ch, CURLOPT_VERBOSE, 1);
     //curl_setopt($ch, CURLOPT_STDERR, STDERR);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, True);

@@ -38,41 +38,64 @@ class JobsTest extends PHPUnit_Framework_TestCase {
     // entered, and on for all the input params being null
 
     // Case One: All parameters are null
-    $default = $jobs->index();
+    $inputs = array();
+    $default = $jobs->index($inputs);
     $this->assertTrue(is_array($default), $jobs->getErrorMessage());
 
     // Case Two: Looking for jobs that are in a queued state (the array may
     // be empty if you do not have any queued jobs)
-    $index = $jobs->index('queued');
+    $inputs = array();
+    $inputs['state'] = 'queued';
+    
+    $index = $jobs->index($inputs);
     $this->assertTrue(is_array($index), $jobs->getErrorMessage());
 
     // Case Three: Assuming that the tools test suite was ran before this suite
     // we will have at least 1 job id to search for when we run the index
     // with a given job id number to look for
-    $index = $jobs->index(NULL, $default[0]['tool_id']);
+    array_shift($inputs);
+    if(!empty($default))
+      $inputs['tool_ids'] =  $default[0]['tool_id'];
+    
+    $index = $jobs->index($inputs);
     $this->assertTrue(is_array($index), $jobs->getErrorMessage());
 
     // Case Four: Limit the search of jobs updated AFTER the specified date
     // This date is arbitrarily chosen
-    $index = $jobs->index(NULL, NULL, '2016-03-09');
+    array_shift($inputs);
+    $inputs['date_range_min'] = '2015-12-09';
+    
+    $index = $jobs->index($inputs);
     $this->assertTrue(is_array($index), $jobs->getErrorMessage());
 
     // Case Five: Limit the search of jobs updated BEFORE this date
     // This date is also arbitrarily chosen
-    $index = $jobs->index(NULL, NULL, NULL, '2016-03-09');
+    array_shift($inputs);
+    $inputs['date_range_max'] = '2016-03-09';
+    
+    $index = $jobs->index($inputs);
     $this->assertTrue(is_array($index), $jobs->getErrorMessage());
 
     // Case Six: Similar to Case Three with the difference of the history
     // id instead of the tool_id
     // TODO: I'm not sure about the $history_id interaction with index
     // this should be addressed later
-    $index = $jobs->index(NULL, NULL, NULL, NULL, $default[0]['id']);
+    array_shift($inputs);
+    if(!empty($default))
+    $inputs['history_id'] = $default[0]['id'];
+    
+    $index = $jobs->index($inputs);
     $this->assertTrue(is_array($index), $jobs->getErrorMessage());
 
     // Case Seven: Enable all of the input params, this will elicit a empty
     // array (at least it should)
-    $index = $jobs->index('paused', $default[0]['tool_id'], '2016-03-09', '2016-03-09',
-            $default[0]['id']);
+    $inputs['state'] = 'paused';
+    if(!empty($default))
+      $inputs['tool_ids'] = $default[0]['tool_id'];
+    $inputs['date_range_min'] = '2015-12-09';
+    $inputs['date_range_max'] = '2016-03-09';
+    
+    $index = $jobs->index($inputs );
     $this->assertTrue(is_array($index), $jobs->getErrorMessage());
 
     return $default;
@@ -91,7 +114,11 @@ class JobsTest extends PHPUnit_Framework_TestCase {
   public function testInputs($default, $galaxy){
     $jobs = new Jobs($galaxy);
 
-    $inputs = $jobs->inputs($default[0]['id']);
+    $params = array();
+    if(!empty($default))
+      $params['job_id'] = $default[0]['id'];
+    
+    $inputs = $jobs->inputs($params);
 
     $this->assertTrue(is_array($inputs), $jobs->getErrorMessage());
   }
@@ -107,7 +134,11 @@ class JobsTest extends PHPUnit_Framework_TestCase {
   public function testOutputs($default, $galaxy){
     $jobs = new Jobs($galaxy);
 
-    $outputs = $jobs->outputs($default[0]['id']);
+    $params = array();
+    if(!empty($default))
+      $params['job_id'] = $default[0]['id'];
+    
+    $outputs = $jobs->outputs($params);
 
     $this->assertTrue(is_array($outputs), $jobs->getErrorMessage());
   }
@@ -122,8 +153,12 @@ class JobsTest extends PHPUnit_Framework_TestCase {
    */
   public function testShow($default, $galaxy){
     $jobs = new Jobs($galaxy);
+    
+    $params = array();
+    if(!empty($default))
+      $params['job_id'] = $default[0]['id'];
 
-    $show = $jobs->show($default[0]['id']);
+    $show = $jobs->show($params);
 
     $this->assertTrue(is_array($show), $jobs->getErrorMessage());
   }
@@ -140,7 +175,11 @@ class JobsTest extends PHPUnit_Framework_TestCase {
     $jobs = new Jobs($galaxy);
 
     // Case 1: Successfully build for rerun given a correct job id
-    $rerun_job = $jobs->buildForRerun($default[0]['id']);
+    $inputs = array();
+    if(!empty($default))
+      $inputs['job_id'] = $default[0]['id'];
+    
+    $rerun_job = $jobs->buildForRerun($inputs);
     $this->assertFalse($rerun_job);
   }
 

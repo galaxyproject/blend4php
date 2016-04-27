@@ -1,22 +1,22 @@
 <?php
 
-/*   $config = array(
+   $config = array(
     "host"=> 'localhost',
     "user" => 'brotato',
     "email" => 'cgpwytko@gmail.com',
     "pass" => 'potato15',
     "port" => '8080',
-    "api_key" => '636a1ff620704091c81ae2559d8c4d2c',
+    "api_key" => 'd2f6e907674e916cbfcc8fb0865e52f5',
 );
-*/
-  $config = array(
-    "host" =>  'localhost',
-    "user" =>  'bob',
-    "email" => 'bob@gmail.com',
-    "pass" =>  'password',
-    "port" =>  '8080',
-    "api_key" =>'e61587135b254f99e4d042f268918f69',
-  );
+
+//   $config = array(
+//     "host" =>  'localhost',
+//     "user" =>  'bob',
+//     "email" => 'bob@gmail.com',
+//     "pass" =>  'password',
+//     "port" =>  '8080',
+//     "api_key" =>'e61587135b254f99e4d042f268918f69',
+//   );
 
 
 

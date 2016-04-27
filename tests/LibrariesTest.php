@@ -2,6 +2,7 @@
 require_once '../src/Libraries.inc';
 require_once '../src/GalaxyInstance.inc';
 require_once './testConfig.inc';
+require_once '../src/Roles.inc';
 
 class LibrariesTest extends PHPUnit_Framework_TestCase {
   /**
@@ -31,11 +32,23 @@ class LibrariesTest extends PHPUnit_Framework_TestCase {
 
     // Case 1: Create a new library.
     $library_name = uniqid('galaxy-php-test-library1');
-    $library = $libraries->create($library_name, 'Test library #1', 'Synopsis string.');
+    
+    $newLibParams = array(
+      "name" => $library_name,
+      "description" => 'Test library #1',
+      "synopsis" => 'Synopsis string.'
+    );
+    $library = $libraries->create($newLibParams);
     $this->assertTrue(is_array($library), $libraries->getErrorMessage());
 
     // Case 2: Fail creating a library.
-    $library_fail = $libraries->create('', 'Test library #1', 'Synopsis string.');
+    $newLibParams = array(
+      "name" => '',
+      "description" => 'Test library #1',
+      "synopsis" => 'Synopsis string.'
+    );
+    
+    $library_fail = $libraries->create($newLibParams);
     $this->assertTrue($library_fail === FALSE, $libraries->getErrorMessage());
 
     return $library;
@@ -63,26 +76,34 @@ class LibrariesTest extends PHPUnit_Framework_TestCase {
     $libraries = new Libraries($galaxy);
 
     // Case 1: The delete function should return an array.
-    $library_id = $library['id'];
-    $library = $libraries->delete($library_id);
+    $libParams = array(
+      "library_id" => $library['id'],
+    );
+    
+    $library = $libraries->delete($libParams);
     $this->assertTrue(is_array($library), $libraries->getErrorMessage());
     $this->assertTrue($library['deleted'], "The library should be deleted but it's not: " . print_r($library, TRUE));
 
     // Case 2:  Try not passing a library_id.  The function should return FALSE.
-    $library = $libraries->delete('');
+    $empty = array();
+    $library = $libraries->delete($empty);
     $this->assertTrue($library === FALSE, $libraries->getErrorMessage());
 
     // TODO: The 'undelete' argument doesn't seem to work, and I suspect
     // this is a Galaxy API issue, so the test below is commented out until
     // we can verify.
- /*
+ 
     // Case 3: Undelete the library deleted in case #1.
-    $library = $libraries->delete($library_id, TRUE);
-    $this->assertTrue(is_array($library), $libraries->getErrorMessage());
-    $this->assertFalse($library['deleted'], "The library should be undeleted but it's not: " . print_r($library, TRUE));
+//     $libParams = array(
+//       "library_id" => $library['id'],
+//       "undelete" => TRUE,
+//     );
+//     $library = $libraries->delete($libParams);
+//     $this->assertTrue(is_array($library), $libraries->getErrorMessage());
+//     $this->assertFalse($library['deleted'], "The library should be undeleted but it's not: " . print_r($library, TRUE));
 
-    // Mark the library as deleted again for further testing
-    $library = $libraries->delete($library_id); */
+//     // Mark the library as deleted again for further testing
+//     $library = $libraries->delete($library_id);
 
   }
 
@@ -97,13 +118,19 @@ class LibrariesTest extends PHPUnit_Framework_TestCase {
     $libraries = new Libraries($galaxy);
 
     // Create a new library for this test.
-    $library_name = uniqid('galaxy-php-test-library2-');
-    $library = $libraries->create($library_name, 'Test library #2', 'Synopsis string.');
+    $library_name = uniqid('galaxy-php-test-library2');
+    $newLibParams = array(
+      "name" => $library_name,
+      "description" => 'Test library #2',
+      "synopsis" => 'Synopsis string.'
+    );
+    $library = $libraries->create($newLibParams);
     $this->assertTrue(is_array($library), $libraries->getErrorMessage());
 
     // Case 1:  Get the list of non deleted libraries.  We should have at least the
     // one we created above.
-    $library_list = $libraries->index();
+    $inputs = array();
+    $library_list = $libraries->index($inputs);
     $this->assertTrue(is_array($library_list), $libraries->getErrorMessage());
     $this->assertTrue(count($library_list) > 0, $libraries->getErrorMessage());
 
@@ -147,8 +174,10 @@ class LibrariesTest extends PHPUnit_Framework_TestCase {
     $libraries = new Libraries($galaxy);
 
     // Case 1: Get a library that is not deleted.
-    $library_id = $library['id'];
-    $library = $libraries->show($library_id);
+    $inputs = array(
+      "library_id" => $library['id']
+    );
+    $library = $libraries->show($inputs);
     $this->assertTrue(is_array($library), $libraries->getErrorMessage());
 
     // TODO: because of the problems with the delete testing in previous,
@@ -159,18 +188,48 @@ class LibrariesTest extends PHPUnit_Framework_TestCase {
 
   /**
    * Tests the setPermissions() function.
+   * This is the function that relies on the 'Roles.inc' file
    *
    * @depends testInitGalaxy
    */
   function testSetPermissions($galaxy) {
     $libraries = new Libraries($galaxy);
+    
   }
   /**
    * Tests the getPermissions() function.
    *
    * @depends testInitGalaxy
+   * @depends testCreate
    */
-  function testGetPermissions($galaxy) {
+  function testGetPermissions($galaxy, $library) {
     $libraries = new Libraries($galaxy);
+    
+    $inputs = array();
+    $inputs['library_id'] = $library['id'];
+    // Case 1: Simply looking at the permissions using the library_id only
+    $library = $libraries->getPermissions($inputs);
+    $this->assertTrue(is_array($library), $libraries->getErrorMessage());
+    
+    // Case 2: Look at the permissions with the scope parameter set ONLY
+    $inputs['scope'] = 'available';
+    $library = $libraries->getPermissions($inputs);
+    $this->assertTrue(is_array($library), $libraries->getErrorMessage());
+    
+    // Case 3: Look at the permissions with the is_library_access parameter set ONLY
+    array_pop($inputs);
+    $inputs['is_library_access'] = FALSE;
+    $library = $libraries->getPermissions($inputs);
+    $this->assertTrue(is_array($library), $libraries->getErrorMessage());
+    
+    // Case 4: Look at the permissions with the scope AND is_library_access parameter set
+    $inputs['scope'] = 'available';
+    $library = $libraries->getPermissions($inputs);
+    $this->assertTrue(is_array($library), $libraries->getErrorMessage());
+    
+    // Case 5: Invalid case that should be caught
+    $incorrect = array();
+    $library = $libraries->getPermissions($incorrect);
+    $this->assertFalse(is_array($library), $libraries->getErrorMessage());
   }
 }

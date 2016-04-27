@@ -9,15 +9,6 @@
  * and are named similarly to their Python counterparts.
  */
 
-/**
- * @defgroup roles_class roels Class
- * @{
- *   The Roles class interacts with Galaxy to manage contents of a Galaxy
- *   role. The functions in this class correspond to the Galaxy API
- *   functions and are named similarly to their Python counterparts.
- * @}
- */
-
 include_once "HTTPRequest.inc";
 
 class Roles extends HTTPRequest{

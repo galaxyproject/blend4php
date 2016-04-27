@@ -10,15 +10,6 @@
  *
  */
 
-/**
- * @defgroup Jobs
- * @{
- *   The Jobs Class interacts with Galaxy to manage
- *   its folders. The functions in this class correspond to the Galaxy
- *   API functions and are named similarly to their Python counterpart.
- * @}
- */
-
 require_once 'HTTPRequest.inc';
 
 class Jobs extends HTTPRequest{
@@ -46,10 +37,12 @@ class Jobs extends HTTPRequest{
    *   GET /api/jobs/{encoded_job_id}/build_for_rerun
    *   This function is suitable for rerunning or rendering parameters of
    *   the job.
+   *   
+   * @param $params
+   *    A key value (associative array) where the keys can be the following:
    *
-   * @param job id
-   *   The job id of the job whose information to retreive.
-   *   The job id can be ontained from this class's index() function.
+   *    - job_id: The job id of the job whose information to retreive.
+   *        The job id can be ontained from this class's index() function.
    *
    * @return
    *   An array containing ouput informaiton of the tool that has been
@@ -57,12 +50,17 @@ class Jobs extends HTTPRequest{
    *
    * 
    */
-  public function buildForRerun($job_id){
-    $URL = $this->galaxy->getURL() . '/api/jobs/' . $job_id . '/build_for_rerun/?key=' . $this->galaxy->getAPIKey();
-    $response = $this->httpGET($URL);
-    $this->setError("API", "This function is not complete, the corresponding Galaxy API
+  public function buildForRerun($params){
+    if(array_key_exists('job_id', $params)){
+      $URL = $this->galaxy->getURL() . '/api/jobs/' . $params['job_id'] . '/build_for_rerun/?key=' . $this->galaxy->getAPIKey();
+      $response = $this->httpGET($URL);
+      $this->setError("API", "This function is not complete, the corresponding Galaxy API
         function wants a history_id, why or how is still uknown. Please see our issues page on Github for more information");
+      return FALSE;
+    }
+    $this->setError("API", "This function expects at least the associative parameter 'job_id' in order to run");
     return FALSE;
+   
   }
 
  /**
@@ -71,19 +69,27 @@ class Jobs extends HTTPRequest{
   * Corresponds to the Galaxy Api/path at:
   *   GET/api/jobs/{encoded_job_id}/inputs
   *
-  * @param job_id
-  *   The job id of the job whose information to retreive.
-  *   The job id can be ontained from this class's index() function.
+  * @param $params
+  *    A key value (associative array) where the keys can be the following:
   *
+  *    - job_id: The job id of the job whose information to retreive.
+  *        The job id can be ontained from this class's index() function.
+  *        
   * @return
   *   An array containing ouput informaiton of the job input.
   *
   * 
   */
-  public function inputs($job_id){
-    $URL = $this->galaxy->getURL() . '/api/jobs/' . $job_id . '/inputs/?key=' . $this->galaxy->getAPIKey();
-    $response = $this->httpGET($URL);
-    return $this->expectArray($response);
+  public function inputs($params){
+    if(array_key_exists('job_id', $params)){
+      $URL = $this->galaxy->getURL() . '/api/jobs/' . $params['job_id'] . '/inputs/?key=' . $this->galaxy->getAPIKey();
+      $response = $this->httpGET($URL);
+      return $this->expectArray($response);
+    }
+    
+    $this->setError("API", "This function expects the associative parameter 'job_id' in order to run");
+    return FALSE;
+
   }
 
  /**
@@ -91,41 +97,54 @@ class Jobs extends HTTPRequest{
   *
   * Corresponds to the Galaxy Api/path at:
   *   GET/api/jobs/{encoded_job_id}/inputs.
+  *   
+  *   
+  * @param $params
+  *    A key value (associative array) where the keys can be the following:
   *
-  * @param job_id
-  *   The job id of the job whose information to retreive.
-  *   The job id can be ontained from this class's index() function.
+  *    - job_id: The job id of the job whose information to retreive.
+  *        The job id can be ontained from this class's index() function.
   *
   * @return
   *   An array containing ouput informaiton of the job outputs.
   *
   * 
   */
-  public function outputs($job_id){
-    $URL = $this->galaxy->getURL() . '/api/jobs/' . $job_id . '/outputs/?key=' . $this->galaxy->getAPIKey();
-    $response = $this->httpGET($URL);
-    return $this->expectArray($response);
+  public function outputs($params){
+    if(array_key_exists('job_id', $params)){
+      $URL = $this->galaxy->getURL() . '/api/jobs/' . $params['job_id'] . '/outputs/?key=' . $this->galaxy->getAPIKey();
+      $response = $this->httpGET($URL);
+      return $this->expectArray($response);
+    }
+    $this->setError("API", "This function expects the associative parameter 'job_id' in order to run");
+    return FALSE;
   }
 
  /**
   * Retreive information about a specific job
   *
   * Corresponds to the Galaxy API function/path:
-  *   GET /api/jobs/{folder_id}
+  *   GET /api/jobs/{job_id}
   *
-  * @param $folder_id
-  *   The folder that you would like to see. Please see the index()
-  *   function in this class to obtain folder ids.
+  * @param $params
+  *   A key value (associative array) where the keys can be the following:
+  *
+  *   - job_id: The job that you would like to see. Please see the 
+  *       index() function in this class to obtain job ids.
   *
   * @return
   *   JSON array containing information about the specified job.
   *
   * 
   */
-  public function show($job_id){
-    $URL = $this->galaxy->getURL() . '/api/jobs/' . $job_id . '/?key=' . $this->galaxy->getAPIKey();
-    $response = $this->httpGET($URL);
-    return $this->expectArray($response);
+  public function show($params){
+    if(array_key_exists('job_id', $params)){
+      $URL = $this->galaxy->getURL() . '/api/jobs/' . $params['job_id'] . '/?key=' . $this->galaxy->getAPIKey();
+      $response = $this->httpGET($URL);
+      return $this->expectArray($response);
+    }
+    $this->setError("API", "This function expects the associative parameter 'folder_id' in order to run");
+    return FALSE;
   }
 
  /**
@@ -134,21 +153,28 @@ class Jobs extends HTTPRequest{
   * Corresponds to the Galaxy Api method/path:
   *   GET /api/jobs
   *
-  * @param state:
-  *   filter job search by any one of these conditions:
-  *   'new', 'upload', 'waiting', 'queued', 'running', 'ok', 'error',
-  *   'paused', 'deleted', 'deleted_now'
-  * @param tool_ids.
-  *   A list of tool ids that limit  the  search to include only those with
-  *   given tool_ids. To find tool id's, please refer to this class's index()
-  *   function.
-  * @param date_range_min
-  *   Limit the search of jobs updated after this date.
-  * @param date_range_max
-  *   Limit the search of jobs updated before this date.
-  * @param history_id
-  *   Limit listing of jobs to those that match history_id.
-  *   To find the history id, please refer to the history class.
+  *
+  * @param $params
+  *   A key value (associative array) where the keys can be the following:
+  *   
+  *   - state: filter job search by any one of these conditions:
+  *     (i)    'new'
+  *     (ii)   'upload'
+  *     (iii)  'waiting'
+  *     (iv)   'queued'
+  *     (v)    'running'
+  *     (vi)   'ok'
+  *     (vii)  'error'
+  *     (viii) 'paused'
+  *     (ix)   'deleted'
+  *     (x)    'deleted_now'
+  *   - tool_ids: A list of tool ids that limit  the  search to include only
+  *       those with given tool_ids. To find tool id's, please refer to this 
+  *       class's index() function.
+  *   - date_range_min: Limit the search of jobs updated after this date.
+  *   - date_range_max: Limit the search of jobs updated before this date.
+  *   - history_id: Limit listing of jobs to those that match history_id.
+  *       To find the history id, please refer to the history class.
   *
   * @return
   *   An array containing a list of all the jobs that matched
@@ -156,48 +182,47 @@ class Jobs extends HTTPRequest{
   *
   * 
   */
-  public function index($state = NULL, $tool_ids = NULL, $date_range_min = NULL, $date_range_max = NULL,
-    $history_id = NULL){
+  public function index($params){
     $URL = $this->galaxy->getURL() . '/api/jobs/?';
 
-    if($state !== NULL){
-      if(!is_array($state)){
-        if (!is_string($state)){
-          return $this->setError('User', 'Invalid state input scheme');
+    if(array_key_exists('state', $params)){
+      if(!is_array($params['state'])){
+        if (!is_string($params['state'])){
+          return $this->setError('User', 'Invalid state input scheme (string or array structure)');
         }
-        $URL .= 'state=' . $state . '&';
+        $URL .= 'state=' . $params['state'] . '&';
       }
 
       else{
-        foreach($state as &$states) {
+        foreach($params['state'] as &$states) {
           $URL .= 'state=' . $states . '&';
         }
       }
     }
 
-    if($tool_ids !== NULL){
-      if(!is_array($tool_ids)){
-        if (!is_string($tool_ids)){
-          return $this->setError('User', 'Invalid tool_id input scheme');
+    if(array_key_exists('tool_ids', $params)){
+      if(!is_array($params['tool_ids'])){
+        if (!is_string($params['tool_ids'])){
+          return $this->setError('User', 'Invalid tool_id input scheme (string or array structure)');
         }
-        $URL .= 'tool_id=' . $tool_ids . '&';
+        $URL .= 'tool_id=' . $params['tool_ids'] . '&';
       }
 
       else{
-        foreach($tool_ids as &$tool_id) {
+        foreach($params['tool_ids'] as &$tool_id) {
           $URL .= 'tool_id=' . $tool_id . '&';
         }
       }
     }
 
-    if($date_range_min !== NULL) {
-      $URL .= 'date_range_min='. $date_range_min . '&';
+    if(array_key_exists('date_range_min', $params)){
+      $URL .= 'date_range_min='. $params['date_range_min'] . '&';
     }
-    if($date_range_max !== NULL) {
-      $URL .= 'date_range_max='.$date_range_max . '&';
+    if(array_key_exists('date_range_max', $params)){
+      $URL .= 'date_range_max=' . $params['date_range_max'] . '&';
     }
-    if($history_id !== NULL ){
-      $URL .= 'history_id=' . $history_id . '&';
+    if(array_key_exists('history_id', $params)){
+      $URL .= 'history_id=' . $params['history_id'] . '&';
     }
 
     $URL .= 'key=' . $this->galaxy->getAPIKey();
@@ -238,6 +263,7 @@ class Jobs extends HTTPRequest{
     *
     * @param $params
     *   A key value (associative array) where the keys can be the following:
+    *   
     *   - tool_id:  Required. The tool id to execute. To find the tool id, use
     *     the index function of this class.
     *   - inputs:  Required. An associative array of key/value pairs where
@@ -258,7 +284,7 @@ class Jobs extends HTTPRequest{
 
     // Check that incoming arguments are appropriate.
     if (!array_key_exists('tool_id', $params)) {
-      $this->setError('API', 'The "tool_id" paremeter is required');
+      $this->setError('API', 'The \'tool_id\' paremeter is required');
       return FALSE;
     }
 
