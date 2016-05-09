@@ -32,31 +32,44 @@ class ToolsTest extends PHPUnit_Framework_TestCase {
     $tools = new Tools($galaxy);
 
     // Case 1: View all tools, no filtering out.
-    $tools_list = $tools->index();
+    
+    $inputs = array();
+    
+    $tools_list = $tools->index($inputs);
     $this->assertTrue(is_array($tools_list), $tools->getErrorMessage());
 
     // Case 2: Specify a tool id to see if there are different versions of
     // it installed on the given instance.
     // This particular id is found in the default instances of galaxy.
-    $tools_list = $tools->index('upload1');
+    $inputs['tool_id'] = 'upload1';
+    $tools_list = $tools->index($inputs);
     $this->assertTrue(is_array($tools_list), $tools->getErrorMessage());
 
     // Case 3: Specify a given text query on whether the name of a tool exists.
     // The return will be the list of the tool id('s) that contain the query's
     // contents.
-    $tools_list = $tools->index(NULL, 'UCSC Test');
+    array_pop($inputs);
+    $inputs['q'] = 'UCSC Test';
+    $tools_list = $tools->index($inputs);
     $this->assertTrue(is_array($tools_list), $tools->getErrorMessage());
 
     // Case 4: List the available tools that are visualization enabled.
-    $tools_list = $tools->index(NULL, NULL, NULL, TRUE);
+    array_pop($inputs);
+    $inputs['trackster'] = TRUE;
+    $tools_list = $tools->index($inputs);
     $this->assertTrue(is_array($tools_list), $tools->getErrorMessage());
 
     // Case 5: Lists the tools in a 'panel' structure
-    $tools_list = $tools->index(NULL, NULL, TRUE, NULL);
+    array_pop($inputs);
+    $inputs['in_panel'] = TRUE;
+    $tools_list = $tools->index($inputs);
     $this->assertTrue(is_array($tools_list), $tools->getErrorMessage());
 
     // Case 6:
-    $tools_list = $tools->index('ucsc_table_direct_test1', 'UCSC Test', TRUE, TRUE);
+    $inputs['trackster'] = TRUE;
+    $inputs['q'] = 'UCSC Test';
+    $inputs['tool_id'] = 'ucsc_table_direct_test1';
+    $tools_list = $tools->index($inputs);
     $this->assertTrue(is_array($tools_list), $tools->getErrorMessage());
 
   }
@@ -71,10 +84,13 @@ class ToolsTest extends PHPUnit_Framework_TestCase {
     $tools = new Tools($galaxy);
 
     // Acquire the first tool entry
-    $tools_list = $tools->index();
+    $inputs = array();
+    
+    $tools_list = $tools->index($inputs);
 
     // Case 1: View all tools, no filtering out.
-    $tool = $tools->show($tools_list[0]['elems'][0]['id']);
+    $input['tool_id'] = $tools_list[0]['elems'][0]['id'];
+    $tool = $tools->show($input);
     $this->assertTrue(is_array($tool), $tools->getErrorMessage());
   }
 
@@ -89,9 +105,12 @@ class ToolsTest extends PHPUnit_Framework_TestCase {
     $tools = new Tools ($galaxy);
 
     // Acquire the first tool entry
-    $tools_list = $tools->index();
+    $inputs = array();
+    
+    $tools_list = $tools->index($inputs);
 
-    $tool = $tools->diagnostics($tools_list[0]['elems'][0]['id']);
+    $input['tool_id'] = $tools_list[0]['elems'][0]['id'];
+    $tool = $tools->diagnostics($input);
     $this->assertTrue(is_array($tool), $tools->getErrorMessage());
   }
 
@@ -104,9 +123,12 @@ class ToolsTest extends PHPUnit_Framework_TestCase {
   public function testReload($galaxy){
     $tools = new Tools($galaxy);
 
-    $tools_list = $tools->index();
-
-    $tool = $tools->reload($tools_list[0]['elems'][0]['id']);
+    $inputs = array();
+    
+    $tools_list = $tools->index($inputs);
+    
+    $input['tool_id'] = $tools_list[0]['elems'][0]['id'];
+    $tool = $tools->reload($input);
     $this->assertTrue(is_array($tool), $tools->getErrorMessage());
   }
 
@@ -118,9 +140,13 @@ class ToolsTest extends PHPUnit_Framework_TestCase {
   public function testDownload($galaxy){
     $tools = new Tools($galaxy);
 
-    $tools_list = $tools->index();
+    $inputs = array();
+    
+    $tools_list = $tools->index($inputs);
 
-    $tool_file = $tools->download($tools_list[0]['elems'][0]['id'], "/tmp/" . $tools_list[0]['elems'][0]['id'] . ".tar.gz");
+    $inputs['tool_id'] = $tools_list[0]['elems'][0]['id'];
+    $inputs['file_path'] = "/tmp/" . $tools_list[0]['elems'][0]['id'] . ".tar.gz";
+    $tool_file = $tools->download($inputs);
     $this->assertTrue(file_exists("/tmp/" . $tools_list[0]['elems'][0]['id'] . ".tar.gz"));
 
   }
@@ -134,7 +160,7 @@ class ToolsTest extends PHPUnit_Framework_TestCase {
    * AttributeError: 'Tool' object has no attribute 'tool'
    */
   public function testBuild($galaxy){
-    // The problem with this testing suite currenlty is that we don't know
+    //  we don't know
     // how to use any one of the given tools properly
     
     // TODO: Working on it now
@@ -167,8 +193,8 @@ class ToolsTest extends PHPUnit_Framework_TestCase {
    *
    * In a way this function 'creates' a unique instantiation of this tool.
    *
-   *AttributeError: 'UploadDataset' object has no attribute 'value_to_display_text'
-
+   * AttributeError: 'UploadDataset' object has no attribute 'value_to_display_text'
+   * 
    * @depends testInitGalaxy
    */
   public function testCreate($galaxy){
@@ -179,14 +205,16 @@ class ToolsTest extends PHPUnit_Framework_TestCase {
     $history_list = $histories->index();
 
     // Case 1: Upload a file usinng the upload1 tool
-    $files = array(
+    $inputs['files'] = array(
       0 => array(
         'name' => 'test.bed',
         'path' => getcwd() . '/files/test.bed',
       ),
     );
 
-    $tool = $tools->create('upload1', $history_list[0]['id'], $files);
+    $inputs['tool_id'] = 'upload1';
+    $inputs['history_id'] = $history_list[0]['id'];
+    $tool = $tools->create($inputs);
     $this->assertTrue(is_array($tool), $tools->getErrorMessage());
 
 
