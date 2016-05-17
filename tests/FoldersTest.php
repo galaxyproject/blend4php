@@ -1,6 +1,7 @@
 <?php
 require_once '../src/Folders.inc';
 require_once '../src/GalaxyInstance.inc';
+require_once '../src/Libraries.inc';
 require_once './testConfig.inc';
 
 
@@ -21,6 +22,8 @@ class FoldersTest extends PHPUnit_Framework_TestCase {
 
     return $galaxy;
   }
+  
+  
   /**
    * Tests the index() function.
    *
@@ -36,6 +39,7 @@ class FoldersTest extends PHPUnit_Framework_TestCase {
 
   }
 
+  
   /**
    * Tests the show() function.
    *
@@ -43,21 +47,49 @@ class FoldersTest extends PHPUnit_Framework_TestCase {
    */
   function testShow($galaxy) {
     $folders = new Folders($galaxy);
-    $folder_list = $folders->show($folder_id);
+    
+    // Any library is treated as a folder
+    $libraries = new Libraries($galaxy);
+    
 
+    $inputs['folder_id'] = "987";
+    $folder = $folders->show($inputs);
+    $this->assertFalse(is_array($folder), $folders->getErrorMessage());
+    
+    $inputs['folder_id'] = $libraries->index(array())[0]['id'];
+    $folder = $folders->show($inputs);
+    $this->assertTrue(is_array($folder), $folders->getErrorMessage());
+
+    return $inputs;
   }
+  
+ 
   /**
    * Tests the create() function.
    *
    * @depends testInitGalaxy
+   * @depends testShow
    */
-  function testCreate($galaxy) {
+  function testCreate($galaxy, $inputs) {
     $folders = new Folders($galaxy);
 
-    $parent_folder_id = 0;
-    $folder_name = uniqid('galaxy-php-test-folder1-');
-    $folders->create($parent_folder_id, $folder_name, 'Test folder #1');
-    $this->assertTrue(is_array($folder_list), $folders->getErrorMessage());
+    // Create a folder to retain as 
+    $inputs['parent_folder_id'] = $inputs['folder_id'];
+    unset($inputs['folder_id']);
+    $inputs['name'] = uniqid('galaxy-php-test-folder1-');
+    $inputs['description'] = 'Folder Unit Test 1';
+    $folder = $folders->create($inputs);
+    $this->assertTrue(is_array($folder), $folders->getErrorMessage());
+    
+    
+    $inputs['parent_folder_id'] = $inputs['folder_id'];
+    unset($inputs['folder_id']);
+    $inputs['name'] = uniqid('galaxy-php-test-folder-toBeDeleted-');
+    $inputs['description'] = 'Folder Unit Test Which will be \'deleted\' by the subsequent unit test delete function';
+    $folder = $folders->create($inputs);
+    $this->assertTrue(is_array($folder), $folders->getErrorMessage());
+    
+    return $folder;
 
   }
 
@@ -65,33 +97,39 @@ class FoldersTest extends PHPUnit_Framework_TestCase {
    * Tests the delete() function.
    *
    * @depends testInitGalaxy
+   * @depends testCreate
    */
-  function testDelete($galaxy) {
+  function testDelete($galaxy, $folder) {
     $folders = new Folders($galaxy);
+    
+    $inputs['folder_id'] = $folder['id'];
+    $response = $folders->delete($inputs);
+    $this->assertTrue(is_array($response), $folders->getErrorMessage());
+    
   }
 
-  /**
-   * Tests the update() function.
-   *
-   * @depends testInitGalaxy
-   */
-  function testUpdate($galaxy) {
-    $folders = new Folders($galaxy);
-  }
-  /**
-   * Tests the setPermissions() function.
-   *
-   * @depends testInitGalaxy
-   */
-  function testSetPermissions($galaxy) {
-    $folders = new Folders($galaxy);
-  }
-  /**
-   * Tests the getPermissions() function.
-   *
-   * @depends testInitGalaxy
-   */
-  function testGetPermissions($galaxy) {
-    $folders = new Folders($galaxy);
-  }
+//   /**
+//    * Tests the update() function.
+//    *
+//    * @depends testInitGalaxy
+//    */
+//   function testUpdate($galaxy) {
+//     $folders = new Folders($galaxy);
+//   }
+//   /**
+//    * Tests the setPermissions() function.
+//    *
+//    * @depends testInitGalaxy
+//    */
+//   function testSetPermissions($galaxy) {
+//     $folders = new Folders($galaxy);
+//   }
+//   /**
+//    * Tests the getPermissions() function.
+//    *
+//    * @depends testInitGalaxy
+//    */
+//   function testGetPermissions($galaxy) {
+//     $folders = new Folders($galaxy);
+//   }
 }

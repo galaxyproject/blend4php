@@ -4,13 +4,16 @@
       <file>GalaxyInstanceTest.php</file>
       <file>RequestErrorTest.php</file>
       <file>RestManagerTest.php</file>
+      <file>ToolsTest.php</file>
       <file>HistoriesTest.php</file>
+      <file>HistoryContentsTest.php</file>
       <file>UsersTest.php</file>
       <file>RolesTest.php</file>
       <file>LibrariesTest.php</file>
       <file>GroupsTest.php</file>
       <file>GroupUsersTest.php</file>
       <file>GroupRolesTest.php</file>
+      <file>JobsTest.php</file>
     </testsuite>
   </testsuites>
 </phpunit>

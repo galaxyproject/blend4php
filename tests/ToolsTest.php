@@ -151,43 +151,6 @@ class ToolsTest extends PHPUnit_Framework_TestCase {
 
   }
 
-
-  /**
-   * Will return a tool model that includes its parameters, 'building'
-   * the tool into a specified history.
-   *
-   * @depends testInitGalaxy
-   * AttributeError: 'Tool' object has no attribute 'tool'
-   */
-  public function testBuild($galaxy){
-    //  we don't know
-    // how to use any one of the given tools properly
-    
-    // TODO: Working on it now
-/*     $tools = new Tools($galaxy);
-
-    $histories = new Histories($galaxy);
-
-    $history_list = $histories->index();
-
-    $tools_list = $tools->index();
-
-    print(" \n This is the tools list in build tools: \n");
-    //print_r($tools_list);
-    //print("\n This is the history list object: \n");
-    print_r($history_list);
-
-    // Case 1: Present just the tool model and place it in the selected history
-    // denoted by its id.
-    $build = $tools->build($tools_list[0]['elems'][0]['id'], $history_list[0]['id']);
-    $this->assertTrue(is_array($build), $tools->getErrorMessage());
-
-    // Case 2: Include the version of the tool as specified as newer tools may
-    // or may not be compatible with other workflows/datasets etc.
-    $build = $tools->build($tools_list[0]['elems'][0]['id'], $history_list[0]['id'], $tools_list[0]['elems'][0]['version']);
-    $this->assertTrue(is_array($build), $tools->getErrorMessage()); */
-   }
-
   /**
    * This funciton executes the specified tool given the inputs.
    *
@@ -199,17 +162,26 @@ class ToolsTest extends PHPUnit_Framework_TestCase {
    */
   public function testCreate($galaxy){
     $tools = new Tools($galaxy);
-
+    
     // We need a history object in which to place uploaded files for the tool.
     $histories = new Histories($galaxy);
-    $history_list = $histories->index();
+    $history_list = $histories->index(array());
 
     // Case 1: Upload a file usinng the upload1 tool
+    
+    // !!!!!!! upload1 can only upload ONE file at a time
+    // This extra element is to demonstrate how to further populate the array
+    // in the event of using a tool that uses multiple files
     $inputs['files'] = array(
       0 => array(
+        'name' => 'Galaxy-Workflow-UnitTest_Workflow.ga',
+        'path' => getcwd(). '/files/Galaxy-Workflow-UnitTest_Workflow.ga',
+      ),
+      1 => array(
         'name' => 'test.bed',
         'path' => getcwd() . '/files/test.bed',
       ),
+
     );
 
     $inputs['tool_id'] = 'upload1';
@@ -223,4 +195,40 @@ class ToolsTest extends PHPUnit_Framework_TestCase {
 
 
   }
+  
+  /**
+   * Will return a tool model that includes its parameters, 'building'
+   * the tool into a specified history.
+   *
+   * @depends testInitGalaxy
+   * AttributeError: 'Tool' object has no attribute 'tool'
+   */
+  public function testBuild($galaxy){
+    $tools = new Tools($galaxy);
+  
+    $histories = new Histories($galaxy);
+  
+    $history_list = $histories->index(array());
+  
+    // Case 1: Present just the tool model and place it in the selected history
+    // denoted by its id.
+    
+    // We are not using the tool_id upload requires further paramaters
+    
+    $inputs = array(
+      'tool_id' => 'sort1',
+      'history_id' => $history_list[0]['id'],
+  
+    );
+    $build = $tools->build($inputs);
+    $this->assertTrue(is_array($build), $tools->getErrorMessage());
+  
+    // Case 2: Include the version of the tool as specified as newer tools may
+    // or may not be compatible with other workflows/datasets etc.
+    $inputs['tool_version'] = $tools->show(array('tool_id' => 'sort1'))['version'];
+    $build = $tools->build($inputs);
+    $this->assertTrue(is_array($build), $tools->getErrorMessage());
+  }
 }
+
+

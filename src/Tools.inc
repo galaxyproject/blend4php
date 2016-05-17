@@ -195,22 +195,28 @@ class Tools extends HTTPRequest{
    public function build($params){
      
      if(array_key_exists('tool_id', $params)){
-       $URL = $this->galaxy->getURL() . '/api/tools/'. $params['tool_id'] . '/build';
+       $URL = $this->galaxy->getURL() . '/api/tools/'. $params['tool_id'] . '/build/';
        if(array_key_exists('history_id', $params)){
-         $URL .= '/?history_id=' . $params['history_id'];
+         $URL .= '?history_id=' . $params['history_id'];
          if(array_key_exists('tool_version', $params)){
            $URL .= '&tool_version='. $params['tool_version'];
          }
        }
 
-       else{
-         $this->setError("API", "A 'tool_id' is required in order to invoke this call");
-         return FALSE;
-       }
-       
-       $URL .= '&key=' . $this->galaxy->getAPIKey();
-       $response = $this->httpGET($URL);
+       if(array_key_exists('history_id', $params) or array_key_exists('tool_version', $params))
+         $URL .= '&key=' . $this->galaxy->getAPIKey();
+       else if(array_key_exists('history_id', $params) and array_key_exists('tool_version', $params))
+         $URL .= '&key=' . $this->galaxy->getAPIKey();
+       else 
+         $URL .= '?key=' . $this->galaxy->getAPIKey();
+          
+         $response = $this->httpGET($URL);
        return $this->expectArray($response);
+     }
+     
+     else{
+       $this->setError("API", "A 'tool_id' is required in order to invoke this call");
+       return FALSE;
      }
    }
 
@@ -324,11 +330,14 @@ class Tools extends HTTPRequest{
    public function create($params) {
 
      $inputs = array();
+      
      
      if (array_key_exists('tool_id', $params)) {
        if (array_key_exists('history_id', $params)) {
          
-         $URL = $this->galaxy->getURL() . '/api/tools?key=' . $this->galaxy->getAPIKey();
+         $params['key'] = $this->galaxy->getAPIKey();
+          
+         $URL = $this->galaxy->getURL() . '/api/tools';
          
          if(array_key_exists('input_datasets_ids', $params)){
             
@@ -349,49 +358,37 @@ class Tools extends HTTPRequest{
          if(array_key_exists('files', $params)){
            //Append the appropriate file informaiton:
            $index = 0;
-         
+           $files = array();
            foreach($params['files'] as $file){
-             if( array_key_exists('name', $file) and array_key_exists('path', $file)){
+             if(array_key_exists('name', $file) and array_key_exists('path', $file)){
                $file_data = "files_" . $index . "|file_data";
                $file_name = "files_" . $index . "|NAME";
-               $file_to_posix_lines = "files_" . $index . "|to_posix_lines";
-               $file_space_to_tab = "files_" . $index . "|space_to_tab";
                $files_type = "files_" . $index . "|type";
                //The inputs should look like:
                //  files_0|file_data => /path/to/file
                //  files_0|NAME => file_name
-               //  files_0|File_to_posix_lines = false
                // ... etc
-               $inputs[$file_data] = "@" . $file['path'];
+               $files[$file_data] = $file['path'];
+               
+               if(array_key_exists('type', $params))
+                 $inputs[$files_type] = $params['type'];
+
                $inputs[$file_name] = $file['name'];
-               $inputs[$file_to_posix_lines] = FALSE;
-               $inputs[$file_space_to_tab] = FALSE;
-               $inputs[$files_type] = "upload_dataset";
                $index++;
              }
            }
          
-           //$inputs['dbkey'] = "?";
            unset($params['files']);
          
-           
-         }
+           $label['inputs'] = json_encode($inputs);
          
-         $elements = array_merge($params, $inputs);
+           $elements = array_merge($params, $label);
          
-         $notNullInputs = array();
-         foreach($elements as $element=>$value) {
-           if($value != NULL) {
-             $notNullInputs[$element] = $value;
-           }
-         }
+           $response = $this->uploadFile($URL, $elements, $files);
          
-         print_r($notNullInputs);
-         
-         $response = $this->httpPOST($URL, $notNullInputs);
-         
-         return $this->expectArray($response);
-         
+           return $this->expectArray($response);
+
+         }       
        }
        
        else{

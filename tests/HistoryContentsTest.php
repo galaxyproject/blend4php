@@ -25,21 +25,6 @@ class HistoryContentsTest extends PHPUnit_Framework_TestCase {
   }
 
   /**
-   *
-   * @depends testInitGalaxy
-   */
-//   function testSetUp($galaxy){
-//     global $config;
-
-//     //Create a tool for uploading files
-//     $tool = new Tools($galaxy, array('1'), '500665cb113baad6' );
-//     $uploadTool = $tool->create('upload1');
-//     print(" \t \n This is the contents of the tool!!!! \n");
-//     print_r($uploadTool);
-//     //print($uploadTool->getErrorMessage());
-//   }
-
-  /**
    * Tests the history content index function
    *
    * @depends testInitGalaxy
@@ -54,22 +39,26 @@ class HistoryContentsTest extends PHPUnit_Framework_TestCase {
 
 
     // Create our very own history!
-    // This history should appear as the first item on the histories list!?
-    $ourHistory = $histories->create("Testing HistoryContentsIndex!");
-    $history_list = $histories->index();
-    $history_id = $history_list[0]['id'];
+    // 
+    $inputs = array(
+      'name' => "Testing HistoryContentsIndex1",
+    );
+    $ourHistory = $histories->create($inputs);
+    unset($inputs['name']);
+    $history_list = $histories->index($inputs);
+    $inputs['history_id'] = $history_list[0]['id'];
 
 
-    $response = $history_content->index($history_id);
-    //print_r($response);
+    $response = $history_content->index($inputs);
     $this->assertTrue(is_array($response), $history_content->getErrorMessage());
 
     // Case 2, user inputs a bad id
-    $response2 = $history_content->index("123");
+    $inputs['history_id'] = "123";
+    $response2 = $history_content->index($inputs);
     $this->assertFalse(is_array($response2), $history_content->getErrorMessage());
 
-    // return the history_id.
-    return $history_id;
+//     // return the history_id.
+//     return $inputs['history_id'];
   }
 
   /**
@@ -88,41 +77,63 @@ class HistoryContentsTest extends PHPUnit_Framework_TestCase {
     $history_content = new HistoryContents($galaxy);
     $tools = new Tools($galaxy);
 
-    // Create our very own history for this test!
-    $ourHistory = $histories->create("Testing HistoryContentsCreate!");
-    $history_list = $histories->index();
-    $history_id = $history_list[0]['id'];
+    // Create our very own history for this test
+    $inputs = array(
+      'name' => "Testing HistoryContentsIndex2",
+    );
+    $ourHistory = $histories->create($inputs);
+    unset($inputs['name']);
+    $history_list = $histories->index($inputs);
 
-    // Now we need some content!
-    $files = array(
-      0=> array(
+    // Now we need some content
+    $inputs['files'] = array(
+      0 => array(
         'name'=> 'test.bed',
         'path'=> getcwd() . '/files/test.bed',
       ),
     );
-    $tool = $tools->create('upload1', $history_id, $files);
+    $inputs['history_id'] = $history_list[0]['id'];
+    $inputs['tool_id'] = 'upload1';
+    $tool = $tools->create($inputs);
 
+    unset($inputs['files']);
+    unset($inputs['tool_id']);
     // Now history_list[0] should have some content to it
-    $content_list = $history_content->index($history_id);
-
+    $content_list = $history_content->index($inputs);
+    
     // Make sure the count of this list is greater than 0
     $this->assertTrue((count($content_list) > 0) , "Content was not added to history.");
-    $content_id = $content_list[0]['id'];
+    $inputs['source'] = 'hda';
+    $inputs['content'] = $content_list[0]['id'];
 
     // Case 1, correctly create a history_content
-    $content= $history_content->create($history_list[1]['id'], $content_id);
+    $content= $history_content->create($inputs);
     $this->assertTrue(is_array($content), $history_content->getErrorMessage());
 
     // Case 2, given incorrect history, our function will return FALSE
     // gracefully.
-    $content = $history_content->create('123', $content_id);
+    $inputs['history_id'] = "123";
+    $content = $history_content->create($inputs);
     $this->assertFalse(is_array($content), $history_content->getErrorMessage());
 
-    // Case 3. given an incorrect conten_id, our function will still return false
-    $content = $history_content->create('123', '123');
+    // Case 3. given an incorrect content_id, our function will still return false
+    $inputs['content'] = "123";
+    $content = $history_content->create($inputs);
     $this->assertFalse(is_array($content), $history_content->getErrorMessage());
 
-    return $content_id;
+    // Reset the parameters to proper values to be manipulated by the next test
+    // function.
+    
+    unset($inputs['source']);
+    
+    $inputs['id'] = $content_list[0]['id'];
+    
+    unset($inputs['content']);
+    
+    $inputs['history_id'] = $history_list[0]['id'];
+    
+    
+    return $inputs;
   }
 
   /**
@@ -134,29 +145,31 @@ class HistoryContentsTest extends PHPUnit_Framework_TestCase {
    * @depends testCreate
    * @depends testIndex
    */
-  function testShow($galaxy, $content_id){
+  function testShow($galaxy, $inputs){
     global $config;
 
     $histories = new Histories($galaxy);
     $history_content = new HistoryContents($galaxy);
 
 
-    $history_list = $histories->index();
-    $history_id = $history_list[0]['id'];
+    $history_list = $histories->index(array());
 
     // Case 1 successfully display history contents
-    $content = $history_content->show($history_id, $content_id);
+    $content = $history_content->show($inputs);
     $this->assertTrue(is_array($content), $history_content->getErrorMessage());
 
     // Case 2 given an incorrect history id, make sure it still returns an array
     // containing info9rmation abot the content.
-    $content2 = $history_content->show('@@', $content_id);
+    $inputs['history_id'] = "@@";
+    $content2 = $history_content->show($inputs);
     $this->assertTrue(is_array($content2), $history_content->getErrorMessage());
 
     //print_r($content2);
 
     // Case 3 given an incorect content_id, make sure it returns false.
-    $content2 = $history_content->show($history_id, '@@');
+    $inputs['history_id'] = $history_list[0]['id'];
+    $inputs['id'] = "@@";
+    $content2 = $history_content->show($inputs);
     $this->assertFalse(is_array($content2), $history_content->getErrorMessage());
   }
 
@@ -170,27 +183,29 @@ class HistoryContentsTest extends PHPUnit_Framework_TestCase {
    * @depends testCreate
    * @depends testIndex
    */
-  function testUpdate($galaxy, $content_id){
+  function testUpdate($galaxy, $inputs){
    global $config;
 
    // Declare history content and history objects
    $histories = new Histories($galaxy);
    $history_content = new HistoryContents($galaxy);
-  // Obtain history id
-   $history_list = $histories->index();
-   $history_id = $history_list[0]['id'];
 
    // Case 1, update successfully
-   $updated = $history_content->update($history_id, $content_id, "This is a new annotation");
+   $inputs['annotation'] = 'This History content has been updated';
+   $updated = $history_content->update($inputs);
    $this->assertTrue(is_array($updated), $history_content->getErrorMessage());
 
    // Case 2, incorrect history_id provided, make sure it still returns an array
-   $updated = $history_content->update("123", $content_id, "This is a new annotation");
+   $inputs['history_id'] = "123";
+   $updated = $history_content->update($inputs);
    $this->assertTrue(is_array($updated), $history_content->getErrorMessage());
 
+   
+   $inputs['history_id'] = $histories->index(array())[0]['id'];
 
    // Case 3, incorrect content _id provided, make sure it returns false
-   $updated = $history_content->update($history_id, "123", "This is a new annotation");
+   $inputs['id'] = "123";
+   $updated = $history_content->update($inputs);
    $this->assertFalse(is_array($updated), $history_content->getErrorMessage());
 
  }
@@ -206,28 +221,20 @@ class HistoryContentsTest extends PHPUnit_Framework_TestCase {
   * @depends testShow
   * @depends testUpdate
   */
- function testDelete($galaxy, $content_id){
+ function testDelete($galaxy, $inputs){
    global $config;
 
    // Declare history content and history objects
    $histories = new Histories($galaxy);
    $history_content = new HistoryContents($galaxy);
-   // Obtain history id
-   $history_list = $histories->index();
-   $history_id = $history_list[0]['id'];
 
-
-   $deleted = $history_content->delete($history_id, $content_id);
+   $deleted = $history_content->delete($inputs);
 
    // Obtan the content_id of the content in the 0'th index
-   $content_list = $history_content->index($history_id);
+   $content_list = $history_content->index($inputs['history_id']);
 
    // Case 1 make sure the history content is marked as deleted.
    $this->assertTrue($content_list[0]['deleted'] == 1);
  }
-
-
-
-
 }
 ?>

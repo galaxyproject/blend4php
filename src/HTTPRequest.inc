@@ -225,6 +225,33 @@ class HTTPRequest  {
 
     return $response;
   }
+  
+  /**
+   * Perform a PATCH request
+   *
+   * @param URL
+   *   The URL to perform the PUT request on.
+   * @param Input
+   *   The input data to give to the URL.
+   *
+   * @return
+   *   curl server response.
+   *
+   *
+   */
+  protected function httpPATCH($URL, $input = NULL) {
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $URL);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PATCH");
+    if ($input != NULL) {
+      curl_setopt($ch, CURLOPT_POSTFIELDS, $input);
+    }
+    $response = $this->getCURLResponse($ch);
+    curl_close($ch);
+  
+    return $response;
+  }
 
   /**
    *
@@ -257,6 +284,51 @@ class HTTPRequest  {
     return TRUE;
   }
 
+  
+  
+  /**
+   * Upload file request
+   *
+   * @param $datat
+   *   The input data to give to the url.
+   * @param $URL
+   *   The path to perform the DELETE request.
+   * @param $files
+   *   The file(s) to post to the specified URL
+   *
+   * @return
+   *   curl server response
+   *
+   *
+   */
+  protected function uploadFile($URL, $data, $files){
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $URL);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_SAFE_UPLOAD, 1);
+
+    if ($data !== NULL) {
+      curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    }
+    
+    $i = 0;
+    foreach ($files as $cfile){
+      $data[array_keys($files)[$i]] = curl_file_create($cfile);
+      $i++;
+    }
+
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, True);
+    
+    $response = $this->getCURLResponse($ch);
+    
+    return $response;
+  }
+  
+  
+  
+  
   /**
    * Universal DELETE request
    *
