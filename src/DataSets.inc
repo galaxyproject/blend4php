@@ -15,23 +15,23 @@ require_once 'HTTPRequest.inc';
 
 class Datasets extends HTTPRequest {
   private $galaxy;
-  
+
   /**
    * The DataSets constructor.
    *
    * @param GalaxyInstance $galaxy
    *          A GalaxyInstance object.
-   *          
+   *
    * @return An instance of a DataSet object.
-   *        
-   *        
+   *
+   *
    */
   public function __construct($galaxy) {
     $this->galaxy = $galaxy;
-    
+
     parent::__construct();
   }
-  
+
   /**
    * Retreive information about datasets made by converting
    * to a new file format.
@@ -42,38 +42,38 @@ class Datasets extends HTTPRequest {
    * @param params
    *   Dictionary (associative array) containing the input parameters
    *   required and optional that this function can run.
-   *   
+   *
    *   - dataset_id: The dataset id of the information to pull.
    *       Can be obtained from this function's display().
    *   - extension (optional): If supplied this will look at the file extension.
-   *       
-   * @return 
+   *
+   * @return
    *   An array containing information about the matching dataset(s).
-   *        
+   *
    */
   public function converted($params) {
     $URL = "";
-    
+
     if (array_key_exists('dataset_id', $params)) {
       if (array_key_exists('extension', $params)) {
         $URL = $this->galaxy->getURL() . '/api/datasets/' . $params ['dataset_id'] . '/converted/' . $params ['extension'] . '/?key=' . $this->galaxy->getAPIKey();
       }
-      
+
       else {
         $URL = $this->galaxy->getURL() . '/api/datasets/' . $params ['dataset_id'] . '/converted/?key=' . $this->galaxy->getAPIKey();
       }
     }
     else {
       $this->setError("API", "This function expects at least a the parameter \'dataset_id\'.
-     			 The \'extension'\ parameter is optional.");
+        The \'extension'\ parameter is optional.");
       return FALSE;
     }
-    
+
     $response = $this->httpGET($URL);
-    
+
     return $this->expectArray($response);
   }
-  
+
   /**
    * Retreives a list of datasets associated with a given history.
    *
@@ -84,40 +84,40 @@ class Datasets extends HTTPRequest {
    * @param $params
    *   A dictionary (associative array) containing the input parameters that
    *   are required to run this function.
-   *          
+   *
    *   - hist_id: The history id of the datasets to find.
    *   - hist_content_id: The specified history content's dataset(s) to list.
    *       Please see the HistoryContents class to obtain the history content id
-   *          
-   * @return 
+   *
+   * @return
    *   An array containing information about the matching dataset(s).
-   *        
+   *
    */
   public function display($params) {
     if (array_key_exists('hist_id', $params)) {
-      
+
       if (array_key_exists('hist_content_id', $params)) {
         $URL = $this->galaxy->getURL() . '/api/histories/' . $params ['hist_id'] . '/contents/' . $params ['hist_content_id'] . '/?key=' . $this->galaxy->getAPIKey();
       }
-      
+
       else{
         $this->setError("API", "This function requires the \'hist_id\' AND the \'hist_content_id\'.
              If one or the other is missing you will receive this error.");
         return FALSE;
       }
     }
-    
+
     else{
       $this->setError("API", "This function requires the \'hist_id\' AND the \'hist_content_id\'.
              If one or the other is missing you will receive this error.");
       return FALSE;
     }
-    
+
     $response = $this->httpGET($URL);
-    
+
     return $this->expectArray($response);
   }
-  
+
   /**
    * Retreives a list of all datasets.
    *
@@ -128,7 +128,7 @@ class Datasets extends HTTPRequest {
     $response = $this->httpGET($URL);
     return $this->expectArray($response);
   }
-  
+
   /**
    * Retreives detailed content on a specific dataset.
    *
@@ -141,10 +141,10 @@ class Datasets extends HTTPRequest {
    *
    *   - dataset_id: The dataset_id's information that the function is to
    *       retreive. To obtain the dataset id, please use the Display function.
-   *          
-   * @return 
+   *
+   * @return
    *   An array containing information about the matching dataset.
-   *        
+   *
    */
   public function show($dataset_id) {
     $URL = $this->galaxy->getURL() . '/api/datasets/' . $dataset_id . '/?key=' . $this->galaxy->getAPIKey();

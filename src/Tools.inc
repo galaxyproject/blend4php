@@ -10,15 +10,6 @@
  * and are named similarly to their Python counterparts.
  */
 
-/**
- * @defgroup tools_class tools Class
- * @{
- *   The tools class interacts with Galaxy to manage contents of a Galaxy
- *   tool. The functions in this class correspond to the Galaxy API
- *   functions and are named similarly to their Python counterparts.
- * @}
- */
-
 require_once 'HTTPRequest.inc';
 
 class Tools extends HTTPRequest{
@@ -32,7 +23,7 @@ class Tools extends HTTPRequest{
    * @return
    *   An instance of a Tools object.
    *
-   * 
+   *
    */
    public function __construct($galaxy) {
      $this->galaxy = $galaxy;
@@ -44,7 +35,7 @@ class Tools extends HTTPRequest{
    *
    * Corresponds to the Galaxy API/path:
    *   GET /api/tools:
-   *   
+   *
    * @param $params
    *   A key value (associative array) where the keys can be the following:
    *
@@ -57,34 +48,22 @@ class Tools extends HTTPRequest{
    *   An array containing all the tools in galaxy that match the
    *   the specified search.
    *
-   * 
+   *
    */
    public function index($params) {
 
-    $URL = $this->galaxy->getURL() . '/api/tools';
-    
-    if (array_key_exists('tool_id', $params))
-      $URL .= '/'. $params['tool_id'];
-    if (array_key_exists('trackster', $params))
-      $URL .= '/?trackster=' . $params['trackster'];
-    if (array_key_exists('in_panel', $params) and !array_key_exists('trackster', $params))
-      $URL .= '/?in_panel=' . $params['in_panel'];
-    else if (array_key_exists('in_panel', $params) and array_key_exists('trackster', $params))
-      $URL .= '&in_panel=' . $params['in_panel'];
-    if (array_key_exists('q', $params) and (!array_key_exists('trackster', $params)) and !array_key_exists('in_panel', $params))
-      $URL .= '/?q=' . urlencode($params['q']);
-    else if (array_key_exists('q', $params))
-      $URL .= '&q=' . urlencode($params['q']);
-    // All others are part of a query structure and therefore do not need a
-    // qestion mark but an ampersand to include the key in the query.
-    if(!array_key_exists('tool_id', $params) and (array_key_exists('trackster', $params) or array_key_exists('in_panel', $params) or array_key_exists('q', $params)))
-      $URL .= '&key=' . $this->galaxy->getAPIKey();
+    // Create the basic URL. If a tool_id is provided we need to add it as
+    // part of the URL.
+    $URL = $this->galaxy->getURL() . '/api/tools/';
+    if (array_key_exists('tool_id', $params)) {
+      $URL .=  $params['tool_id'] . '/';
+    }
+    $URL .= '?key=' . $this->galaxy->getAPIKey();
 
-    // tool_id is treated like a file accessing parameter.
-    // This will also execute if all of the inputs are NULL
-    else
-      $URL .= '?key=' . $this->galaxy->getAPIKey();
-    
+    // Add all other parameters to the URL.
+    foreach ($params as $key => $value) {
+      $URL .= '&' . $key . '=' . $value;
+    }
 
     $response = $this->httpGET($URL);
     return $this->expectArray($response);
@@ -99,23 +78,30 @@ class Tools extends HTTPRequest{
    *
    * @param $params
    *   A key value (associative array) where the keys can be the following:
-   *   
-   *   - tool_id: The id of the tool whos informaiton to obtain. To retreive a 
+   *
+   *   - tool_id: The id of the tool whos informaiton to obtain. To retreive a
    *       tool id please use this class's index funciton.
    *
    * @return
    *   An array containing detailed information about a specific tool.
    *
-   * 
+   *
    */
   public function show($params){
-    if(array_key_exists('tool_id', $params)){
-      $URL = $this->galaxy->getURL() . '/api/tools/' . $params['tool_id'] .'/?key='. $this->galaxy->getAPIKey();
-      $response = $this->httpGET($URL);
-      return $this->expectArray($response);
+
+    // The 'tool_id' is required.
+    if (!array_key_exists('tool_id', $params)) {
+      $this->setError("API", "A 'tool_id' is required in order to invoke this call");
+      return FALSE;
     }
-    $this->setError("API", "A 'tool_id' is required in order to invoke this call");
-    return FALSE;
+
+    // Contruct the basic URL to the Galaxy API.
+    $URL = $this->galaxy->getURL() . '/api/tools/'. $params['tool_id'] . '/';
+    $URL .= '?key=' . $this->galaxy->getAPIKey();
+
+    // Get the response from the Galaxy server.
+    $response = $this->httpGET($URL);
+    return $this->expectArray($response);
   }
 
   /**
@@ -126,23 +112,30 @@ class Tools extends HTTPRequest{
    *
    * @param $params
    *   A key value (associative array) where the keys can be the following:
-   *   
-   *   - tool_id: The id of the tool whos informaiton to obtain. To retreive a 
+   *
+   *   - tool_id: The id of the tool whos informaiton to obtain. To retreive a
    *       tool id please use this class's index funciton.
    *
    * @return
    *   An array contaiing information about the diagnostics of a tool.
    *
-   * 
+   *
    */
    public function diagnostics($params){
-     if(array_key_exists('tool_id', $params)){
-       $URL = $this->galaxy->getURL() . '/api/tools/'. $params['tool_id'] . '/diagnostics/?key=' . $this->galaxy->getAPIKey();
-       $response = $this->httpGET($URL);
-       return $this->expectArray($response);
+
+     // The 'tool_id' is required.
+     if (!array_key_exists('tool_id', $params)) {
+       $this->setError("API", "A 'tool_id' is required in order to invoke this call");
+       return FALSE;
      }
-     $this->setError("API", "A 'tool_id' is required in order to invoke this call");
-     return FALSE;
+
+     // Contruct the basic URL to the Galaxy API.
+     $URL = $this->galaxy->getURL() . '/api/tools/'. $params['tool_id'] . '/diagnostics/';
+     $URL .= '?key=' . $this->galaxy->getAPIKey();
+
+     // Get the response from the Galaxy server.
+     $response = $this->httpGET($URL);
+     return $this->expectArray($response);
    }
 
   /**
@@ -153,22 +146,29 @@ class Tools extends HTTPRequest{
    *
    * @param $params
    *   A key value (associative array) where the keys can be the following:
-   * 
+   *
    *   - tool_id: The id of the tool to reload.
    *
    * @return
    *   An array of the tool that was reloaded.
    *
-   * 
+   *
    */
    public function reload($params){
-     if(array_key_exists('tool_id', $params)){
-       $URL = $this->galaxy->getURL() . '/api/tools/'. $params['tool_id'] . '/reload/?key=' . $this->galaxy->getAPIKey();
-       $response = $this->httpGET($URL);
-       return $this->expectArray($response);
+
+     // The 'tool_id' is required.
+     if (!array_key_exists('tool_id', $params)) {
+       $this->setError("API", "A 'tool_id' is required in order to invoke this call");
+       return FALSE;
      }
-     $this->setError("API", "A 'tool_id' is required in order to invoke this call");
-     return FALSE;
+
+     // Contruct the basic URL to the Galaxy API.
+     $URL = $this->galaxy->getURL() . '/api/tools/'. $params['tool_id'] . '/reload/';
+     $URL .= '?key=' . $this->galaxy->getAPIKey();
+
+     // Get the response from the Galaxy server.
+     $response = $this->httpGET($URL);
+     return $this->expectArray($response);
    }
 
   /**
@@ -181,7 +181,7 @@ class Tools extends HTTPRequest{
    *
    * @param $params
    *   A key value (associative array) where the keys can be the following:
-   *   
+   *
    *   - tool_id: The id of the tool to perform this aciton on. Please use
    *       this class's index() function to retreive a tool id.
    *   - history_id: The id of the history to place the built tool.
@@ -190,34 +190,37 @@ class Tools extends HTTPRequest{
    * @return
    *   An array containing the build model of the tool.
    *
-   * 
+   *
    */
    public function build($params){
-     
-     if(array_key_exists('tool_id', $params)){
-       $URL = $this->galaxy->getURL() . '/api/tools/'. $params['tool_id'] . '/build/';
-       if(array_key_exists('history_id', $params)){
-         $URL .= '?history_id=' . $params['history_id'];
-         if(array_key_exists('tool_version', $params)){
-           $URL .= '&tool_version='. $params['tool_version'];
-         }
-       }
 
-       if(array_key_exists('history_id', $params) or array_key_exists('tool_version', $params))
-         $URL .= '&key=' . $this->galaxy->getAPIKey();
-       else if(array_key_exists('history_id', $params) and array_key_exists('tool_version', $params))
-         $URL .= '&key=' . $this->galaxy->getAPIKey();
-       else 
-         $URL .= '?key=' . $this->galaxy->getAPIKey();
-          
-         $response = $this->httpGET($URL);
-       return $this->expectArray($response);
-     }
-     
-     else{
+     // The 'tool_id' is required.
+     if (!array_key_exists('tool_id', $params)) {
        $this->setError("API", "A 'tool_id' is required in order to invoke this call");
        return FALSE;
      }
+
+     // The 'history_id' parameters is required.
+     if (!array_key_exists('history_id', $params)) {
+       $this->setError("API", "A 'history_id' is required in order to invoke this call");
+       return FALSE;
+     }
+
+     // Contruct the basic URL to the Galaxy API.
+     $URL = $this->galaxy->getURL() . '/api/tools/'. $params['tool_id'] . '/build/';
+     $URL .= '?key=' . $this->galaxy->getAPIKey();
+
+     // The tool_id is part of the URL path, so remove it from the $params
+     // array before adding in the other arguments.
+     unset($params['tool_id']);
+     foreach ($params as $key => $value) {
+       $URL .= '&' . $key . '=' . $value;
+     }
+
+     // Get the response from the Galaxy server.
+     $response = $this->httpGET($URL);
+     return $this->expectArray($response);
+
    }
 
   /**
@@ -229,27 +232,31 @@ class Tools extends HTTPRequest{
    * @param $params
    *   A key value (associative array) where the keys can be the following:
    *
-   *   - tool_id: The id of the specified tool. To obtain a tool id, please use 
+   *   - tool_id: The id of the specified tool. To obtain a tool id, please use
    *       this class' index() function.
    *
    * @return
    *   An array containing infromation about the citations of the specified
    *   tool.
    *
-   * 
+   *
    */
    public function citations($params){
-     
-     if(array_key_exists('tool_id', $params)){
-     $URL = $this->galaxy->getURL() . '/api/tools/' . $params['tool_id'] . '/citations/?key=' . $this->galaxy->getAPIKey();
-     $response = $this->httpGET($URL);
-     return $this->expectArray($response);
-     }
-     
-     else{
+
+     // The 'tool_id' is required.
+     if (!array_key_exists('tool_id', $params)) {
        $this->setError("API", "A 'tool_id' is required in order to invoke this call");
        return FALSE;
      }
+
+     // Contruct the basic URL to the Galaxy API.
+     $URL = $this->galaxy->getURL() . '/api/tools/'. $params['tool_id'] . '/citations/';
+     $URL .= '?key=' . $this->galaxy->getAPIKey();
+
+     // Get the response from the Galaxy server.
+     $response = $this->httpGET($URL);
+     return $this->expectArray($response);
+
    }
 
 
@@ -261,7 +268,7 @@ class Tools extends HTTPRequest{
    *
    * @param $params
    *   A key value (associative array) where the keys can be the following:
-   * 
+   *
    *  - tool_id: The id of the specified tool. To obtain a tool id, please use
    *      this class's index() function.
    *  - file_path: The path to where the file will be stored.
@@ -269,24 +276,29 @@ class Tools extends HTTPRequest{
    * @return
    *   Gzip of the tool.
    *
-   * 
+   *
    */
    public function download($params){
-     if(array_key_exists('tool_id', $params)){
-       $URL = $this->galaxy->getURL() . '/api/tools/'. $params['tool_id'] . '/download/?key=' . $this->galaxy->getAPIKey();
-       if(array_key_exists('file_path', $params))
-         $response = $this->getRemoteFile($URL, $params['file_path']);
-       else{
-         $this->setError("API", "A 'file_path' is required in order to invoke this call");
-         return FALSE;
-       }
-     return $response;
-     }
-     
-     else{
+
+     // The 'tool_id' is required.
+     if (!array_key_exists('tool_id', $params)) {
        $this->setError("API", "A 'tool_id' is required in order to invoke this call");
        return FALSE;
      }
+
+     // The 'file_path' is required.
+     if (!array_key_exists('file_path', $params)) {
+       $this->setError("API", "A 'file_path' is required in order to invoke this call");
+       return FALSE;
+     }
+
+     // Contruct the basic URL to the Galaxy API.
+     $URL = $this->galaxy->getURL() . '/api/tools/'. $params['tool_id'] . '/download/';
+     $URL .= '?key=' . $this->galaxy->getAPIKey();
+
+     // Get the response from the Galaxy server.
+     $response = $this->getRemoteFile($URL, $params['file_path']);
+     return $this->expectArray($response);
    }
 
 
@@ -301,23 +313,26 @@ class Tools extends HTTPRequest{
    *
    *   - tool_id: The id of the specified tool. To obtain a tool id, please use
    *       this class's index() function.
-   *   - history_id: The history_id where the tool is located. To obtain 
+   *   - history_id: The history_id where the tool is located. To obtain
    *       history id's please see the history class.
-   *   - files: An array of file infromation, the array should be NULL or in
-   *       the following format:
-         $params['files'] = array(
-           0 => array(
-             'name' => [file name],
-             'path' => [full path to the file],
-           ),
-           1 => array(
-            'name' => [file name],
-             'path' => [full path to the file],
-           ),
-           ...
-         );
-   *  - input_dataset_ids: Array of dataset id's where the tool should grab its
-   *      inputs from. Please see the datasets class to obtain id's.
+   *   - files: Optional. an array of file infromation, the array should be
+   *       NULL or in the following format:
+   *      $params['files'] = array(
+   *        0 => array(
+   *          'name' => [file name],
+   *          'path' => [full path to the file],
+   *        ),
+   *        1 => array(
+   *         'name' => [file name],
+   *          'path' => [full path to the file],
+   *        ),
+   *        ...
+   *      );
+   *  - input_dataset_ids: Optional. An array of dataset id's where the tool
+   *      should grab its inputs from. Please see the datasets class to
+   *      obtain id's.  Each element of the array is itself an associative
+   *      array with a key of 'id' containing the dataset ID and an optional
+   *      'src' key if the src is anything other than 'hda'.
    *  - tool_version: Optional, specify specific tool version for the tool.
    *  - region: Optional information on the region of the genome being rerun.
    *  - action: Optional, 'rerun' to rerun the tool and not execute
@@ -325,85 +340,77 @@ class Tools extends HTTPRequest{
    * @return
    *   An array containing information about the created or executed tool.
    *
-   * 
+   *
    */
    public function create($params) {
 
-     $inputs = array();
-      
-     
-     if (array_key_exists('tool_id', $params)) {
-       if (array_key_exists('history_id', $params)) {
-         
-         $params['key'] = $this->galaxy->getAPIKey();
-          
-         $URL = $this->galaxy->getURL() . '/api/tools';
-         
-         if(array_key_exists('input_datasets_ids', $params)){
-            
-           $input_ids = array();
-           $i = 0;
-           // Add any pre-existing Dataset ids to the inputs variables
-           foreach ($params['input_dataset_ids'] as $input_dataset_id) {
-             $input_ids[$i] = array('id' => $input_dataset_id, 'src' => 'hda');
-             $i++;
-           }
-           $inputs = $input_ids;
-           
-           unset($params['input_dataset_ids']);
-         }
-         
-         
-         
-         if(array_key_exists('files', $params)){
-           //Append the appropriate file informaiton:
-           $index = 0;
-           $files = array();
-           foreach($params['files'] as $file){
-             if(array_key_exists('name', $file) and array_key_exists('path', $file)){
-               $file_data = "files_" . $index . "|file_data";
-               $file_name = "files_" . $index . "|NAME";
-               $files_type = "files_" . $index . "|type";
-               //The inputs should look like:
-               //  files_0|file_data => /path/to/file
-               //  files_0|NAME => file_name
-               // ... etc
-               $files[$file_data] = $file['path'];
-               
-               if(array_key_exists('type', $params))
-                 $inputs[$files_type] = $params['type'];
-
-               $inputs[$file_name] = $file['name'];
-               $index++;
-             }
-           }
-         
-           unset($params['files']);
-         
-           $label['inputs'] = json_encode($inputs);
-         
-           $elements = array_merge($params, $label);
-         
-           $response = $this->uploadFile($URL, $elements, $files);
-         
-           return $this->expectArray($response);
-
-         }       
-       }
-       
-       else{
-         $this->setError("API", "A 'history_id' is required in order to invoke this call");
-         return FALSE;
-       }
-     }
-     
-     else{
+     // The 'tool_id' is required.
+     if (!array_key_exists('tool_id', $params)) {
        $this->setError("API", "A 'tool_id' is required in order to invoke this call");
        return FALSE;
      }
 
-   }
+     // The 'history_id' parameters is required.
+     if (!array_key_exists('history_id', $params)) {
+       $this->setError("API", "A 'history_id' is required in order to invoke this call");
+       return FALSE;
+     }
 
+     // Contruct the basic URL to the Galaxy API.
+     $URL = $this->galaxy->getURL() . '/api/tools/';
+
+     // Because this is a POST we need to add the key to the parameters.
+     $params['key'] = $this->galaxy->getAPIKey();
+
+     // If the 'input_datasets_ids' is present we need to check for the 'src'
+     // key and if not present add one.
+     if (array_key_exists('input_datasets_ids', $params)) {
+       for ($i = 0; $i < count($params['input_dataset_ids']); $i++) {
+         if (!array_key_exists('src', $params['input_dataset_ids'][$i]))
+         $params['input_dataset_ids'][$i]['src'] = 'hda';
+       }
+     }
+
+     // We need to format the files array so it's appropriate for Galaxy.
+     // Galaxy requires a key named 'inputs' for the files and the value
+     // is JSON encoded.
+     $inputs = array();
+     $files = array();
+     if (array_key_exists('files', $params)) {
+       // Append the appropriate file information:
+       $index = 0;
+       foreach ($params['files'] as $file) {
+         if (array_key_exists('name', $file) and array_key_exists('path', $file)) {
+           $file_data = "files_" . $index . "|file_data";
+           $file_name = "files_" . $index . "|NAME";
+           $files_type = "files_" . $index . "|type";
+           //The inputs should look like:
+           //  files_0|file_data => /path/to/file
+           //  files_0|NAME => file_name
+           // ... etc
+           $files[$file_data] = $file['path'];
+           if(array_key_exists('type', $params))
+             $inputs[$files_type] = $params['type'];
+
+           $inputs[$file_name] = $file['name'];
+           $index++;
+         }
+       }
+     }
+     unset($params['files']);
+     $params['inputs'] = json_encode($inputs);
+
+     // If we have files to upload with the tool, then call the 'uploadFile'
+     // function, otherwise just use an httpPOST.
+     if (count($files) > 0) {
+       $response = $this->uploadFile($URL, $params, $files);
+       return $this->expectArray($response);
+     }
+     else {
+       $response = $this->httpPOST($URL, $params);
+       return $this->expectArray($response);
+     }
+   }
  }
 
 ?>

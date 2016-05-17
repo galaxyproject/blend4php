@@ -8,6 +8,10 @@ To execute test on an Ubuntu 14.04 LTS server.
 
   sudo apt-get install php5-curl
 
-3) Execute the testing
+3) Execute all testing
 
-  phpunit Test_GalaxyInstance.inc
+  phpunit
+
+4) Execute a single test
+ 
+  phpunit GalaxyInstanceTest.php
