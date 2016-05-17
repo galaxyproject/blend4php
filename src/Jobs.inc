@@ -51,16 +51,22 @@ class Jobs extends HTTPRequest{
    * 
    */
   public function buildForRerun($params){
-    if(array_key_exists('job_id', $params)){
-      $URL = $this->galaxy->getURL() . '/api/jobs/' . $params['job_id'] . '/build_for_rerun/?key=' . $this->galaxy->getAPIKey();
-      $response = $this->httpGET($URL);
-      $this->setError("API", "This function is not complete, the corresponding Galaxy API
-        function wants a history_id, why or how is still uknown. Please see our issues page on Github for more information");
+    
+    // The 'tool_id' is required.
+    if (!array_key_exists('job_id', $params)) {
+      $this->setError("API", "A 'job_id' is required in order to invoke this call");
       return FALSE;
     }
-    $this->setError("API", "This function expects at least the associative parameter 'job_id' in order to run");
-    return FALSE;
-   
+    
+    // Contruct the basic URL to the Galaxy API.
+    $URL = $this->galaxy->getURL() . '/api/jobs/'. $params['job_id'] . '/build_for_rerun/';
+    $URL .= '?key=' . $this->galaxy->getAPIKey();
+    
+    // Get the response from the Galaxy server.
+    $response = $this->httpGET($URL);
+//     $this->setError("API", "This function is not complete, the corresponding Galaxy API
+//         function wants a history_id, why or how is still uknown. Please see our issues page on Github for more information");
+    return $this->expectArray($response);
   }
 
  /**
@@ -81,15 +87,20 @@ class Jobs extends HTTPRequest{
   * 
   */
   public function inputs($params){
-    if(array_key_exists('job_id', $params)){
-      $URL = $this->galaxy->getURL() . '/api/jobs/' . $params['job_id'] . '/inputs/?key=' . $this->galaxy->getAPIKey();
-      $response = $this->httpGET($URL);
-      return $this->expectArray($response);
+    
+    // The 'tool_id' is required.
+    if (!array_key_exists('job_id', $params)) {
+      $this->setError("API", "A 'job_id' is required to see a job's inputs");
+      return FALSE;
     }
     
-    $this->setError("API", "This function expects the associative parameter 'job_id' in order to run");
-    return FALSE;
-
+    // Contruct the basic URL to the Galaxy API.
+    $URL = $this->galaxy->getURL() . '/api/jobs/'. $params['job_id'] . '/inputs/';
+    $URL .= '?key=' . $this->galaxy->getAPIKey();
+    
+    // Get the response from the Galaxy server.
+    $response = $this->httpGET($URL);
+    return $this->expectArray($response);
   }
 
  /**
@@ -111,13 +122,20 @@ class Jobs extends HTTPRequest{
   * 
   */
   public function outputs($params){
-    if(array_key_exists('job_id', $params)){
-      $URL = $this->galaxy->getURL() . '/api/jobs/' . $params['job_id'] . '/outputs/?key=' . $this->galaxy->getAPIKey();
-      $response = $this->httpGET($URL);
-      return $this->expectArray($response);
+    
+    // The 'tool_id' is required.
+    if (!array_key_exists('job_id', $params)) {
+      $this->setError("API", "A 'job_id' is required to see a job's outputs");
+      return FALSE;
     }
-    $this->setError("API", "This function expects the associative parameter 'job_id' in order to run");
-    return FALSE;
+    
+    // Contruct the basic URL to the Galaxy API.
+    $URL = $this->galaxy->getURL() . '/api/jobs/'. $params['job_id'] . '/outputs/';
+    $URL .= '?key=' . $this->galaxy->getAPIKey();
+    
+    // Get the response from the Galaxy server.
+    $response = $this->httpGET($URL);
+    return $this->expectArray($response);
   }
 
  /**
@@ -138,13 +156,20 @@ class Jobs extends HTTPRequest{
   * 
   */
   public function show($params){
-    if(array_key_exists('job_id', $params)){
-      $URL = $this->galaxy->getURL() . '/api/jobs/' . $params['job_id'] . '/?key=' . $this->galaxy->getAPIKey();
-      $response = $this->httpGET($URL);
-      return $this->expectArray($response);
+    
+    // The 'tool_id' is required.
+    if (!array_key_exists('job_id', $params)) {
+      $this->setError("API", "A 'job_id' is required to see a job's metadata");
+      return FALSE;
     }
-    $this->setError("API", "This function expects the associative parameter 'folder_id' in order to run");
-    return FALSE;
+    
+    // Contruct the basic URL to the Galaxy API.
+    $URL = $this->galaxy->getURL() . '/api/jobs/'. $params['job_id'] . '/inputs/';
+    $URL .= '?key=' . $this->galaxy->getAPIKey();
+    
+    // Get the response from the Galaxy server.
+    $response = $this->httpGET($URL);
+    return $this->expectArray($response);
   }
 
  /**
@@ -183,49 +208,58 @@ class Jobs extends HTTPRequest{
   * 
   */
   public function index($params){
-    $URL = $this->galaxy->getURL() . '/api/jobs/?';
+    
+    // Contruct the basic URL to the Galaxy API.
+    $URL = $this->galaxy->getURL() . '/api/jobs/?key=' . $this->galaxy->getAPIKey();
 
+    // If a state is specified chech to see if the user is looking for multiple
+    // states or if the user is only specifiying one
     if(array_key_exists('state', $params)){
+      // Is the parameter an array of states?
       if(!is_array($params['state'])){
+        // Is there only one parameter?
         if (!is_string($params['state'])){
-          return $this->setError('User', 'Invalid state input scheme (string or array structure)');
+          $this->setError('User', 'Invalid state input scheme (string or array structure)');
+          return FALSE;
         }
-        $URL .= 'state=' . $params['state'] . '&';
+        
+        $URL .= '&state=' . $params['state'];
       }
 
       else{
         foreach($params['state'] as &$states) {
-          $URL .= 'state=' . $states . '&';
+          $URL .= '&state=' . $states;
         }
       }
+      unset($params['state']);
     }
 
+    
+    // If a state is specified chech to see if the user is looking for multiple
+    // tool_ids or if the user is only specifiying one
     if(array_key_exists('tool_ids', $params)){
+      // Is the parameter an array of tool_ids?
       if(!is_array($params['tool_ids'])){
+        // Is there only one parameter?
         if (!is_string($params['tool_ids'])){
           return $this->setError('User', 'Invalid tool_id input scheme (string or array structure)');
         }
-        $URL .= 'tool_id=' . $params['tool_ids'] . '&';
+        $URL .= '&tool_id=' . $params['tool_ids'];
       }
 
       else{
         foreach($params['tool_ids'] as &$tool_id) {
-          $URL .= 'tool_id=' . $tool_id . '&';
+          $URL .= '&tool_id=' . $tool_id;
         }
       }
+      unset($params['tool_ids']);
     }
 
-    if(array_key_exists('date_range_min', $params)){
-      $URL .= 'date_range_min='. $params['date_range_min'] . '&';
+    
+    // Add all other parameters to the URL.
+    foreach ($params as $key => $value) {
+      $URL .= '&' . $key . '=' . $value;
     }
-    if(array_key_exists('date_range_max', $params)){
-      $URL .= 'date_range_max=' . $params['date_range_max'] . '&';
-    }
-    if(array_key_exists('history_id', $params)){
-      $URL .= 'history_id=' . $params['history_id'] . '&';
-    }
-
-    $URL .= 'key=' . $this->galaxy->getAPIKey();
 
     $response = $this->httpGET($URL);
 
@@ -284,7 +318,7 @@ class Jobs extends HTTPRequest{
 
     // Check that incoming arguments are appropriate.
     if (!array_key_exists('tool_id', $params)) {
-      $this->setError('API', 'The \'tool_id\' paremeter is required');
+      $this->setError('API', 'The \'tool_id\' parameter is required');
       return FALSE;
     }
 
@@ -306,15 +340,13 @@ class Jobs extends HTTPRequest{
     }
 
 
-    // Create a list of input items that is not NULL.
-    $notNULLInputs = array();
-    foreach($params as $element => $value) {
-      if($value != NULL) {
-        $notNULLInputs[$element] = $value;
-      }
-    }
-
-    $response = $this->httpPOST($URL, $notNULLInputs);
+    $response = $this->httpPOST($URL, $params);
+    
+    print "\nResponse:";
+    print_r($response);
+    
+    return $response;
+    
     $this->setError("API", "This function is incomplete, please see our issues page on GitHub for
         more information");
     return FALSE;

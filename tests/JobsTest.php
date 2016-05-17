@@ -177,9 +177,12 @@ class JobsTest extends PHPUnit_Framework_TestCase {
     // Case 1: Successfully build for rerun given a correct job id
     $inputs = array();
     if(!empty($default))
-      $inputs['job_id'] = $default[0]['id'];
+      $inputs['job_id'] ='f2db41e1fa331b3e';
     
     $rerun_job = $jobs->buildForRerun($inputs);
+    
+    print_r($jobs);
+    
     $this->assertFalse($rerun_job);
   }
 
@@ -197,12 +200,12 @@ class JobsTest extends PHPUnit_Framework_TestCase {
     $jobs = new Jobs($galaxy);
 
     $job = $jobs->search(array(
-      'tool_id' => 'wc_gnu',
-      //'id' => '4ff6f47412c3e65e',
-      'inputs' => array('id' => '03501d7626bd192f', 'dataset_id' => '03501d7626bd192f'),
+      'tool_id' => 'upload1',
+      'history_id' => 'dff4190d282fb07a',
+//       'inputs' => array('id' => '03501d7626bd192f', 'dataset_id' => '03501d7626bd192f'),
 //       'status' => 'ok',
     ));
-    //print_r($job);
+    print_r($job);
     //$this->assertTrue(is_array($job), $jobs->getErrorMessage());
     //$this->assertTrue(!empty($job), "Job search returned no results.");
 
