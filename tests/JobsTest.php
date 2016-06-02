@@ -1,6 +1,5 @@
 <?php
-require_once '../src/Jobs.inc';
-require_once '../src/GalaxyInstance.inc';
+require_once '../galaxy.inc';
 require_once 'testConfig.inc';
 
 
@@ -46,7 +45,7 @@ class JobsTest extends PHPUnit_Framework_TestCase {
     // be empty if you do not have any queued jobs)
     $inputs = array();
     $inputs['state'] = 'queued';
-    
+
     $index = $jobs->index($inputs);
     $this->assertTrue(is_array($index), $jobs->getErrorMessage());
 
@@ -56,7 +55,7 @@ class JobsTest extends PHPUnit_Framework_TestCase {
     array_shift($inputs);
     if(!empty($default))
       $inputs['tool_ids'] =  $default[0]['tool_id'];
-    
+
     $index = $jobs->index($inputs);
     $this->assertTrue(is_array($index), $jobs->getErrorMessage());
 
@@ -64,7 +63,7 @@ class JobsTest extends PHPUnit_Framework_TestCase {
     // This date is arbitrarily chosen
     array_shift($inputs);
     $inputs['date_range_min'] = '2015-12-09';
-    
+
     $index = $jobs->index($inputs);
     $this->assertTrue(is_array($index), $jobs->getErrorMessage());
 
@@ -72,7 +71,7 @@ class JobsTest extends PHPUnit_Framework_TestCase {
     // This date is also arbitrarily chosen
     array_shift($inputs);
     $inputs['date_range_max'] = '2016-03-09';
-    
+
     $index = $jobs->index($inputs);
     $this->assertTrue(is_array($index), $jobs->getErrorMessage());
 
@@ -83,7 +82,7 @@ class JobsTest extends PHPUnit_Framework_TestCase {
     array_shift($inputs);
     if(!empty($default))
     $inputs['history_id'] = $default[0]['id'];
-    
+
     $index = $jobs->index($inputs);
     $this->assertTrue(is_array($index), $jobs->getErrorMessage());
 
@@ -94,12 +93,11 @@ class JobsTest extends PHPUnit_Framework_TestCase {
       $inputs['tool_ids'] = $default[0]['tool_id'];
     $inputs['date_range_min'] = '2015-12-09';
     $inputs['date_range_max'] = '2016-03-09';
-    
+
     $index = $jobs->index($inputs );
     $this->assertTrue(is_array($index), $jobs->getErrorMessage());
 
     return $default;
-
   }
 
 
@@ -117,7 +115,7 @@ class JobsTest extends PHPUnit_Framework_TestCase {
     $params = array();
     if(!empty($default))
       $params['job_id'] = $default[0]['id'];
-    
+
     $inputs = $jobs->inputs($params);
 
     $this->assertTrue(is_array($inputs), $jobs->getErrorMessage());
@@ -137,7 +135,7 @@ class JobsTest extends PHPUnit_Framework_TestCase {
     $params = array();
     if(!empty($default))
       $params['job_id'] = $default[0]['id'];
-    
+
     $outputs = $jobs->outputs($params);
 
     $this->assertTrue(is_array($outputs), $jobs->getErrorMessage());
@@ -153,7 +151,7 @@ class JobsTest extends PHPUnit_Framework_TestCase {
    */
   public function testShow($default, $galaxy){
     $jobs = new Jobs($galaxy);
-    
+
     $params = array();
     if(!empty($default))
       $params['job_id'] = $default[0]['id'];
@@ -166,8 +164,12 @@ class JobsTest extends PHPUnit_Framework_TestCase {
   /**
    * Tests Job's buildForRerun function
    * Builds a job for rerun
-   * This function is incomplete, please see our issues page on github for more information.
    *
+   *
+   * This function is incomplete, please see our issues page on github for more information.
+   * TODO: Currently the standard key authentication does not work with this
+   *  function
+   *  https://github.com/tripal/GalaxyLib-PHP/issues/13
    * @depends testIndex
    * @depends testInitGalaxy
    */
@@ -176,20 +178,20 @@ class JobsTest extends PHPUnit_Framework_TestCase {
 
     // Case 1: Successfully build for rerun given a correct job id
     $inputs = array();
-    if(!empty($default))
-      $inputs['job_id'] ='f2db41e1fa331b3e';
-    
+    // We need to include that can be rerun
+    // ex: a padding manipulation on a file & and the file is saved.
+    // NOT an uploading of a repeat file to the server.
+    $inputs['id'] = '1cd8e2f6b131e891';
+    // $inputs['history_id'] = 'f597429621d6eb2b';
+
     $rerun_job = $jobs->buildForRerun($inputs);
-    
-    print_r($jobs);
-    
     $this->assertFalse($rerun_job);
   }
 
   /**
    * TODO: Input params are not correct
    *  We need to fix them at some point
-   *  https://github.com/spficklin/GalaxyPAPI/issues/7
+   *  https://github.com/tripal/GalaxyPAPI/issues/8
    *
    *
    * @depends testIndex
@@ -205,7 +207,6 @@ class JobsTest extends PHPUnit_Framework_TestCase {
 //       'inputs' => array('id' => '03501d7626bd192f', 'dataset_id' => '03501d7626bd192f'),
 //       'status' => 'ok',
     ));
-    print_r($job);
     //$this->assertTrue(is_array($job), $jobs->getErrorMessage());
     //$this->assertTrue(!empty($job), "Job search returned no results.");
 

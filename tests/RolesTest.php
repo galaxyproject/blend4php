@@ -1,12 +1,7 @@
 <?php
 
-require_once '../src/Roles.inc';
-require_once '../src/Users.inc';
-require_once '../src/Groups.inc';
-require_once '../src/GalaxyInstance.inc';
+require_once '../galaxy.inc';
 require_once './testConfig.inc';
-
-
 
 class RolesTest extends PHPUnit_Framework_TestCase {
 
@@ -93,7 +88,7 @@ class RolesTest extends PHPUnit_Framework_TestCase {
       "name" => uniqid('galaxy-php-test-create1-'),
       "description" => 'Test role #1'
     );
-    
+
     $role = $roles->create($inputOne);
     $this->assertTrue(is_array($role), $roles->getErrorMessage());
 
@@ -103,7 +98,7 @@ class RolesTest extends PHPUnit_Framework_TestCase {
     $this->assertFalse($role, 'If the role already exists the create() function should return FALSE: ' . print_r($role, TRUE));
 
     // Case 3: Create another role and add all the users to it.
-    
+
     $inputTwo = array(
       "name" => uniqid('galaxy-php-test-create2-'),
       "description" => 'Test role #2',
@@ -123,13 +118,14 @@ class RolesTest extends PHPUnit_Framework_TestCase {
     $group_ids = array();
 
     // Create two groups without any users then use their IDs for a new role
-    $group_name = uniqid('galaxy-php-test-role-group1-');
-    $group = $groups->create($group_name);
+    $groupInput = array();
+    $groupInput['name'] = uniqid('galaxy-php-test-role-group1-');
+    $group = $groups->create($groupInput);
     $this->assertTrue(is_array($group), $groups->getErrorMessage());
     $group_ids[] = $group['id'];
 
-    $group_name = uniqid('galaxy-php-test-role-group2-');
-    $group = $groups->create($group_name);
+    $groupInput['name'] = uniqid('galaxy-php-test-role-group2-');
+    $group = $groups->create($groupInput);
     $this->assertTrue(is_array($group), $groups->getErrorMessage());
     $group_ids[] = $group['id'];
 
@@ -152,6 +148,5 @@ class RolesTest extends PHPUnit_Framework_TestCase {
     $role = $roles->create($inputFour);
     $this->assertTrue(is_array($role), $roles->getErrorMessage());
     // TODO: need a way to determine if the users and groups were added to the role?
-
   }
 }

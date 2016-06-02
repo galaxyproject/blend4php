@@ -1,6 +1,5 @@
 <?php
-require_once '../src/Histories.inc';
-require_once '../src/GalaxyInstance.inc';
+require_once '../galaxy.inc';
 require_once 'testConfig.inc';
 
 /**
@@ -38,7 +37,7 @@ class HistoriesTest extends PHPUnit_Framework_TestCase {
     $inputs = array(
       'name' => 'testhistorycreate',
     );
-    
+
     $history = $histories->create($inputs);
     $this->assertTrue(is_array($history), $histories->getErrorMessage());
 
@@ -55,12 +54,12 @@ class HistoriesTest extends PHPUnit_Framework_TestCase {
     $histories = new Histories($galaxy);
 
     $inputs = array();
-    
+
     // Case 1: Include the the deleted param
     $inputs['deleted'] = TRUE;
     $history_list = $histories->index($inputs);
     $this->assertTrue(is_array($history_list), $histories->getErrorMessage());
-    
+
     // Case 2:  Are we getting an array?  If so, that's all we need to.
     unset($inputs['deleted']);
     $history_list = $histories->index($inputs);
@@ -132,7 +131,7 @@ class HistoriesTest extends PHPUnit_Framework_TestCase {
       'name' => 'test-history-hdas-false-copy-existing',
       'archive_source' => $history_list[0]['id'],
       'all_datasets' => FALSE
-    ); 
+    );
     $history = $histories->create($inputs);
     $this->assertTrue(is_array($history), $histories->getErrorMessage());
 

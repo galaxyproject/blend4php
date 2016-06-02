@@ -24,7 +24,7 @@ class Roles extends HTTPRequest{
    * @return
    *   An instance of a roles object.
    *
-   * 
+   *
    */
   public function __construct($galaxy) {
     parent ::__construct();
@@ -40,7 +40,7 @@ class Roles extends HTTPRequest{
    * @return
    *   An array containing details of all the roles in Galaxy.
    *
-   * 
+   *
    */
   public function index(){
     $URL = $this->galaxy->getURL() . '/api/roles/?key=' . $this->galaxy->getAPIKey();
@@ -63,17 +63,17 @@ class Roles extends HTTPRequest{
    * @return
    *   An array containing details about the specified role.
    *
-   * 
+   *
    */
   public function show($params){
-    if(array_key_exists('role_id', $params)){
+    if(!array_key_exists('role_id', $params)){
+      $this->setError('API', 'Please provide a value for the \'role_id\' argument.');
+      return FALSE;
+    }
+
       $URL = $this->galaxy->getURL() . '/api/roles/' . $params['role_id'] . '/?key=' . $this->galaxy->getAPIKey();
       $response = $this->httpGET($URL);
       return $this->expectArray($response);
-    }
-    
-    $this->setError('API', 'Please provide a value for the \'role_id\' argument.');
-    return FALSE;
   }
 
 
@@ -87,7 +87,7 @@ class Roles extends HTTPRequest{
    *
    * @param $params
    *   A key value (associative array) where the keys can be the following:
-   *   
+   *
    *   - name: The name of the new role.
    *   - description: The description of the new role.
    *   - user_ids: An array of user ids to associate the new role with.
@@ -100,27 +100,30 @@ class Roles extends HTTPRequest{
    * @return
    *   An array containing informaiton about the new role.
    *
-   * 
+   *
    */
   public function create($params) {
 
+    if(!array_key_exists('name', $params)){
+      $this->setError('API', "Please provide a 'name'  as an input to this function.");
+      return FALSE;
+    }
+    if(!array_key_exists('description', $params)){
+      $this->setError('API', "Please provide a 'description' as an input to this function.");
+      return FALSE;
+    }
+
     $URL = $this->galaxy->getURL() . '/api/roles/?key=' . $this->galaxy->getAPIKey();
 
-    if(array_key_exists('name', $params) and array_key_exists('description', $params)){
-      if(array_key_exists('user_ids', $params))
-        $params['user_ids'] = json_encode($params['user_ids']);
-      
-      if(array_key_exists('group_ids', $params))
-        $params['group_ids'] = json_encode($params['group_ids']);
-      
-      $response = $this->httpPOST($URL, $params);
-      $response = $this->expectArray($response);
+    if(array_key_exists('user_ids', $params))
+      $params['user_ids'] = json_encode($params['user_ids']);
 
-      return $response;
-    }
-    
-    $this->setError('API', 'Please provide at least a \'name\' AND \'description\' as inputs to this funciton.');
-    return FALSE;
+    if(array_key_exists('group_ids', $params))
+      $params['group_ids'] = json_encode($params['group_ids']);
 
+    $response = $this->httpPOST($URL, $params);
+    $response = $this->expectArray($response);
+
+    return $response;
   }
 }

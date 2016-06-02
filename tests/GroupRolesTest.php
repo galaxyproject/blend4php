@@ -1,11 +1,6 @@
 <?php
-require_once '../src/GroupRoles.inc';
-require_once '../src/Groups.inc';
-require_once '../src/Users.inc';
-require_once '../src/Roles.inc';
-require_once '../src/GalaxyInstance.inc';
 require_once './testConfig.inc';
-
+require_once '../galaxy.inc'
 
 class GroupRolesTest extends PHPUnit_Framework_TestCase {
 
@@ -39,8 +34,10 @@ class GroupRolesTest extends PHPUnit_Framework_TestCase {
 
     // Add a new role for this test.
     $roles = new Roles($galaxy);
-    $role_name = uniqid('galaxy-php-test-group-role1-');
-    $role = $roles->create($role_name, 'Group Role Test Role #1');
+    $inputs = array();
+    $inputs['name'] = uniqid('galaxy-php-test-group-role1-');
+    $inputs['description'] =  'Group Role Test Role #1';
+    $role = $roles->create($inputs);
     $this->assertTrue(is_array($role), $roles->getErrorMessage());
     $role_ids = array($role['id']);
 
@@ -68,12 +65,12 @@ class GroupRolesTest extends PHPUnit_Framework_TestCase {
     $group_roles = new GroupRoles($galaxy);
 
     // Case 1:  Are we getting an array.
-    $roles_list = $group_roles->index($group['id']);
+    $roles_list = $group_roles->index(array('group_id' => $group['id']));
     $this->assertTrue(is_array($roles_list), $group_roles->getErrorMessage());
 
     // Case 2:  The index() function failes. We should get false.
-    $roles_list2 = $group_roles->index('not-a-real-group-id');
-    $this->assertTrue($roles_list2 === FALSE);
+    $roles_list2 = $group_roles->index(array('group_id' => 'not-a-real-group-id'));
+    $this->assertFalse($roles_list2, $group_roles->getErrorMessage());
 
     return $roles_list;
   }

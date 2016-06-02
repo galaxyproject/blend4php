@@ -10,10 +10,13 @@
       <file>UsersTest.php</file>
       <file>RolesTest.php</file>
       <file>LibrariesTest.php</file>
+      <file>LibraryContentsTest.php</file>
       <file>GroupsTest.php</file>
       <file>GroupUsersTest.php</file>
       <file>GroupRolesTest.php</file>
       <file>JobsTest.php</file>
+      <file>ToolShedRepositoriesTest.php</file>
+      <file>WorkflowsTest.php</file>
     </testsuite>
   </testsuites>
 </phpunit>

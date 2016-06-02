@@ -11,14 +11,6 @@
  *
  */
 
-/**
- * @defgroup group_users_class GroupUsers Class
- * @{
- *   The GroupUsers Class interacts with Galaxy to manage users of groups.
- *   The functions in this class correspond to the Galaxy API functions and
- *   are named similarly to their Python counterpart.
- * @}
- */
 include_once "HTTPRequest.inc";
 
 class GroupUsers extends HTTPRequest {
@@ -33,7 +25,7 @@ class GroupUsers extends HTTPRequest {
    * @return
    *   An instance of a Groups Users object.
    *
-   * 
+   *
    */
    public function __construct($galaxy) {
      $this->galaxy = $galaxy;
@@ -52,10 +44,10 @@ class GroupUsers extends HTTPRequest {
     * @return
     *   An array of all users of a given group.
     *
-    * 
+    *
     */
   public function index($group_id) {
-    $URL = $this->galaxy->getURL() .'/api/groups/' .$group_id .'/users/?key=' .$this->galaxy->getAPIKey();
+    $URL = $this->galaxy->getURL() . '/api/groups/' . $group_id .'/users/?key=' . $this->galaxy->getAPIKey();
     $response = $this->httpGET($URL);
     return $this->expectArray($response);
   }
@@ -75,7 +67,7 @@ class GroupUsers extends HTTPRequest {
    * @return
    *   An array containing details about the user of a given group.
    *
-   * 
+   *
    */
   public function show($group_id, $user_id) {
     $URL = $this->galaxy->getURL() .'/api/groups/' .$group_id .'/users/' .$user_id .'/?key=' .$this->galaxy->getAPIKey();
@@ -98,7 +90,7 @@ class GroupUsers extends HTTPRequest {
    * @return
    *   An array of the user that has added to the group
    *
-   * 
+   *
    */
   public function update($group_id, $user_id) {
     $URL = $this->galaxy->getURL() . '/api/groups/' . $group_id .'/users/' . $user_id .'/?key=' . $this->galaxy->getAPIKey();
@@ -121,7 +113,7 @@ class GroupUsers extends HTTPRequest {
    * @return
    *   An array of the user that has been removed from the group.
    *
-   * 
+   *
    */
   public function delete($group_id, $user_id) {
     $URL = $this->galaxy->getURL() . '/api/groups/' . $group_id . '/users/' . $user_id . '/?key=' . $this->galaxy->getAPIKey();

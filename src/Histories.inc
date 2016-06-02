@@ -11,14 +11,6 @@
  *
  */
 
-/**
- * @defgroup histories_class Histories class
- * @{
- *   The Histories Class interacts with Galaxy to manage history data.
- *   The functions in this class correspond to the Galaxy API functions and
- *   are named similarly to their Python counterpart.
- * @}
- */
 require_once 'HTTPRequest.inc';
 
 class Histories extends HTTPRequest {
@@ -34,7 +26,7 @@ class Histories extends HTTPRequest {
    * @return
    *   An instance of a Histories object.
    *
-   * 
+   *
    */
    public function __construct($galaxy) {
      $this->galaxy = $galaxy;
@@ -52,16 +44,16 @@ class Histories extends HTTPRequest {
    *
    * @param $params
    *   A key value (associative array) where the keys can be the following:
-   * 
+   *
    *   - name: The new history's name
-   *   - history_id: The id of the history to copy (will copy contents to new 
-   *       history). To obtain history_id's, please use this classes' index() 
+   *   - history_id: The id of the history to copy (will copy contents to new
+   *       history). To obtain history_id's, please use this classes' index()
    *       function.
    *   - archive_source: The url that will generate the archive to import.
    *   - archive_type: 'url' (default).
    *   - bool all_datasets: Copy deleted hdas/hdcas 'True' or 'False',
    *     defaults to True.
-   *   
+   *
    * @return
    *    An array containing information about the new History component.
    */
@@ -70,20 +62,20 @@ class Histories extends HTTPRequest {
      $URL = $this->galaxy->getURL() . '/api/histories/?key=' . $this->galaxy->getAPIKey();
 
      if(array_key_exists('name', $params)){
-       
+
        $response = $this->httpPOST($URL, $params);
        return $this->expectArray($response);
-       
+
 //        $inputs = array(
 //          'name' => $params['name']
 //        );
-       
+
 //        (array_key_exists('archive_source', $params)) ? $input['tool_version'] = $params['archive_source'] : 0;
 //        (array_key_exists('archive_type', $params)) ? $input['archive_type'] = $params['archive_type'] : 0;
 //        (array_key_exists('history_id', $params)) ? $input['history_id'] = $params['history_id'] : 0;
 //        (array_key_exists('all_datasets', $params)) ? $input['all_datasets'] = $params['all_datasets'] : $input['all_datasets'] = TRUE;
      }
-     
+
      else{
        $this->setError("API", "A 'name' for the history is required in order to invoke this call");
        return FALSE;
@@ -98,18 +90,18 @@ class Histories extends HTTPRequest {
    *  This function combines the list of active and deleted histories and
    *  therefore, corresponds to both of the Galaxy API methods and paths:
    *
-   *  @param $params 
+   *  @param $params
    *    An associative array of parameters that can contain the following elements
-   *    
+   *
    *      - deleted: If set true this will show deleted histories only.
    *
    * @return
    *    An array containing list of histories in galaxy instance.
    *
-   * 
+   *
    */
    public function index($params){
-     
+
      // Get the deleted histories.
      if(array_key_exists('deleted', $params) and $params['deleted'] == TRUE){
        $URL = $this->galaxy->getURL() . '/api/histories/deleted/?key=' . $this->galaxy->getAPIKey();
@@ -120,7 +112,7 @@ class Histories extends HTTPRequest {
      else{
        $URL = $this->galaxy->getURL() . '/api/histories/?key=' . $this->galaxy->getAPIKey();
        $response = $this->httpGET($URL);
-        
+
      }
 
      return $response;
@@ -134,7 +126,7 @@ class Histories extends HTTPRequest {
    *
    * @param $params
    *   A key value (associative array) where the keys can be the following:
-   *   
+   *
    *   - history_id: The id of the history to retreive.
    *       To obtain history_id's, please use this classes' index() function.
    *
@@ -144,10 +136,10 @@ class Histories extends HTTPRequest {
    */
    public function show($params){
      if(array_key_exists('history_id', $params)){
-     
+
        $URL = $this->galaxy->getURL() . '/api/histories/' . $params['history_id'] . '/?key=' . $this->galaxy->getAPIKey();
      }
-     
+
      $response = $this->httpGET($URL);
      return $this->expectArray($response);
    }
@@ -163,11 +155,11 @@ class Histories extends HTTPRequest {
    *
    * @param $params
    *   A key value (associative array) where the keys can be the following:
-   *   
+   *
    *   - history_id: The id of the history to download
    *       To obtain history_id's, use this classes' index() function.
    *   - file_path: The full path (including the file name) on the file system
-   *       where the file should be written. Ideally, the file name should 
+   *       where the file should be written. Ideally, the file name should
    *       have a .tar.gz extension as the downloaded file will be
    *       gzip compressed.
    *
@@ -209,7 +201,7 @@ class Histories extends HTTPRequest {
    * @return
    *   A URL of where to download the export.
    *
-   * 
+   *
    */
    public function archiveExport($params){
 
@@ -234,14 +226,14 @@ class Histories extends HTTPRequest {
    *
    * @param $params
    *   A key value (associative array) where the keys can be the following:
-   *   
-   *  - history_id: The encoded id of the history to delete. To obtain 
+   *
+   *  - history_id: The encoded id of the history to delete. To obtain
    *      history_id's, please use this classes' index() function.
    *
    * @return
    *   An array of deleted histories.
    *
-   * 
+   *
    */
    public function deleteHistory($params){
      if(array_key_exists('history_id', $params)){
@@ -271,7 +263,7 @@ class Histories extends HTTPRequest {
    * @return
    *   An array of undeleted histories.
    *
-   * 
+   *
    */
    public function undelete($params){
      if(array_key_exists('history_id', $params)){
@@ -300,7 +292,7 @@ class Histories extends HTTPRequest {
    * @return
    *   An array of citations.
    *
-   * 
+   *
    */
    public function citations($params){
      if(array_key_exists('history_id', $params)){
@@ -312,7 +304,7 @@ class Histories extends HTTPRequest {
        $this->setError("API", "A 'history_id' is required in order to see the citations of the history");
        return FALSE;
      }
-     
+
    }
 
   /**
@@ -324,7 +316,7 @@ class Histories extends HTTPRequest {
    * @return
    *   An array of published histories.
    *
-   * 
+   *
    */
    public function published(){
      $URL = $this->galaxy->getURL() . '/api/histories/published/?key=' . $this->galaxy->getAPIKey();
@@ -341,7 +333,7 @@ class Histories extends HTTPRequest {
   * @return
   *   An array histories shared with the current user.
   *
-  * 
+  *
   */
   public function sharedWithMe(){
     $URL = $this->galaxy->getURL() . '/api/histories/shared_with_me/?key=' . $this->galaxy->getAPIKey();

@@ -9,11 +9,6 @@ require_once 'RequestError.inc';
  * The HTTPRequest Class contains methods for using CURL rest options.
  * More specifically, UPDATE, POST, DELETE, PUT and GET.
  *
- * @defgroup http_request_class HTTPRequest Class
- * @{
- * The HTTPRequest Class contains methods for using CURL rest options.
- * More specifically, UPDATE, POST, DELETE, PUT and GET.
- * @}
  */
 
 class HTTPRequest  {
@@ -30,7 +25,7 @@ class HTTPRequest  {
     * @return
     *   An instance of a RestManager class.
     *
-    * 
+    *
     */
    function __construct() {
      $this->error = new RequestError();
@@ -45,7 +40,7 @@ class HTTPRequest  {
    * @return
    *   TRUE if error was found, FALSE otherwise.
    *
-   * 
+   *
    */
   private function getCURLResponse($ch) {
 
@@ -154,7 +149,7 @@ class HTTPRequest  {
    * @return
    *   curl server response.
    *
-   * 
+   *
    */
   protected function httpGET($URL) {
     $ch = curl_init();
@@ -178,12 +173,11 @@ class HTTPRequest  {
    * @return
    *   curl server response.
    *
-   * 
+   *
    */
   protected function httpPOST($URL, $post_fields = NULL) {
 
     $ch = curl_init();
-    $curl_log = fopen('curl.log', 'w');
     curl_setopt($ch, CURLOPT_URL, $URL);
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_SAFE_UPLOAD, 1);
@@ -210,7 +204,7 @@ class HTTPRequest  {
    * @return
    *   curl server response.
    *
-   * 
+   *
    */
   protected function httpPUT($URL, $input = NULL) {
     $ch = curl_init();
@@ -225,7 +219,7 @@ class HTTPRequest  {
 
     return $response;
   }
-  
+
   /**
    * Perform a PATCH request
    *
@@ -249,7 +243,7 @@ class HTTPRequest  {
     }
     $response = $this->getCURLResponse($ch);
     curl_close($ch);
-  
+
     return $response;
   }
 
@@ -284,8 +278,8 @@ class HTTPRequest  {
     return TRUE;
   }
 
-  
-  
+
+
   /**
    * Upload file request
    *
@@ -310,7 +304,7 @@ class HTTPRequest  {
     if ($data !== NULL) {
       curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
     }
-    
+
     $i = 0;
     foreach ($files as $cfile){
       $data[array_keys($files)[$i]] = curl_file_create($cfile);
@@ -318,17 +312,17 @@ class HTTPRequest  {
     }
 
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-    
+
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, True);
-    
+
     $response = $this->getCURLResponse($ch);
-    
+
     return $response;
   }
-  
-  
-  
-  
+
+
+
+
   /**
    * Universal DELETE request
    *
@@ -340,7 +334,7 @@ class HTTPRequest  {
    * @return
    *   curl server response
    *
-   * 
+   *
    */
   protected function httpDELETE($URL, $input = NULL) {
     $ch = curl_init();
@@ -385,7 +379,7 @@ class HTTPRequest  {
    * @return
    *   string error message from the server or CURL.
    *
-   * 
+   *
    */
   public function getError() {
     return $this->error->getError();

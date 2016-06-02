@@ -11,14 +11,6 @@
  *
  */
 
-/**
- * @defgroup history_contents_class HistoryContents class
- * @{
- *   The Histories Class interacts with Galaxy to manage history data.
- *   The functions in this class correspond to the Galaxy API functions and
- *   are named similarly to their Python counterpart.
- * @}
- */
 require_once 'HTTPRequest.inc';
 
 
@@ -34,7 +26,7 @@ class HistoryContents extends HTTPRequest {
    * @return
    *   An instance of a HistoryContents object.
    *
-   * 
+   *
    */
   public function __construct($galaxy) {
     parent::__construct();
@@ -52,9 +44,9 @@ class HistoryContents extends HTTPRequest {
    * @param $params
    *   A dictionary (associative array) containing the input parameters that
    *   are required to run this function.
-   *   
-   *   - history_id: The id of the history to add contents to. To obtain 
-   *       history id's, please refer to the index() function of the history 
+   *
+   *   - history_id: The id of the history to add contents to. To obtain
+   *       history id's, please refer to the index() function of the history
    *       class.
    *   - source: Can be any one of the following source types:
    *     (i)   library: Copy from library, would contain the id of the library dataset
@@ -69,15 +61,15 @@ class HistoryContents extends HTTPRequest {
    *                for this new collection).
    *   - type(Optional): Type of history content, defaults to 'dataset', alternative is
    *       'dataset_collection'
-   *   
-   *   - content: The id of the content associated to the selected source to 
-   *       add to the history. To obtian content (id's) please refer to this 
+   *
+   *   - content: The id of the content associated to the selected source to
+   *       add to the history. To obtian content (id's) please refer to this
    *       class's index() function.
    *
    * @return
    *   An array containing information about the new History content component.
    *
-   * 
+   *
    */
   public function create($params) {
     if(array_key_exists('source', $params)){
@@ -105,7 +97,7 @@ class HistoryContents extends HTTPRequest {
    *   A dictionary (associative array) containing the input parameters that
    *   are required to run this function.
    *
-   *   - id: The encoded history content id of the HDA to return please 
+   *   - id: The encoded history content id of the HDA to return please
    *       use the index() function for a list of content_id's.
    *   - history_id: The id of the history to update. To find, please refer to
    *     'Histories' class index() funciton.
@@ -113,7 +105,7 @@ class HistoryContents extends HTTPRequest {
    * @return
    *   An array containing detailed HDA (history dataset association) information.
    *
-   * 
+   *
    */
   public function show($params) {
     if(array_key_exists('history_id', $params)){
@@ -147,13 +139,13 @@ class HistoryContents extends HTTPRequest {
    *       history, this can be a dataset. To find dataset id's go to:
    *       ./api/histories/<history_id>/content, only 'ok' state datasets work
    *   - annotation: The new annotation for the hda.
-   *   
+   *
    *    **This was in the api docs but it does not seem to work.
    *    TODO: Figure out what this payload does during the update.
    *   - payload: An associative array that contains hda fields, to update
    *       the specified hda within the history. Can contain:
    *       (i)    name: The new dataset name.
-   *       (ii)   history_id: An id to a history whose contents are to be 
+   *       (ii)   history_id: An id to a history whose contents are to be
    *                manipulated.
    *       (iii)  datset_id: A dataset to add to the provided history (giving
    *                content to the specified history.
@@ -165,16 +157,16 @@ class HistoryContents extends HTTPRequest {
    *   An array containing detailed HDA (history dataset association)
    *   information.
    *
-   * 
+   *
    */
   public function update($params) {
     if (array_key_exists('history_id', $params)){
       if(array_key_exists('id', $params)){
         $URL = $this->galaxy->getURL() . '/api/histories/' . $params['history_id'] . '/contents/' . $params['id'] . '/?key=' . $this->galaxy->getAPIKey();
-        
+
         unset($params['history_id']);
         unset($params['id']);
-        
+
         $response = $this->httpPUT($URL, $params);
         return $this->expectArray($response);
       }
@@ -210,7 +202,7 @@ class HistoryContents extends HTTPRequest {
    *   An array containing detailed HDA (history dataset association)
    *   information.
    *
-   * 
+   *
    */
   public function delete($params) {
     if (array_key_exists('history_id', $params)){
@@ -219,7 +211,7 @@ class HistoryContents extends HTTPRequest {
 
         if(array_key_exists('purge', $params) and $params['purge'] == TRUE)
           $URL .= '&purge=true';
-    
+
         $response =  $this->httpDELETE($URL);
         return $this->expectArray($response);
       }
@@ -242,14 +234,14 @@ class HistoryContents extends HTTPRequest {
    *
    *   - history_id: The id of the history in order to view the contents.
    *   - ids: A comma separated string of encoded history content ids to narrow
-   *       The return JSON. If this does not exits then all contents of the 
+   *       The return JSON. If this does not exits then all contents of the
    *       history will be returned.
    *
    * @return
    *   An array containing a summary or detailed HDA(history dataset
    *   association) of all the history contents.
    *
-   * 
+   *
    */
   public function index($params) {
     if(array_key_exists('history_id', $params)){
