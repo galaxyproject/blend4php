@@ -2,7 +2,7 @@
 /**
  * @file
  *
- * The Users class.
+ * The GalaxyUsers class.
  *
  * The Users class interacts with Galaxy to manage contents of a Galaxy
  * User. The functions in this class correspond to the Galaxy API functions
@@ -18,9 +18,7 @@
  * @}
  */
 
-require_once 'HTTPRequest.inc';
-
-class Users extends HTTPRequest {
+class GalaxyUsers {
 
   private $galaxy;
 
@@ -33,7 +31,7 @@ class Users extends HTTPRequest {
    * @return
    *   An instance of a Users object.
    *
-   * 
+   *
    */
    function __construct($galaxy) {
      $this->galaxy = $galaxy;
@@ -61,7 +59,7 @@ class Users extends HTTPRequest {
     *   An array containing information on the the users the  API function
     *   retreived
     *
-    * 
+    *
     */
    function index($deleted = false, $email = NULL, $username = NULL, $any = false) {
      $endURL = "&key=" . $this->galaxy->getAPIKey();
@@ -80,7 +78,7 @@ class Users extends HTTPRequest {
      }
      $URL .= $endURL;
      // $URL2 = $this->galaxy->getURL() . '/api/users/deleted'. $user_id ."/api_key/?key=" . $this->galaxy->getAPIKey();
-     $response = $this->httpGET($URL);
+     $response = $this->galaxy->httpGET($URL);
      return $this->expectArray($response);
    }
 
@@ -97,11 +95,11 @@ class Users extends HTTPRequest {
    * @return
    *   An array containing the details of the user.
    *
-   * 
+   *
    */
   function show($user_id) {
     $URL = $this->galaxy->getURL() .'/api/users/' .$user_id .'/?key=' .$this->galaxy->getAPIKey();
-    $response = $this->httpGET($URL);
+    $response = $this->galaxy->httpGET($URL);
     return $this->expectArray($response);
   }
 
@@ -118,11 +116,11 @@ class Users extends HTTPRequest {
    * @return
    *   The API key of the user.
    *
-   * 
+   *
    */
   function apiKey($user_id) {
     $URL = $this->galaxy->getURL() . '/api/users/' . $user_id . '/api_key/?key=' . $this->galaxy->getAPIKey();
-    return $this->httpPOST($URL);
+    return $this->galaxy->httpPOST($URL);
   }
 
   /**
@@ -145,7 +143,7 @@ class Users extends HTTPRequest {
    *   An array containing details of the new user. On failure FALSE is
    *   returned.
    *
-   * 
+   *
    */
   function create($username, $user_email, $password) {
     $URL = $this->galaxy->getURL() . '/api/users/' . '?key=' . $this->galaxy->getAPIKey();
@@ -156,7 +154,7 @@ class Users extends HTTPRequest {
       'password' => $password
     );
 
-    $response = $this->httpPOST($URL, $input);
+    $response = $this->galaxy->httpPOST($URL, $input);
     return $this->expectArray($response);
   }
 
@@ -187,7 +185,7 @@ class Users extends HTTPRequest {
    * @return
    *   An array containing details of the deleted user, or FALSE on failure.
    *
-   * 
+   *
    */
   function delete($user_id, $purge = FALSE) {
 
@@ -195,7 +193,7 @@ class Users extends HTTPRequest {
     if ($purge) {
       $URL .= '&purge=True';
     }
-    $response =  $this->httpDELETE($URL);
+    $response =  $this->galaxy->httpDELETE($URL);
     return $this->expectArray($response);
   }
 

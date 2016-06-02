@@ -18,10 +18,8 @@
  * @}
  */
 
-require_once 'HTTPRequest.inc';
 
-
-class ToolShedRepositories extends HTTPRequest{
+class GalaxyToolShedRepositories {
    private $galaxy;
 
   /**
@@ -33,7 +31,7 @@ class ToolShedRepositories extends HTTPRequest{
    * @return
    *   An instance of a Tool shed repositories object.
    *
-   * 
+   *
    */
    function __construct($galaxy) {
      $this->galaxy = $galaxy;
@@ -56,12 +54,12 @@ class ToolShedRepositories extends HTTPRequest{
   *   An array containing information about a tool shed repositorie's
   *   exported workflow.
   *
-  * 
+  *
   */
     public function exportedWorkflows ($tool_shed_repo_id){
      $api_key = $this->galaxy->getAPIKey();
      $URL = $this->galaxy->getURL() . '/api/tool_shed_repositories/' . $tool_shed_repo_id . '/exported_workflows'  .  '?key=' . $api_key;
-     $response = $this->httpGET($URL);
+     $response = $this->galaxy->httpGET($URL);
      return $this->expectArray($response);
    }
 
@@ -88,7 +86,7 @@ class ToolShedRepositories extends HTTPRequest{
   *   through, behind the colon is a supposed unique hash string, though
   *   collisions happen)
   *
-  * 
+  *
   */
    public function getLatestInstallable ($tool_shed_url, $name_of_repo, $owner_of_repo){
      $URL = $this->galaxy->getURL() . '/api/tool_shed_repositories/' . 'get_latest_installable_revision' . '?key=' . $this->galaxy->getAPIKey();
@@ -99,7 +97,7 @@ class ToolShedRepositories extends HTTPRequest{
        'owner' => $owner_of_repo,
      );
 
-     $response = $this->httpPOST($URL, $data);
+     $response = $this->galaxy->httpPOST($URL, $data);
 
      // This will NOT be an array, just a simple hash string
      return $response;
@@ -120,7 +118,7 @@ class ToolShedRepositories extends HTTPRequest{
   * @return
   *   An array containing informaiton of the imported workflow.
   *
-  * 
+  *
   */
    public function importWorkflow ($tool_shed_repo_id, $index = 0){
      $URL = $this->galaxy->getURL() . '/api/tool_shed_repositories/' . $tool_shed_repo_id . '/import_workflow?key=' . $this->galaxy->getAPIKey();
@@ -130,7 +128,7 @@ class ToolShedRepositories extends HTTPRequest{
        'index' => $index,
      );
 
-   $result = $this->httpPOST($URL, $data);
+   $result = $this->galaxy->httpPOST($URL, $data);
 
    return $this->expectArray($result);
   }
@@ -144,12 +142,12 @@ class ToolShedRepositories extends HTTPRequest{
   * @return
   *   Json containing metadata on remote toolsheds galaxy instance
   *
-  * 
+  *
   */
   public function index (){
     $URL = $this->galaxy->getURL() . '/api/tool_shed_repositories' . '?key=' . $this->galaxy->getAPIKey();
 
-    $result = $this->httpGET($URL);
+    $result = $this->galaxy->httpGET($URL);
 
     return $this->expectArray($result);
   }
@@ -195,7 +193,7 @@ class ToolShedRepositories extends HTTPRequest{
    *   parameter is not set, a shed-related tool ppanel configuration file will
    *   be selected automatically
    *
-   * 
+   *
    */
   public function install_repository_revision ($tool_shed_url, $name_of_repo, $name_owner_of_repo, $changeset_revision,
       $new_tool_panel_section_label = NULL, $tool_panel_section_id = NULL, $install_repo_dependencies = FALSE, $shed_tool_conf = NULL){
@@ -221,7 +219,7 @@ class ToolShedRepositories extends HTTPRequest{
    *   The changeset_revision of the Repository Meta data object associated
    *   with the Repository
    *
-   * 
+   *
    */
   public function repair_repository_revision ($admin_api_key, $tool_shed_url, $name_of_repo, $owner_of_repo, $changeset_revision){
 
@@ -236,7 +234,7 @@ class ToolShedRepositories extends HTTPRequest{
   * @param $admin_api_key
   *   The current Galaxy damin user's API key
   *
-  * 
+  *
   */
    public function reset_metadata_on_installed_repositories ($admin_api_key){
 

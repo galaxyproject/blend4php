@@ -31,7 +31,7 @@ class JobsTest extends PHPUnit_Framework_TestCase {
    */
   public function testIndex($galaxy){
 
-    $jobs = new Jobs($galaxy);
+    $jobs = new GalaxyJobs($galaxy);
 
     // There will be 7 cases to cover the testing,
     // One test for each of the parameters, one for all the input params
@@ -40,15 +40,15 @@ class JobsTest extends PHPUnit_Framework_TestCase {
     // Case One: All parameters are null
     $inputs = array();
     $default = $jobs->index($inputs);
-    $this->assertTrue(is_array($default), $jobs->getErrorMessage());
+    $this->assertTrue(is_array($default), $galaxy->getErrorMessage());
 
     // Case Two: Looking for jobs that are in a queued state (the array may
     // be empty if you do not have any queued jobs)
     $inputs = array();
     $inputs['state'] = 'queued';
-    
+
     $index = $jobs->index($inputs);
-    $this->assertTrue(is_array($index), $jobs->getErrorMessage());
+    $this->assertTrue(is_array($index), $galaxy->getErrorMessage());
 
     // Case Three: Assuming that the tools test suite was ran before this suite
     // we will have at least 1 job id to search for when we run the index
@@ -56,25 +56,25 @@ class JobsTest extends PHPUnit_Framework_TestCase {
     array_shift($inputs);
     if(!empty($default))
       $inputs['tool_ids'] =  $default[0]['tool_id'];
-    
+
     $index = $jobs->index($inputs);
-    $this->assertTrue(is_array($index), $jobs->getErrorMessage());
+    $this->assertTrue(is_array($index), $galaxy->getErrorMessage());
 
     // Case Four: Limit the search of jobs updated AFTER the specified date
     // This date is arbitrarily chosen
     array_shift($inputs);
     $inputs['date_range_min'] = '2015-12-09';
-    
+
     $index = $jobs->index($inputs);
-    $this->assertTrue(is_array($index), $jobs->getErrorMessage());
+    $this->assertTrue(is_array($index), $galaxy->getErrorMessage());
 
     // Case Five: Limit the search of jobs updated BEFORE this date
     // This date is also arbitrarily chosen
     array_shift($inputs);
     $inputs['date_range_max'] = '2016-03-09';
-    
+
     $index = $jobs->index($inputs);
-    $this->assertTrue(is_array($index), $jobs->getErrorMessage());
+    $this->assertTrue(is_array($index), $galaxy->getErrorMessage());
 
     // Case Six: Similar to Case Three with the difference of the history
     // id instead of the tool_id
@@ -83,9 +83,9 @@ class JobsTest extends PHPUnit_Framework_TestCase {
     array_shift($inputs);
     if(!empty($default))
     $inputs['history_id'] = $default[0]['id'];
-    
+
     $index = $jobs->index($inputs);
-    $this->assertTrue(is_array($index), $jobs->getErrorMessage());
+    $this->assertTrue(is_array($index), $galaxy->getErrorMessage());
 
     // Case Seven: Enable all of the input params, this will elicit a empty
     // array (at least it should)
@@ -94,9 +94,9 @@ class JobsTest extends PHPUnit_Framework_TestCase {
       $inputs['tool_ids'] = $default[0]['tool_id'];
     $inputs['date_range_min'] = '2015-12-09';
     $inputs['date_range_max'] = '2016-03-09';
-    
+
     $index = $jobs->index($inputs );
-    $this->assertTrue(is_array($index), $jobs->getErrorMessage());
+    $this->assertTrue(is_array($index), $galaxy->getErrorMessage());
 
     return $default;
 
@@ -112,15 +112,15 @@ class JobsTest extends PHPUnit_Framework_TestCase {
    * The jobs function will rely on the tools working
    */
   public function testInputs($default, $galaxy){
-    $jobs = new Jobs($galaxy);
+    $jobs = new GalaxyJobs($galaxy);
 
     $params = array();
     if(!empty($default))
       $params['job_id'] = $default[0]['id'];
-    
+
     $inputs = $jobs->inputs($params);
 
-    $this->assertTrue(is_array($inputs), $jobs->getErrorMessage());
+    $this->assertTrue(is_array($inputs), $galaxy->getErrorMessage());
   }
 
   /**
@@ -132,15 +132,15 @@ class JobsTest extends PHPUnit_Framework_TestCase {
    * The jobs function will rely on the tools working
    */
   public function testOutputs($default, $galaxy){
-    $jobs = new Jobs($galaxy);
+    $jobs = new GalaxyJobs($galaxy);
 
     $params = array();
     if(!empty($default))
       $params['job_id'] = $default[0]['id'];
-    
+
     $outputs = $jobs->outputs($params);
 
-    $this->assertTrue(is_array($outputs), $jobs->getErrorMessage());
+    $this->assertTrue(is_array($outputs), $galaxy->getErrorMessage());
   }
 
   /**
@@ -152,15 +152,15 @@ class JobsTest extends PHPUnit_Framework_TestCase {
    * The jobs function will rely on the tools working
    */
   public function testShow($default, $galaxy){
-    $jobs = new Jobs($galaxy);
-    
+    $jobs = new GalaxyJobs($galaxy);
+
     $params = array();
     if(!empty($default))
       $params['job_id'] = $default[0]['id'];
 
     $show = $jobs->show($params);
 
-    $this->assertTrue(is_array($show), $jobs->getErrorMessage());
+    $this->assertTrue(is_array($show), $galaxy->getErrorMessage());
   }
 
   /**
@@ -172,17 +172,14 @@ class JobsTest extends PHPUnit_Framework_TestCase {
    * @depends testInitGalaxy
    */
   public function testBuildForReRun($default, $galaxy){
-    $jobs = new Jobs($galaxy);
+    $jobs = new GalaxyJobs($galaxy);
 
     // Case 1: Successfully build for rerun given a correct job id
     $inputs = array();
     if(!empty($default))
       $inputs['job_id'] ='f2db41e1fa331b3e';
-    
+
     $rerun_job = $jobs->buildForRerun($inputs);
-    
-    print_r($jobs);
-    
     $this->assertFalse($rerun_job);
   }
 
@@ -197,7 +194,7 @@ class JobsTest extends PHPUnit_Framework_TestCase {
    */
   public function testSearch($default, $galaxy){
 
-    $jobs = new Jobs($galaxy);
+    $jobs = new GalaxyJobs($galaxy);
 
     $job = $jobs->search(array(
       'tool_id' => 'upload1',
@@ -205,8 +202,7 @@ class JobsTest extends PHPUnit_Framework_TestCase {
 //       'inputs' => array('id' => '03501d7626bd192f', 'dataset_id' => '03501d7626bd192f'),
 //       'status' => 'ok',
     ));
-    print_r($job);
-    //$this->assertTrue(is_array($job), $jobs->getErrorMessage());
+    //$this->assertTrue(is_array($job), $galaxy->getErrorMessage());
     //$this->assertTrue(!empty($job), "Job search returned no results.");
 
     // This function, for now, should always return false.

@@ -37,11 +37,11 @@ class RolesTest extends PHPUnit_Framework_TestCase {
    */
   function testIndex($galaxy) {
 
-    $roles = new Roles($galaxy);
+    $roles = new GalaxyRoles($galaxy);
 
     // Case 1:  Are we getting an array?
     $roles_list = $roles->index();
-    $this->assertTrue(is_array($roles_list), $roles->getErrorMessage());
+    $this->assertTrue(is_array($roles_list), $galaxy->getErrorMessage());
 
     return $roles_list;
   }
@@ -55,7 +55,7 @@ class RolesTest extends PHPUnit_Framework_TestCase {
    */
   public function testShow($galaxy, $roles_list) {
 
-    $roles = new Roles($galaxy);
+    $roles = new GalaxyRoles($galaxy);
 
     // Use the history ID of the first history in the list to test the
     // show() function.
@@ -67,7 +67,7 @@ class RolesTest extends PHPUnit_Framework_TestCase {
     // test. We don't need to do unit testing for galaxy. We assume the
     // array is correct.
     $role = $roles->show($inputs);
-    $this->assertTrue(is_array($role), $roles->getErrorMessage());
+    $this->assertTrue(is_array($role), $galaxy->getErrorMessage());
   }
 
   /**
@@ -78,8 +78,8 @@ class RolesTest extends PHPUnit_Framework_TestCase {
    */
   public function testCreate($galaxy) {
 
-    $roles = new Roles($galaxy);
-    $users = new Users($galaxy);
+    $roles = new GalaxyRoles($galaxy);
+    $users = new GalaxyUsers($galaxy);
 
     // First get the list of users that we'll add to our test role.
     $user_list = $users->index();
@@ -93,9 +93,9 @@ class RolesTest extends PHPUnit_Framework_TestCase {
       "name" => uniqid('galaxy-php-test-create1-'),
       "description" => 'Test role #1'
     );
-    
+
     $role = $roles->create($inputOne);
-    $this->assertTrue(is_array($role), $roles->getErrorMessage());
+    $this->assertTrue(is_array($role), $galaxy->getErrorMessage());
 
     // Case 2: Try recreating the role with the same name. We should
     // recieve a FALSE return value.
@@ -103,14 +103,14 @@ class RolesTest extends PHPUnit_Framework_TestCase {
     $this->assertFalse($role, 'If the role already exists the create() function should return FALSE: ' . print_r($role, TRUE));
 
     // Case 3: Create another role and add all the users to it.
-    
+
     $inputTwo = array(
       "name" => uniqid('galaxy-php-test-create2-'),
       "description" => 'Test role #2',
       "user_ids" => $user_ids
     );
     $role = $roles->create($inputTwo);
-    $this->assertTrue(is_array($role), $roles->getErrorMessage());
+    $this->assertTrue(is_array($role), $galaxy->getErrorMessage());
     // TODO: need a way to determine if all of the users were added to the role?
 
     // Case 4: Create another role and add a set of groups to it.  But, both
@@ -119,18 +119,18 @@ class RolesTest extends PHPUnit_Framework_TestCase {
     // unit testing for each here, because we can't add groups to a role
     // if we don't have any groups in the database and we can't add groups
     // if we don't first test they can be added.
-    $groups = new Groups($galaxy);
+    $groups = new GalaxyGroups($galaxy);
     $group_ids = array();
 
     // Create two groups without any users then use their IDs for a new role
     $group_name = uniqid('galaxy-php-test-role-group1-');
     $group = $groups->create($group_name);
-    $this->assertTrue(is_array($group), $groups->getErrorMessage());
+    $this->assertTrue(is_array($group), $galaxy->getErrorMessage());
     $group_ids[] = $group['id'];
 
     $group_name = uniqid('galaxy-php-test-role-group2-');
     $group = $groups->create($group_name);
-    $this->assertTrue(is_array($group), $groups->getErrorMessage());
+    $this->assertTrue(is_array($group), $galaxy->getErrorMessage());
     $group_ids[] = $group['id'];
 
     $inputThree = array(
@@ -139,7 +139,7 @@ class RolesTest extends PHPUnit_Framework_TestCase {
       "group_ids" => $group_ids
     );
     $role = $roles->create($inputThree);
-    $this->assertTrue(is_array($role), $roles->getErrorMessage());
+    $this->assertTrue(is_array($role), $galaxy->getErrorMessage());
     // TODO: need a way to determine if the groups were added to the role?
 
     // Case 5: Create another user and add both users and groups.
@@ -150,7 +150,7 @@ class RolesTest extends PHPUnit_Framework_TestCase {
       "group_ids" => $group_ids
     );
     $role = $roles->create($inputFour);
-    $this->assertTrue(is_array($role), $roles->getErrorMessage());
+    $this->assertTrue(is_array($role), $galaxy->getErrorMessage());
     // TODO: need a way to determine if the users and groups were added to the role?
 
   }

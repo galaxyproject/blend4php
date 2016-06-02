@@ -23,7 +23,7 @@
 
 require_once 'HTTPRequest.inc';
 
-class GalaxyInstance extends HTTPRequest {
+class GalaxyInstance extends GalaxyHTTPRequest {
   // The hostname where the Galaxy server is located.
   protected $host;
   // The port on which the remote Galaxy instance is runinng.
@@ -32,6 +32,9 @@ class GalaxyInstance extends HTTPRequest {
   protected $use_https;
   // The API Key for the user connection.
   protected $api_key;
+
+  // The private session cookie for this Galaxy instance connection
+  private $session_cookie;
 
   /**
    * The GalaxyInstance constructor.
@@ -47,14 +50,24 @@ class GalaxyInstance extends HTTPRequest {
    * @return
    *   An instance of a GalaxyInstance object.
    *
-   * 
+   *
    */
   function __construct($hostname, $port, $use_https = FALSE) {
+    parent::__construct();
+
     $this->host = $hostname;
     $this->port = $port;
     $this->use_https  = $use_https;
+    $this->api_key = '';
 
-    parent::__construct();
+    // Test the connection to get the session cookie.
+    $version = $this->getVersion();
+
+    $this->httpGET($this->getURL());
+    $cookies = $this->getCookies();
+    if (array_key_exists('galaxysession', $cookies)) {
+      $this->session_cookie = $cookies['galaxysession'];
+    }
   }
 
   /**
@@ -63,7 +76,7 @@ class GalaxyInstance extends HTTPRequest {
    * @return
    *
    *
-   * 
+   *
    */
   public function getVersion() {
     return $this->httpGET($this->getURL() . '/api/version');
@@ -86,7 +99,7 @@ class GalaxyInstance extends HTTPRequest {
    * @return
    *   TRUE if authentication was successful, FALSE otherwise.
    *
-   * 
+   *
    */
   public function authenticate($username, $password, &$message = '') {
 
@@ -119,7 +132,7 @@ class GalaxyInstance extends HTTPRequest {
    * @return string
    *   The URL for the remote Galaxy instance.
    *
-   * 
+   *
    */
   public function getURL() {
     if ($this->use_https) {
@@ -136,7 +149,7 @@ class GalaxyInstance extends HTTPRequest {
    * @param $api_key
    *   The API key of the Galaxy user.
    *
-   * 
+   *
    */
   public function setAPIKey($api_key) {
     $this->api_key = $api_key;
@@ -148,9 +161,25 @@ class GalaxyInstance extends HTTPRequest {
    * @return string
    *    The API key that authorizes a user to certain actions.
    *
-   * 
+   *
    */
   public function getAPIKey(){
     return $this->api_key;
+  }
+
+  /**
+   * @see HTTPRequest::httpGET()
+   *
+   * We want to pass in cookies so we'll ovewrite the httpGET function of the
+   * GalaxyHTTPRequest class.
+   */
+  public function httpGET($URL) {
+    $options = array();
+    if ($this->session_cookie) {
+      $options = array(
+        CURLOPT_COOKIE => 'SESSION=' . $this->session_cookie . ';'
+      );
+    }
+    return parent::httpGET($URL, $options);
   }
 }

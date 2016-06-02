@@ -18,10 +18,9 @@
  *   API functions and are named similarly to their Python counterpart.
  * @}
  */
-require_once 'HTTPRequest.inc';
 
 
-class FolderContents extends HTTPRequest {
+class GalaxyFolderContents {
 
   private $galaxy;
 
@@ -34,11 +33,10 @@ class FolderContents extends HTTPRequest {
   * @return
   *   An instance of a FolderContents object.
   *
-  * 
+  *
   */
    public function __construct($galaxy) {
      $this->galaxy = galaxy;
-      parent::__construct();
    }
 
    /**
@@ -53,11 +51,11 @@ class FolderContents extends HTTPRequest {
     * @return
     *   An array of The specified folder's contents
     *
-    * 
+    *
     */
    public function index ($folder_id) {
      $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' . $folder_id . '/contents' .'/?key=' . $this->galaxy->getAPIKey();
-     $response = $this->httpGET($URL);
+     $response = $this->galaxy->httpGET($URL);
      return $this->expectArray($response);
    }
 
@@ -82,7 +80,7 @@ class FolderContents extends HTTPRequest {
     * @return
     *   An array containing the newly created folder content.
     *
-  * 
+  *
     */
    public function create($parent_folder_id, $from_hda_id = NULL, $ldda_message = NULL, $extended_metadata = NULL){
      $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' . $parent_folder_id . '/contents/?key=' . $this->galaxy->getAPIKey();
@@ -97,7 +95,7 @@ class FolderContents extends HTTPRequest {
        $postfields['ldda_message'] = $ldda_message;
      }
 
-     $response = $this->httpPOST($URL, $postfields);
+     $response = $this->galaxy->httpPOST($URL, $postfields);
      return $this->expectArray($response);
    }
 
@@ -113,7 +111,7 @@ class FolderContents extends HTTPRequest {
    * @return
    *   False.
    *
-   * 
+   *
    */
    public function show($folder_id){
     //Not implemented in the python counterpart
@@ -129,7 +127,7 @@ class FolderContents extends HTTPRequest {
     * @return
     *   False.
     *
-     * 
+     *
     */
    public function update($folder_id, $add_ids, $manage_ids, $modify_ids){
     //Not implemented by the python counterpart.

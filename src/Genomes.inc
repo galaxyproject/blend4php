@@ -19,10 +19,8 @@
  * @}
  */
 
-//require_once "GalaxyInstance.inc";
-require_once 'HTTPRequest.inc';
 
-class Genomes extends HTTPRequest{
+class GalaxyGenomes {
   private $galaxy;
 
   /**
@@ -34,11 +32,10 @@ class Genomes extends HTTPRequest{
    * @return
    *   An instance of a Genomes object.
    *
-   * 
+   *
    */
   public function __construct($galaxy) {
     $this->galaxy = $galaxy;
-    parent::__construct();
   }
 
   /**
@@ -50,14 +47,14 @@ class Genomes extends HTTPRequest{
    * @return
    *   An array containing a list of all of the genome entities in Galaxy.
    *
-   * 
+   *
    */
   public function index(){
     $api_key = $this->galaxy->getAPIKey();
 
     $URL = $this->galaxy->getURL() . '/api/genomes/'  .  '?key=' . $api_key;
 
-    $response = $this->httpGET($URL);
+    $response = $this->galaxy->httpGET($URL);
     return $this->expectArray($response);
   }
 
@@ -75,13 +72,13 @@ class Genomes extends HTTPRequest{
    *   A JSON object containint detailed information about the specified
    *   Galaxy Genome.
    *
-   * 
+   *
    */
   public function show($genome_id){
     $api_key = $this->galaxy->getAPIKey();
     $URL = $this->galaxy->getURL() . '/api/genomes/' . $genome_id .  '?key=' . $api_key;
 
-    $response = $this->httpGET($URL);
+    $response = $this->galaxy->httpGET($URL);
     return $this->expectArray($response);
   }
 

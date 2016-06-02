@@ -17,8 +17,8 @@ class DataTypesTest extends PHPUnit_Framework_TestCase {
 
     // Connect to Galaxy.
     $galaxy = new GalaxyInstance($config['host'], $config['port'], FALSE);
-
-    $response = $galaxy->authenticate($config['email'], $config['pass']);
+    $success = $galaxy->authenticate($config['email'], $config['pass']);
+    $this->assertTrue($success, $galaxy->getErrorMessage());
 
     return $galaxy;
   }
@@ -32,7 +32,7 @@ class DataTypesTest extends PHPUnit_Framework_TestCase {
    */
   function testSniffers($galaxy){
     global $config;
-    $datatypes = new Datatypes($galaxy);
+    $datatypes = new GalaxyDatatypes($galaxy);
 
     // Case 1: Sniffer datatypes returned in an array successfully.
     $sniffer = $datatypes->sniffers();
@@ -49,7 +49,7 @@ class DataTypesTest extends PHPUnit_Framework_TestCase {
    */
   function testConverters($galaxy){
     global $config;
-    $datatypes = new Datatypes($galaxy);
+    $datatypes = new GalaxyDatatypes($galaxy);
 
     // Case 1: Converter datatypes returned in an array successfully.
     $converter = $datatypes->converters();
@@ -65,7 +65,7 @@ class DataTypesTest extends PHPUnit_Framework_TestCase {
    */
   function testEdamFormats($galaxy){
     global $config;
-    $datatypes = new Datatypes($galaxy);
+    $datatypes = new GalaxyDatatypes($galaxy);
 
     // Case 1: Edam Formats datatypes returned in an array successfully.
     $edam = $datatypes->edamFormats();
@@ -81,7 +81,7 @@ class DataTypesTest extends PHPUnit_Framework_TestCase {
    */
   function testMapping($galaxy){
     global $config;
-    $datatypes = new Datatypes($galaxy);
+    $datatypes = new GalaxyDatatypes($galaxy);
 
     // Case 1: Mapper datatypes are returned in an array successfully.
     $mapping = $datatypes->mapping();
@@ -97,13 +97,10 @@ class DataTypesTest extends PHPUnit_Framework_TestCase {
    */
   function testIndex($galaxy){
     global $config;
-    $datatypes = new Datatypes($galaxy);
+    $datatypes = new GalaxyDatatypes($galaxy);
 
     // Case 1: A list of datatypes is successfully retreived in an array.
     $datatypes_list = $datatypes->index();
     $this->assertTrue(is_array($datatypes_list), $datatypes->getErrorMessage());
   }
-
-
-
 }

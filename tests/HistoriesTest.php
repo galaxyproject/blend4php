@@ -32,15 +32,15 @@ class HistoriesTest extends PHPUnit_Framework_TestCase {
    */
   public function testCreate($galaxy) {
 
-    $histories = new Histories($galaxy);
+    $histories = new GalaxyHistories($galaxy);
 
     // Case 1: Create a history with only a single name.
     $inputs = array(
       'name' => 'testhistorycreate',
     );
-    
+
     $history = $histories->create($inputs);
-    $this->assertTrue(is_array($history), $histories->getErrorMessage());
+    $this->assertTrue(is_array($history), $galaxy->getErrorMessage());
 
     return $history['id'];
   }
@@ -52,19 +52,19 @@ class HistoriesTest extends PHPUnit_Framework_TestCase {
    */
   public function testIndex($galaxy) {
 
-    $histories = new Histories($galaxy);
+    $histories = new GalaxyHistories($galaxy);
 
     $inputs = array();
-    
+
     // Case 1: Include the the deleted param
     $inputs['deleted'] = TRUE;
     $history_list = $histories->index($inputs);
-    $this->assertTrue(is_array($history_list), $histories->getErrorMessage());
-    
+    $this->assertTrue(is_array($history_list), $galaxy->getErrorMessage());
+
     // Case 2:  Are we getting an array?  If so, that's all we need to.
     unset($inputs['deleted']);
     $history_list = $histories->index($inputs);
-    $this->assertTrue(is_array($history_list), $histories->getErrorMessage());
+    $this->assertTrue(is_array($history_list), $galaxy->getErrorMessage());
 
     return $history_list;
   }
@@ -81,7 +81,7 @@ class HistoriesTest extends PHPUnit_Framework_TestCase {
    */
   public function testCreateOptions($galaxy, $history_list) {
 
-    $histories = new Histories($galaxy);
+    $histories = new GalaxyHistories($galaxy);
 
     // Case 2: Create a history with a name, and an existing history,
     // This form will be copying an existing history (as we have made at least
@@ -91,7 +91,7 @@ class HistoriesTest extends PHPUnit_Framework_TestCase {
       'history_id' => $history_list[0]['id']
     );
     $history = $histories->create($inputs);
-    $this->assertTrue(is_array($history), $histories->getErrorMessage());
+    $this->assertTrue(is_array($history), $galaxy->getErrorMessage());
 
     // Case 3: Create a copy history from an imported archive.
     // This case will invoke the archiveExport() function.
@@ -105,7 +105,7 @@ class HistoriesTest extends PHPUnit_Framework_TestCase {
       'archive_source' => $histories->archiveExport(array('history_id' => $history_list[0]['id'])),
     );
     $history = $histories->create($inputs);
-    $this->assertTrue(is_array($history), $histories->getErrorMessage());
+    $this->assertTrue(is_array($history), $galaxy->getErrorMessage());
 
 
     // Case 4: Change the hdas param from default to False.
@@ -115,7 +115,7 @@ class HistoriesTest extends PHPUnit_Framework_TestCase {
       'all_datasets' => FALSE
     );
     $history = $histories->create($inputs);
-    $this->assertTrue(is_array($history), $histories->getErrorMessage());
+    $this->assertTrue(is_array($history), $galaxy->getErrorMessage());
 
     // Case 5: hdas param is False and we are importing from archive.
     $inputs = array(
@@ -124,7 +124,7 @@ class HistoriesTest extends PHPUnit_Framework_TestCase {
       'all_datasets' => FALSE
     );
     $history = $histories->create($inputs);
-    $this->assertTrue(is_array($history), $histories->getErrorMessage());
+    $this->assertTrue(is_array($history), $galaxy->getErrorMessage());
 
 
     // Case 6: hdas param is False and we are copying an existing history.
@@ -132,9 +132,9 @@ class HistoriesTest extends PHPUnit_Framework_TestCase {
       'name' => 'test-history-hdas-false-copy-existing',
       'archive_source' => $history_list[0]['id'],
       'all_datasets' => FALSE
-    ); 
+    );
     $history = $histories->create($inputs);
-    $this->assertTrue(is_array($history), $histories->getErrorMessage());
+    $this->assertTrue(is_array($history), $galaxy->getErrorMessage());
 
     // TODO: Deal with the archive_type parameter, I do not know of another
     // type of archive type supported by Galaxy:
@@ -151,7 +151,7 @@ class HistoriesTest extends PHPUnit_Framework_TestCase {
    */
   public function testShow($galaxy, $history_list) {
 
-    $histories = new Histories($galaxy);
+    $histories = new GalaxyHistories($galaxy);
 
     // Case 1:  Are we getting an array?  If so, that's all we need to
     // test. We don't need to do unit testing for galaxy. We assume the
@@ -160,7 +160,7 @@ class HistoriesTest extends PHPUnit_Framework_TestCase {
       'history_id' => $history_list[0]['id'],
     );
     $history = $histories->show($inputs);
-    $this->assertTrue(is_array($history), $histories->getErrorMessage());
+    $this->assertTrue(is_array($history), $galaxy->getErrorMessage());
 
     return $history;
   }
@@ -177,7 +177,7 @@ class HistoriesTest extends PHPUnit_Framework_TestCase {
    */
   public function testArchiveDownload($galaxy, $history) {
 
-    $histories = new Histories($galaxy);
+    $histories = new GalaxyHistories($galaxy);
 
     // We place it in /tmp as it's a temporary holding directory that any
     // entity may place files
@@ -204,11 +204,11 @@ class HistoriesTest extends PHPUnit_Framework_TestCase {
    */
   public function testDeleteHistory($galaxy, $history){
 
-    $histories = new Histories($galaxy);
+    $histories = new GalaxyHistories($galaxy);
 
     // Case 1: Test that we can mark the history as deleted.
     $del_history = $histories->deleteHistory(array('history_id' => $history['id']));
-    $this->assertTrue(is_array($del_history), $histories->getErrorMessage());
+    $this->assertTrue(is_array($del_history), $galaxy->getErrorMessage());
     $this->assertTrue($del_history['deleted']);
 
     return $del_history;
@@ -222,7 +222,7 @@ class HistoriesTest extends PHPUnit_Framework_TestCase {
  */
   public function testUndelete($galaxy, $del_history){
 
-    $histories = new Histories($galaxy);
+    $histories = new GalaxyHistories($galaxy);
 
     // Case 1: Make sure that the deleted file created in the
     // testDeleteHistory() function can be undeleted.
@@ -230,7 +230,7 @@ class HistoriesTest extends PHPUnit_Framework_TestCase {
       'history_id' => $del_history['id'],
     );
     $undel_history = $histories->undelete($inputs);
-    $this->assertTrue(is_array($undel_history), $histories->getErrorMessage());
+    $this->assertTrue(is_array($undel_history), $galaxy->getErrorMessage());
     $this->assertFalse($undel_history['deleted']);
 
     return $undel_history;
@@ -245,7 +245,7 @@ class HistoriesTest extends PHPUnit_Framework_TestCase {
    * @depends testUndelete
    */
   public function testCitations($galaxy, $undel_history){
-    $histories = new Histories($galaxy);
+    $histories = new GalaxyHistories($galaxy);
 
     // Case 1: Make sure that an array (whether empty or filled) will be
     // presented when the citations function is invoked.
@@ -253,7 +253,7 @@ class HistoriesTest extends PHPUnit_Framework_TestCase {
       'history_id' => $undel_history['id'],
     );
     $citations = $histories->citations($inputs);
-    $this->assertTrue(is_array($citations), $histories->getErrorMessage());
+    $this->assertTrue(is_array($citations), $galaxy->getErrorMessage());
   }
 
   /**
@@ -262,14 +262,14 @@ class HistoriesTest extends PHPUnit_Framework_TestCase {
    * @depends testInitGalaxy
    */
   public function testpublished($galaxy){
-    $histories = new Histories($galaxy);
+    $histories = new GalaxyHistories($galaxy);
 
     // Case 1: Make sure that an array (whether empty or filled) will be
     // presented when the published function is invoked.
     // Meaning we return an array of all the histories published under the
     // the given user.
     $published = $histories->published();
-    $this->assertTrue(is_array($published), $histories->getErrorMessage());
+    $this->assertTrue(is_array($published), $galaxy->getErrorMessage());
   }
 
   /**
@@ -278,12 +278,12 @@ class HistoriesTest extends PHPUnit_Framework_TestCase {
    * @depends testInitGalaxy
    */
   public function testSharedWithMe($galaxy){
-    $histories = new Histories($galaxy);
+    $histories = new GalaxyHistories($galaxy);
 
     // Case 1: Make sure that an array of histories shared with the given user
     // (whether empty or filled) will be presented when the sharedWithMe()
     // function is invoked.
     $shared_histories = $histories->sharedWithMe();
-    $this->assertTrue(is_array($shared_histories), $histories->getErrorMessage());
+    $this->assertTrue(is_array($shared_histories), $galaxy->getErrorMessage());
   }
 }

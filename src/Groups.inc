@@ -20,10 +20,7 @@
  * @}
  */
 
-include_once "HTTPRequest.inc";
-
-
-class Groups extends HTTPRequest {
+class GalaxyGroups  {
   private $galaxy;
 
   /**
@@ -35,11 +32,10 @@ class Groups extends HTTPRequest {
    * @return
    *   An instance of a Groups object.
    *
-   * 
+   *
    */
   public function __construct($galaxy) {
     $this->galaxy = $galaxy;
-    parent::__construct();
   }
 
   /**
@@ -50,11 +46,11 @@ class Groups extends HTTPRequest {
    * @return
    *   An array of all groups.
    *
-   * 
+   *
    */
   public function index() {
     $URL = $this->galaxy->getURL() . '/api/groups/?key=' . $this->galaxy->getAPIKey();
-    $response = $this->httpGET($URL);
+    $response = $this->galaxy->httpGET($URL);
     return $this->expectArray($response);
   }
 
@@ -75,7 +71,7 @@ class Groups extends HTTPRequest {
    * @return
    *   An array of the group that contains the users and roles.
    *
-   * 
+   *
    */
   public function create($name, $user_ids = array(), $role_ids = array()) {
 
@@ -92,7 +88,7 @@ class Groups extends HTTPRequest {
       $inputs['role_ids'] = json_encode($role_ids);
     }
 
-    $response = $this->httpPOST($URL, $inputs);
+    $response = $this->galaxy->httpPOST($URL, $inputs);
     $response = $this->expectArray($response);
 
     // For some reason we get an array containing the associative array with
@@ -118,11 +114,11 @@ class Groups extends HTTPRequest {
    * @return
    *   An array containing details about the group.
    *
-   * 
+   *
    */
   public function show($group_id) {
     $URL = $this->galaxy->getURL() . '/api/groups/' . $group_id . '/?key=' . $this->galaxy->getAPIKey();
-    $response = $this->httpGET($URL);
+    $response = $this->galaxy->httpGET($URL);
     return $this->expectArray($response);
   }
 
@@ -147,7 +143,7 @@ class Groups extends HTTPRequest {
    * @return
    *   An array of the group that contains the users and roles.
    *
-   * 
+   *
    */
   public function update($group_id, $name = NULL, $user_ids = array(), $role_ids = array()) {
 

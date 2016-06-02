@@ -16,7 +16,7 @@ class RequestErrorTest extends PHPUnit_Framework_TestCase {
    */
   function testGetSet() {
     // We simply need to make sure that the setter works.
-    $error = new RequestError();
+    $error = new GalaxyError();
     $error->setError('HTTP', 'test_message');
     $error = $error->getError();
 

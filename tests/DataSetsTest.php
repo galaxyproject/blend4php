@@ -24,8 +24,8 @@ class DataSetsTest extends PHPUnit_Framework_TestCase {
 
     // Connect to Galaxy.
     $galaxy = new GalaxyInstance($config['host'], $config['port'], FALSE);
-
-    $response = $galaxy->authenticate($config['email'], $config['pass']);
+    $success = $galaxy->authenticate($config['email'], $config['pass']);
+    $this->assertTrue($success, $galaxy->getErrorMessage());
 
     return $galaxy;
   }
@@ -41,12 +41,12 @@ class DataSetsTest extends PHPUnit_Framework_TestCase {
     global $config;
 
     // Create Visualization object.
-    $datasets = new Datasets($galaxy);
+    $datasets = new GalaxyDatasets($galaxy);
 
     // Case 1: Are we getting an array? We shouldn't because apparently the
     // python counterpart has not been implemented
     $dataset_list = $datasets->index();
-    $this->assertFalse(is_array($dataset_list), $datasets->getErrorMessage());
+    $this->assertFalse(is_array($dataset_list), $galaxy->getErrorMessage());
 
   }
 
@@ -63,9 +63,9 @@ class DataSetsTest extends PHPUnit_Framework_TestCase {
     global $config;
 
     // Create the necessary obejcts for this function:
-    $histories = new Histories($galaxy);
-    $history_content = new HistoryContents($galaxy);
-    $tools = new Tools($galaxy);
+    $histories = new GalaxyHistories($galaxy);
+    $history_content = new GalaxyHistoryContents($galaxy);
+    $tools = new GalaxyTools($galaxy);
 
     // Create our very own history for this test!
     $ourHistory = $histories->create("Testing HistoryContentsCreate!");
@@ -89,11 +89,11 @@ class DataSetsTest extends PHPUnit_Framework_TestCase {
     $content_id = $content_list[0]['id'];
 
     //Declare a new datasets
-    $datasets = new Datasets($galaxy);
+    $datasets = new GalaxyDatasets($galaxy);
 
     // Case 1: Correctly obtain the converted datasets
     $converted = $datasets->converted($content_id);
-    $this->assertTrue(is_array($converted), $datasets->getErrorMessage());
+    $this->assertTrue(is_array($converted), $galaxy->getErrorMessage());
 
     // Case 2: If an incorrect id is entered, the function should return false
     $converted = $datasets->converted("123");
@@ -116,9 +116,9 @@ class DataSetsTest extends PHPUnit_Framework_TestCase {
     global $config;
 
     // Create the necessary obejcts for this function:
-    $histories = new Histories($galaxy);
-    $history_content = new HistoryContents($galaxy);
-    $tools = new Tools($galaxy);
+    $histories = new GalaxyHistories($galaxy);
+    $history_content = new GalaxyHistoryContents($galaxy);
+    $tools = new GalaxyTools($galaxy);
 
     // Create our very own history for this test!
     $ourHistory = $histories->create("Testing HistoryContentsCreate!");
@@ -145,7 +145,7 @@ class DataSetsTest extends PHPUnit_Framework_TestCase {
     $history_id = $history_id[0];
 
     //Declare a new datasets
-    $datasets = new Datasets($galaxy);
+    $datasets = new GalaxyDatasets($galaxy);
 
     // Case 1: correctly call a datasets display
     $display = $datasets->display($history_id, $content_id);
@@ -170,9 +170,9 @@ class DataSetsTest extends PHPUnit_Framework_TestCase {
 
     // Obtain a content_id
     // Create the necessary obejcts for this function:
-    $histories = new Histories($galaxy);
-    $history_content = new HistoryContents($galaxy);
-    $tools = new Tools($galaxy);
+    $histories = new GalaxyHistories($galaxy);
+    $history_content = new GalaxyHistoryContents($galaxy);
+    $tools = new GalaxyTools($galaxy);
 
     // Create our very own history for this test!
     $ourHistory = $histories->create("Testing HistoryContentsCreate!");
@@ -196,11 +196,11 @@ class DataSetsTest extends PHPUnit_Framework_TestCase {
     $content_id = $content_list[0]['id'];
 
     // Declare a new datasets
-    $datasets = new Datasets($galaxy);
+    $datasets = new GalaxyDatasets($galaxy);
 
     // Case 1: We successfully obtain an array given correct inputs.
     $details = $datasets->show($content_id);
-    $this->assertTrue(is_array($details), $datasets->getErrorMessage());
+    $this->assertTrue(is_array($details), $galaxy->getErrorMessage());
 
     // Case 2: We successfully obtain 'FALSE' given incorrect inputs.
     $details = $datasets->show("@@");

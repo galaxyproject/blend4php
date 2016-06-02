@@ -19,9 +19,8 @@
  *   are named similarly to their Python counterpart.
  * @}
  */
-include_once "HTTPRequest.inc";
 
-class GroupUsers extends HTTPRequest {
+class GalaxyGroupUsers {
   private $galaxy;
 
   /**
@@ -33,11 +32,10 @@ class GroupUsers extends HTTPRequest {
    * @return
    *   An instance of a Groups Users object.
    *
-   * 
+   *
    */
    public function __construct($galaxy) {
      $this->galaxy = $galaxy;
-     parent::__construct();
    }
 
    /**
@@ -52,11 +50,11 @@ class GroupUsers extends HTTPRequest {
     * @return
     *   An array of all users of a given group.
     *
-    * 
+    *
     */
   public function index($group_id) {
     $URL = $this->galaxy->getURL() .'/api/groups/' .$group_id .'/users/?key=' .$this->galaxy->getAPIKey();
-    $response = $this->httpGET($URL);
+    $response = $this->galaxy->httpGET($URL);
     return $this->expectArray($response);
   }
 
@@ -75,11 +73,11 @@ class GroupUsers extends HTTPRequest {
    * @return
    *   An array containing details about the user of a given group.
    *
-   * 
+   *
    */
   public function show($group_id, $user_id) {
     $URL = $this->galaxy->getURL() .'/api/groups/' .$group_id .'/users/' .$user_id .'/?key=' .$this->galaxy->getAPIKey();
-    $response = $this->httpGET($URL);
+    $response = $this->galaxy->httpGET($URL);
     return $this->expectArray($response);
   }
 
@@ -98,11 +96,11 @@ class GroupUsers extends HTTPRequest {
    * @return
    *   An array of the user that has added to the group
    *
-   * 
+   *
    */
   public function update($group_id, $user_id) {
     $URL = $this->galaxy->getURL() . '/api/groups/' . $group_id .'/users/' . $user_id .'/?key=' . $this->galaxy->getAPIKey();
-    $response = $this->httpPUT($URL);
+    $response = $this->galaxy->httpPUT($URL);
     return $this->expectArray($response);
   }
 
@@ -121,11 +119,11 @@ class GroupUsers extends HTTPRequest {
    * @return
    *   An array of the user that has been removed from the group.
    *
-   * 
+   *
    */
   public function delete($group_id, $user_id) {
     $URL = $this->galaxy->getURL() . '/api/groups/' . $group_id . '/users/' . $user_id . '/?key=' . $this->galaxy->getAPIKey();
-    $response =  $this->httpDELETE($URL);
+    $response =  $this->galaxy->httpDELETE($URL);
     return $this->expectArray($response);
   }
 }

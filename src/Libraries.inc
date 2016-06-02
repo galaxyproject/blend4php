@@ -9,10 +9,7 @@
  * are named similarly to their Python counterpart.
  */
 
-include_once "HTTPRequest.inc";
-
-
-class Libraries extends HTTPRequest{
+class GalaxyLibraries {
   private $galaxy;
   /**
    * The Folders constructor.
@@ -23,11 +20,10 @@ class Libraries extends HTTPRequest{
    * @return
    *   An instance of a Libraries object.
    *
-   * 
+   *
    */
    public function __construct($galaxy) {
      $this->galaxy = $galaxy;
-     parent ::__construct();
    }
 
 
@@ -47,20 +43,20 @@ class Libraries extends HTTPRequest{
    * @return
    *   An array containing the new library created.
    *
-   * 
+   *
    */
    public function create($params) {
      $URL = $this->galaxy->getURL() . '/api/libraries/?key=' . $this->galaxy->getAPIKey();
-     
+
      if(array_key_exists('name', $params)){
-       
-       $response = $this->httpPOST($URL, $params);
+
+       $response = $this->galaxy->httpPOST($URL, $params);
        return $this->expectArray($response);
      }
-     
+
      $this->setError("API", "This function expects at least the associative parameter 'name' in order to run");
      return FALSE;
-     
+
    }
 
   /**
@@ -68,18 +64,18 @@ class Libraries extends HTTPRequest{
    *
    * Corresponds to the Galaxy Api/path:
    *   PATCH /api/libraries/{encoded_id}
-   *   
-   *   
+   *
+   *
    * @param $params
    *    A key value (associative array) where the keys can be the following:
    *
    *    - name: New library's name.
    *    - description: New library's description.
    *    - synopsis: New string containing a synopsis.
-   *    
+   *
    * @return
    *   An array containing the new library created.
-   * 
+   *
    */
    public function update($params) {
      // TODO: We need to implement this function
@@ -91,26 +87,26 @@ class Libraries extends HTTPRequest{
    *
    * Corresponds to the Galaxy Api/path:
    *   GET /api/libraries
-   *   
+   *
    * @param $params
    *    A key value (associative array) where the keys can be the following:
    *
-   *    - deleted: if TRUE, show only deleted libraries, if FALSE show only 
+   *    - deleted: if TRUE, show only deleted libraries, if FALSE show only
    *        non-deleted.
    *
    * @return
    *   An array of all of libraries. And all of the deleted libraries if
    *   appropriate.
    *
-   * 
+   *
    */
    public function index($params){
      $URL = $this->galaxy->getURL() . '/api/libraries?key=' . $this->galaxy->getAPIKey();
      if (array_key_exists('deleted', $params)) {
        $URL .= '?deleted=' . $params['deleted'];
      }
-     
-     $response = $this->httpGET($URL);
+
+     $response = $this->galaxy->httpGET($URL);
      return $this->expectArray($response);
   }
 
@@ -125,19 +121,19 @@ class Libraries extends HTTPRequest{
    * @param $params
    *    A key value (associative array) where the keys can be the following:
    *
-   *    - library_id: The id of the library to show. To obtain library ids, 
+   *    - library_id: The id of the library to show. To obtain library ids,
    *        please use this class's index() function.
    *    - deleted: If TRUE, the function may return a deleted library.
    *
    * @return
    *   An array containing details of the specified library.
    *
-   * 
+   *
    */
    public function show($params){
-     
+
      if (array_key_exists('deleted', $params) and $params['deleted'] == TRUE){
-       
+
        if(array_key_exists('library_id', $params)){
          $URL = $this->galaxy->getURL() . '/api/libraries/deleted/' . $params['library_id'] . '/?key=' . $this->galaxy->getAPIKey();
        }
@@ -146,7 +142,7 @@ class Libraries extends HTTPRequest{
        return FALSE;
        }
      }
-     
+
      else {
        if(array_key_exists('library_id', $params)){
          $URL = $this->galaxy->getURL() . '/api/libraries/' . $params['library_id'] . '/?key='. $this->galaxy->getAPIKey();
@@ -157,7 +153,7 @@ class Libraries extends HTTPRequest{
        }
      }
 
-     $response = $this->httpGET($URL);
+     $response = $this->galaxy->httpGET($URL);
      return $this->expectArray($response);
    }
 
@@ -167,19 +163,19 @@ class Libraries extends HTTPRequest{
    *
    * Corresponds to the Galaxy Api/path at
    *   DELETE /api/libraries/{encoded_id}
-   *   
+   *
    * @param $params
    *    A key value (associative array) where the keys can be the following:
    *
-   *    - library_id: The id of the library to delete or undelete, to obtain 
+   *    - library_id: The id of the library to delete or undelete, to obtain
    *        library id's. Please use this class's index() function.
-   *    - undelete: If TRUE, the library will be undeleted if it is already 
+   *    - undelete: If TRUE, the library will be undeleted if it is already
    *        deleted.
    *
    * @return
    *   An array containing details of the deleted or undeleted library.
    *
-   * 
+   *
    */
    public function delete($params){
 
@@ -195,7 +191,7 @@ class Libraries extends HTTPRequest{
      if (array_key_exists('undelete', $params) and $params['undelete'] == TRUE) {
        $input['undelete'] = True;
      }
-     $response = $this->httpDELETE($URL, $input);
+     $response = $this->galaxy->httpDELETE($URL, $input);
      return $this->expectArray($response);
    }
 
@@ -207,46 +203,46 @@ class Libraries extends HTTPRequest{
    *
    * @param $params
    *    A key value (associative array) where the keys can be the following:
-   *    
-   *    - library_id: The if of the library to receive permissions for. To 
+   *
+   *    - library_id: The if of the library to receive permissions for. To
    *        obtain library id's please use this class's index function.
 .  *    - scope: The scope of the permission, either 'available' or 'current'.
    *        This parameter defaults to 'current'
-   *    - is_library_access: If FALSE, the function will not look for 
+   *    - is_library_access: If FALSE, the function will not look for
    *        libraries with user access, defaults to TRUE.
    *
    * @return
    *   An array containing details of the permissions of all libraries.
    *
-   * 
+   *
    */
    public function getPermissions($params) {
-     
+
      if(array_key_exists('library_id', $params)){
        $URL = $this->galaxy->getURL() . '/api/libraries/' . $params['library_id'];
-      
+
        if (!array_key_exists('scope', $params) and !array_key_exists('is_library_access', $params))
          $URL .= '?key='. $this->galaxy->getAPIKey();
-       
+
        else if(array_key_exists('scope', $params) and !array_key_exists('is_library_access', $params))
          $URL .=  '/permissions/?scope=' . $params['scope'] . '&key='. $this->galaxy->getAPIKey();
-       
+
        else if(array_key_exists('is_library_access', $params) and array_key_exists('scope', $params))
          $URL .= '/permissions/?scope=' . $params['scope'] . '&is_library_access=' . $params['is_library_access'] . '&key=' . $this->galaxy->getAPIKey();
-       
+
        else if (array_key_exists('is_library_access', $params) and !array_key_exists('scope', $params))
          $URL .= '/permissions/?is_library_access=' . $params['is_library_access'] . '&key=' . $this->galaxy->getAPIKey();
-       
-       $response = $this->httpGET($URL);
+
+       $response = $this->galaxy->httpGET($URL);
        return $this->expectArray($response);
-       
+
      }
-     
+
      else{
        $this->setError('API', 'Please provide a value for the \'library_id\' argument.');
        return FALSE;
      }
-        
+
 
    }
 
@@ -259,17 +255,17 @@ class Libraries extends HTTPRequest{
    *
    * @param $params
    *    A key value (associative array) where the keys can be the following:
-   *    
-   *    - library_id: The id of the library to set permissions to. To obtain 
+   *
+   *    - library_id: The id of the library to set permissions to. To obtain
    *        the library id. Refer to this class's index() function.
-   *    - action: Set to either: 'remove_restrictions' or 'set_permissions', 
+   *    - action: Set to either: 'remove_restrictions' or 'set_permissions',
    *        to specify appropriate action for the function.
    *    - access_ids: A list of role ids defining roles that should have access
    *        permissions on the library. To obtain role id's please refer to the
    *         roles class.
-   *    - add_ids: A list of role id defining roles that should have add item 
+   *    - add_ids: A list of role id defining roles that should have add item
    *        permissions on the library.
-   *    - manage_ids: A list of role id defining roles that should have manage 
+   *    - manage_ids: A list of role id defining roles that should have manage
    *        permissions on the library.
    *    - modify_ids: A list of role id defining roles that should have modify
    *       permissions on the library.
@@ -278,7 +274,7 @@ class Libraries extends HTTPRequest{
    *   An array of librariy objects who's permissions have
    *   been modified.
    *
-   * 
+   *
    */
    public function setPermissions($params){
 
@@ -293,8 +289,8 @@ class Libraries extends HTTPRequest{
           $params['manage_ids'] = json_encode($params['manage_ids']);
         if(array_key_exists('modify_ids', $params))
           $params['modify_ids'] = json_encode($params['modify_ids']);
-        
-        $response = $this->httpPOST($URL, $params);
+
+        $response = $this->galaxy->httpPOST($URL, $params);
         return $this->expectArray($response);
       }
       else{

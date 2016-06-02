@@ -17,8 +17,8 @@ class GenomesTest extends PHPUnit_Framework_TestCase {
 
     // Connect to Galaxy.
     $galaxy = new GalaxyInstance($config['host'], $config['port'], FALSE);
-
-    $response = $galaxy->authenticate($config['email'], $config['pass']);
+    $success = $galaxy->authenticate($config['email'], $config['pass']);
+    $this->assertTrue($success, $galaxy->getErrorMessage());
 
     return $galaxy;
   }
@@ -33,11 +33,11 @@ class GenomesTest extends PHPUnit_Framework_TestCase {
   function testIndex($galaxy){
     global $config;
 
-    $genomes = new Genomes($galaxy);
+    $genomes = new GalaxyGenomes($galaxy);
 
     // Case 1: An array of datatypes is successfully retreived in an array.
     $genomes_list = $genomes->index();
-    $this->assertTrue(is_array($genomes_list), $genomes->getErrorMessage());
+    $this->assertTrue(is_array($genomes_list), $galaxy->getErrorMessage());
 
     // Return a genome id.
     return $genomes_list[0][1];
@@ -53,16 +53,16 @@ class GenomesTest extends PHPUnit_Framework_TestCase {
    */
   function testShow($galaxy, $genome_id){
 
-    $genomes = new Genomes($galaxy);
+    $genomes = new GalaxyGenomes($galaxy);
 
     // Case 1: Our method should return false given correct inputs,
     // at the moment, galaxy is still constructing this function
     $genome_details = $genomes->show($genome_id);
-    $this->assertFalse(is_array($genome_details), $genomes->getErrorMessage());
+    $this->assertFalse(is_array($genome_details), $galaxy->getErrorMessage());
 
     // Case 2: our method should return false given incorrect inputs,
     $genome_details = $genomes->show("Incorrect");
-    $this->assertFalse(is_array($genome_details), $genomes->getErrorMessage());
+    $this->assertFalse(is_array($genome_details), $galaxy->getErrorMessage());
   }
 
 }

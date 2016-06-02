@@ -19,9 +19,7 @@
  * @}
  */
 
-include_once 'HTTPRequest.inc';
-
-class Search extends HTTPRequest{
+class GalaxySearch {
   private $galaxy;
 
   /**
@@ -33,7 +31,7 @@ class Search extends HTTPRequest{
    * @return
    *   An instance of a search object.
    *
-     * 
+     *
    */
   function __construct($galaxy) {
     $this->galaxy = galaxy;
@@ -54,14 +52,14 @@ class Search extends HTTPRequest{
    * @return
    *   An array of the Galaxy elements that matches the query.
    *
-     * 
+     *
    */
    function create($query) {
      $URL = $this->galaxy->getURL() . '/api/search/?key=' . $this->galaxy->getAPIKey();
      $elements = array (
        'query'=> $query,
      );
-     $response = $this->httpPOST($URL, $elements);
+     $response = $this->galaxy->httpPOST($URL, $elements);
      return $this->expectArray($response);
    }
 

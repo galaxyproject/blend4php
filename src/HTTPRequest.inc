@@ -1,5 +1,5 @@
 <?php
-require_once 'RequestError.inc';
+require_once 'Error.inc';
 
 /**
  * @file
@@ -16,13 +16,16 @@ require_once 'RequestError.inc';
  * @}
  */
 
-class HTTPRequest  {
+class GalaxyHTTPRequest  {
 
    // Global Variable that contains any errors received from a rest request.
    private $error = NULL;
 
+   // A list of cookies from the most recent request.
+   private $cookies = array();
+
    /**
-    * The Rest Manager constructor.
+    * The GalaxyHTTPRequest constructor.
     *
     * @param RequestError requesterror
     *   Optional, set the class's request error to a pre-existing RequestError.
@@ -30,10 +33,20 @@ class HTTPRequest  {
     * @return
     *   An instance of a RestManager class.
     *
-    * 
+    *
     */
    function __construct() {
-     $this->error = new RequestError();
+     $this->error = new GalaxyError();
+   }
+   /**
+    * Retreives the most recent cookies from the lastest request.
+    *
+    * @return
+    *   An array of cookies where the key is the cookie name and the value
+    *   is the cookie string.
+    */
+   public function getCookies() {
+      return $this->cookies;
    }
 
   /**
@@ -45,14 +58,13 @@ class HTTPRequest  {
    * @return
    *   TRUE if error was found, FALSE otherwise.
    *
-   * 
+   *
    */
   private function getCURLResponse($ch) {
 
     // Make sure we get the header included with the output.
     curl_setopt($ch, CURLOPT_HEADER, 1);
     $output = curl_exec($ch);
-
     if ($output === FALSE) {
       $this->error->setError('HTTP', curl_error($ch));
       return FALSE;
@@ -66,9 +78,24 @@ class HTTPRequest  {
     foreach ($temp as $header) {
       $matches = array();
       if(preg_match('/^(.+?):\s*(.+)$/', $header, $matches)) {
-        $headers[strtolower($matches[1])] = strtolower($matches[2]);
+        if (array_key_exists(strtolower($matches[1]), $headers)) {
+          $headers[strtolower($matches[1])] = array();
+        }
+        $headers[strtolower($matches[1])][] = strtolower($matches[2]);
       }
     }
+    // Get any cookies and save them
+    if (array_key_exists('set-cookie', $headers)) {
+      foreach ($headers['set-cookie'] as $i => $cookie) {
+        // Split cookie
+        $matches = array();
+        preg_match('/^(.+?)=(.+?);.*$/', $cookie, $matches);
+        if ($matches[1] == 'galaxysession') {
+          $this->cookies[$matches[1]] = $matches[2];
+        }
+      }
+    }
+
     $body = substr($output, $header_size);
     if(count($headers) == 0){
       $this->error->setError('Galaxy', "Galaxy did not return headers: \n" . print_r($output, TRUE));
@@ -77,7 +104,7 @@ class HTTPRequest  {
 
     // Check the header to see how to deal with the content.  Normally will
     // alawys have JSON but in case not we should handle it gracefully.
-    $content_type = $headers['content-type'];
+    $content_type = $headers['content-type'][0];
     if (preg_match('/x-gzip/', $content_type)) {
       return $body;
     }
@@ -154,14 +181,16 @@ class HTTPRequest  {
    * @return
    *   curl server response.
    *
-   * 
+   *
    */
-  protected function httpGET($URL) {
+  public function httpGET($URL, $curl_options = array()) {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $URL);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, True);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+    foreach ($curl_options as $option => $value) {
+      curl_setopt($ch, $option, $value);
+    }
     $response = $this->getCURLResponse($ch);
-    //print_r($response);
     curl_close($ch);
 
     return $response;
@@ -178,9 +207,9 @@ class HTTPRequest  {
    * @return
    *   curl server response.
    *
-   * 
+   *
    */
-  protected function httpPOST($URL, $post_fields = NULL) {
+  public function httpPOST($URL, $post_fields = NULL) {
 
     $ch = curl_init();
     $curl_log = fopen('curl.log', 'w');
@@ -210,9 +239,9 @@ class HTTPRequest  {
    * @return
    *   curl server response.
    *
-   * 
+   *
    */
-  protected function httpPUT($URL, $input = NULL) {
+  public function httpPUT($URL, $input = NULL) {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $URL);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -225,7 +254,7 @@ class HTTPRequest  {
 
     return $response;
   }
-  
+
   /**
    * Perform a PATCH request
    *
@@ -239,7 +268,7 @@ class HTTPRequest  {
    *
    *
    */
-  protected function httpPATCH($URL, $input = NULL) {
+  public function httpPATCH($URL, $input = NULL) {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $URL);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -249,7 +278,7 @@ class HTTPRequest  {
     }
     $response = $this->getCURLResponse($ch);
     curl_close($ch);
-  
+
     return $response;
   }
 
@@ -259,7 +288,7 @@ class HTTPRequest  {
    * @param $file_name
    * @return
    */
-  protected function getRemoteFile($URL, $file_name) {
+  public function getRemoteFile($URL, $file_name) {
 
     set_time_limit(0);
     $fp = fopen($file_name, 'w+');
@@ -284,8 +313,8 @@ class HTTPRequest  {
     return TRUE;
   }
 
-  
-  
+
+
   /**
    * Upload file request
    *
@@ -301,7 +330,7 @@ class HTTPRequest  {
    *
    *
    */
-  protected function uploadFile($URL, $data, $files){
+  public function uploadFile($URL, $data, $files){
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $URL);
     curl_setopt($ch, CURLOPT_POST, 1);
@@ -310,7 +339,7 @@ class HTTPRequest  {
     if ($data !== NULL) {
       curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
     }
-    
+
     $i = 0;
     foreach ($files as $cfile){
       $data[array_keys($files)[$i]] = curl_file_create($cfile);
@@ -318,17 +347,17 @@ class HTTPRequest  {
     }
 
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-    
+
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, True);
-    
+
     $response = $this->getCURLResponse($ch);
-    
+
     return $response;
   }
-  
-  
-  
-  
+
+
+
+
   /**
    * Universal DELETE request
    *
@@ -340,9 +369,9 @@ class HTTPRequest  {
    * @return
    *   curl server response
    *
-   * 
+   *
    */
-  protected function httpDELETE($URL, $input = NULL) {
+  public function httpDELETE($URL, $input = NULL) {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $URL);
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
@@ -364,7 +393,7 @@ class HTTPRequest  {
    * @param unknown $username
    * @param unknown $password
    */
-  protected function auth($URL, $username, $password) {
+  public function auth($URL, $username, $password) {
     // Instantiate the curl object.
     $ch = curl_init();
 
@@ -385,7 +414,7 @@ class HTTPRequest  {
    * @return
    *   string error message from the server or CURL.
    *
-   * 
+   *
    */
   public function getError() {
     return $this->error->getError();
@@ -396,16 +425,14 @@ class HTTPRequest  {
    * @return The
    */
   public function getErrorMessage() {
-    $error = $this->error->getError();
-    return $error['type'] . ': ' . $error['message'];
+    return $this->error->getErrorMessage();
   }
   /**
    *
    * @return The
    */
   public function getErrorType() {
-    $error = $this->error->getError();
-    return $error['type'];
+    return $this->error->getErrorType();
   }
 
   /**
@@ -430,15 +457,12 @@ class HTTPRequest  {
    *
    * @param unknown $response
    */
-  protected function expectArray($response) {
+  public function expectArray($response) {
 
     if ($response !== FALSE and !is_array($response)) {
-      $this->setError('Galaxy', $response);
+      $this->setError('Galaxy', 'Response is not an array: "' . print_r($response, TRUE) . '"');
       return FALSE;
     }
-
     return $response;
   }
 }
-
-?>

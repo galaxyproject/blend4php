@@ -36,7 +36,7 @@ class VisualizationsTest extends PHPUnit_Framework_TestCase {
 
     // Case 1: Successful creation of a new visualization
     $response = $vizs->create("A type", "A Title", "a db_key" , 'password');
-    $this->assertTrue(is_array($response), $vizs->getErrorMessage());
+    $this->assertTrue(is_array($response), $galaxy->getErrorMessage());
 
     // Case 2: Failed creation of a visuzalization
     $response = $visz->create("@@",  "@@!@@", '@@' );
@@ -61,7 +61,7 @@ class VisualizationsTest extends PHPUnit_Framework_TestCase {
 
     // Case 1:  Are we getting an array?
     $response = $vizs->index();
-    $this->assertTrue(is_array($response), $vizs->getErrorMessage());
+    $this->assertTrue(is_array($response), $galaxy->getErrorMessage());
 
   }
 
@@ -88,7 +88,7 @@ class VisualizationsTest extends PHPUnit_Framework_TestCase {
 
     // Case 1:  Get the visualization information for the config user.
     $response = $vizs->show($viz_id);
-    $this->assertTrue(is_array($response), $vizs->getErrorMessage());
+    $this->assertTrue(is_array($response), $galaxy->getErrorMessage());
 
     // Case 2: Wrong visualization id entered. We should get a FALSE value instead
     // of an error.

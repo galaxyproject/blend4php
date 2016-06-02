@@ -30,8 +30,8 @@ class GroupsTest extends PHPUnit_Framework_TestCase {
    */
   public function testCreate($galaxy) {
 
-    $groups = new Groups($galaxy);
-    $users = new Users($galaxy);
+    $groups = new GalaxyGroups($galaxy);
+    $users = new GalaxyUsers($galaxy);
 
     // First get the list of users that we'll add to our test group.
     $user_list = $users->index();
@@ -43,7 +43,7 @@ class GroupsTest extends PHPUnit_Framework_TestCase {
     // Case 1: Create a group without any users.
     $group_name = uniqid('galaxy-php-test-group1-');
     $group = $groups->create($group_name);
-    $this->assertTrue(is_array($group), $groups->getErrorMessage());
+    $this->assertTrue(is_array($group), $galaxy->getErrorMessage());
 
     // Case 2: Try recreating the group with the same name. We should
     // recieve a FALSE return value.
@@ -53,7 +53,7 @@ class GroupsTest extends PHPUnit_Framework_TestCase {
     // Case 3: Create another group and add all the users to it.
     $group_name = uniqid('galaxy-php-test-group2-');
     $group = $groups->create($group_name,  $user_ids);
-    $this->assertTrue(is_array($group), $groups->getErrorMessage());
+    $this->assertTrue(is_array($group), $galaxy->getErrorMessage());
     // TODO: need a way to determine if all of the users were added to the group?
 
     // Case 4: Create another group and add a set of roles to it.  But, both
@@ -63,22 +63,22 @@ class GroupsTest extends PHPUnit_Framework_TestCase {
     // if we don't have any roles in the database and we can't add roles
     // if we don't first test they can be added.
     $role_ids = array();
-    $roles = new Roles($galaxy);
+    $roles = new GalaxyRoles($galaxy);
 
     // Create two roles without any users then use their IDs for a new group
     $role_name = uniqid('galaxy-php-test-group-role-');
     $role = $roles->create($role_name, 'Test group role #1');
-    $this->assertTrue(is_array($role), $roles->getErrorMessage());
+    $this->assertTrue(is_array($role), $galaxy->getErrorMessage());
     $role_ids[] = $role['id'];
 
     $role_name = uniqid('galaxy-php-test-group-role-');
     $role = $roles->create($role_name, 'Test group role #2');
-    $this->assertTrue(is_array($role), $roles->getErrorMessage());
+    $this->assertTrue(is_array($role), $galaxy->getErrorMessage());
     $role_ids[] = $role['id'];
 
     $group_name = uniqid('galaxy-php-test-group3-');
     $group = $groups->create($group_name, array(), $role_ids);
-    $this->assertTrue(is_array($group), $groups->getErrorMessage());
+    $this->assertTrue(is_array($group), $galaxy->getErrorMessage());
 
     // Return the last group created.
     return $group;
@@ -94,11 +94,11 @@ class GroupsTest extends PHPUnit_Framework_TestCase {
    */
   function testIndex($galaxy) {
 
-    $groups = new Groups($galaxy);
+    $groups = new GalaxyGroups($galaxy);
 
     // Case 1:  Are we getting an array?
     $groups_list = $groups->index();
-    $this->assertTrue(is_array($groups_list), $groups->getErrorMessage());
+    $this->assertTrue(is_array($groups_list), $galaxy->getErrorMessage());
 
     return $groups_list;
   }
@@ -111,7 +111,7 @@ class GroupsTest extends PHPUnit_Framework_TestCase {
    */
   public function testShow($galaxy, $groups_list) {
 
-    $groups = new Groups($galaxy);
+    $groups = new GalaxyGroups($galaxy);
 
     // Use the history ID of the first history in the list to test the
     // show() function.
@@ -121,7 +121,7 @@ class GroupsTest extends PHPUnit_Framework_TestCase {
     // test. We don't need to do unit testing for galaxy. We assume the
     // array is correct.
     $group = $groups->show($group_id);
-    $this->assertTrue(is_array($group), $groups->getErrorMessage());
+    $this->assertTrue(is_array($group), $galaxy->getErrorMessage());
   }
 
   /**
@@ -134,7 +134,7 @@ class GroupsTest extends PHPUnit_Framework_TestCase {
    */
   public function testUpdate($galaxy, $group) {
     global $config;
-    $groups = new Groups($galaxy);
+    $groups = new GalaxyGroups($galaxy);
 
     // Case 1:  Change the name.   * @depends testCreate
     //print_r($group);
@@ -142,7 +142,7 @@ class GroupsTest extends PHPUnit_Framework_TestCase {
     $group_name = $group['name'] . '-updated';
     //Case 1, obtain false, the funciton has not been implemented by galaxy.
     $updated_group = $groups->update($group_id,$group_name, array('f597429621d6eb2b'), array('f597429621d6eb2b'));
-    $this->assertFalse(is_array($updated_group), $groups->getErrorMessage());
+    $this->assertFalse(is_array($updated_group), $galaxy->getErrorMessage());
 
   }
 }

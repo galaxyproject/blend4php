@@ -10,10 +10,8 @@
  *
  */
 
-require_once 'HTTPRequest.inc';
 
-
-class Datasets extends HTTPRequest {
+class GalaxyDatasets {
   private $galaxy;
 
   /**
@@ -69,7 +67,7 @@ class Datasets extends HTTPRequest {
       return FALSE;
     }
 
-    $response = $this->httpGET($URL);
+    $response = $this->galaxy->httpGET($URL);
 
     return $this->expectArray($response);
   }
@@ -113,7 +111,7 @@ class Datasets extends HTTPRequest {
       return FALSE;
     }
 
-    $response = $this->httpGET($URL);
+    $response = $this->galaxy->httpGET($URL);
 
     return $this->expectArray($response);
   }
@@ -125,7 +123,7 @@ class Datasets extends HTTPRequest {
    */
   public function index() {
     $URL = $this->galaxy->getURL() . '/api/datasets/?key=' . $this->galaxy->getAPIKey();
-    $response = $this->httpGET($URL);
+    $response = $this->galaxy->httpGET($URL);
     return $this->expectArray($response);
   }
 
@@ -148,7 +146,7 @@ class Datasets extends HTTPRequest {
    */
   public function show($dataset_id) {
     $URL = $this->galaxy->getURL() . '/api/datasets/' . $dataset_id . '/?key=' . $this->galaxy->getAPIKey();
-    $response = $this->httpGET($URL);
+    $response = $this->galaxy->httpGET($URL);
     return $this->expectArray($response);
   }
 }

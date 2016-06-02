@@ -1,7 +1,7 @@
 <?php
-include_once "HTTPRequest.inc";
 
-class LibraryContents extends HTTPRequest{
+class GalaxyLibraryContents {
+
   private $galaxy;
   /**
    * The Folders constructor.
@@ -12,11 +12,10 @@ class LibraryContents extends HTTPRequest{
    * @return
    *   An instance of a Libraries object.
    *
-   * 
+   *
    */
   public function __construct($galaxy) {
     $this->galaxy = $galaxy;
-    parent ::__construct();
   }
 
   /**
@@ -29,7 +28,7 @@ class LibraryContents extends HTTPRequest{
   public function index($library_id){
     $URL = $this->galaxy->getURL() . '/api/libraries/' . $library_id . '?key=' . $this->galaxy->getAPIKey();
 
-    $response = $this->httpGET($URL);
+    $response = $this->galaxy->httpGET($URL);
     return $this->expectArray($response);
   }
 
@@ -47,7 +46,7 @@ class LibraryContents extends HTTPRequest{
   public function show($library_id, $library_content_id){
     $URL = $this->galaxy->getURL() . '/api/libraries/' . $library_id . '?key=' . $this->galaxy->getAPIKey();
 
-    $response = $this->httpGET($URL);
+    $response = $this->galaxy->httpGET($URL);
     return $this->expectArray($response);
   }
 
@@ -82,7 +81,7 @@ class LibraryContents extends HTTPRequest{
         $notNullInputs[$element] = $value;
       }
     }
-    $response = $this->httpPOST($URL, $notNullInputs);
+    $response = $this->galaxy->httpPOST($URL, $notNullInputs);
     return $this->expectArray($response);
 
   }

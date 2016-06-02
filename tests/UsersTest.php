@@ -39,7 +39,7 @@ class UsersTest extends PHPUnit_Framework_TestCase {
 
     // Case 1:  Are we getting an array?
     $users_list = $users->index();
-    $this->assertTrue(is_array($users_list), $users->getErrorMessage());
+    $this->assertTrue(is_array($users_list), $galaxy->getErrorMessage());
 
     // Case 2: Is the array properly formatted such that it contains the user
     // that is running this test.
@@ -78,7 +78,7 @@ class UsersTest extends PHPUnit_Framework_TestCase {
 
     // Case 1:  Get the user information for the config user.
     $response = $users->show($user_id);
-    $this->assertTrue(is_array($response), $users->getErrorMessage());
+    $this->assertTrue(is_array($response), $galaxy->getErrorMessage());
 
     // Case 2: Wrong user id entered. We should get a FALSE value instead
     // of an error.
@@ -103,7 +103,7 @@ class UsersTest extends PHPUnit_Framework_TestCase {
 
     // Case 2: Test for a real user id.
     $user_id = $users->getUserID($config['user']);
-    $this->assertTrue($user_id !== FALSE, $users->getErrorMessage());
+    $this->assertTrue($user_id !== FALSE, $galaxy->getErrorMessage());
   }
 
 
@@ -120,7 +120,7 @@ class UsersTest extends PHPUnit_Framework_TestCase {
     // Case 1: Successful creation of a new user.
     $username = uniqid('galaxy-php-test-create-');
     $response = $users->create($username, $username . '@test.com', 'password');
-    $this->assertTrue(is_array($response), $users->getErrorMessage());
+    $this->assertTrue(is_array($response), $galaxy->getErrorMessage());
 
     // Case 2: Failed creation of a user.
     $username = uniqid('galaxy-php-test-create-');
@@ -147,7 +147,7 @@ class UsersTest extends PHPUnit_Framework_TestCase {
 
     // Case 1: Make sure we get a proper response.
     $response = $users->delete($user['id']);
-    $this->assertTrue(is_array($response), $users->getErrorMessage());
+    $this->assertTrue(is_array($response), $galaxy->getErrorMessage());
 
     // Case 2: Make sure the user is marked as deleted
     $this->assertTrue(array_key_exists('deleted', $response), "Missing 'deleted' in response array." . print_r($response, TRUE));
@@ -158,7 +158,7 @@ class UsersTest extends PHPUnit_Framework_TestCase {
     // test must be commented out for now.
     /*
     $response = $users->delete($user['id'], TRUE);
-    $this->assertTrue(is_array($response), $users->getErrorMessage());
+    $this->assertTrue(is_array($response), $galaxy->getErrorMessage());
     $this->assertTrue(array_key_exists('deleted', $response), "Missing 'deleted' in response array." . print_r($response, TRUE));
     $this->assertTrue($response['purged'], 'User not marked as purged: ' . print_r($response, TRUE));
     */
@@ -187,7 +187,7 @@ class UsersTest extends PHPUnit_Framework_TestCase {
 
      // Case 2: Test creation of an API key
      $api_key = $users->apiKey($user['id']);
-     $this->assertTrue($api_key !== FALSE, $users->getErrorMessage());
+     $this->assertTrue($api_key !== FALSE, $galaxy->getErrorMessage());
 
 
    }

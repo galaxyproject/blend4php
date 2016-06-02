@@ -18,10 +18,8 @@
  *   are named similarly to their Python counterpart.
  * @}
  */
-require_once 'HTTPRequest.inc';
 
-
-class Datatypes extends HTTPRequest {
+class GalaxyDatatypes {
   private $galaxy;
 
   /**
@@ -33,11 +31,10 @@ class Datatypes extends HTTPRequest {
    * @return
    *   An instance of a Datatypes object.
    *
-   * 
+   *
    */
   public function __construct($galaxy) {
     $this->galaxy = $galaxy;
-    parent::__construct();
   }
 
 
@@ -50,11 +47,11 @@ class Datatypes extends HTTPRequest {
      * @return
      *   An array containing sniffers of all datatypes
      *
-     * 
+     *
      */
     public function sniffers(){
       $URL = $this->galaxy->getURL() . '/api/datatypes/sniffers/?key=' . $this->galaxy->getAPIKey();
-      $response = $this->httpGET($URL);
+      $response = $this->galaxy->httpGET($URL);
       return $this->expectArray($response);
     }
 
@@ -67,12 +64,12 @@ class Datatypes extends HTTPRequest {
      * @return
      *   An array containing converters of all datatypes
      *
-     * 
+     *
      */
     public function converters(){
       $URL = $this->galaxy->getURL() . '/api/datatypes/converters/?key=' . $this->galaxy->getAPIKey();
 
-      $response = $this->httpGET($URL);
+      $response = $this->galaxy->httpGET($URL);
       return $this->expectArray($response);
     }
 
@@ -85,11 +82,11 @@ class Datatypes extends HTTPRequest {
      * @return
      *   An array containing all datatypes in edam_format.
      *
-     * 
+     *
      */
    public function edamFormats(){
      $URL = $this->galaxy->getURL() . '/api/datatypes/edam_formats/?key=' . $this->galaxy->getAPIKey();
-     $response = $this->httpGET($URL);
+     $response = $this->galaxy->httpGET($URL);
      return $this->expectArray($response);
    }
 
@@ -102,11 +99,11 @@ class Datatypes extends HTTPRequest {
     * @return
     *   An array containing all datatypes in mapping.
     *
-    * 
+    *
     */
    public function mapping () {
      $URL = $this->galaxy->getURL() . '/api/datatypes/mapping/?key=' . $this->galaxy->getAPIKey();
-     $response = $this->httpGET($URL);
+     $response = $this->galaxy->httpGET($URL);
      return $this->expectArray($response);
    }
 
@@ -119,11 +116,11 @@ class Datatypes extends HTTPRequest {
     * @return
     *   An array containing all datatypes
     *
-    * 
+    *
     */
   public function index(){
     $URL = $this->galaxy->getURL() . '/api/datatypes/?key=' . $this->galaxy->getAPIKey();
-    $response = $this->httpGET($URL);
+    $response = $this->galaxy->httpGET($URL);
     return $this->expectArray($response);
   }
 

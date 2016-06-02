@@ -29,11 +29,11 @@ class ToolShedRepositoriesTest extends PHPUnit_Framework_TestCase {
    */
   public function testIndex($galaxy){
 
-    $tool_shed_repo = new ToolShedRepositories($galaxy);
+    $tool_shed_repo = new GalaxyToolShedRepositories($galaxy);
 
     $result = $tool_shed_repo->index();
 
-    $this->assertTrue(is_array($result), $tool_shed_repo->getErrorMessage());
+    $this->assertTrue(is_array($result), $galaxy->getErrorMessage());
 
     $this->assertTrue(!empty($result), "You have no remote repositories to test the rest of this unit test suite with. Please
         refer to the following URL https://wiki.galaxyproject.org/Admin/Tools/AddToolFromToolShedTutorial");
@@ -51,11 +51,11 @@ class ToolShedRepositoriesTest extends PHPUnit_Framework_TestCase {
    */
   public function testExportWorkflow($result, $galaxy){
 
-    $tool_shed_repo = new ToolShedRepositories($galaxy);
+    $tool_shed_repo = new GalaxyToolShedRepositories($galaxy);
 
     $exports = $tool_shed_repo->exportedWorkflows($result[0]['id']);
 
-    $this->assertTrue(is_array($exports), $tool_shed_repo->getErrorMessage());
+    $this->assertTrue(is_array($exports), $galaxy->getErrorMessage());
   }
 
   /**
@@ -68,11 +68,11 @@ class ToolShedRepositoriesTest extends PHPUnit_Framework_TestCase {
    */
   public function testGetLatestInstallable($result, $galaxy){
 
-    $tool_shed_repo = new ToolShedRepositories($galaxy);
+    $tool_shed_repo = new GalaxyToolShedRepositories($galaxy);
 
     $result = $tool_shed_repo->getLatestInstallable('https://' . $result[0]['tool_shed'], $result[0]['name'], $result[0]['owner']);
 
-    $this->assertTrue(is_string($result), $tool_shed_repo->getErrorMessage());
+    $this->assertTrue(is_string($result), $galaxy->getErrorMessage());
   }
 
   /**
@@ -88,7 +88,7 @@ class ToolShedRepositoriesTest extends PHPUnit_Framework_TestCase {
    *
    */
   public function testImportWorkflow($galaxy, $result){
-    $tool_shed_repo = new ToolShedRepositories($galaxy);
+    $tool_shed_repo = new GalaxyToolShedRepositories($galaxy);
 
     foreach ($result as $candidate){
       if (!empty($tool_shed_repo->exportedWorkflows($candidate['id']))){

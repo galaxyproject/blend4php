@@ -3,16 +3,15 @@
 /**
  * @file
  *
- * The Tools class.
+ * The GalaxyTools class.
  *
  * The Tools class interacts with Galaxy to manage contents of a Galaxy
  * Tool. The functions in this class correspond to the Galaxy API functions
  * and are named similarly to their Python counterparts.
  */
 
-require_once 'HTTPRequest.inc';
+class GalaxyTools {
 
-class Tools extends HTTPRequest{
   private $galaxy;
   /**
    * The Tools constructor.
@@ -27,7 +26,6 @@ class Tools extends HTTPRequest{
    */
    public function __construct($galaxy) {
      $this->galaxy = $galaxy;
-     parent ::__construct();
    }
 
   /**
@@ -65,8 +63,8 @@ class Tools extends HTTPRequest{
       $URL .= '&' . $key . '=' . $value;
     }
 
-    $response = $this->httpGET($URL);
-    return $this->expectArray($response);
+    $response = $this->galaxy->httpGET($URL);
+    return $this->galaxy->expectArray($response);
    }
 
   /**
@@ -100,8 +98,8 @@ class Tools extends HTTPRequest{
     $URL .= '?key=' . $this->galaxy->getAPIKey();
 
     // Get the response from the Galaxy server.
-    $response = $this->httpGET($URL);
-    return $this->expectArray($response);
+    $response = $this->galaxy->httpGET($URL);
+    return $this->galaxy->expectArray($response);
   }
 
   /**
@@ -134,8 +132,8 @@ class Tools extends HTTPRequest{
      $URL .= '?key=' . $this->galaxy->getAPIKey();
 
      // Get the response from the Galaxy server.
-     $response = $this->httpGET($URL);
-     return $this->expectArray($response);
+     $response = $this->galaxy->httpGET($URL);
+     return $this->galaxy->expectArray($response);
    }
 
   /**
@@ -167,8 +165,8 @@ class Tools extends HTTPRequest{
      $URL .= '?key=' . $this->galaxy->getAPIKey();
 
      // Get the response from the Galaxy server.
-     $response = $this->httpGET($URL);
-     return $this->expectArray($response);
+     $response = $this->galaxy->httpGET($URL);
+     return $this->galaxy->expectArray($response);
    }
 
   /**
@@ -184,7 +182,9 @@ class Tools extends HTTPRequest{
    *
    *   - tool_id: The id of the tool to perform this aciton on. Please use
    *       this class's index() function to retreive a tool id.
-   *   - history_id: The id of the history to place the built tool.
+   *   - history_id: The id of the history to place the built tool.  This
+   *       parameter is required only if the authentication of the galaxy
+   *       instance has been authenticated.
    *   - tool_version: Optional, the version of the tool.
    *
    * @return
@@ -218,8 +218,8 @@ class Tools extends HTTPRequest{
      }
 
      // Get the response from the Galaxy server.
-     $response = $this->httpGET($URL);
-     return $this->expectArray($response);
+     $response = $this->galaxy->httpGET($URL);
+     return $this->galaxy->expectArray($response);
 
    }
 
@@ -254,8 +254,8 @@ class Tools extends HTTPRequest{
      $URL .= '?key=' . $this->galaxy->getAPIKey();
 
      // Get the response from the Galaxy server.
-     $response = $this->httpGET($URL);
-     return $this->expectArray($response);
+     $response = $this->galaxy->httpGET($URL);
+     return $this->galaxy->expectArray($response);
 
    }
 
@@ -297,8 +297,8 @@ class Tools extends HTTPRequest{
      $URL .= '?key=' . $this->galaxy->getAPIKey();
 
      // Get the response from the Galaxy server.
-     $response = $this->getRemoteFile($URL, $params['file_path']);
-     return $this->expectArray($response);
+     $response = $this->galaxy->getRemoteFile($URL, $params['file_path']);
+     return $this->galaxy->expectArray($response);
    }
 
 
@@ -403,12 +403,12 @@ class Tools extends HTTPRequest{
      // If we have files to upload with the tool, then call the 'uploadFile'
      // function, otherwise just use an httpPOST.
      if (count($files) > 0) {
-       $response = $this->uploadFile($URL, $params, $files);
-       return $this->expectArray($response);
+       $response = $this->galaxy->uploadFile($URL, $params, $files);
+       return $this->galaxy->expectArray($response);
      }
      else {
-       $response = $this->httpPOST($URL, $params);
-       return $this->expectArray($response);
+       $response = $this->galaxy->httpPOST($URL, $params);
+       return $this->galaxy->expectArray($response);
      }
    }
  }

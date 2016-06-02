@@ -12,9 +12,7 @@
  * @}
  */
 
-require_once 'HTTPRequest.inc';
-
-class Requests extends HTTPRequest {
+class GalaxyRequests {
 
   private $galaxy = NULL;
 
@@ -24,7 +22,7 @@ class Requests extends HTTPRequest {
    * @return
    *   An instance of a Request object.
    *
-   * 
+   *
    */
   function __construct($galaxy) {
     $this->galaxy = $galaxy;
@@ -36,13 +34,13 @@ class Requests extends HTTPRequest {
    * @return
    *   An array of the requests.
    *
-   * 
+   *
    */
   public function index (){
     $api_key = $this->galaxy->getAPIKey();
     $URL = $this->galaxy->getURL() . '/api/requests' .  '?key=' . $api_key;
 
-    $response = $this->httpGET($URL);
+    $response = $this->galaxy->httpGET($URL);
     return $this->expectArray($response);
   }
 
@@ -58,14 +56,14 @@ class Requests extends HTTPRequest {
    *   An array containing detailed information about the requested
    *   galaxy entitiy.
    *
-   * 
+   *
    */
   public function show($encoded_request_id){
     $api_key = $this->galaxy->getAPIKey();
 
     $URL = $this->galaxy->getURL() . '/api/requests' .  '?key=' . $api_key . $encoded_request_id;
 
-    $response = $this->httpGET($URL);
+    $response = $this->galaxy->httpGET($URL);
     return $this->expectArray($response);
 
   }
@@ -79,14 +77,14 @@ class Requests extends HTTPRequest {
    * @return
    *   An array containing information on the updated Galaxy entity.
    *
-   * 
+   *
    */
   public function update ($encoded_request_id){
     $api_key = $this->galaxy->getAPIKey();
 
     $URL = $this->galaxy->getURL() . '/api/requests' .  '?key=' . $api_key . $encoded_request_id;
 
-    $response = $this->httpGET($URL);
+    $response = $this->galaxy->httpGET($URL);
     return $this->expectArray($response);
 
   }

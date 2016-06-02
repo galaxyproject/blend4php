@@ -22,48 +22,48 @@ class FoldersTest extends PHPUnit_Framework_TestCase {
 
     return $galaxy;
   }
-  
-  
+
+
   /**
    * Tests the index() function.
    *
    * @depends testInitGalaxy
    */
   function testIndex($galaxy) {
-    $folders = new Folders($galaxy);
+    $folders = new GalaxyFolders($galaxy);
 
     // Case 1: The index function is currently not implemented.
     // Gracefully return false.
    $folder_list = $folders->index();
-   $this->assertFalse(is_array($folder_list), $folders->getErrorMessage());
+   $this->assertFalse(is_array($folder_list), $galaxy->getErrorMessage());
 
   }
 
-  
+
   /**
    * Tests the show() function.
    *
    * @depends testInitGalaxy
    */
   function testShow($galaxy) {
-    $folders = new Folders($galaxy);
-    
+    $folders = new GalaxyFolders($galaxy);
+
     // Any library is treated as a folder
-    $libraries = new Libraries($galaxy);
-    
+    $libraries = new GalaxyLibraries($galaxy);
+
 
     $inputs['folder_id'] = "987";
     $folder = $folders->show($inputs);
-    $this->assertFalse(is_array($folder), $folders->getErrorMessage());
-    
+    $this->assertFalse(is_array($folder), $galaxy->getErrorMessage());
+
     $inputs['folder_id'] = $libraries->index(array())[0]['id'];
     $folder = $folders->show($inputs);
-    $this->assertTrue(is_array($folder), $folders->getErrorMessage());
+    $this->assertTrue(is_array($folder), $galaxy->getErrorMessage());
 
     return $inputs;
   }
-  
- 
+
+
   /**
    * Tests the create() function.
    *
@@ -71,24 +71,24 @@ class FoldersTest extends PHPUnit_Framework_TestCase {
    * @depends testShow
    */
   function testCreate($galaxy, $inputs) {
-    $folders = new Folders($galaxy);
+    $folders = new GalaxyFolders($galaxy);
 
-    // Create a folder to retain as 
+    // Create a folder to retain as
     $inputs['parent_folder_id'] = $inputs['folder_id'];
     unset($inputs['folder_id']);
     $inputs['name'] = uniqid('galaxy-php-test-folder1-');
     $inputs['description'] = 'Folder Unit Test 1';
     $folder = $folders->create($inputs);
-    $this->assertTrue(is_array($folder), $folders->getErrorMessage());
-    
-    
+    $this->assertTrue(is_array($folder), $galaxy->getErrorMessage());
+
+
     $inputs['parent_folder_id'] = $inputs['folder_id'];
     unset($inputs['folder_id']);
     $inputs['name'] = uniqid('galaxy-php-test-folder-toBeDeleted-');
     $inputs['description'] = 'Folder Unit Test Which will be \'deleted\' by the subsequent unit test delete function';
     $folder = $folders->create($inputs);
-    $this->assertTrue(is_array($folder), $folders->getErrorMessage());
-    
+    $this->assertTrue(is_array($folder), $galaxy->getErrorMessage());
+
     return $folder;
 
   }
@@ -100,12 +100,12 @@ class FoldersTest extends PHPUnit_Framework_TestCase {
    * @depends testCreate
    */
   function testDelete($galaxy, $folder) {
-    $folders = new Folders($galaxy);
-    
+    $folders = new GalaxyFolders($galaxy);
+
     $inputs['folder_id'] = $folder['id'];
     $response = $folders->delete($inputs);
-    $this->assertTrue(is_array($response), $folders->getErrorMessage());
-    
+    $this->assertTrue(is_array($response), $galaxy->getErrorMessage());
+
   }
 
 //   /**
@@ -114,7 +114,7 @@ class FoldersTest extends PHPUnit_Framework_TestCase {
 //    * @depends testInitGalaxy
 //    */
 //   function testUpdate($galaxy) {
-//     $folders = new Folders($galaxy);
+//     $folders = new GalaxyFolders($galaxy);
 //   }
 //   /**
 //    * Tests the setPermissions() function.
@@ -122,7 +122,7 @@ class FoldersTest extends PHPUnit_Framework_TestCase {
 //    * @depends testInitGalaxy
 //    */
 //   function testSetPermissions($galaxy) {
-//     $folders = new Folders($galaxy);
+//     $folders = new GalaxyFolders($galaxy);
 //   }
 //   /**
 //    * Tests the getPermissions() function.
@@ -130,6 +130,6 @@ class FoldersTest extends PHPUnit_Framework_TestCase {
 //    * @depends testInitGalaxy
 //    */
 //   function testGetPermissions($galaxy) {
-//     $folders = new Folders($galaxy);
+//     $folders = new GalaxyFolders($galaxy);
 //   }
 }
