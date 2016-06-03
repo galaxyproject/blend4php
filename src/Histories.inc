@@ -11,14 +11,6 @@
  *
  */
 
-/**
- * @defgroup histories_class Histories class
- * @{
- *   The Histories Class interacts with Galaxy to manage history data.
- *   The functions in this class correspond to the Galaxy API functions and
- *   are named similarly to their Python counterpart.
- * @}
- */
 class GalaxyHistories  {
 
   private $galaxy;
@@ -69,7 +61,7 @@ class GalaxyHistories  {
      if(array_key_exists('name', $params)){
 
        $response = $this->galaxy->httpPOST($URL, $params);
-       return $this->expectArray($response);
+       return $this->galaxy->expectArray($response);
 
 //        $inputs = array(
 //          'name' => $params['name']
@@ -82,7 +74,7 @@ class GalaxyHistories  {
      }
 
      else{
-       $this->setError("API", "A 'name' for the history is required in order to invoke this call");
+       $this->galaxy->setError("API", "A 'name' for the history is required in order to invoke this call");
        return FALSE;
      }
    }
@@ -146,7 +138,7 @@ class GalaxyHistories  {
      }
 
      $response = $this->galaxy->httpGET($URL);
-     return $this->expectArray($response);
+     return $this->galaxy->expectArray($response);
    }
 
   /**
@@ -178,16 +170,16 @@ class GalaxyHistories  {
     if(array_key_exists('history_id', $params))
       $download_url = $this->archiveExport($params);
     else{
-      $this->setError("API", "This function requires a history to download, please provide a 'history_id'");
+      $this->galaxy->setError("API", "This function requires a history to download, please provide a 'history_id'");
       return FALSE;
     }
     $URL = $this->galaxy->getURL() . '/' . $download_url['download_url'] . '?key=' . $this->galaxy->getAPIKey();
     if(array_key_exists('file_path', $params)){
-      $file_contents = $this->getRemoteFile($URL, $params['file_path']);
+      $file_contents = $this->galaxy->getRemoteFile($URL, $params['file_path']);
       return $file_contents;
     }
     else{
-      $this->setError("API", "This function requires a location to download history, please provide a 'file_path'");
+      $this->galaxy->setError("API", "This function requires a location to download history, please provide a 'file_path'");
       return FALSE;
     }
   }
@@ -216,7 +208,7 @@ class GalaxyHistories  {
        return $this->galaxy->httpPUT($URL, $input);
      }
      else{
-       $this->setError("API", "A 'history_id' is required in order to export");
+       $this->galaxy->setError("API", "A 'history_id' is required in order to export");
        return FALSE;
      }
 
@@ -244,10 +236,10 @@ class GalaxyHistories  {
      if(array_key_exists('history_id', $params)){
        $URL = $this->galaxy->getURL() . '/api/histories/'. $params['history_id'] . '/?key=' . $this->galaxy->getAPIKey();
        $response =  $this->galaxy->httpDELETE($URL);
-       return $this->expectArray($response);
+       return $this->galaxy->expectArray($response);
      }
      else{
-       $this->setError("API", "A 'history_id' is required in order to delete the history");
+       $this->galaxy->setError("API", "A 'history_id' is required in order to delete the history");
        return FALSE;
      }
 
@@ -274,10 +266,10 @@ class GalaxyHistories  {
      if(array_key_exists('history_id', $params)){
        $URL = $this->galaxy->getURL() . '/api/histories/deleted/'. $params['history_id'] . '/undelete?key=' . $this->galaxy->getAPIKey();
        $response = $this->galaxy->httpPOST($URL);
-       return $this->expectArray($response);
+       return $this->galaxy->expectArray($response);
      }
      else{
-       $this->setError("API", "A 'history_id' is required in order to UNdelete the history");
+       $this->galaxy->setError("API", "A 'history_id' is required in order to UNdelete the history");
        return FALSE;
      }
    }
@@ -303,10 +295,10 @@ class GalaxyHistories  {
      if(array_key_exists('history_id', $params)){
        $URL = $this->galaxy->getURL() . '/api/histories/'. $params['history_id'] . '/citations?key=' . $this->galaxy->getAPIKey();
        $response = $this->galaxy->httpGET($URL);
-       return $this->expectArray($response);
+       return $this->galaxy->expectArray($response);
      }
      else{
-       $this->setError("API", "A 'history_id' is required in order to see the citations of the history");
+       $this->galaxy->setError("API", "A 'history_id' is required in order to see the citations of the history");
        return FALSE;
      }
 
@@ -326,7 +318,7 @@ class GalaxyHistories  {
    public function published(){
      $URL = $this->galaxy->getURL() . '/api/histories/published/?key=' . $this->galaxy->getAPIKey();
      $response = $this->galaxy->httpGET($URL);
-     return $this->expectArray($response);
+     return $this->galaxy->expectArray($response);
    }
 
   /**
@@ -343,6 +335,6 @@ class GalaxyHistories  {
   public function sharedWithMe(){
     $URL = $this->galaxy->getURL() . '/api/histories/shared_with_me/?key=' . $this->galaxy->getAPIKey();
     $response = $this->galaxy->httpGET($URL);
-    return $this->expectArray($response);
+    return $this->galaxy->expectArray($response);
   }
 }

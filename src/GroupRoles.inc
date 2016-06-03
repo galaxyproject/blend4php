@@ -45,18 +45,26 @@ class GalaxyGroupRoles {
     * Corresponds to the Galaxy API method and path: GET /api/groups/
     * {encoded_group_id}/roles.
     *
-    * @param $group_id
-    *   The id of the group whose roles to list.  Group IDs can be found using the
-    *   index() function of the Groups class.
+    * @param $params
+    *   A key value (associative array) where the keys can be the following:
+    *
+    *   - group_id: The id of the group whose roles to list. Group IDs can be
+    *       found using the index() function of the Groups class.
+    *
     * @return
     *   An array of all group roles for a given group.
     *
     *
     */
-   public function index($group_id) {
-     $URL = $this->galaxy->getURL() . '/api/groups/' . $group_id. '/roles/?key=' . $this->galaxy->getAPIKey();
+   public function index($params) {
+     if(!array_key_exists('group_id', $params)){
+       $this->galaxy->setError("API", "A 'group_id' is required in order to invoke this call");
+       return FALSE;
+     }
+
+     $URL = $this->galaxy->getURL() . '/api/groups/' . $params['group_id'] . '/roles/?key=' . $this->galaxy->getAPIKey();
      $response = $this->galaxy->httpGET($URL);
-     return $this->expectArray($response);
+     return $this->galaxy->expectArray($response);
    }
 
    /**
@@ -65,21 +73,31 @@ class GalaxyGroupRoles {
     * Corresponds to the Galaxy API method and path:
     * GET /api/groups/{encoded_group_id}/roles/{encoded_role_id}
     *
-    * @param $group_id
-    *   The id of the group whose roles to list.  Group IDs can be found using the
-    *   index() function of the Groups class.
-    * @param $role_id
-    *   The id of the specific role to show. Role IDS can be found using the index()
-    *   function of the Roles class
+    * @param $params
+    *   A key value (associative array) where the keys can be the following:
+    *
+    *   - group_id: The id of the group whose roles to list. Group IDs can be
+    *       found using the index() function of the Groups class.
+    *   - role_id: The id of the specific role to show. Role IDS can be found
+    *       using the index() function of the Roles class
+    *
     * @return
     *   An array containing details about the role of a given gorup.
     *
     *
     */
-   public function show($group_id, $role_id) {
-     $URL = $this->galaxy->getURL() . '/api/groups/' . $group_id. '/roles/' . $role_id. '/?key=' . $this->galaxy->getAPIKey();
+   public function show($params) {
+     if(!array_key_exists('group_id', $params)){
+       $this->galaxy->setError("API", "A 'group_id' is required in order to invoke this call");
+       return FALSE;
+     }
+     if(!array_key_exists('role_id', $params)){
+       $this->galaxy->setError("API", "A 'role_id' is required in order to invoke this call");
+       return FALSE;
+     }
+     $URL = $this->galaxy->getURL() . '/api/groups/' . $params['group_id'] . '/roles/' . $params['role_id']. '/?key=' . $this->galaxy->getAPIKey();
      $response = $this->galaxy->httpGET($URL);
-     return $this->expectArray($response);
+     return $this->galaxy->expectArray($response);
    }
 
    /**
@@ -88,22 +106,31 @@ class GalaxyGroupRoles {
     * Corresponds to the Galaxy API method and path:
     * PUT /api/groups/{encoded_group_id}/roles/{encoded_role_id}.
     *
-    * @param $group_id,
-    *   The id of the group to modify.  Group IDs can be found using the
-    *   index() function of this class.
-    * @param $role_id
-    *   A role id to associate any new roles to the group. Use the
-    *   Roles class to retreive a list of existing role IDs.
+    * @param $params
+    *   A key value (associative array) where the keys can be the following:
+    *
+    *   - group_id: The id of the group whose roles to list. Group IDs can be
+    *       found using the index() function of the Groups class.
+    *   - role_id: The id of the specific role to show. Role IDS can be found
+    *       using the index() function of the Roles class.
+    *
     * @return
     *   An array of the role that was added to the group
     *
     *
     */
-   public function update($group_id, $role_id) {
-     $URL = $this->galaxy->getURL() . '/api/groups/' . $group_id . '/roles/' . $role_id. '/?key=' . $this->galaxy->getAPIKey();
-
+   public function update($params) {
+     if(!array_key_exists('group_id', $params)){
+       $this->galaxy->setError("API", "A 'group_id' is required in order to invoke this call");
+       return FALSE;
+     }
+     if(!array_key_exists('role_id', $params)){
+       $this->galaxy->setError("API", "A 'role_id' is required in order to invoke this call");
+       return FALSE;
+     }
+     $URL = $this->galaxy->getURL() . '/api/groups/' . $params['group_id'] . '/roles/' . $params['role_id'] . '/?key=' . $this->galaxy->getAPIKey();
      $response = $this->galaxy->httpPUT($URL);
-     return $this->expectArray($response);
+     return $this->galaxy->expectArray($response);
    }
 
    /**
@@ -112,22 +139,30 @@ class GalaxyGroupRoles {
     * Corresponds to the Galaxy API method and path:
     * DELETE /api/groups/{encoded_group_id}/roles/{encoded_role_id}.
     *
-    * @param $group_id,
-    *   The id of the group to modify.  Group IDs can be found using the
-    *   index() function of this class.
-    * @param $role_id
-    *   A role id to deassociate any roles from the group. Use the
-    *   Roles class to retreive a list of role IDs.
+    * @param $params
+    *   A key value (associative array) where the keys can be the following:
+    *
+    *   - group_id: The id of the group whose roles to list. Group IDs can be
+    *       found using the index() function of the Groups class.
+    *   - role_id: The id of the specific role to show. Role IDS can be found
+    *       using the index() function of the Roles class.
+    *
     * @return
     *   An array of the role that was removed from the group.
     *
     *
     */
-   public function delete($group_id,$role_id) {
-     $URL = $this->galaxy->getURL() . '/api/groups/' . $group_id . '/roles/' . $role_id . '/?key=' . $this->galaxy->getAPIKey();
-
+   public function delete($params) {
+     if(!array_key_exists('group_id', $params)){
+       $this->galaxy->setError("API", "A 'group_id' is required in order to invoke this call");
+       return FALSE;
+     }
+     if(!array_key_exists('role_id', $params)){
+       $this->galaxy->setError("API", "A 'role_id' is required in order to invoke this call");
+       return FALSE;
+     }
+     $URL = $this->galaxy->getURL() . '/api/groups/' . $params['group_id'] . '/roles/' . $params['role_id'] . '/?key=' . $this->galaxy->getAPIKey();
      $response = $this->galaxy->httpDELETE($URL);
-     return $this->expectArray($response);
+     return $this->galaxy->expectArray($response);
    }
-
 }

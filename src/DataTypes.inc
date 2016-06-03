@@ -52,7 +52,7 @@ class GalaxyDatatypes {
     public function sniffers(){
       $URL = $this->galaxy->getURL() . '/api/datatypes/sniffers/?key=' . $this->galaxy->getAPIKey();
       $response = $this->galaxy->httpGET($URL);
-      return $this->expectArray($response);
+      return $this->galaxy->expectArray($response);
     }
 
     /**
@@ -70,7 +70,7 @@ class GalaxyDatatypes {
       $URL = $this->galaxy->getURL() . '/api/datatypes/converters/?key=' . $this->galaxy->getAPIKey();
 
       $response = $this->galaxy->httpGET($URL);
-      return $this->expectArray($response);
+      return $this->galaxy->expectArray($response);
     }
 
     /**
@@ -87,7 +87,7 @@ class GalaxyDatatypes {
    public function edamFormats(){
      $URL = $this->galaxy->getURL() . '/api/datatypes/edam_formats/?key=' . $this->galaxy->getAPIKey();
      $response = $this->galaxy->httpGET($URL);
-     return $this->expectArray($response);
+     return $this->galaxy->expectArray($response);
    }
 
    /**
@@ -104,7 +104,7 @@ class GalaxyDatatypes {
    public function mapping () {
      $URL = $this->galaxy->getURL() . '/api/datatypes/mapping/?key=' . $this->galaxy->getAPIKey();
      $response = $this->galaxy->httpGET($URL);
-     return $this->expectArray($response);
+     return $this->galaxy->expectArray($response);
    }
 
    /**
@@ -121,7 +121,7 @@ class GalaxyDatatypes {
   public function index(){
     $URL = $this->galaxy->getURL() . '/api/datatypes/?key=' . $this->galaxy->getAPIKey();
     $response = $this->galaxy->httpGET($URL);
-    return $this->expectArray($response);
+    return $this->galaxy->expectArray($response);
   }
 
 }

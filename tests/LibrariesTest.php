@@ -1,8 +1,6 @@
 <?php
-require_once '../src/Libraries.inc';
-require_once '../src/GalaxyInstance.inc';
+require_once '../galaxy.inc';
 require_once './testConfig.inc';
-require_once '../src/Roles.inc';
 
 class LibrariesTest extends PHPUnit_Framework_TestCase {
   /**
@@ -28,7 +26,7 @@ class LibrariesTest extends PHPUnit_Framework_TestCase {
    * @depends testInitGalaxy
    */
   function testCreate($galaxy) {
-    $libraries = new Libraries($galaxy);
+    $libraries = new GalaxyLibraries($galaxy);
 
     // Case 1: Create a new library.
     $library_name = uniqid('galaxy-php-test-library1-');
@@ -195,7 +193,7 @@ class LibrariesTest extends PHPUnit_Framework_TestCase {
    */
   function testSetPermissions($galaxy, $library) {
     $libraries = new GalaxyLibraries($galaxy);
-    $roles = new Roles($galaxy);
+    $roles = new GalaxyRoles($galaxy);
 
     // Case 1: Provide the library_id and action but no id manipulations
     $inputs = array(

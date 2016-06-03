@@ -11,14 +11,6 @@
  *
  */
 
-/**
- * @defgroup history_contents_class HistoryContents class
- * @{
- *   The Histories Class interacts with Galaxy to manage history data.
- *   The functions in this class correspond to the Galaxy API functions and
- *   are named similarly to their Python counterpart.
- * @}
- */
 
 class GalaxyHistoryContents {
 
@@ -35,7 +27,7 @@ class GalaxyHistoryContents {
    *
    */
   public function __construct($galaxy) {
-    parent::__construct();
+    $this->galaxy = $galaxy;
   }
 
   /**
@@ -81,13 +73,13 @@ class GalaxyHistoryContents {
       if(array_key_exists('history_id', $params)){
         $URL = $this->galaxy->getURL() . '/api/histories/' . $params['history_id'] . '/contents/datasets/?key=' . $this->galaxy->getAPIKey();
         $response = $this->galaxy->httpPOST($URL, $params);
-        return $this->expectArray($response);
+        return $this->galaxy->expectArray($response);
       }
-      $this->setError("API", "This API call needs a 'history_id' to create a history content");
+      $this->galaxy->setError("API", "This API call needs a 'history_id' to create a history content");
       return FALSE;
     }
 
-    $this->setError("API", "This API call needs a 'source' to create a history content");
+    $this->galaxy->setError("API", "This API call needs a 'source' to create a history content");
     return FALSE;
   }
 
@@ -117,12 +109,12 @@ class GalaxyHistoryContents {
       if(array_key_exists('id', $params)){
         $URL = $this->galaxy->getURL() . '/api/histories/' . $params['history_id'] . '/contents/' . $params['id'] .'/?key=' . $this->galaxy->getAPIKey();
         $response = $this->galaxy->httpGET($URL);
-        return $this->expectArray($response);
+        return $this->galaxy->expectArray($response);
       }
-      $this->setError("API", "This API call needs an 'id' to be present the correct history content");
+      $this->galaxy->setError("API", "This API call needs an 'id' to be present the correct history content");
       return FALSE;
     }
-    $this->setError("API", "This API call needs a 'history_id' to acquire a history");
+    $this->galaxy->setError("API", "This API call needs a 'history_id' to acquire a history");
     return FALSE;
   }
 
@@ -173,12 +165,12 @@ class GalaxyHistoryContents {
         unset($params['id']);
 
         $response = $this->galaxy->httpPUT($URL, $params);
-        return $this->expectArray($response);
+        return $this->galaxy->expectArray($response);
       }
-      $this->setError("API", "HistoryContents update requires an 'id' parameter to update the appropriate hda");
+      $this->galaxy->setError("API", "HistoryContents update requires an 'id' parameter to update the appropriate hda");
       return FALSE;
     }
-    $this->setError("API", "HistoryContents update requires a 'history_id' parameter to update the appropriate hda");
+    $this->galaxy->setError("API", "HistoryContents update requires a 'history_id' parameter to update the appropriate hda");
     return FALSE;
 
   }
@@ -218,12 +210,12 @@ class GalaxyHistoryContents {
           $URL .= '&purge=true';
 
         $response =  $this->galaxy->httpDELETE($URL);
-        return $this->expectArray($response);
+        return $this->galaxy->expectArray($response);
       }
-      $this->setError("API", "HistoryContents delete requires an 'id' parameter to delete the appropriate hda");
+      $this->galaxy->setError("API", "HistoryContents delete requires an 'id' parameter to delete the appropriate hda");
       return FALSE;
     }
-    $this->setError("API", "HistoryContents delete requires a 'history_id' parameter to delete the appropriate hda");
+    $this->galaxy->setError("API", "HistoryContents delete requires a 'history_id' parameter to delete the appropriate hda");
     return FALSE;
   }
 
@@ -255,9 +247,9 @@ class GalaxyHistoryContents {
         $URL .= '/&ids=' . json_encode($params['ids']);
       }
       $response = $this->galaxy->httpGET($URL);
-      return $this->expectArray($response);
+      return $this->galaxy->expectArray($response);
     }
-    $this->setError("API", "HistoryContents index requires a 'history_id' parameter to view the contents of the history");
+    $this->galaxy->setError("API", "HistoryContents index requires a 'history_id' parameter to view the contents of the history");
     return FALSE;
 
   }

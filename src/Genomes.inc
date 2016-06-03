@@ -55,7 +55,7 @@ class GalaxyGenomes {
     $URL = $this->galaxy->getURL() . '/api/genomes/'  .  '?key=' . $api_key;
 
     $response = $this->galaxy->httpGET($URL);
-    return $this->expectArray($response);
+    return $this->galaxy->expectArray($response);
   }
 
   /**
@@ -79,7 +79,7 @@ class GalaxyGenomes {
     $URL = $this->galaxy->getURL() . '/api/genomes/' . $genome_id .  '?key=' . $api_key;
 
     $response = $this->galaxy->httpGET($URL);
-    return $this->expectArray($response);
+    return $this->galaxy->expectArray($response);
   }
 
 

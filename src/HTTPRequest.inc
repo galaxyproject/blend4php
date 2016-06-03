@@ -9,11 +9,6 @@ require_once 'Error.inc';
  * The HTTPRequest Class contains methods for using CURL rest options.
  * More specifically, UPDATE, POST, DELETE, PUT and GET.
  *
- * @defgroup http_request_class HTTPRequest Class
- * @{
- * The HTTPRequest Class contains methods for using CURL rest options.
- * More specifically, UPDATE, POST, DELETE, PUT and GET.
- * @}
  */
 
 class GalaxyHTTPRequest  {
@@ -212,7 +207,6 @@ class GalaxyHTTPRequest  {
   public function httpPOST($URL, $post_fields = NULL) {
 
     $ch = curl_init();
-    $curl_log = fopen('curl.log', 'w');
     curl_setopt($ch, CURLOPT_URL, $URL);
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_SAFE_UPLOAD, 1);
@@ -440,7 +434,7 @@ class GalaxyHTTPRequest  {
    * @param $type
    * @param $message
    */
-  protected function setError($type, $message) {
+  public function setError($type, $message) {
     $this->error->setError($type, $message);
   }
 
@@ -466,3 +460,4 @@ class GalaxyHTTPRequest  {
     return $response;
   }
 }
+

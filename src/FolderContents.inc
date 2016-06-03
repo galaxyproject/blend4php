@@ -56,7 +56,7 @@ class GalaxyFolderContents {
    public function index ($folder_id) {
      $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' . $folder_id . '/contents' .'/?key=' . $this->galaxy->getAPIKey();
      $response = $this->galaxy->httpGET($URL);
-     return $this->expectArray($response);
+     return $this->galaxy->expectArray($response);
    }
 
    /**
@@ -96,7 +96,7 @@ class GalaxyFolderContents {
      }
 
      $response = $this->galaxy->httpPOST($URL, $postfields);
-     return $this->expectArray($response);
+     return $this->galaxy->expectArray($response);
    }
 
   /**

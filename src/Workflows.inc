@@ -49,7 +49,7 @@ class GalaxyWorkflows {
   public function index($is_published = FALSE){
     $URL = $this->galaxy->getURL() . '/api/workflows/?is_published=' . $is_published .'/&key=' . $this->galaxy->getAPIKey(); ;
     $response = $this->galaxy->httpGET($URL);
-    return $this->expectArray($response);
+    return $this->galaxy->expectArray($response);
   }
 
   /**
@@ -71,7 +71,7 @@ class GalaxyWorkflows {
      $URL = $this->galaxy->getURL() . '/api/workflows/' .$workflow_id. '/?key=' . $this->galaxy->getAPIKey();
      $URL .= '&show_published=' . $show_published;
      $response = $this->galaxy->httpGET($URL);
-     return $this->expectArray($response);
+     return $this->galaxy->expectArray($response);
    }
 
    /**
@@ -109,7 +109,7 @@ class GalaxyWorkflows {
      $URL = $this->galaxy->getURL() . '/api/workflows/' . $workflow_id . '?key=' . $api_key;
 
      $response = $this->galaxy->httpGET($URL);
-     return $this->expectArray($response);
+     return $this->galaxy->expectArray($response);
    }
 
   /**
@@ -144,7 +144,7 @@ class GalaxyWorkflows {
     $URL = $this->galaxy->getURL() . '/api/workflows/' . $workflow_id . '/download/?key=' . $api_key;
 
     $response = $this->galaxy->httpGET($URL);
-    return $this->expectArray($response);
+    return $this->galaxy->expectArray($response);
 
   }
 
@@ -175,7 +175,7 @@ class GalaxyWorkflows {
     );
 
     $response = $this->galaxy->httpPUT($URL, $elements);
-    return $this->expectArray($response);
+    return $this->galaxy->expectArray($response);
   }
 
 
@@ -212,7 +212,7 @@ class GalaxyWorkflows {
       }
     }
 
-    $this->setError('API', "The PHP implementation of this is not yet complete. Please see our 'issues' page on github for more informaiton");
+    $this->galaxy->setError('API', "The PHP implementation of this is not yet complete. Please see our 'issues' page on github for more informaiton");
     return FALSE;
   }
 
@@ -234,7 +234,7 @@ class GalaxyWorkflows {
      $URL = $this->galaxy->getURL() . '/api/workflows/' .
      $workflow_id . '/invocations/?key=' . $this->galaxy->getAPIKey();
      $response = $this->galaxy->httpGET($URL);
-     return $this->expectArray($response);
+     return $this->galaxy->expectArray($response);
    }
 
    /**
@@ -260,7 +260,7 @@ class GalaxyWorkflows {
      $URL = $this->galaxy->getURL() . '/api/workflows/' .
         $workflow_id . '/invocations/' . $invocation_id . '/?key=' . $this->galaxy->getAPIKey();
      $response = $this->galaxy->httpGET($URL);
-     return $this->expectArray($response);
+     return $this->galaxy->expectArray($response);
    }
 
    /**
@@ -283,7 +283,7 @@ class GalaxyWorkflows {
    public function cancelInvocation($workflow_id, $invocation_id){
      $URL = $this->galaxy->getURL() . '/api/workflows/' .
         $workflow_id . 'invocations/'.$invocation_id.'/?key=' . $this->galaxy->getAPIKey();
-      $this->setError("API", "This function has not yet been implemented by PHP. Please see our issues thread on github to learn more.");
+      $this->galaxy->setError("API", "This function has not yet been implemented by PHP. Please see our issues thread on github to learn more.");
       return FALSE;
    }
 
@@ -313,7 +313,7 @@ class GalaxyWorkflows {
          $workflow_id . '/invocations/'.$invocation_id.'/?key=' . $this->galaxy->getAPIKey();
 
      $response = $this->galaxy->httpGET($URL);
-     return $this->expectArray($response);
+     return $this->galaxy->expectArray($response);
    }
 
   /**
@@ -345,7 +345,7 @@ class GalaxyWorkflows {
 
      $response = $this->galaxy->httpPUT($URL, $payload);
      // TODO: It is unclear how this function should operate
-     $this->setError("API", "It is unclear how this function should operate, and is therefore incomplete,
+     $this->galaxy->setError("API", "It is unclear how this function should operate, and is therefore incomplete,
          please see our issues page on github for more information");
      return FALSE;
    }
@@ -403,7 +403,7 @@ class GalaxyWorkflows {
     );
 
     $response = $this->galaxy->httpPOST($URL, $elements);
-    return $this->expectArray($response);
+    return $this->galaxy->expectArray($response);
   }
 
 
@@ -472,7 +472,7 @@ class GalaxyWorkflows {
     // If the user is attempting to create a workflow from json
     if(array_key_exists('workflow', $params)){
       if(count($params) > 1){
-        $this->setError("API", "When creating a workflow from a pre-existing JSON workflow,
+        $this->galaxy->setError("API", "When creating a workflow from a pre-existing JSON workflow,
             the only parameter needed in this function is /'workflow/'");
         return FALSE;
       }
@@ -531,7 +531,7 @@ class GalaxyWorkflows {
       foreach($arguement as $arg){
         $errors .= " " .$arg;
       }
-      $this->setError('API'," The following arguements you entered
+      $this->galaxy->setError('API'," The following arguements you entered
           are not neccesary when executing workflow specified by workflow id: ". $errors);
 
       return FALSE;
@@ -542,7 +542,7 @@ class GalaxyWorkflows {
       foreach($arguement as $arg){
         $errors .= " " .$arg;
       }
-      $this->setError('API', "".$arguement." The following arguements you entered
+      $this->galaxy->setError('API', "".$arguement." The following arguements you entered
           are not neccesary when executing workflow specified by from_workflow_id: ". $errors);
       return FALSE;
     }
@@ -556,7 +556,7 @@ class GalaxyWorkflows {
     }
 
     $response = $this->galaxy->httpPOST($URL, $notNullInputs);
-    return $this->expectArray($response);
+    return $this->galaxy->expectArray($response);
   }
 
 

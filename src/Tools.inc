@@ -89,7 +89,7 @@ class GalaxyTools {
 
     // The 'tool_id' is required.
     if (!array_key_exists('tool_id', $params)) {
-      $this->setError("API", "A 'tool_id' is required in order to invoke this call");
+      $this->galaxy->setError("API", "A 'tool_id' is required in order to invoke this call");
       return FALSE;
     }
 
@@ -123,7 +123,7 @@ class GalaxyTools {
 
      // The 'tool_id' is required.
      if (!array_key_exists('tool_id', $params)) {
-       $this->setError("API", "A 'tool_id' is required in order to invoke this call");
+       $this->galaxy->setError("API", "A 'tool_id' is required in order to invoke this call");
        return FALSE;
      }
 
@@ -156,7 +156,7 @@ class GalaxyTools {
 
      // The 'tool_id' is required.
      if (!array_key_exists('tool_id', $params)) {
-       $this->setError("API", "A 'tool_id' is required in order to invoke this call");
+       $this->galaxy->setError("API", "A 'tool_id' is required in order to invoke this call");
        return FALSE;
      }
 
@@ -196,13 +196,13 @@ class GalaxyTools {
 
      // The 'tool_id' is required.
      if (!array_key_exists('tool_id', $params)) {
-       $this->setError("API", "A 'tool_id' is required in order to invoke this call");
+       $this->galaxy->setError("API", "A 'tool_id' is required in order to invoke this call");
        return FALSE;
      }
 
      // The 'history_id' parameters is required.
      if (!array_key_exists('history_id', $params)) {
-       $this->setError("API", "A 'history_id' is required in order to invoke this call");
+       $this->galaxy->setError("API", "A 'history_id' is required in order to invoke this call");
        return FALSE;
      }
 
@@ -245,7 +245,7 @@ class GalaxyTools {
 
      // The 'tool_id' is required.
      if (!array_key_exists('tool_id', $params)) {
-       $this->setError("API", "A 'tool_id' is required in order to invoke this call");
+       $this->galaxy->setError("API", "A 'tool_id' is required in order to invoke this call");
        return FALSE;
      }
 
@@ -282,13 +282,13 @@ class GalaxyTools {
 
      // The 'tool_id' is required.
      if (!array_key_exists('tool_id', $params)) {
-       $this->setError("API", "A 'tool_id' is required in order to invoke this call");
+       $this->galaxy->setError("API", "A 'tool_id' is required in order to invoke this call");
        return FALSE;
      }
 
      // The 'file_path' is required.
      if (!array_key_exists('file_path', $params)) {
-       $this->setError("API", "A 'file_path' is required in order to invoke this call");
+       $this->galaxy->setError("API", "A 'file_path' is required in order to invoke this call");
        return FALSE;
      }
 
@@ -346,13 +346,13 @@ class GalaxyTools {
 
      // The 'tool_id' is required.
      if (!array_key_exists('tool_id', $params)) {
-       $this->setError("API", "A 'tool_id' is required in order to invoke this call");
+       $this->galaxy->setError("API", "A 'tool_id' is required in order to invoke this call");
        return FALSE;
      }
 
      // The 'history_id' parameters is required.
      if (!array_key_exists('history_id', $params)) {
-       $this->setError("API", "A 'history_id' is required in order to invoke this call");
+       $this->galaxy->setError("API", "A 'history_id' is required in order to invoke this call");
        return FALSE;
      }
 

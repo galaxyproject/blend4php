@@ -1,12 +1,7 @@
 <?php
 
-require_once '../src/Roles.inc';
-require_once '../src/Users.inc';
-require_once '../src/Groups.inc';
-require_once '../src/GalaxyInstance.inc';
+require_once '../galaxy.inc';
 require_once './testConfig.inc';
-
-
 
 class RolesTest extends PHPUnit_Framework_TestCase {
 
@@ -123,13 +118,14 @@ class RolesTest extends PHPUnit_Framework_TestCase {
     $group_ids = array();
 
     // Create two groups without any users then use their IDs for a new role
-    $group_name = uniqid('galaxy-php-test-role-group1-');
-    $group = $groups->create($group_name);
+    $groupInput = array();
+    $groupInput['name'] = uniqid('galaxy-php-test-role-group1-');
+    $group = $groups->create($groupInput);
     $this->assertTrue(is_array($group), $galaxy->getErrorMessage());
     $group_ids[] = $group['id'];
 
-    $group_name = uniqid('galaxy-php-test-role-group2-');
-    $group = $groups->create($group_name);
+    $groupInput['name'] = uniqid('galaxy-php-test-role-group2-');
+    $group = $groups->create($groupInput);
     $this->assertTrue(is_array($group), $galaxy->getErrorMessage());
     $group_ids[] = $group['id'];
 
@@ -152,6 +148,5 @@ class RolesTest extends PHPUnit_Framework_TestCase {
     $role = $roles->create($inputFour);
     $this->assertTrue(is_array($role), $galaxy->getErrorMessage());
     // TODO: need a way to determine if the users and groups were added to the role?
-
   }
 }

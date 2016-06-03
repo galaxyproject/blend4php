@@ -51,10 +51,10 @@ class GalaxyLibraries {
      if(array_key_exists('name', $params)){
 
        $response = $this->galaxy->httpPOST($URL, $params);
-       return $this->expectArray($response);
+       return $this->galaxy->expectArray($response);
      }
 
-     $this->setError("API", "This function expects at least the associative parameter 'name' in order to run");
+     $this->galaxy->setError("API", "This function expects at least the associative parameter 'name' in order to run");
      return FALSE;
 
    }
@@ -107,7 +107,7 @@ class GalaxyLibraries {
      }
 
      $response = $this->galaxy->httpGET($URL);
-     return $this->expectArray($response);
+     return $this->galaxy->expectArray($response);
   }
 
   /**
@@ -138,7 +138,7 @@ class GalaxyLibraries {
          $URL = $this->galaxy->getURL() . '/api/libraries/deleted/' . $params['library_id'] . '/?key=' . $this->galaxy->getAPIKey();
        }
        else{
-       $this->setError("API", "This function expects at least the associative parameter 'library_id' in order to run");
+       $this->galaxy->setError("API", "This function expects at least the associative parameter 'library_id' in order to run");
        return FALSE;
        }
      }
@@ -148,13 +148,13 @@ class GalaxyLibraries {
          $URL = $this->galaxy->getURL() . '/api/libraries/' . $params['library_id'] . '/?key='. $this->galaxy->getAPIKey();
        }
        else{
-         $this->setError("API", "This function expects at least the associative parameter 'library_id' in order to run");
+         $this->galaxy->setError("API", "This function expects at least the associative parameter 'library_id' in order to run");
          return FALSE;
        }
      }
 
      $response = $this->galaxy->httpGET($URL);
-     return $this->expectArray($response);
+     return $this->galaxy->expectArray($response);
    }
 
 
@@ -180,7 +180,7 @@ class GalaxyLibraries {
    public function delete($params){
 
      if (!array_key_exists('library_id', $params)) {
-       $this->setError('API', 'Please provide a value for the \'library_id\' argument.');
+       $this->galaxy->setError('API', 'Please provide a value for the \'library_id\' argument.');
        return FALSE;
      }
 
@@ -192,7 +192,7 @@ class GalaxyLibraries {
        $input['undelete'] = True;
      }
      $response = $this->galaxy->httpDELETE($URL, $input);
-     return $this->expectArray($response);
+     return $this->galaxy->expectArray($response);
    }
 
   /**
@@ -234,12 +234,12 @@ class GalaxyLibraries {
          $URL .= '/permissions/?is_library_access=' . $params['is_library_access'] . '&key=' . $this->galaxy->getAPIKey();
 
        $response = $this->galaxy->httpGET($URL);
-       return $this->expectArray($response);
+       return $this->galaxy->expectArray($response);
 
      }
 
      else{
-       $this->setError('API', 'Please provide a value for the \'library_id\' argument.');
+       $this->galaxy->setError('API', 'Please provide a value for the \'library_id\' argument.');
        return FALSE;
      }
 
@@ -291,14 +291,14 @@ class GalaxyLibraries {
           $params['modify_ids'] = json_encode($params['modify_ids']);
 
         $response = $this->galaxy->httpPOST($URL, $params);
-        return $this->expectArray($response);
+        return $this->galaxy->expectArray($response);
       }
       else{
-        $this->setError('API', 'Please provide an action for the \'action\' argument.');
+        $this->galaxy->setError('API', 'Please provide an action for the \'action\' argument.');
         return FALSE;
       }
     }
-    $this->setError('API', 'Please provide a value for the \'library_id\' argument.');
+    $this->galaxy->setError('API', 'Please provide a value for the \'library_id\' argument.');
     return FALSE;
 
 

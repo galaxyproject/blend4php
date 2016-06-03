@@ -1,11 +1,7 @@
 <?php
-require_once '../src/GroupRoles.inc';
-require_once '../src/Groups.inc';
-require_once '../src/Users.inc';
-require_once '../src/Roles.inc';
-require_once '../src/GalaxyInstance.inc';
-require_once './testConfig.inc';
 
+require_once './testConfig.inc';
+require_once '../galaxy.inc';
 
 class GroupRolesTest extends PHPUnit_Framework_TestCase {
 
@@ -39,8 +35,10 @@ class GroupRolesTest extends PHPUnit_Framework_TestCase {
 
     // Add a new role for this test.
     $roles = new GalaxyRoles($galaxy);
-    $role_name = uniqid('galaxy-php-test-group-role1-');
-    $role = $roles->create($role_name, 'Group Role Test Role #1');
+    $inputs = array();
+    $inputs['name'] = uniqid('galaxy-php-test-group-role1-');
+    $inputs['description'] =  'Group Role Test Role #1';
+    $role = $roles->create($inputs);
     $this->assertTrue(is_array($role), $galaxy->getErrorMessage());
     $role_ids = array($role['id']);
 

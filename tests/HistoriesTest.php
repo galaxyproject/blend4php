@@ -1,6 +1,5 @@
 <?php
-require_once '../src/Histories.inc';
-require_once '../src/GalaxyInstance.inc';
+require_once '../galaxy.inc';
 require_once 'testConfig.inc';
 
 /**

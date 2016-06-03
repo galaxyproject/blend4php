@@ -54,7 +54,7 @@ class GalaxyFolders {
 
      $URL = $this->galaxy->getURL() . '/api/folders?key=' . $this->galaxy->getAPIKey();
      $response = $this->galaxy->httpGET($URL);
-     return $this->expectArray($response);
+     return $this->galaxy->expectArray($response);
    }
 
   /**
@@ -78,9 +78,9 @@ class GalaxyFolders {
      if(array_key_exists('folder_id', $params)){
        $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' . $params['folder_id'] .'/?key=' . $this->galaxy->getAPIKey();
        $response = $this->galaxy->httpGET($URL);
-       return $this->expectArray($response);
+       return $this->galaxy->expectArray($response);
      }
-     $this->setError("API", "A 'folder_id' is required in order to show a specific folder.");
+     $this->galaxy->setError("API", "A 'folder_id' is required in order to show a specific folder.");
      return FALSE;
 
    }
@@ -105,19 +105,20 @@ class GalaxyFolders {
    *
    */
    public function create($params){
-     if(array_key_exists('parent_folder_id', $params)){
-       if(array_key_exists('name', $params)){
-         $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' . $params['parent_folder_id'] . '/?key=' . $this->galaxy->getAPIKey();
-         unset($params['parent_folder_id']);
-         $response = $this->galaxy->httpPOST($URL, $params);
-         return $this->expectArray($response);
-       }
-       $this->setError("API", "A 'name' is required in order to create a new folder.");
+     if(!array_key_exists('parent_folder_id', $params)){
+       $this->galaxy->setError("API", "A 'parent_folder_id' is required in order to create a new folder");
        return FALSE;
      }
-     // TODO: More clarification here on how to create a stand alone folder.
-     $this->setError("API", "A 'parent_folder_id' is required in order to create a new folder");
-     return FALSE;
+
+     if(!array_key_exists('name', $params)){
+       $this->galaxy->setError("API", "A 'name' is required in order to create a new folder.");
+        return FALSE;
+      }
+
+      $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' . $params['parent_folder_id'] . '/?key=' . $this->galaxy->getAPIKey();
+      unset($params['parent_folder_id']);
+      $response = $this->galaxy->httpPOST($URL, $params);
+      return $this->galaxy->expectArray($response);
    }
 
   /**
@@ -138,13 +139,14 @@ class GalaxyFolders {
    *
    */
    public function getPermissions($params){
-     if(array_key_exists('folder_id', $params)){
+     if(!array_key_exists('folder_id', $params)){
+       $this->galaxy->setError("API", "A 'folder_id' is required in order to create a new folder");
+       return FALSE;
+     }
+
        $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' .$params['folder_id'] . '/permissions' .'?key=' . $this->galaxy->getAPIKey();
        $response = $this->galaxy->httpGET($URL);
-       return $this->expectArray($response);
-     }
-     $this->setError("API", "A 'folder_id' is required in order to create a new folder");
-     return FALSE;
+       return $this->galaxy->expectArray($response);
    }
 
   /**
@@ -178,11 +180,8 @@ class GalaxyFolders {
        $params['action'] = 'set_permissions';
        unset($params['folder_id']);
        $response = $this->galaxy->httpPOST($URL, $params);
-       return $this->expectArray($response);
+       return $this->galaxy->expectArray($response);
      }
-     $this->setError("API", "A 'folder_id' is required in order to edit permissions on a folder");
-     return FALSE;
-
    }
 
   /**
@@ -207,17 +206,18 @@ class GalaxyFolders {
    *
    */
    public function delete($params){
-     if(array_key_exists('folder_id', $params)){
-       if(array_key_exists('undelete', $params) and $params['undelete'] == TRUE){
-         $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' .$params['folder_id']  .'?key=' . $this->galaxy->getAPIKey(). '&undelete=True';
-         return $this->rest->delete($URL);
-       }
-       $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' . $params['folder_id'] .'?key=' . $this->galaxy->getAPIKey();
+     if(!array_key_exists('folder_id', $params)){
+       $this->galaxy->setError("API", "A 'folder_id' is required in order to delete/undelete a folder");
+       return FALSE;
+     }
+
+     if(!array_key_exists('undelete', $params) and $params['undelete'] == TRUE){
+       $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' .$params['folder_id']  .'?key=' . $this->galaxy->getAPIKey(). '&undelete=True';
        return $this->rest->delete($URL);
      }
 
-     $this->setError("API", "A 'folder_id' is required in order to delete/undelete a folder");
-     return FALSE;
+     $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' . $params['folder_id'] .'?key=' . $this->galaxy->getAPIKey();
+     return $this->galaxy->httpDELETE($URL);
    }
 
   /**
@@ -241,16 +241,15 @@ class GalaxyFolders {
    *
    */
    public function update($params){
-     if(array_key_exists('folder_id', $params)){
-       if(array_key_exists('payload', $params)){
-         $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' .$params['folder_id'] .'/?key=' . $this->galaxy->getAPIKey();
-         return $this->rest->PATCH($URL, $params['payload']);
-       }
-       $this->setError("API", "A 'payload' is required in order to update a folder");
+     if(!array_key_exists('folder_id', $params)){
+       $this->galaxy->setError("API", "A 'folder_id' is required in order to update a folder");
        return FALSE;
      }
-     $this->setError("API", "A 'folder_id' is required in order to update a folder");
-     return FALSE;
+     if(!array_key_exists('payload', $params)){
+       $this->galaxy->setError("API", "A 'payload' is required in order to update a folder");
+         return FALSE;
+     }
+     $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' .$params['folder_id'] .'/?key=' . $this->galaxy->getAPIKey();
+     return $this->galaxy->httpPATCH($URL, $params['payload']);
    }
-
 }

@@ -1,4 +1,7 @@
-To execute test on an Ubuntu 14.04 LTS server.
+It is recommended to not run any tests on a Galaxy instance that will be used
+for production as these tests will add a lot of records (i.e. jobs, histories
+etc.) that cannot easily be removed.  Testing should be perofrmed on a test
+Galaxy iinstance. To execute test on an Ubuntu 14.04 LTS server.
 
 1) Install PHPUnit
 

@@ -1,6 +1,5 @@
 <?php
-require_once '../src/Jobs.inc';
-require_once '../src/GalaxyInstance.inc';
+require_once '../galaxy.inc';
 require_once 'testConfig.inc';
 
 
@@ -99,7 +98,6 @@ class JobsTest extends PHPUnit_Framework_TestCase {
     $this->assertTrue(is_array($index), $galaxy->getErrorMessage());
 
     return $default;
-
   }
 
 
@@ -166,8 +164,12 @@ class JobsTest extends PHPUnit_Framework_TestCase {
   /**
    * Tests Job's buildForRerun function
    * Builds a job for rerun
-   * This function is incomplete, please see our issues page on github for more information.
    *
+   *
+   * This function is incomplete, please see our issues page on github for more information.
+   * TODO: Currently the standard key authentication does not work with this
+   *  function
+   *  https://github.com/tripal/GalaxyLib-PHP/issues/13
    * @depends testIndex
    * @depends testInitGalaxy
    */
@@ -186,7 +188,7 @@ class JobsTest extends PHPUnit_Framework_TestCase {
   /**
    * TODO: Input params are not correct
    *  We need to fix them at some point
-   *  https://github.com/spficklin/GalaxyPAPI/issues/7
+   *  https://github.com/tripal/GalaxyPAPI/issues/8
    *
    *
    * @depends testIndex
@@ -202,6 +204,7 @@ class JobsTest extends PHPUnit_Framework_TestCase {
 //       'inputs' => array('id' => '03501d7626bd192f', 'dataset_id' => '03501d7626bd192f'),
 //       'status' => 'ok',
     ));
+    print_r($job);
     //$this->assertTrue(is_array($job), $galaxy->getErrorMessage());
     //$this->assertTrue(!empty($job), "Job search returned no results.");
 

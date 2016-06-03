@@ -11,15 +11,6 @@
  *
  */
 
-/**
- * @defgroup group_users_class GroupUsers Class
- * @{
- *   The GroupUsers Class interacts with Galaxy to manage users of groups.
- *   The functions in this class correspond to the Galaxy API functions and
- *   are named similarly to their Python counterpart.
- * @}
- */
-
 class GalaxyGroupUsers {
   private $galaxy;
 
@@ -53,9 +44,9 @@ class GalaxyGroupUsers {
     *
     */
   public function index($group_id) {
-    $URL = $this->galaxy->getURL() .'/api/groups/' .$group_id .'/users/?key=' .$this->galaxy->getAPIKey();
+    $URL = $this->galaxy->getURL() . '/api/groups/' . $group_id .'/users/?key=' . $this->galaxy->getAPIKey();
     $response = $this->galaxy->httpGET($URL);
-    return $this->expectArray($response);
+    return $this->galaxy->expectArray($response);
   }
 
   /**
@@ -78,7 +69,7 @@ class GalaxyGroupUsers {
   public function show($group_id, $user_id) {
     $URL = $this->galaxy->getURL() .'/api/groups/' .$group_id .'/users/' .$user_id .'/?key=' .$this->galaxy->getAPIKey();
     $response = $this->galaxy->httpGET($URL);
-    return $this->expectArray($response);
+    return $this->galaxy->expectArray($response);
   }
 
   /**
@@ -101,7 +92,7 @@ class GalaxyGroupUsers {
   public function update($group_id, $user_id) {
     $URL = $this->galaxy->getURL() . '/api/groups/' . $group_id .'/users/' . $user_id .'/?key=' . $this->galaxy->getAPIKey();
     $response = $this->galaxy->httpPUT($URL);
-    return $this->expectArray($response);
+    return $this->galaxy->expectArray($response);
   }
 
   /**
@@ -124,6 +115,6 @@ class GalaxyGroupUsers {
   public function delete($group_id, $user_id) {
     $URL = $this->galaxy->getURL() . '/api/groups/' . $group_id . '/users/' . $user_id . '/?key=' . $this->galaxy->getAPIKey();
     $response =  $this->galaxy->httpDELETE($URL);
-    return $this->expectArray($response);
+    return $this->galaxy->expectArray($response);
   }
 }

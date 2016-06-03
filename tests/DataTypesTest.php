@@ -36,7 +36,7 @@ class DataTypesTest extends PHPUnit_Framework_TestCase {
 
     // Case 1: Sniffer datatypes returned in an array successfully.
     $sniffer = $datatypes->sniffers();
-    $this->assertTrue(is_array($sniffer), $datatypes->getErrorMessage());
+    $this->assertTrue(is_array($sniffer), $galaxy->getErrorMessage());
 
   }
 
@@ -53,7 +53,7 @@ class DataTypesTest extends PHPUnit_Framework_TestCase {
 
     // Case 1: Converter datatypes returned in an array successfully.
     $converter = $datatypes->converters();
-    $this->assertTrue(is_array($converter), $datatypes->getErrorMessage());
+    $this->assertTrue(is_array($converter), $galaxy->getErrorMessage());
   }
 
   /**
@@ -69,7 +69,7 @@ class DataTypesTest extends PHPUnit_Framework_TestCase {
 
     // Case 1: Edam Formats datatypes returned in an array successfully.
     $edam = $datatypes->edamFormats();
-    $this->assertTrue(is_array($edam), $datatypes->getErrorMessage());
+    $this->assertTrue(is_array($edam), $galaxy->getErrorMessage());
   }
 
   /**
@@ -85,7 +85,7 @@ class DataTypesTest extends PHPUnit_Framework_TestCase {
 
     // Case 1: Mapper datatypes are returned in an array successfully.
     $mapping = $datatypes->mapping();
-    $this->assertTrue(is_array($mapping), $datatypes->getErrorMessage());
+    $this->assertTrue(is_array($mapping), $galaxy->getErrorMessage());
   }
 
   /**
@@ -101,6 +101,6 @@ class DataTypesTest extends PHPUnit_Framework_TestCase {
 
     // Case 1: A list of datatypes is successfully retreived in an array.
     $datatypes_list = $datatypes->index();
-    $this->assertTrue(is_array($datatypes_list), $datatypes->getErrorMessage());
+    $this->assertTrue(is_array($datatypes_list), $galaxy->getErrorMessage());
   }
 }

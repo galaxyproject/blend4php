@@ -35,7 +35,6 @@ class GalaxyToolShedRepositories {
    */
    function __construct($galaxy) {
      $this->galaxy = $galaxy;
-     parent::__construct();
    }
 
   /**
@@ -60,7 +59,7 @@ class GalaxyToolShedRepositories {
      $api_key = $this->galaxy->getAPIKey();
      $URL = $this->galaxy->getURL() . '/api/tool_shed_repositories/' . $tool_shed_repo_id . '/exported_workflows'  .  '?key=' . $api_key;
      $response = $this->galaxy->httpGET($URL);
-     return $this->expectArray($response);
+     return $this->galaxy->expectArray($response);
    }
 
   /**
@@ -130,7 +129,7 @@ class GalaxyToolShedRepositories {
 
    $result = $this->galaxy->httpPOST($URL, $data);
 
-   return $this->expectArray($result);
+   return $this->galaxy->expectArray($result);
   }
 
   /**
@@ -149,7 +148,7 @@ class GalaxyToolShedRepositories {
 
     $result = $this->galaxy->httpGET($URL);
 
-    return $this->expectArray($result);
+    return $this->galaxy->expectArray($result);
   }
 
    /**

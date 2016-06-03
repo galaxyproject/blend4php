@@ -36,7 +36,7 @@ class WorkflowsTest extends PHPUnit_Framework_TestCase {
    */
   function testIndex($galaxy){
     global $config;
-    $workflows = new Workflows($galaxy);
+    $workflows = new GalaxyWorkflows($galaxy);
 
     // Case 1: A list of workflows is successfully retreived in an array.
     $workflows_list = $workflows->index();
@@ -60,7 +60,7 @@ class WorkflowsTest extends PHPUnit_Framework_TestCase {
    */
   function testShow($galaxy, $workflow_id){
     global $config;
-    $workflows = new Workflows($galaxy);
+    $workflows = new GalaxyWorkflows($galaxy);
 
     // Case 1: given a workflow id, the show function successfully retreive a
     // workflow
@@ -91,7 +91,7 @@ class WorkflowsTest extends PHPUnit_Framework_TestCase {
    */
   function testCreate($galaxy){
     global $config;
-    $workflows = new Workflows($galaxy);
+    $workflows = new GalaxyWorkflows($galaxy);
     $workflow_id = "";
 
     // Case 1: successfully return a workflow created from json
@@ -121,12 +121,12 @@ class WorkflowsTest extends PHPUnit_Framework_TestCase {
    */
   function testInvoke($galaxy, $workflow_id){
     global $config;
-    $workflows = new Workflows($galaxy);
+    $workflows = new GalaxyWorkflows($galaxy);
 
     // Create the necessary obejcts for this function:
-    $histories = new Histories($galaxy);
-    $history_content = new HistoryContents($galaxy);
-    $tools = new Tools($galaxy);
+    $histories = new GalaxyHistories($galaxy);
+    $history_content = new GalaxyHistoryContents($galaxy);
+    $tools = new GalaxyTools($galaxy);
 
     // Create our very own history for this test!
     $ourHistory = $histories->create("Testing Workflows Invoke");
@@ -188,7 +188,7 @@ class WorkflowsTest extends PHPUnit_Framework_TestCase {
    */
   function testIndexInvocation ($galaxy, $workflow_id){
     global $config;
-    $workflows = new Workflows($galaxy);
+    $workflows = new GalaxyWorkflows($galaxy);
     $invocation_id ='';
 
     // Case 1: correctly return a list of invocations upon a correct workflow_id
@@ -214,7 +214,7 @@ class WorkflowsTest extends PHPUnit_Framework_TestCase {
   */
  function testShowInvocation($galaxy, $workflow_id, $invocation_id){
   global $config;
-  $workflows = new Workflows($galaxy);
+  $workflows = new GalaxyWorkflows($galaxy);
   $step_id = '';
 
   // Case 1: correctly return a list of invocations upon a correct workflow_id
@@ -243,7 +243,7 @@ class WorkflowsTest extends PHPUnit_Framework_TestCase {
   */
  function testInvocationSteps($galaxy, $workflow_id, $invocation_id, $step_id){
    global $config;
-   $workflows = new Workflows($galaxy);
+   $workflows = new GalaxyWorkflows($galaxy);
 
    // Case 1: Correctly find information about an invocation step, given correct
    // parameters
@@ -273,7 +273,7 @@ class WorkflowsTest extends PHPUnit_Framework_TestCase {
   */
  function testUpdateInvocation($galaxy, $workflow_id, $invocation_id, $step_id){
    global $config;
-   $workflows = new Workflows($galaxy);
+   $workflows = new GalaxyWorkflows($galaxy);
 
    $error = $workflows->updateInvocationSteps($workflow_id, $invocation_id, $step_id);
    $this->assertFalse($error,"updateInvocations function should return false");
@@ -292,7 +292,7 @@ class WorkflowsTest extends PHPUnit_Framework_TestCase {
   */
  function testCancelInvocation($galaxy, $workflow_id, $invocation_id){
    global $config;
-   $workflows = new Workflows($galaxy);
+   $workflows = new GalaxyWorkflows($galaxy);
 
    $error = $workflows->cancelInvocation($workflow_id, $invocation_id);
    $this->assertFalse($error,"updateInvocations function should return false");
@@ -308,7 +308,7 @@ class WorkflowsTest extends PHPUnit_Framework_TestCase {
   */
  function testUpdate($galaxy, $workflow_id){
    global $config;
-   $workflows = new Workflows($galaxy);
+   $workflows = new GalaxyWorkflows($galaxy);
 
    $json_workflow = file_get_contents("./files/Galaxy-Workflow-update.ga");
 
@@ -337,7 +337,7 @@ class WorkflowsTest extends PHPUnit_Framework_TestCase {
  function testExport($galaxy, $workflow_id){
    global $config;
 
-   $workflows = new Workflows($galaxy);
+   $workflows = new GalaxyWorkflows($galaxy);
 
    // Case 1: Successfully export workflow as an array
    $exported_workflow = $workflows->export($workflow_id);
@@ -361,7 +361,7 @@ class WorkflowsTest extends PHPUnit_Framework_TestCase {
  function testDownload($galaxy, $workflow_id){
    global $config;
 
-   $workflows = new Workflows($galaxy);
+   $workflows = new GalaxyWorkflows($galaxy);
 
    // Case 1: Successfully export workflow as an array
    $array_workflow = $workflows->download($workflow_id);
@@ -384,7 +384,7 @@ class WorkflowsTest extends PHPUnit_Framework_TestCase {
  function testBuildModule($galaxy, $workflow_id){
    global $config;
 
-   $workflows = new Workflows($galaxy);
+   $workflows = new GalaxyWorkflows($galaxy);
 
    // Case 1: Successfully export workflow as an array
    $error = $workflows->buildModule(NULL);
@@ -413,7 +413,7 @@ class WorkflowsTest extends PHPUnit_Framework_TestCase {
  function delete($galaxy, $workflow_id){
    global $config;
 
-   $workflows = new Workflows($galaxy);
+   $workflows = new GalaxyWorkflows($galaxy);
 
    // Case 1: Successfully export workflow as an array
    $deleted = $workflows->delete($workflow_id);

@@ -52,7 +52,7 @@ class GalaxyVisualizations {
   function index(){
     $URL = $this->galaxy->getURL() . '/api/visualizations/?key=' . $this->galaxy->getAPIKey();
     $response = $this->galaxy->httpGET($URL);
-    return $this->expectArray($response);
+    return $this->galaxy->expectArray($response);
   }
 
   /**
@@ -69,7 +69,7 @@ class GalaxyVisualizations {
   function show($viz_id){
     $URL = $this->galaxy->getURL() . '/api/visualizations/'. $viz_id . '?/key=' . $this->galaxy->getAPIKey();
     $response = $this->galaxy->httpGET($URL);
-    return $this->expectArray($response);
+    return $this->galaxy->expectArray($response);
   }
 
   /**
@@ -97,7 +97,7 @@ class GalaxyVisualizations {
     if($import_id != NULL) {
       $URL = $this->galaxy->getURL() . '/api/visualizations?import_id=' . $import_id . '&key=' . $this->galaxy->getAPIKey();
       $response = $this->galaxy->httpPOST($URL);
-      return $this->expectArray($response);
+      return $this->galaxy->expectArray($response);
     }
 
     $URL = $this->galaxy->getURL() . '/api/visualizations?key=' . $this->galaxy->getAPIKey();
@@ -107,7 +107,7 @@ class GalaxyVisualizations {
       'dbkey' => $dbkey,
     );
     $response = $this->galaxy->httpPOST($URL, $elements);
-    return $this->expectArray($response);
+    return $this->galaxy->expectArray($response);
   }
 
 
@@ -148,7 +148,7 @@ class GalaxyVisualizations {
     }
 
     $response = $this->galaxy->httpPUT($URL, $elements);
-    return $this->expectArray($response);
+    return $this->galaxy->expectArray($response);
 
   }
 }

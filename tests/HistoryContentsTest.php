@@ -1,9 +1,6 @@
 <?php
-require_once '../src/GalaxyInstance.inc';
 require_once './testConfig.inc';
-require_once '../src/Histories.inc';
-require_once '../src/HistoryContents.inc';
-require_once '../src/Tools.inc';
+require_once '../galaxy.inc';
 
 class HistoryContentsTest extends PHPUnit_Framework_TestCase {
 
@@ -18,8 +15,8 @@ class HistoryContentsTest extends PHPUnit_Framework_TestCase {
 
     // Connect to Galaxy.
     $galaxy = new GalaxyInstance($config['host'], $config['port'], FALSE);
-    $success = $galaxy->authenticate($config['email'], $config['pass']);
-    $this->assertTrue($success, $galaxy->getErrorMessage());
+
+    $response = $galaxy->authenticate($config['email'], $config['pass']);
 
     return $galaxy;
   }
@@ -30,7 +27,6 @@ class HistoryContentsTest extends PHPUnit_Framework_TestCase {
    * @depends testInitGalaxy
    */
   function testIndex($galaxy){
-    global $config;
 
     // First we need a history id, grab the first history we see
     $histories = new GalaxyHistories($galaxy);
@@ -56,21 +52,17 @@ class HistoryContentsTest extends PHPUnit_Framework_TestCase {
     $inputs['history_id'] = "123";
     $response2 = $history_content->index($inputs);
     $this->assertFalse(is_array($response2), $galaxy->getErrorMessage());
-
-//     // return the history_id.
-//     return $inputs['history_id'];
   }
 
   /**
    * Test the create function
    *
-   * Creates a new history content
+   * Creates a new GalaxyHistory content
    *
    * @depends testInitGalaxy
    * @depends testIndex
    */
   function testCreate($galaxy){
-    global $config;
 
     // Create the necessary obejcts for this function:
     $histories = new GalaxyHistories($galaxy);
@@ -146,11 +138,9 @@ class HistoryContentsTest extends PHPUnit_Framework_TestCase {
    * @depends testIndex
    */
   function testShow($galaxy, $inputs){
-    global $config;
 
     $histories = new GalaxyHistories($galaxy);
     $history_content = new GalaxyHistoryContents($galaxy);
-
 
     $history_list = $histories->index(array());
 
@@ -163,6 +153,8 @@ class HistoryContentsTest extends PHPUnit_Framework_TestCase {
     $inputs['history_id'] = "@@";
     $content2 = $history_content->show($inputs);
     $this->assertTrue(is_array($content2), $galaxy->getErrorMessage());
+
+    //print_r($content2);
 
     // Case 3 given an incorect content_id, make sure it returns false.
     $inputs['history_id'] = $history_list[0]['id'];
@@ -182,7 +174,6 @@ class HistoryContentsTest extends PHPUnit_Framework_TestCase {
    * @depends testIndex
    */
   function testUpdate($galaxy, $inputs){
-   global $config;
 
    // Declare history content and history objects
    $histories = new GalaxyHistories($galaxy);
@@ -205,7 +196,6 @@ class HistoryContentsTest extends PHPUnit_Framework_TestCase {
    $inputs['id'] = "123";
    $updated = $history_content->update($inputs);
    $this->assertFalse(is_array($updated), $galaxy->getErrorMessage());
-
  }
 
  /**
@@ -220,7 +210,6 @@ class HistoryContentsTest extends PHPUnit_Framework_TestCase {
   * @depends testUpdate
   */
  function testDelete($galaxy, $inputs){
-   global $config;
 
    // Declare history content and history objects
    $histories = new GalaxyHistories($galaxy);

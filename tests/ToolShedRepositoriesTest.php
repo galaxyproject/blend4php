@@ -92,7 +92,7 @@ class ToolShedRepositoriesTest extends PHPUnit_Framework_TestCase {
 
     foreach ($result as $candidate){
       if (!empty($tool_shed_repo->exportedWorkflows($candidate['id']))){
-        $this->assertTrue(($tool_shed_repo->importWorkflow($candidate['id'], $tool_shed_repo->exportedWorkflows($candidate['id'])[0]['index'])), $tool_shed_repo->getErrorMessage());
+        $this->assertTrue(($tool_shed_repo->importWorkflow($candidate['id'], $tool_shed_repo->exportedWorkflows($candidate['id'])[0]['index'])), $galaxy->getErrorMessage());
       }
     }
   }

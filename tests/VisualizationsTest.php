@@ -32,7 +32,7 @@ class VisualizationsTest extends PHPUnit_Framework_TestCase {
   function testCreate($galaxy){
     global $config;
 
-    $vizs = new Visualizations($galaxy);
+    $vizs = new GalaxyVisualizations($galaxy);
 
     // Case 1: Successful creation of a new visualization
     $response = $vizs->create("A type", "A Title", "a db_key" , 'password');
@@ -57,7 +57,7 @@ class VisualizationsTest extends PHPUnit_Framework_TestCase {
     global $config;
 
     // Create  Visualization object.
-    $vizs = new Visualizations($galaxy);
+    $vizs = new GalaxyVisualizations($galaxy);
 
     // Case 1:  Are we getting an array?
     $response = $vizs->index();
@@ -76,7 +76,7 @@ class VisualizationsTest extends PHPUnit_Framework_TestCase {
   function testShow($galaxy){
     global $config;
 
-    $vizs = new Visualizations($galaxy);
+    $vizs = new GalaxyVisualizations($galaxy);
 
     // Get the ID of our config .
     $response = $vizs->index();

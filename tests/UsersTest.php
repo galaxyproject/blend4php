@@ -35,7 +35,7 @@ class UsersTest extends PHPUnit_Framework_TestCase {
     global $config;
 
     // Create  Users object.
-    $users = new Users($galaxy);
+    $users = new GalaxyUsers($galaxy);
 
     // Case 1:  Are we getting an array?
     $users_list = $users->index();
@@ -70,7 +70,7 @@ class UsersTest extends PHPUnit_Framework_TestCase {
   function testShow($galaxy, $users_list){
     global $config;
 
-    $users = new Users($galaxy);
+    $users = new GalaxyUsers($galaxy);
 
     // Use the user ID of the first user in the list to test the
     // show() function.
@@ -95,7 +95,7 @@ class UsersTest extends PHPUnit_Framework_TestCase {
   function testGetUserID($galaxy) {
     global $config;
 
-    $users = new Users($galaxy);
+    $users = new GalaxyUsers($galaxy);
 
     // Case 1:  Test for a false user.
     $user_id = $users->getUserID('asdjasldfjasldfjaslfjaslfjaslfjasdf');
@@ -115,7 +115,7 @@ class UsersTest extends PHPUnit_Framework_TestCase {
   function testCreate($galaxy){
     global $config;
 
-    $users = new Users($galaxy);
+    $users = new GalaxyUsers($galaxy);
 
     // Case 1: Successful creation of a new user.
     $username = uniqid('galaxy-php-test-create-');
@@ -139,7 +139,7 @@ class UsersTest extends PHPUnit_Framework_TestCase {
   function testDelete($galaxy){
     global $config;
 
-    $users = new Users($galaxy);
+    $users = new GalaxyUsers($galaxy);
 
     // Create a new user for testing of delete.
     $username = uniqid('galaxy-php-test-delete-');
@@ -175,7 +175,7 @@ class UsersTest extends PHPUnit_Framework_TestCase {
    function testAPIKey($galaxy){
      global $config;
 
-     $users = new Users($galaxy);
+     $users = new GalaxyUsers($galaxy);
 
      // First create a new user for testing the change of API Key.
      $username = uniqid('galaxy-php-test-apikey-');

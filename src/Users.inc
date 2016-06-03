@@ -35,8 +35,6 @@ class GalaxyUsers {
    */
    function __construct($galaxy) {
      $this->galaxy = $galaxy;
-
-     parent::__construct();
    }
 
   /**
@@ -79,7 +77,7 @@ class GalaxyUsers {
      $URL .= $endURL;
      // $URL2 = $this->galaxy->getURL() . '/api/users/deleted'. $user_id ."/api_key/?key=" . $this->galaxy->getAPIKey();
      $response = $this->galaxy->httpGET($URL);
-     return $this->expectArray($response);
+     return $this->galaxy->expectArray($response);
    }
 
   /**
@@ -100,7 +98,7 @@ class GalaxyUsers {
   function show($user_id) {
     $URL = $this->galaxy->getURL() .'/api/users/' .$user_id .'/?key=' .$this->galaxy->getAPIKey();
     $response = $this->galaxy->httpGET($URL);
-    return $this->expectArray($response);
+    return $this->galaxy->expectArray($response);
   }
 
   /**
@@ -155,7 +153,7 @@ class GalaxyUsers {
     );
 
     $response = $this->galaxy->httpPOST($URL, $input);
-    return $this->expectArray($response);
+    return $this->galaxy->expectArray($response);
   }
 
   /**
@@ -194,7 +192,7 @@ class GalaxyUsers {
       $URL .= '&purge=True';
     }
     $response =  $this->galaxy->httpDELETE($URL);
-    return $this->expectArray($response);
+    return $this->galaxy->expectArray($response);
   }
 
   /**

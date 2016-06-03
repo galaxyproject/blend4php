@@ -62,14 +62,14 @@ class GalaxyDatasets {
       }
     }
     else {
-      $this->setError("API", "This function expects at least a the parameter \'dataset_id\'.
+      $this->galaxy->setError("API", "This function expects at least a the parameter \'dataset_id\'.
         The \'extension'\ parameter is optional.");
       return FALSE;
     }
 
     $response = $this->galaxy->httpGET($URL);
 
-    return $this->expectArray($response);
+    return $this->galaxy->expectArray($response);
   }
 
   /**
@@ -99,21 +99,21 @@ class GalaxyDatasets {
       }
 
       else{
-        $this->setError("API", "This function requires the \'hist_id\' AND the \'hist_content_id\'.
+        $this->galaxy->setError("API", "This function requires the \'hist_id\' AND the \'hist_content_id\'.
              If one or the other is missing you will receive this error.");
         return FALSE;
       }
     }
 
     else{
-      $this->setError("API", "This function requires the \'hist_id\' AND the \'hist_content_id\'.
+      $this->galaxy->setError("API", "This function requires the \'hist_id\' AND the \'hist_content_id\'.
              If one or the other is missing you will receive this error.");
       return FALSE;
     }
 
     $response = $this->galaxy->httpGET($URL);
 
-    return $this->expectArray($response);
+    return $this->galaxy->expectArray($response);
   }
 
   /**
@@ -124,7 +124,7 @@ class GalaxyDatasets {
   public function index() {
     $URL = $this->galaxy->getURL() . '/api/datasets/?key=' . $this->galaxy->getAPIKey();
     $response = $this->galaxy->httpGET($URL);
-    return $this->expectArray($response);
+    return $this->galaxy->expectArray($response);
   }
 
   /**
@@ -147,6 +147,6 @@ class GalaxyDatasets {
   public function show($dataset_id) {
     $URL = $this->galaxy->getURL() . '/api/datasets/' . $dataset_id . '/?key=' . $this->galaxy->getAPIKey();
     $response = $this->galaxy->httpGET($URL);
-    return $this->expectArray($response);
+    return $this->galaxy->expectArray($response);
   }
 }

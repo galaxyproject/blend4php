@@ -60,7 +60,7 @@ class GalaxySearch {
        'query'=> $query,
      );
      $response = $this->galaxy->httpPOST($URL, $elements);
-     return $this->expectArray($response);
+     return $this->galaxy->expectArray($response);
    }
 
 

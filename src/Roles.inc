@@ -25,7 +25,6 @@ class GalaxyRoles {
    *
    */
   public function __construct($galaxy) {
-    parent ::__construct();
     $this->galaxy = $galaxy;
   }
 
@@ -43,7 +42,7 @@ class GalaxyRoles {
   public function index(){
     $URL = $this->galaxy->getURL() . '/api/roles/?key=' . $this->galaxy->getAPIKey();
     $response = $this->galaxy->httpGET($URL);
-    return $this->expectArray($response);
+    return $this->galaxy->expectArray($response);
   }
 
   /**
@@ -64,14 +63,15 @@ class GalaxyRoles {
    *
    */
   public function show($params){
-    if(array_key_exists('role_id', $params)){
-      $URL = $this->galaxy->getURL() . '/api/roles/' . $params['role_id'] . '/?key=' . $this->galaxy->getAPIKey();
-      $response = $this->galaxy->httpGET($URL);
-      return $this->expectArray($response);
+    if(!array_key_exists('role_id', $params)){
+      $this->galaxy->setError('API', 'Please provide a value for the \'role_id\' argument.');
+      return FALSE;
     }
 
-    $this->setError('API', 'Please provide a value for the \'role_id\' argument.');
-    return FALSE;
+    $URL = $this->galaxy->getURL() . '/api/roles/' . $params['role_id'] . '/?key=' . $this->galaxy->getAPIKey();
+    $response = $this->galaxy->httpGET($URL);
+    return $this->galaxy->expectArray($response);
+
   }
 
 
@@ -102,6 +102,15 @@ class GalaxyRoles {
    */
   public function create($params) {
 
+    if(!array_key_exists('name', $params)){
+      $this->galaxy->setError('API', "Please provide a 'name'  as an input to this function.");
+      return FALSE;
+    }
+    if(!array_key_exists('description', $params)){
+      $this->galaxy->setError('API', "Please provide a 'description' as an input to this function.");
+      return FALSE;
+    }
+
     $URL = $this->galaxy->getURL() . '/api/roles/?key=' . $this->galaxy->getAPIKey();
 
     if(array_key_exists('name', $params) and array_key_exists('description', $params)){
@@ -112,13 +121,17 @@ class GalaxyRoles {
         $params['group_ids'] = json_encode($params['group_ids']);
 
       $response = $this->galaxy->httpPOST($URL, $params);
-      $response = $this->expectArray($response);
+      $response = $this->galaxy->expectArray($response);
 
       return $response;
     }
 
-    $this->setError('API', 'Please provide at least a \'name\' AND \'description\' as inputs to this funciton.');
+    $this->galaxy->setError('API', 'Please provide at least a \'name\' AND \'description\' as inputs to this funciton.');
     return FALSE;
 
+    $response = $this->galaxy->httpPOST($URL, $params);
+    $response = $this->galaxy->expectArray($response);
+
+    return $response;
   }
 }

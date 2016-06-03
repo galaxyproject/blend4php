@@ -1,8 +1,5 @@
 <?php
-require_once '../src/Groups.inc';
-require_once '../src/Users.inc';
-require_once '../src/Roles.inc';
-require_once '../src/GalaxyInstance.inc';
+require_once '../galaxy.inc';
 require_once './testConfig.inc';
 
 class GroupsTest extends PHPUnit_Framework_TestCase {
@@ -41,18 +38,21 @@ class GroupsTest extends PHPUnit_Framework_TestCase {
     }
 
     // Case 1: Create a group without any users.
-    $group_name = uniqid('galaxy-php-test-group1-');
-    $group = $groups->create($group_name);
+    $inputs = array();
+    $inputs['name'] = uniqid('galaxy-php-test-group1-');
+
+    $group = $groups->create($inputs);
     $this->assertTrue(is_array($group), $galaxy->getErrorMessage());
 
     // Case 2: Try recreating the group with the same name. We should
     // recieve a FALSE return value.
-    $group = $groups->create($group_name);
+    $group = $groups->create($inputs);
     $this->assertFalse($group, 'If the group already exists the create() function should return FALSE: ' . print_r($group, TRUE));
 
     // Case 3: Create another group and add all the users to it.
-    $group_name = uniqid('galaxy-php-test-group2-');
-    $group = $groups->create($group_name,  $user_ids);
+    $inputs['name'] = uniqid('galaxy-php-test-group2-');
+    $inputs['user_ids'] = $user_ids;
+    $group = $groups->create($inputs);
     $this->assertTrue(is_array($group), $galaxy->getErrorMessage());
     // TODO: need a way to determine if all of the users were added to the group?
 
@@ -66,18 +66,22 @@ class GroupsTest extends PHPUnit_Framework_TestCase {
     $roles = new GalaxyRoles($galaxy);
 
     // Create two roles without any users then use their IDs for a new group
-    $role_name = uniqid('galaxy-php-test-group-role-');
-    $role = $roles->create($role_name, 'Test group role #1');
+    $roleinputs = array();
+    $roleinputs['name'] = uniqid('galaxy-php-test-group-role-');
+    $roleinputs['description'] = 'Test group role #1';
+    $role = $roles->create($roleinputs);
     $this->assertTrue(is_array($role), $galaxy->getErrorMessage());
-    $role_ids[] = $role['id'];
+    $role_ids[] = $role[0]['id'];
 
-    $role_name = uniqid('galaxy-php-test-group-role-');
-    $role = $roles->create($role_name, 'Test group role #2');
+    $roleinputs['name'] = uniqid('galaxy-php-test-group-role-');
+    $roleinputs['description'] = 'Test group role #2';
+    $role = $roles->create($roleinputs);
     $this->assertTrue(is_array($role), $galaxy->getErrorMessage());
-    $role_ids[] = $role['id'];
 
-    $group_name = uniqid('galaxy-php-test-group3-');
-    $group = $groups->create($group_name, array(), $role_ids);
+
+    $inputs['role_ids'] = $role_ids;
+    $inputs['name'] = uniqid('galaxy-php-test-group3-');
+    $group = $groups->create($inputs);
     $this->assertTrue(is_array($group), $galaxy->getErrorMessage());
 
     // Return the last group created.
@@ -115,12 +119,13 @@ class GroupsTest extends PHPUnit_Framework_TestCase {
 
     // Use the history ID of the first history in the list to test the
     // show() function.
-    $group_id = $groups_list[0]['id'];
+    $inputs = array();
+    $inputs['group_id'] = $groups_list[0]['id'];
 
     // Case 1:  Are we getting an array?  If so, that's all we need to
     // test. We don't need to do unit testing for galaxy. We assume the
     // array is correct.
-    $group = $groups->show($group_id);
+    $group = $groups->show($inputs);
     $this->assertTrue(is_array($group), $galaxy->getErrorMessage());
   }
 
@@ -144,5 +149,10 @@ class GroupsTest extends PHPUnit_Framework_TestCase {
     $updated_group = $groups->update($group_id,$group_name, array('f597429621d6eb2b'), array('f597429621d6eb2b'));
     $this->assertFalse(is_array($updated_group), $galaxy->getErrorMessage());
 
+    // A different approach is needed in order to see if the group is updated.
+    // The word 'updated' is added to the name of the group.
+    $isupdated = $groups->show(array('group_id' => $group['id']));
+    preg_match("/updated$/", $isupdated['name'], $matches);
+    $this->assertTrue(!empty($matches), $galaxy->getErrorMessage());
   }
 }

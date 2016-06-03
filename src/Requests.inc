@@ -41,7 +41,7 @@ class GalaxyRequests {
     $URL = $this->galaxy->getURL() . '/api/requests' .  '?key=' . $api_key;
 
     $response = $this->galaxy->httpGET($URL);
-    return $this->expectArray($response);
+    return $this->galaxy->expectArray($response);
   }
 
   /**
@@ -64,7 +64,7 @@ class GalaxyRequests {
     $URL = $this->galaxy->getURL() . '/api/requests' .  '?key=' . $api_key . $encoded_request_id;
 
     $response = $this->galaxy->httpGET($URL);
-    return $this->expectArray($response);
+    return $this->galaxy->expectArray($response);
 
   }
 
@@ -85,7 +85,7 @@ class GalaxyRequests {
     $URL = $this->galaxy->getURL() . '/api/requests' .  '?key=' . $api_key . $encoded_request_id;
 
     $response = $this->galaxy->httpGET($URL);
-    return $this->expectArray($response);
+    return $this->galaxy->expectArray($response);
 
   }
 }

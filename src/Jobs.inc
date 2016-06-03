@@ -38,7 +38,7 @@ class GalaxyJobs {
    * @param $params
    *    A key value (associative array) where the keys can be the following:
    *
-   *    - job_id: The job id of the job whose information to retreive.
+   *    - id: The job id of the job whose information to retreive.
    *        The job id can be ontained from this class's index() function.
    *
    * @return
@@ -48,22 +48,22 @@ class GalaxyJobs {
    *
    */
   public function buildForRerun($params){
-
+    
     // The 'tool_id' is required.
     if (!array_key_exists('job_id', $params)) {
-      $this->setError("API", "A 'job_id' is required in order to invoke this call");
+      $this->galaxy->setError("API", "A 'job_id' is required in order to invoke this call");
       return FALSE;
     }
 
     // Contruct the basic URL to the Galaxy API.
-    $URL = $this->galaxy->getURL() . '/api/jobs/'. $params['job_id'] . '/build_for_rerun/';
+    $URL = $this->galaxy->getURL() . '/api/jobs/'. $params['id'] . '/build_for_rerun';
     $URL .= '?key=' . $this->galaxy->getAPIKey();
 
     // Get the response from the Galaxy server.
     $response = $this->galaxy->httpGET($URL);
-//     $this->setError("API", "This function is not complete, the corresponding Galaxy API
-//         function wants a history_id, why or how is still uknown. Please see our issues page on Github for more information");
-    return $this->expectArray($response);
+    //     $this->galaxy->setError("API", "This function is not complete, the corresponding Galaxy API
+    //         function wants a history_id, why or how is still uknown. Please see our issues page on Github for more information");
+    return $this->galaxy->expectArray($response);
   }
 
  /**
@@ -87,7 +87,7 @@ class GalaxyJobs {
 
     // The 'tool_id' is required.
     if (!array_key_exists('job_id', $params)) {
-      $this->setError("API", "A 'job_id' is required to see a job's inputs");
+      $this->galaxy->setError("API", "A 'job_id' is required to see a job's inputs");
       return FALSE;
     }
 
@@ -97,7 +97,7 @@ class GalaxyJobs {
 
     // Get the response from the Galaxy server.
     $response = $this->galaxy->httpGET($URL);
-    return $this->expectArray($response);
+    return $this->galaxy->expectArray($response);
   }
 
  /**
@@ -122,7 +122,7 @@ class GalaxyJobs {
 
     // The 'tool_id' is required.
     if (!array_key_exists('job_id', $params)) {
-      $this->setError("API", "A 'job_id' is required to see a job's outputs");
+      $this->galaxy->setError("API", "A 'job_id' is required to see a job's outputs");
       return FALSE;
     }
 
@@ -132,7 +132,7 @@ class GalaxyJobs {
 
     // Get the response from the Galaxy server.
     $response = $this->galaxy->httpGET($URL);
-    return $this->expectArray($response);
+    return $this->galaxy->expectArray($response);
   }
 
  /**
@@ -153,10 +153,10 @@ class GalaxyJobs {
   *
   */
   public function show($params){
-
+    
     // The 'tool_id' is required.
     if (!array_key_exists('job_id', $params)) {
-      $this->setError("API", "A 'job_id' is required to see a job's metadata");
+      $this->galaxy->setError("API", "A 'job_id' is required to see a job's metadata");
       return FALSE;
     }
 
@@ -166,7 +166,7 @@ class GalaxyJobs {
 
     // Get the response from the Galaxy server.
     $response = $this->galaxy->httpGET($URL);
-    return $this->expectArray($response);
+    return $this->galaxy->expectArray($response);
   }
 
  /**
@@ -216,7 +216,7 @@ class GalaxyJobs {
       if(!is_array($params['state'])){
         // Is there only one parameter?
         if (!is_string($params['state'])){
-          $this->setError('User', 'Invalid state input scheme (string or array structure)');
+          $this->galaxy->setError('User', 'Invalid state input scheme (string or array structure)');
           return FALSE;
         }
 
@@ -239,7 +239,7 @@ class GalaxyJobs {
       if(!is_array($params['tool_ids'])){
         // Is there only one parameter?
         if (!is_string($params['tool_ids'])){
-          return $this->setError('User', 'Invalid tool_id input scheme (string or array structure)');
+          return $this->galaxy->setError('User', 'Invalid tool_id input scheme (string or array structure)');
         }
         $URL .= '&tool_id=' . $params['tool_ids'];
       }
@@ -250,18 +250,18 @@ class GalaxyJobs {
         }
       }
       unset($params['tool_ids']);
-    }
 
-
+    
     // Add all other parameters to the URL.
     foreach ($params as $key => $value) {
       $URL .= '&' . $key . '=' . $value;
     }
 
+  }
     $response = $this->galaxy->httpGET($URL);
 
-    return $this->expectArray($response);
-  }
+    return $this->galaxy->expectArray($response);
+}
 
 
  /**
@@ -275,8 +275,8 @@ class GalaxyJobs {
   *
   *
   */
-  public function create(){
-     $this->setError('Galaxy', 'Not implemented: Creating/submitting a job is actually run under tools.py');
+  public function create() {
+     $this->galaxy->setError('Galaxy', 'Not implemented: Creating/submitting a job is actually run under tools.py');
      return FALSE;
    }
 
@@ -315,7 +315,7 @@ class GalaxyJobs {
 
     // Check that incoming arguments are appropriate.
     if (!array_key_exists('tool_id', $params)) {
-      $this->setError('API', 'The \'tool_id\' parameter is required');
+      $this->galaxy->setError('API', 'The \'tool_id\' parameter is required');
       return FALSE;
     }
 
@@ -324,7 +324,7 @@ class GalaxyJobs {
 //       $keys = array_keys($params['inputs']);
 //       foreach ($keys as $key) {
 //         if ($key !== 'src' and $key !== 'id') {
-//           $this->setError('API', "The \"inputs\" parameter must be an associative array with keys either 'id' or 'src'.");
+//           $this->galaxy->setError('API', "The \"inputs\" parameter must be an associative array with keys either 'id' or 'src'.");
 //           return FALSE;
 //         }
 //       }
@@ -338,12 +338,13 @@ class GalaxyJobs {
 
 
     $response = $this->galaxy->httpPOST($URL, $params);
-
+    
     print "\nResponse:";
-
+    print_r($response);
+    
     return $response;
 
-    $this->setError("API", "This function is incomplete, please see our issues page on GitHub for
+    $this->galaxy->setError("API", "This function is incomplete, please see our issues page on GitHub for
         more information");
     return FALSE;
 
