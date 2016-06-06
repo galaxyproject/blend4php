@@ -40,13 +40,14 @@ class GroupRolesTest extends PHPUnit_Framework_TestCase {
     $inputs['description'] =  'Group Role Test Role #1';
     $role = $roles->create($inputs);
     $this->assertTrue(is_array($role), $galaxy->getErrorMessage());
-    $role_ids = array($role['id']);
+    $groups_inputs = array();
+    $groups_inputs['role_ids'] = array($role['id']);
 
     // Create a new group to be used for testing by this class, and
     // add users to it.
     $groups = new GalaxyGroups($galaxy);
-    $group_name = uniqid('galaxy-php-test-group_role1-');
-    $group = $groups->create($group_name, array(), $role_ids);
+    $groups_inputs['group_name'] = uniqid('galaxy-php-test-group_role1-');
+    $group = $groups->create($groups_inputs);
     $this->assertTrue(is_array($group), $galaxy->getErrorMessage());
 
     return $group;

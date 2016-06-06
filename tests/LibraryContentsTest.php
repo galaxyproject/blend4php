@@ -67,7 +67,8 @@ class LibraryContentsTest extends PHPUnit_Framework_TestCase {
       // The id of the library is a folder so we use this as a folder_id.
       'folder_id' => $return_array['index']['id'],
       'create_type' => 'file',
-      'from_hda_id' => $history_index[0]['id'],
+      // This will give a the 'oldest', undeleted history.
+      'from_hda_id' => end($history_index)['id'],
     );
 
     $library_content = $library_contents->create($inputs);

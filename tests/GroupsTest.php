@@ -114,7 +114,6 @@ class GroupsTest extends PHPUnit_Framework_TestCase {
    * @depends testIndex
    */
   public function testShow($galaxy, $groups_list) {
-
     $groups = new GalaxyGroups($galaxy);
 
     // Use the history ID of the first history in the list to test the
@@ -138,16 +137,14 @@ class GroupsTest extends PHPUnit_Framework_TestCase {
    *
    */
   public function testUpdate($galaxy, $group) {
-    global $config;
     $groups = new GalaxyGroups($galaxy);
 
-    // Case 1:  Change the name.   * @depends testCreate
-    //print_r($group);
-    $group_id = $group['id'];
-    $group_name = $group['name'] . '-updated';
-    //Case 1, obtain false, the funciton has not been implemented by galaxy.
-    $updated_group = $groups->update($group_id,$group_name, array('f597429621d6eb2b'), array('f597429621d6eb2b'));
-    $this->assertFalse(is_array($updated_group), $galaxy->getErrorMessage());
+    // Case 1:  Change the name.
+    $inputs = array();
+    $inputs['group_id'] = $group['id'];
+    $inputs['name'] = $group['name'] . '-updated';
+
+    $updated_group = $groups->update($inputs);
 
     // A different approach is needed in order to see if the group is updated.
     // The word 'updated' is added to the name of the group.

@@ -218,7 +218,7 @@ class HistoryContentsTest extends PHPUnit_Framework_TestCase {
    $deleted = $history_content->delete($inputs);
 
    // Obtan the content_id of the content in the 0'th index
-   $content_list = $history_content->index($inputs['history_id']);
+   $content_list = $history_content->index($inputs);
 
    // Case 1 make sure the history content is marked as deleted.
    $this->assertTrue($content_list[0]['deleted'] == 1);

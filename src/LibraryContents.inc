@@ -123,7 +123,20 @@ class GalaxyLibraryContents {
       $this->galaxy->setError("API", "Please provide a 'library_id' in order to house your selected data.");
       return FALSE;
     }
-    $response = $this->galaxy->httpPOST($URL, $notNullInputs);
+
+    if(!array_key_exists('folder_id', $params)){
+      $this->galaxy->setError("API", "Please provide a 'folder_id' in order to house your selected data.");
+      return FALSE;
+    }
+
+    if(!array_key_exists('create_type', $params)){
+      $this->galaxy->setError("API", "Please provide a 'create_type' in order to house your selected data.");
+      return FALSE;
+    }
+    
+    $URL = $this->galaxy->getURL() . '/api/libraries/' . $params['library_id'] . '/contents/?key=' . $this->galaxy->getAPIKey();
+    unset($params['library_id']);
+    $response = $this->galaxy->httpPOST($URL, $params);
     return $this->galaxy->expectArray($response);
   }
 }

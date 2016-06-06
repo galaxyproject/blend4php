@@ -9,15 +9,6 @@
  * and are named similarly to their Python counterparts.
  */
 
-/**
- * @defgroup users_class Users Class
- * @{
- *   The Users class interacts with Galaxy to manage contents of a Galaxy
- *   user. The functions in this class correspond to the Galaxy API
- *   functions and are named similarly to their Python counterparts.
- * @}
- */
-
 class GalaxyUsers {
 
   private $galaxy;

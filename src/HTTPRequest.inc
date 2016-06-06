@@ -170,9 +170,11 @@ class GalaxyHTTPRequest  {
   /**
    * Performs a GET request.
    *
-   * @param url
+   * @param $URL
    *   The URL to perform the GET request on.
-   *
+   * @param $curl_options
+   *   Any additional information to retreive from the resource while
+   *   the GET request...yo.  
    * @return
    *   curl server response.
    *
@@ -210,8 +212,6 @@ class GalaxyHTTPRequest  {
     curl_setopt($ch, CURLOPT_URL, $URL);
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_SAFE_UPLOAD, 1);
-    //curl_setopt($ch, CURLOPT_VERBOSE, 1);
-    //curl_setopt($ch, CURLOPT_STDERR, STDERR);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, True);
     if ($post_fields !== NULL) {
       curl_setopt($ch, CURLOPT_POSTFIELDS, $post_fields);
@@ -307,12 +307,10 @@ class GalaxyHTTPRequest  {
     return TRUE;
   }
 
-
-
   /**
    * Upload file request
    *
-   * @param $datat
+   * @param $data
    *   The input data to give to the url.
    * @param $URL
    *   The path to perform the DELETE request.
@@ -348,9 +346,6 @@ class GalaxyHTTPRequest  {
 
     return $response;
   }
-
-
-
 
   /**
    * Universal DELETE request
@@ -449,7 +444,7 @@ class GalaxyHTTPRequest  {
    * error.  So, this function allows children class to check that
    * the response is an array if they expect that it should be.
    *
-   * @param unknown $response
+   * @param $response
    */
   public function expectArray($response) {
 
@@ -460,4 +455,3 @@ class GalaxyHTTPRequest  {
     return $response;
   }
 }
-

@@ -11,16 +11,6 @@
  * to their Python counterpart.
  */
 
-/**
- * @defgroup galaxy_instance_class GalaxyInstance Class
- * @{
- *   The GalaxyInstance class is used to connect to a remote Galaxy server.
- *   It authenticates and maintains the API key for the user.  The functions
- *   in this class correspond to the Galaxy API functions and are named
- *   similarly to their Python counterpart.
- * @}
- */
-
 require_once 'HTTPRequest.inc';
 
 class GalaxyInstance extends GalaxyHTTPRequest {
