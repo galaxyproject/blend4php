@@ -133,7 +133,7 @@ class GalaxyLibraryContents {
       $this->galaxy->setError("API", "Please provide a 'create_type' in order to house your selected data.");
       return FALSE;
     }
-    
+
     $URL = $this->galaxy->getURL() . '/api/libraries/' . $params['library_id'] . '/contents/?key=' . $this->galaxy->getAPIKey();
     unset($params['library_id']);
     $response = $this->galaxy->httpPOST($URL, $params);

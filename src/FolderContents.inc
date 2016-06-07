@@ -10,16 +10,6 @@
  *
  */
 
-/**
- * @defgroup folder_contents_class FolderContents class
- * @{
- *   The folder contents Class interacts with Galaxy to manage
- *   content of folders. The functions in this class correspond to the Galaxy
- *   API functions and are named similarly to their Python counterpart.
- * @}
- */
-
-
 class GalaxyFolderContents {
 
   private $galaxy;
@@ -45,16 +35,19 @@ class GalaxyFolderContents {
     * Corresponds to the Galaxy API/path:
     *   GET /api/folders/F{folder_id}/contents.
     *
-    * @param $folder_id
-    *   Id of the folder whos contents to display.
-    *   To obtain id, see the index() function in the Folder class.
+    * @param $params
+    *   A key value (associative array) where the keys can be the following:
+    *
+    *   - folder_id: Id of the folder's contents to display. To obtain an id
+    *       see the index() function in the Folder class.
+    *
     * @return
     *   An array of The specified folder's contents
     *
     *
     */
-   public function index ($folder_id) {
-     $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' . $folder_id . '/contents' .'/?key=' . $this->galaxy->getAPIKey();
+   public function index ($params) {
+     $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' . $params['folder_id'] . '/contents' .'/?key=' . $this->galaxy->getAPIKey();
      $response = $this->galaxy->httpGET($URL);
      return $this->galaxy->expectArray($response);
    }
@@ -65,35 +58,26 @@ class GalaxyFolderContents {
     * Corresponds to the Galaxy API/path at:
     *   POST /api/folders/{folder_id}/contents
     *
-    * @param $parent_folder_id
-    *   The parent folder of the new item
-    *   To obtain id, see the index() function in the Folder class.
-    * @param $from_hda_id (optional)
-    *   The id of an accessible HDA to into the library
-    *   To obtain this id, see index() in HistoryContents class.
-    * @param $ldda_messge (optional)
-    *   Any message to send along with the LibraryDatasetDatasetAssociation.
-    * @param $extented_metadata (optional)
-    *   Sub-dictionary containing any extended metadata to associate with the
-    *   item.
+    * @param $params
+    *   A key value (associative array) where the keys can be the following:
+    *
+    *   - parent_folder_id: The parent folder of the new item. To obtain id,
+    *       see the index() function in the Folder class.
+    *   - from_hda_id (Optional): The id of an accessible HDA to into the
+    *       library. To obtain this id, see index() in HistoryContents class.
+    *   - ldda_messge (Optional): Any message to send along with the
+    *       LibraryDatasetAssociation.
+    *   - extented_metadata (Optional): Sub-dictionary containing any extended
+    *       metadata to associate with the item.
     *
     * @return
     *   An array containing the newly created folder content.
     *
   *
     */
-   public function create($parent_folder_id, $from_hda_id = NULL, $ldda_message = NULL, $extended_metadata = NULL){
-     $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' . $parent_folder_id . '/contents/?key=' . $this->galaxy->getAPIKey();
-     $postfields = array(
-         'name' => $name,
-         'description' => $description,
-     );
-     if($from_hda_id !== NULL){
-       $postfields['from_hda_id'] = $from_hda_id;
-     }
-     if($ldda_message!==NULL){
-       $postfields['ldda_message'] = $ldda_message;
-     }
+   public function create($params){
+     $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' . $params['parent_folder_id'] . '/contents/?key=' . $this->galaxy->getAPIKey();
+     unset($params['parent_folder_id']);
 
      $response = $this->galaxy->httpPOST($URL, $postfields);
      return $this->galaxy->expectArray($response);
@@ -113,7 +97,7 @@ class GalaxyFolderContents {
    *
    *
    */
-   public function show($folder_id){
+   public function show($params){
     //Not implemented in the python counterpart
      return FALSE;
    }
@@ -129,7 +113,7 @@ class GalaxyFolderContents {
     *
      *
     */
-   public function update($folder_id, $add_ids, $manage_ids, $modify_ids){
+   public function update($params){
     //Not implemented by the python counterpart.
     return FALSE;
   }

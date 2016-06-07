@@ -35,38 +35,34 @@ class GalaxyUsers {
     *   GET /api/users and
     *   GET /api/users/deleted
     *
-    * @param deleted
-    *   (optional) If true, show deleted users.
-    * @param email
-    *   (optional) An email address to filter results based on.
-    * @param name
-    *   (optional) A username to filter results based on.
-    * @param any
-    *   (optional) If true, Filter on username OR email.
+    * @param $params
+    *   A key value (associative array) where the keys can be the following:
+    *
+    *   - deleted (Optional): If true, show deleted users.
+    *   - f_email (Optional): An email address to filter results based on.
+    *   - f_name (Optional): A username to filter results based on.
+    *   - f_any (Optional): If true, Filter on username OR email.
     *
     * @return
-    *   An array containing information on the the users the  API function
-    *   retreived
+    *   An array containing information on the the users.
     *
     *
     */
-   function index($deleted = false, $email = NULL, $username = NULL, $any = false) {
-     $endURL = "&key=" . $this->galaxy->getAPIKey();
-     $URL = $this->galaxy->getURL() .'/api/users';
-     $URL .= '/?deleted=' . $deleted;
-     if ($username !=NULL) {
-       $URL .= '&f_name=' . $username;
-     }
+   function index($params) {
+     $URL = $this->galaxy->getURL() .'/api/users' . '/?key=' . $this->galaxy->getAPIKey();
 
-     if ($email !=NULL) {
-       $URL .= '&f_email=' . $email;
-     }
+     if(array_key_exists('deleted', $params))
+       $URL .= '/?deleted=' . $params['deleted'];
 
-     if ($any !=false) {
-       $URL .= '&f_any=' . $any;
-     }
-     $URL .= $endURL;
-     // $URL2 = $this->galaxy->getURL() . '/api/users/deleted'. $user_id ."/api_key/?key=" . $this->galaxy->getAPIKey();
+     if (array_key_exists('f_name', $params))
+       $URL .= '&f_name=' . $params['f_name'];
+
+     if (array_key_exists('f_email', $params))
+       $URL .= '&f_email=' . $params['f_email'];
+
+     if (array_key_exists('f_any', $params))
+       $URL .= '&f_any=' . $params['f_any'];
+
      $response = $this->galaxy->httpGET($URL);
      return $this->galaxy->expectArray($response);
    }
@@ -74,20 +70,41 @@ class GalaxyUsers {
   /**
    * Retreive detailed information on a specific user.
    *
-   * Corresponds to the Galaxy API/path
+   * Corresponds to the Galaxy API path
    *   GET /api/users/{encoded_user_id}
+   *   GET /api/users/current
+   *   GET /api/users/deleted/{encoded_user_id}
    *
-   * @param user_id
-   *   The id of the user whos details to retreive. To obtain a user id
-   *   please use this class's index() function.
+   * @param $params
+   *   A key value (associative array) where the keys can be the following:
    *
+   *   - user_id (Optional): The id of the user whos details to retreive. To obtain a user
+   *       id please use this class's index() function.
+   *   - deleted (Optional): If set to TRUE, will show deleted users.
+   *   - current (Default): If neither of the above parameters are set then
+   *       present details of current user.
    * @return
    *   An array containing the details of the user.
    *
    *
    */
-  function show($user_id) {
-    $URL = $this->galaxy->getURL() .'/api/users/' .$user_id .'/?key=' .$this->galaxy->getAPIKey();
+  function show($params) {
+    if(array_key_exists('deleted', $params) and $params['deleted'] == TRUE and !array_key_exists('user_id', $params)){
+      $this->setError("API", "Provide a 'user_id' along with the 'delete' parameter.");
+      return FALSE;
+    }
+
+    if(array_key_exists('deleted', $params) and $params['deleted'] == TRUE)
+      $URL = $this->galaxy->getURL() . '/api/users/deleted/' . $params['user_id'];
+
+    else if(array_key_exists('user_id', $params))
+      $URL = $this->galaxy->getURL() . '/api/users/' . $params['user_id'];
+
+    else
+      $URL = $this->galaxy->getURL() . '/api/users/current';
+
+    $URL .= '/?key=' . $this->galaxy->getAPIKey();
+
     $response = $this->galaxy->httpGET($URL);
     return $this->galaxy->expectArray($response);
   }
@@ -98,17 +115,24 @@ class GalaxyUsers {
    * Corresponds to the Galaxy API/path
    *   POST /api/users/{encoded_user_id}/api_key
    *
-   * @param user_id
-   *   The id of the specified user. To obtain a user id, please use this
-   *   class's index function.
+   * @param $params
+   *   A key value (associative array) where the keys can be the following:
+   *
+   *   - user_id: The id of the specified user. To obtain a user id, please use
+   *       this class's index function.
    *
    * @return
    *   The API key of the user.
    *
    *
    */
-  function apiKey($user_id) {
-    $URL = $this->galaxy->getURL() . '/api/users/' . $user_id . '/api_key/?key=' . $this->galaxy->getAPIKey();
+  function apiKey($params) {
+    if(!array_key_exists('user_id', $params)){
+      $this->setError("API", "Specify a 'user_id' in order to generate a new API key.");
+      return FALSE;
+    }
+
+    $URL = $this->galaxy->getURL() . '/api/users/' . $params['user_id'] . '/api_key/?key=' . $this->galaxy->getAPIKey();
     return $this->galaxy->httpPOST($URL);
   }
 
@@ -121,12 +145,12 @@ class GalaxyUsers {
    * option set to True and use_remote_user option set to False in the
    * config/galaxy.ini configuration file.
    *
-   * @param username
-   *   The username of the new user.
-   * @param user_email
-   *   The email of the new user.
-   * @param password
-   *   The password of the new user.
+   * @param $params
+   *   A key value (associative array) where the keys can be the following:
+   *
+   *   - username: The username of the new user.
+   *   - user_email: The email of the new user.
+   *   - password: The password of the new user.
    *
    * @return
    *   An array containing details of the new user. On failure FALSE is
@@ -134,16 +158,10 @@ class GalaxyUsers {
    *
    *
    */
-  function create($username, $user_email, $password) {
+  function create($params) {
     $URL = $this->galaxy->getURL() . '/api/users/' . '?key=' . $this->galaxy->getAPIKey();
 
-    $input = array(
-      'username' => $username,
-      'email' => $user_email,
-      'password' => $password
-    );
-
-    $response = $this->galaxy->httpPOST($URL, $input);
+    $response = $this->galaxy->httpPOST($URL, $params);
     return $this->galaxy->expectArray($response);
   }
 
@@ -165,23 +183,29 @@ class GalaxyUsers {
    * Corresponds to the Galaxy API/path
    *   DELETE /api/users/{id}
    *
-   * @param user_id
-   *   The id of the user to delete. To obtain a user id, please use
-   *   this class's index function.
-   * @param purge
-   *   (Optional) if true, the user will be completely erased from Galaxy.
+   * @param $params
+   *   A key value (associative array) where the keys can be the following:
+   *
+   *   - user_id: The id of the user to delete. To obtain a user id, please use
+   *     this class's index function.
+   *   - purge (Optional): If true, the user will be completely erased from Galaxy.
    *
    * @return
    *   An array containing details of the deleted user, or FALSE on failure.
    *
    *
    */
-  function delete($user_id, $purge = FALSE) {
-
-    $URL = $this->galaxy->getURL() . '/api/users/' . $user_id . '?key=' . $this->galaxy->getAPIKey();
-    if ($purge) {
-      $URL .= '&purge=True';
+  function delete($params) {
+    if(!array_key_exists('user_id', $params)){
+      $this->setError("API", "To delete a user, you must specify a 'user_id'.");
+      return FALSE;
     }
+
+    $URL = $this->galaxy->getURL() . '/api/users/' . $params['user_id'] . '?key=' . $this->galaxy->getAPIKey();
+
+    if (array_key_exists('purge', $params) and $params['purge'] == TRUE)
+      $URL .= '&purge=True';
+
     $response =  $this->galaxy->httpDELETE($URL);
     return $this->galaxy->expectArray($response);
   }
@@ -189,17 +213,20 @@ class GalaxyUsers {
   /**
    * Retrieves the ID of a Galaxy user.
    *
-   * @param $username
-   *   The name of the user.
+   * @param $params
+   *   A key value (associative array) where the keys can be the following:
+   *
+   *   - username: The name of the user.
+   *
    * @return
    *   A string containing the user ID or FALSE if the user could not be found.
    */
-  function getUserID($username) {
+  function getUserID($params) {
     // Get the index and iterate through until we find our user.
-    $users = $this->index();
+    $users = $this->index(array());
 
     foreach($users as $user){
-      if($user['username'] == $username){
+      if($user['username'] == $params['username']){
         return $user['id'];
       }
     }

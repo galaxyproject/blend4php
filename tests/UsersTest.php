@@ -1,7 +1,5 @@
 <?php
-
-require_once '../src/GalaxyInstance.inc';
-require_once '../src/Users.inc';
+require_once '../galaxy.inc';
 require_once './testConfig.inc';
 
 
@@ -38,7 +36,7 @@ class UsersTest extends PHPUnit_Framework_TestCase {
     $users = new GalaxyUsers($galaxy);
 
     // Case 1:  Are we getting an array?
-    $users_list = $users->index();
+    $users_list = $users->index(array());
     $this->assertTrue(is_array($users_list), $galaxy->getErrorMessage());
 
     // Case 2: Is the array properly formatted such that it contains the user
@@ -77,12 +75,12 @@ class UsersTest extends PHPUnit_Framework_TestCase {
     $user_id = $users_list[0]['id'];
 
     // Case 1:  Get the user information for the config user.
-    $response = $users->show($user_id);
+    $response = $users->show(array( 'user_id' => $user_id));
     $this->assertTrue(is_array($response), $galaxy->getErrorMessage());
 
     // Case 2: Wrong user id entered. We should get a FALSE value instead
     // of an error.
-    $response = $users->show("123456");
+    $response = $users->show(array('user_id' => "123456"));
     $this->assertTrue($response === FALSE, "Showing user should have failed: " . print_r($response, TRUE));
 
   }
@@ -98,11 +96,11 @@ class UsersTest extends PHPUnit_Framework_TestCase {
     $users = new GalaxyUsers($galaxy);
 
     // Case 1:  Test for a false user.
-    $user_id = $users->getUserID('asdjasldfjasldfjaslfjaslfjaslfjasdf');
+    $user_id = $users->getUserID(array('username' => 'asdjasldfjasldfjaslfjaslfjaslfjasdf'));
     $this->assertFalse($user_id, "Retreiving the user should have failed: " . print_r($user_id, TRUE));
 
     // Case 2: Test for a real user id.
-    $user_id = $users->getUserID($config['user']);
+    $user_id = $users->getUserID(array('username' => $config['user']));
     $this->assertTrue($user_id !== FALSE, $galaxy->getErrorMessage());
   }
 
@@ -118,13 +116,19 @@ class UsersTest extends PHPUnit_Framework_TestCase {
     $users = new GalaxyUsers($galaxy);
 
     // Case 1: Successful creation of a new user.
-    $username = uniqid('galaxy-php-test-create-');
-    $response = $users->create($username, $username . '@test.com', 'password');
+    $inputs = array();
+    $inputs['username'] = uniqid('galaxy-php-test-create-');
+    $inputs['email'] = $inputs['username'] . '@test.com';
+    $inputs['password'] = 'password';
+    $response = $users->create($inputs);
     $this->assertTrue(is_array($response), $galaxy->getErrorMessage());
 
+    unset($inputs);
     // Case 2: Failed creation of a user.
-    $username = uniqid('galaxy-php-test-create-');
-    $response = $users->create($username, $username . '@@@@@@test.com', 'password');
+    $inputs['username'] = uniqid('galaxy-php-test-create-');
+    $inputs['email'] = $inputs['username'] . '@@@@test.com';
+    $inputs['password'] = 'password';
+    $response = $users->create($inputs);
     $this->assertTrue($response === FALSE, "Creation should fail but didn't:" . print_r($response, TRUE));
   }
 
@@ -142,11 +146,14 @@ class UsersTest extends PHPUnit_Framework_TestCase {
     $users = new GalaxyUsers($galaxy);
 
     // Create a new user for testing of delete.
-    $username = uniqid('galaxy-php-test-delete-');
-    $user = $users->create($username, $username . '@test.com', 'password');
+    $inputs = array();
+    $inputs['username'] = uniqid('galaxy-php-test-delete-');
+    $inputs['email'] = $inputs['username'] . '@test.com';
+    $inputs['password'] = 'password';
+    $user = $users->create($inputs);
 
     // Case 1: Make sure we get a proper response.
-    $response = $users->delete($user['id']);
+    $response = $users->delete(array('user_id' => $user['id']));
     $this->assertTrue(is_array($response), $galaxy->getErrorMessage());
 
     // Case 2: Make sure the user is marked as deleted
@@ -178,17 +185,18 @@ class UsersTest extends PHPUnit_Framework_TestCase {
      $users = new GalaxyUsers($galaxy);
 
      // First create a new user for testing the change of API Key.
-     $username = uniqid('galaxy-php-test-apikey-');
-     $user = $users->create($username, $username . '@test.com', 'password');
+     $inputs = array();
+     $inputs['username'] = uniqid('galaxy-php-test-apikey-');
+     $inputs['email'] = $inputs['username'] . '@test.com';
+     $inputs['password'] = 'password';
+     $user = $users->create($inputs);
 
      // Case 1: Test the return of false.
-     $api_key = $users->apiKey('');
+     $api_key = $users->apiKey(array('user_id' => ''));
      $this->assertTrue($api_key === FALSE, "Creating API Key should have failed:" . print_r($api_key, TRUE));
 
      // Case 2: Test creation of an API key
-     $api_key = $users->apiKey($user['id']);
+     $api_key = $users->apiKey(array('user_id' => $user['id']));
      $this->assertTrue($api_key !== FALSE, $galaxy->getErrorMessage());
-
-
    }
 }
