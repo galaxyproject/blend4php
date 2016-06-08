@@ -26,7 +26,7 @@ class GalaxyFolderContents {
   *
   */
    public function __construct($galaxy) {
-     $this->galaxy = galaxy;
+     $this->galaxy = $galaxy;
    }
 
    /**
@@ -76,10 +76,10 @@ class GalaxyFolderContents {
   *
     */
    public function create($params){
-     $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' . $params['parent_folder_id'] . '/contents/?key=' . $this->galaxy->getAPIKey();
+     $URL = $this->galaxy->getURL() . '/api/folders/' . $params['parent_folder_id'] . '/contents/?key=' . $this->galaxy->getAPIKey();
      unset($params['parent_folder_id']);
 
-     $response = $this->galaxy->httpPOST($URL, $postfields);
+     $response = $this->galaxy->httpPOST($URL, $params);
      return $this->galaxy->expectArray($response);
    }
 

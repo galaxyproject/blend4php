@@ -1,7 +1,5 @@
 <?php
-require_once '../src/Folders.inc';
-require_once '../src/GalaxyInstance.inc';
-require_once '../src/Libraries.inc';
+require_once '../galaxy.inc';
 require_once './testConfig.inc';
 
 

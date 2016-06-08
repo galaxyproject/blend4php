@@ -96,7 +96,7 @@ class GalaxyHistoryContents {
    *
    *   - id: The encoded history content id of the HDA to return please
    *       use the index() function for a list of content_id's.
-   *   - history_id: The id of the history to update. To find, please refer to
+   *   - history_id: The id of the history to present. To find, please refer to
    *     'Histories' class index() funciton.
    *
    * @return
