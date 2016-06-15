@@ -87,7 +87,7 @@ class GalaxyHistories  {
    *
    *
    */
-   public function index($params = NULL){
+   public function index($params = array()){
 
      // Get the deleted histories.
      if(array_key_exists('deleted', $params) and $params['deleted'] == TRUE){

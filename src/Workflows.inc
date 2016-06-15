@@ -27,8 +27,6 @@ class GalaxyWorkflows {
   */
   function __construct($galaxy) {
     $this->galaxy = $galaxy;
-
-    parent::__construct();
   }
 
 
