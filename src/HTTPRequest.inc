@@ -174,7 +174,7 @@ class GalaxyHTTPRequest  {
    *   The URL to perform the GET request on.
    * @param $curl_options
    *   Any additional information to retreive from the resource while
-   *   the GET request...yo.  
+   *   the GET request...yo.
    * @return
    *   curl server response.
    *
@@ -213,9 +213,9 @@ class GalaxyHTTPRequest  {
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_SAFE_UPLOAD, 1);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, True);
-    if ($post_fields !== NULL) {
+    if ($post_fields !== NULL)
       curl_setopt($ch, CURLOPT_POSTFIELDS, $post_fields);
-    }
+    
 
     $response = $this->getCURLResponse($ch);
 

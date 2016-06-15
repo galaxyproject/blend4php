@@ -21,21 +21,34 @@ class FolderContentsTest extends PHPUnit_Framework_TestCase {
     return $galaxy;
   }
 
-  /**
-   * Tests the index() function.
-   *
-   * @depends testInitGalaxy
-   */
-  function testIndex($galaxy) {
-    $folder_contents = new GalaxyFolderContents($galaxy);
-    // A history is technically a folder.
-    $folders = new GalaxyHistories($galaxy);
-
-    $folder = $folders->index(array());
-
-    $folder_content = $folder_contents->index(array('folder_id' => $folder[0]['id']));
-    $this->assertTrue(is_array($folder_content), $galaxy->getErrorMessage());
-  }
+  // /**
+  //  * Tests the index() function.
+  //  *
+  //  * @depends testInitGalaxy
+  //  */
+  // function testIndex($galaxy) {
+  //   $folder_contents = new GalaxyFolderContents($galaxy);
+  //   // A history is technically a folder.
+  //   $histories = new GalaxyHistories($galaxy);
+  //   $folders = new GalaxyFolders($galaxy);
+  //
+  //   // Create a history specifcally for this test
+  //   $inputs = array(
+  //     'name' => 'History for FolderContentsTest',
+  //   );
+  //   $history = $histories->create($inputs);
+  //
+  //   // Create a folder within the above history
+  //   $folder_inputs = array(
+  //     'name' => 'Folder for FolderContentsTest',
+  //     'parent_folder_id' => $history['id'],
+  //   );
+  //   $folder = $folders->create();
+  //   print_r($history[0]['id']);
+  //   $folder_content = $folder_contents->index(array('folder_id' => $folder[0]['id']));
+  //   print_r($folder_content);
+  //   $this->assertTrue(is_array($folder_content), $galaxy->getErrorMessage());
+  // }
 
   /**
    * Tests the create() function.
@@ -58,8 +71,11 @@ class FolderContentsTest extends PHPUnit_Framework_TestCase {
     $inputs = array(
       'name' => "FolderContentsTest 'from' history",
     );
+
     $ourHistory = $histories->create($inputs);
+
     unset($inputs['name']);
+
     $history_list = $histories->index($inputs);
 
     // Now we need some content

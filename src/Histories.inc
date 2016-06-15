@@ -59,18 +59,8 @@ class GalaxyHistories  {
      $URL = $this->galaxy->getURL() . '/api/histories/?key=' . $this->galaxy->getAPIKey();
 
      if(array_key_exists('name', $params)){
-
        $response = $this->galaxy->httpPOST($URL, $params);
        return $this->galaxy->expectArray($response);
-
-//        $inputs = array(
-//          'name' => $params['name']
-//        );
-
-//        (array_key_exists('archive_source', $params)) ? $input['tool_version'] = $params['archive_source'] : 0;
-//        (array_key_exists('archive_type', $params)) ? $input['archive_type'] = $params['archive_type'] : 0;
-//        (array_key_exists('history_id', $params)) ? $input['history_id'] = $params['history_id'] : 0;
-//        (array_key_exists('all_datasets', $params)) ? $input['all_datasets'] = $params['all_datasets'] : $input['all_datasets'] = TRUE;
      }
 
      else{
