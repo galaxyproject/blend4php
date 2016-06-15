@@ -156,20 +156,4 @@ class GalaxyInstance extends GalaxyHTTPRequest {
   public function getAPIKey(){
     return $this->api_key;
   }
-
-  /**
-   * @see HTTPRequest::httpGET()
-   *
-   * We want to pass in cookies so we'll ovewrite the httpGET function of the
-   * GalaxyHTTPRequest class.
-   */
-  public function httpGET($URL) {
-    $options = array();
-    if ($this->session_cookie) {
-      $options = array(
-        CURLOPT_COOKIE => 'SESSION=' . $this->session_cookie . ';'
-      );
-    }
-    return parent::httpGET($URL, $options);
-  }
 }
