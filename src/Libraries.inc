@@ -49,14 +49,12 @@ class GalaxyLibraries {
      $URL = $this->galaxy->getURL() . '/api/libraries/?key=' . $this->galaxy->getAPIKey();
 
      if(array_key_exists('name', $params)){
-
        $response = $this->galaxy->httpPOST($URL, $params);
        return $this->galaxy->expectArray($response);
      }
 
      $this->galaxy->setError("API", "This function expects at least the associative parameter 'name' in order to run");
      return FALSE;
-
    }
 
   /**

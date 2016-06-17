@@ -215,7 +215,6 @@ class GalaxyHTTPRequest  {
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, True);
     if ($post_fields !== NULL)
       curl_setopt($ch, CURLOPT_POSTFIELDS, $post_fields);
-    
 
     $response = $this->getCURLResponse($ch);
 

@@ -36,6 +36,7 @@ class LibrariesTest extends PHPUnit_Framework_TestCase {
       "description" => 'Test library #1',
       "synopsis" => 'Synopsis string.'
     );
+
     $library = $libraries->create($newLibParams);
     $this->assertTrue(is_array($library), $galaxy->getErrorMessage());
 
