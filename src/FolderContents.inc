@@ -47,7 +47,7 @@ class GalaxyFolderContents {
     *
     */
    public function index ($params) {
-     $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' . $params['folder_id'] . '/contents' .'/?key=' . $this->galaxy->getAPIKey();
+     $URL = $this->galaxy->getURL() . '/api/folders/'  . $params['folder_id'] . '/contents' . '/?key=' . $this->galaxy->getAPIKey();
      $response = $this->galaxy->httpGET($URL);
      return $this->galaxy->expectArray($response);
    }
@@ -73,9 +73,14 @@ class GalaxyFolderContents {
     * @return
     *   An array containing the newly created folder content.
     *
-  *
+    *
     */
    public function create($params){
+     if(!array_key_exists('parent_folder_id', $params)){
+       $this->setError("API", "This creation requires at least a parent_folder_id.");
+       return FALSE;
+     }
+
      $URL = $this->galaxy->getURL() . '/api/folders/' . $params['parent_folder_id'] . '/contents/?key=' . $this->galaxy->getAPIKey();
      unset($params['parent_folder_id']);
 
@@ -111,7 +116,7 @@ class GalaxyFolderContents {
     * @return
     *   False.
     *
-     *
+    *
     */
    public function update($params){
     //Not implemented by the python counterpart.

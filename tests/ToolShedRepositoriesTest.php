@@ -1,8 +1,6 @@
 <?php
-require_once '../src/ToolShedRepositories.inc';
 require_once './testConfig.inc';
-require_once '../src/GalaxyInstance.inc';
-
+require_once '../galaxy.inc';
 
 class ToolShedRepositoriesTest extends PHPUnit_Framework_TestCase {
   /**
@@ -21,6 +19,16 @@ class ToolShedRepositoriesTest extends PHPUnit_Framework_TestCase {
 
     return $galaxy;
   }
+
+  /**
+  * Test the installation of a repository.
+  *
+  * @depends testInitGalaxy
+  */
+
+
+
+
 
   /**
    * Lists remote repositories connected to the
