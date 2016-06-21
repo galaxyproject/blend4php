@@ -6,28 +6,28 @@ The motivation for development of this library is for integration with Tripal (h
 # Usage
 To use blend4php, first include the galaxy.inc file in your program.  For example:
 
-    % require_once('[blend4php installation dir]/galaxy.inc')
+    require_once('[blend4php installation dir]/galaxy.inc')
 
 Where [blend4php installation dir] is where the blend4php package is installed.  
 
 To Connect to a galaxy instance:
 
-    % $galaxy = new GalaxyInstance($hostname, $port, $use_https);
+    $galaxy = new GalaxyInstance($hostname, $port, $use_https);
     
 The variables $hostname and $port should be the hostname (or IP address) and port number of the remote Galaxy server.  If the server requires HTTPs then $use_https should be TRUE.
 
 To authenticate and retrieve the user's API key for future requests:
 
-    % $success = $galaxy->authenticate($username, $password, $error)
-    % if (!$success) {
-    %   // Handle a failed authentication.
-    % }
+    $success = $galaxy->authenticate($username, $password, $error)
+    if (!$success) {
+      // Handle a failed authentication.
+    }
 
 Where $username is the name of the user on the remote Galaxy server and $password is the user's password. The $error variable will contain any error message if authentication fails.  The function will return false if authentication fails.
 
 If the API key for the user is already known the authentication step can be skiped and the API key directly set:
 
-    % $galaxy->setAPIKey($api_key);
+    $galaxy->setAPIKey($api_key);
     
 Where the $api_key variable contains the API key of the user on the remote Galaxy server.  
 
@@ -38,21 +38,21 @@ blend4php contains unit testing using the PHPUnit framework.  It is recommended 
 
 1) Install PHPUnit
 
-    % sudo apt-get install phpunit
+    sudo apt-get install phpunit
 
 2) Install CURL support for PHP
 
-    % sudo apt-get install php5-curl
+    sudo apt-get install php5-curl
 
 3) Edit the tests/testConfig.inc file to provide login credentials to your Galaxy Test server.
    
 4) Execute all testing
 
-    % phpunit
+    phpunit
 
 5) Execute a single test
  
-    % phpunit GalaxyInstanceTest.php
+    phpunit GalaxyInstanceTest.php
 
 # Funding
 This work is supported by the US National Science Foundation (NSF) award #1443040, titled “CIF21 DIBBS: Tripal Gateway, a Platform for Next-Generation Data Analysis and Sharing.” 
