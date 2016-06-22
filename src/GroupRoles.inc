@@ -10,16 +10,6 @@
  * are named similarly to their Python counterpart.
  *
  */
-
-/**
- * @defgroup group_roles_class GroupsRoles Class
- * @{
- *   The GroupRoles Class interacts with Galaxy to manage user groups and roles.
- *   The functions in this class correspond to the Galaxy API functions and
- *   are named similarly to their Python counterpart.
- * @}
- */
-
 class GalaxyGroupRoles {
   private $galaxy;
 
@@ -35,7 +25,7 @@ class GalaxyGroupRoles {
    *
    *
    */
-    public function __construct($galaxy) {
+    public function __construct(GalaxyInstance $galaxy) {
       $this->galaxy = $galaxy;
     }
 

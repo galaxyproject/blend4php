@@ -25,7 +25,7 @@ class GalaxyGroups  {
    *
    *
    */
-  public function __construct($galaxy) {
+  public function __construct(GalaxyInstance $galaxy) {
     $this->galaxy = $galaxy;
   }
 
@@ -85,7 +85,7 @@ class GalaxyGroups  {
     // For some reason we get an array containing the associative array with
     // the role details.  So, we'll just return the associative array.
     // TODO: find out if this is a bug in Galaxy API or if if its intended.
-    // https://github.com/tripal/GalaxyLib-PHP/issues/14
+    // https://github.com/tripal/blend4php/issues/14
     if (is_array($response)) {
       return $response[0];
     }

@@ -22,7 +22,7 @@ class GalaxyLibraries {
    *
    *
    */
-   public function __construct($galaxy) {
+   public function __construct(GalaxyInstance $galaxy) {
      $this->galaxy = $galaxy;
    }
 

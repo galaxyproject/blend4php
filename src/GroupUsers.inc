@@ -25,7 +25,7 @@ class GalaxyGroupUsers {
    *
    *
    */
-   public function __construct($galaxy) {
+   public function __construct(GalaxyInstance $galaxy) {
      $this->galaxy = $galaxy;
    }
 
@@ -78,7 +78,7 @@ class GalaxyGroupUsers {
    * Corresponds to the Galaxy API method and path:
    * PUT /api/groups/{encoded_group_id}/users/{encoded_user_id}.
    *
-   * @param $group_id,
+   * @param $group_id
    *   The id of the group to modify.  Group IDs can be found using the
    *   index() function of this class.
    * @param $user_id
@@ -101,7 +101,7 @@ class GalaxyGroupUsers {
    * Corresponds to the Galaxy API method and path:
    * DELETE /api/groups/{encoded_group_id}/users/{encoded_user_id}.
    *
-   * @param $group_id,
+   * @param $group_id
    *   The id of the group to modify.  Group IDs can be found using the
    *   index() function of this class.
    * @param $user_id

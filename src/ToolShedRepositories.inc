@@ -23,7 +23,7 @@ class GalaxyToolShedRepositories {
    *
    *
    */
-   function __construct($galaxy) {
+   function __construct(GalaxyInstance $galaxy) {
      $this->galaxy = $galaxy;
    }
 
@@ -216,7 +216,7 @@ class GalaxyToolShedRepositories {
   *   GET /api/tool_shed_repositories
   *
   * @return
-  *  Json containing metadata on remote toolsheds galaxy instance.
+  *  An array containing metadata on remote toolsheds galaxy instance.
   *
   *
   */
@@ -265,9 +265,9 @@ class GalaxyToolShedRepositories {
    *       config file (ex: galaxy.ini). At least oneshed-reelated tool panel
    *       config file is required to be configured. Setting this paramter to a
    *       specific file enables you to choose where the specified repository
-   *       will be installed because the tool_path attribute of the <toolbox>
+   *       will be installed because the tool_path attribute of the toolbox
    *       from the specified file is used as the installation location (ex:
-   *       <toolbox tool_path="../shed_tools">). If this parameter is not set,
+   *       toolbox tool_path="../shed_tools"). If this parameter is not set,
    *       a shed-related tool ppanel configuration file will be selected
    *       automatically.
    *
@@ -397,7 +397,7 @@ class GalaxyToolShedRepositories {
       $this->galaxy->setError("API", "An 'id' is required in order to see a tool shed repository's status.");
       return FALSE;
     }
-    
+
     $URL = $this->galaxy->getURL() . '/api/tool_shed_repositories/' . $params['id'] . '/status?key=' . $this->galaxy->getAPIKey();
     $response = $this->galaxy->httpGET($URL);
     return $this->galaxy->expectArray($response);

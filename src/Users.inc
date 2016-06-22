@@ -24,7 +24,7 @@ class GalaxyUsers {
    *
    *
    */
-   function __construct($galaxy) {
+   function __construct(GalaxyInstance $galaxy) {
      $this->galaxy = $galaxy;
    }
 

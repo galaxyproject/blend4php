@@ -26,7 +26,7 @@ class GalaxyHistoryContents {
    *
    *
    */
-  public function __construct($galaxy) {
+  public function __construct(GalaxyInstance $galaxy) {
     $this->galaxy = $galaxy;
   }
 
@@ -134,7 +134,7 @@ class GalaxyHistoryContents {
    *     'Histories' class index() function.
    *   - id: The id of the content to update the selected hda in the
    *       history, this can be a dataset. To find dataset id's go to:
-   *       ./api/histories/<history_id>/content, only 'ok' state datasets work
+   *       ./api/histories/[history_id]/content, only 'ok' state datasets work
    *   - annotation: The new annotation for the hda.
    *
    *    **This was in the api docs but it does not seem to work.
@@ -190,7 +190,7 @@ class GalaxyHistoryContents {
    *   - history_id: The id of the history content to delete.
    *   - id: The id of the content to delete from the history, to find
    *       the (dataset) id's go to:
-   *       /api/histories/<history_id>/content, only 'ok' state datasets work
+   *       /api/histories/[history_id]/content, only 'ok' state datasets work
    *       Or use this classe's index() function.
    *   - purge: A value of TRUE will remove this history content from the
    *       deleted page as well.
@@ -230,9 +230,9 @@ class GalaxyHistoryContents {
    *   are required to run this function.
    *
    *   - history_id: The id of the history in order to view the contents.
-   *   - ids: A comma separated string of encoded history content ids to narrow
-   *       The return JSON. If this does not exits then all contents of the
-   *       history will be returned.
+   *   - ids: A comma separated string of encoded history content ids. If
+   *       the history does not exist then all contents of the history will be
+   *       included.
    *
    * @return
    *   An array containing a summary or detailed HDA(history dataset

@@ -25,7 +25,7 @@ class GalaxyWorkflows {
   *
   *
   */
-  function __construct($galaxy) {
+  function __construct(GalaxyInstance $galaxy) {
     $this->galaxy = $galaxy;
   }
 
@@ -36,7 +36,7 @@ class GalaxyWorkflows {
     * Corresponds to the Galaxy API/path at
     *   GET /api/workflows
     *
-    * @param is_published
+    * @param $is_published
     *   Optional, if true, published workflows will be displayed.
     *
     * @return
@@ -111,8 +111,10 @@ class GalaxyWorkflows {
    }
 
   /**
-   * Returns a selected workflow (using a filepath) to download. It is similar
-   *   to export except the returned JSON does no include a 'inputs' field.
+   * Returns a selected workflow (using a filepath) to download.
+   *
+   * It is similar to the export function except the returned array does not
+   * include a 'inputs' field.
    *
    * Corresponds to the Galaxy API/path
    *   GET /api/workflows/{encoded_workflow_id}/download
@@ -120,19 +122,9 @@ class GalaxyWorkflows {
    * @param $workflow_id
    *   Id of the Workflow to retreive To obtain a workflow id, please
    *   use this class index() function.
-   * @param $file_local_path Local
-   *   Path to which the exported file will be saved. (Should not contain
-   *   filename if use_default_name=True). It must be the full path to which
-   *   the object is to be saved
-   * @param $use_default_filename
-   *   If the use_default_name parameter is True, the exported file will be saved
-   *   as file_local_path/Galaxy-Workflow-%s.ga, where %s is the workflow name.
-   *   If use_default_name is False, file_local_path is assumed to contain the
-   *   full file path including filename.
    *
    * @return
    *   An array of the selected workflow.
-   *
    *
    */
   public function download($workflow_id) {
@@ -148,15 +140,15 @@ class GalaxyWorkflows {
 
 
    /**
-    * Updates an existing workflow using a pre-built JSON object
+    * Updates an existing workflow using a pre-built JSON object.
     *
     * Corresponds to the Galaxy API method and path
     *   PUT /api/workflows/{encoded_workflow_id}
     *
-    * @param workflow_id
+    * @param $workflow_id
     *   The id of the workflow to update. You can obtain a workflow id through
     *   this class's index() function.
-    * @param JSON_Workflow
+    * @param $JSON_Workflow
     *   The JSON representation of what the final workflow should look like,
     *   including the updates.
     *
@@ -220,7 +212,7 @@ class GalaxyWorkflows {
     * Corresponds to the Galaxy API/path
     *   GET /api/workflows/{workflow_id}/invocations
     *
-    * @param workflow_id
+    * @param $workflow_id
     *   The id of the workflow whos invocations to retreive.
     *
     * @return
@@ -267,10 +259,10 @@ class GalaxyWorkflows {
     * Corresponds to the Galaxy API/path at
     *   DELETE /api/workflows/{workflow_id}/invocation/{invocation_id}
     *
-    * @param workflow_id
+    * @param $workflow_id
     *   The id of the workflow that the invocation belongs to. To obtain
     *   a workflow invocation, please use this class's index() function.
-    * @param invocation_id
+    * @param $invocation_id
     *   The id of the invocation to invoke.
     *
     * @return
@@ -291,13 +283,13 @@ class GalaxyWorkflows {
     * Corresponds to the Galaxy API/path at
     *   GET /api/workflows/{workflow_id}/invocation/{invocation_id}/steps/{step_id}
     *
-    * @param workflow_id
+    * @param $workflow_id
     *   The id of the workflow whos invocation steps to retreive. To obtain
     *   a workflow id, please use this class's index function.
-    * @param invocation_id
+    * @param $invocation_id
     *   The id of the invocation the step belongs to. To obtain an invocaiton id
     *   please use this class's indexInvocation function.
-    * @param step_id
+    * @param $step_id
     *   The id of the step to retreive.
     *
     * @return
@@ -320,15 +312,15 @@ class GalaxyWorkflows {
     * Corresponds to the Galaxy API/path at
     *   PUT /api/workflows/{workflow_id}/invocation/{invocation_id}/steps/{step_id}
     *
-    * @param workflow_id
+    * @param $workflow_id
     *   The id of the workflow whos invocation steps to update. To obtain
     *   a workflow id, please use this class's index function.
-    * @param invocation_id
+    * @param $invocation_id
     *   The id of the invocation the step belongs to. To obtain an invocaiton id
     *   please use this class's indexInvocation function.
-    * @param step_id
+    * @param $step_id
     *   The id of the step to update.
-    * @param payload
+    * @param $payload
     *   The workflow as a JSON object (in an array), containing any or all update fields for
     *   the workflow.
     * @return

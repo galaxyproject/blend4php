@@ -169,7 +169,7 @@ class JobsTest extends PHPUnit_Framework_TestCase {
    * This function is incomplete, please see our issues page on github for more information.
    * TODO: Currently the standard key authentication does not work with this
    *  function
-   *  https://github.com/tripal/GalaxyLib-PHP/issues/13
+   *  https://github.com/tripal/blend4php/issues/13
    * @depends testIndex
    * @depends testInitGalaxy
    */

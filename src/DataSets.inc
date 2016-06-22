@@ -37,7 +37,7 @@ class GalaxyDatasets {
    * Corresponds to the galaxy API function at:
    * GET /api/datasets/{dataset_id}/converted/{ext}
    *
-   * @param params
+   * @param $params
    *   Dictionary (associative array) containing the input parameters
    *   required and optional that this function can run.
    *
@@ -134,8 +134,8 @@ class GalaxyDatasets {
    * GET /api/datasets/{encoded_dataset_id}
    *
    * @param $params
-   *   A dictionary (associative array) containing the input parameters that
-   *   are required to run this function.
+   *   An associative array containing the input parameters that
+   *   are required to run this function.  Parameters include:
    *
    *   - dataset_id: The dataset_id's information that the function is to
    *       retreive. To obtain the dataset id, please use the Display function.
@@ -144,7 +144,15 @@ class GalaxyDatasets {
    *   An array containing information about the matching dataset.
    *
    */
-  public function show($dataset_id) {
+  public function show($params) {
+
+    // The 'dataset_id' is required.
+    if (!array_key_exists('dataset_id', $params)) {
+      $this->galaxy->setError("API", "A 'dataset_id' is required in order to invoke this call");
+      return FALSE;
+    }
+
+    $dataset_id = $params['dataset_id'];
     $URL = $this->galaxy->getURL() . '/api/datasets/' . $dataset_id . '/?key=' . $this->galaxy->getAPIKey();
     $response = $this->galaxy->httpGET($URL);
     return $this->galaxy->expectArray($response);

@@ -24,7 +24,7 @@ class GalaxyTools {
    *
    *
    */
-   public function __construct($galaxy) {
+   public function __construct(GalaxyInstance $galaxy) {
      $this->galaxy = $galaxy;
    }
 
@@ -317,6 +317,7 @@ class GalaxyTools {
    *       history id's please see the history class.
    *   - files: Optional. an array of file infromation, the array should be
    *       NULL or in the following format:
+   *      @code
    *      $params['files'] = array(
    *        0 => array(
    *          'name' => [file name],
@@ -328,6 +329,7 @@ class GalaxyTools {
    *        ),
    *        ...
    *      );
+   *      @endcode
    *  - input_dataset_ids: Optional. An array of dataset id's where the tool
    *      should grab its inputs from. Please see the datasets class to
    *      obtain id's.  Each element of the array is itself an associative

@@ -23,7 +23,7 @@ class GalaxyJobs {
   *
   *
   */
-  public function __construct($galaxy){
+  public function __construct(GalaxyInstance $galaxy){
     $this->galaxy = $galaxy;
   }
 
@@ -36,7 +36,8 @@ class GalaxyJobs {
    *   the job.
    *
    * @param $params
-   *    A key value (associative array) where the keys can be the following:
+   *   An associative array containing the input parameters that
+   *   are required to run this function.  Parameters include:
    *
    *    - id: The job id of the job whose information to retreive.
    *        The job id can be ontained from this class's index() function.
@@ -48,10 +49,10 @@ class GalaxyJobs {
    *
    */
   public function buildForRerun($params){
-    
+
     // The 'tool_id' is required.
-    if (!array_key_exists('job_id', $params)) {
-      $this->galaxy->setError("API", "A 'job_id' is required in order to invoke this call");
+    if (!array_key_exists('id', $params)) {
+      $this->galaxy->setError("API", "A 'id' is required in order to invoke this call");
       return FALSE;
     }
 
@@ -148,12 +149,12 @@ class GalaxyJobs {
   *       index() function in this class to obtain job ids.
   *
   * @return
-  *   JSON array containing information about the specified job.
+  *   An array containing information about the specified job.
   *
   *
   */
   public function show($params){
-    
+
     // The 'tool_id' is required.
     if (!array_key_exists('job_id', $params)) {
       $this->galaxy->setError("API", "A 'job_id' is required to see a job's metadata");
@@ -251,7 +252,7 @@ class GalaxyJobs {
       }
       unset($params['tool_ids']);
 
-    
+
     // Add all other parameters to the URL.
     foreach ($params as $key => $value) {
       $URL .= '&' . $key . '=' . $value;
@@ -338,10 +339,10 @@ class GalaxyJobs {
 
 
     $response = $this->galaxy->httpPOST($URL, $params);
-    
+
     print "\nResponse:";
     print_r($response);
-    
+
     return $response;
 
     $this->galaxy->setError("API", "This function is incomplete, please see our issues page on GitHub for

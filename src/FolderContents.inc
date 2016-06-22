@@ -25,7 +25,7 @@ class GalaxyFolderContents {
   *
   *
   */
-   public function __construct($galaxy) {
+   public function __construct(GalaxyInstance $galaxy) {
      $this->galaxy = $galaxy;
    }
 
@@ -94,7 +94,7 @@ class GalaxyFolderContents {
    * Corresponds to the Galaxy API/path:
    *   GET /api/folders/{folder_id}/
    *
-   * @param $folder_id
+   * @param $params
    *   The id of the folder to view
    *
    * @return

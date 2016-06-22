@@ -10,15 +10,6 @@
  *
  */
 
-/**
- * @defgroup data_types_class DataTypes class
- * @{
- *   The DataTypes Class interacts with Galaxy to manage DataTypes.
- *   The functions in this class correspond to the Galaxy API functions and
- *   are named similarly to their Python counterpart.
- * @}
- */
-
 class GalaxyDatatypes {
   private $galaxy;
 
@@ -33,7 +24,7 @@ class GalaxyDatatypes {
    *
    *
    */
-  public function __construct($galaxy) {
+  public function __construct(GalaxyInstance $galaxy) {
     $this->galaxy = $galaxy;
   }
 

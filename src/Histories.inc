@@ -26,7 +26,7 @@ class GalaxyHistories  {
    *
    *
    */
-   public function __construct($galaxy) {
+   public function __construct(GalaxyInstance $galaxy) {
      $this->galaxy = $galaxy;
    }
 
@@ -40,7 +40,8 @@ class GalaxyHistories  {
    *    Note the option to pass 'keys' and 'views' is currently not supported
    *
    * @param $params
-   *   A key value (associative array) where the keys can be the following:
+   *   An associative array containing the input parameters that
+   *   are required to run this function.  Parameters include:
    *
    *   - name: The new history's name
    *   - history_id: The id of the history to copy (will copy contents to new
@@ -118,7 +119,7 @@ class GalaxyHistories  {
    *       To obtain history_id's, please use this classes' index() function.
    *
    * @return
-   *    Json array containing information about the specified history
+   *    An array containing information about the specified history
    *
    */
    public function show($params){

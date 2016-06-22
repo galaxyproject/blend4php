@@ -10,15 +10,6 @@
  *
  */
 
-/**
- * @defgroup folders_class Folders class
- * @{
- *   The folders Class interacts with Galaxy to manage
- *   its folders. The functions in this class correspond to the Galaxy
- *   API functions and are named similarly to their Python counterpart.
- * @}
- */
-
 class GalaxyFolders {
 
   private $galaxy;
@@ -34,7 +25,7 @@ class GalaxyFolders {
   *
   *
   */
-   public function __construct($galaxy) {
+   public function __construct(GalaxyInstance $galaxy) {
      $this->galaxy = $galaxy;
    }
    /**
@@ -200,7 +191,7 @@ class GalaxyFolders {
    *      undeleted (FALSE).
    *
    * @return
-   *   Json Array containing information on the deleted (or undeleted)
+   *   An array containing information on the deleted (or undeleted)
    *   folder.
    *
    *
@@ -236,7 +227,7 @@ class GalaxyFolders {
    *       'description' => [can be null].
    *
    * @return
-   *   Json array containing details about the deleted file history content.
+   *   An array containing details about the deleted file history content.
    *
    *
    */
