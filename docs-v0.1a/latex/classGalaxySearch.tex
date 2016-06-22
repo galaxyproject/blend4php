@@ -1,0 +1,57 @@
+\hypertarget{classGalaxySearch}{\section{Galaxy\-Search Class Reference}
+\label{classGalaxySearch}\index{Galaxy\-Search@{Galaxy\-Search}}
+}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classGalaxySearch_a32c28d5b1e13c3b3e1456dc030fcf9f6}{\-\_\-\-\_\-construct} (\hyperlink{classGalaxyInstance}{Galaxy\-Instance} \$galaxy)
+\item 
+\hyperlink{classGalaxySearch_a133c369b25fc30fa3c6b533c552e963e}{create} (\$query)
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classGalaxySearch_a32c28d5b1e13c3b3e1456dc030fcf9f6}{\index{Galaxy\-Search@{Galaxy\-Search}!\-\_\-\-\_\-construct@{\-\_\-\-\_\-construct}}
+\index{\-\_\-\-\_\-construct@{\-\_\-\-\_\-construct}!GalaxySearch@{Galaxy\-Search}}
+\subsubsection[{\-\_\-\-\_\-construct}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Search\-::\-\_\-\-\_\-construct (
+\begin{DoxyParamCaption}
+\item[{{\bf Galaxy\-Instance}}]{\$galaxy}
+\end{DoxyParamCaption}
+)}}\label{classGalaxySearch_a32c28d5b1e13c3b3e1456dc030fcf9f6}
+Implements the Search constructor.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\hyperlink{classGalaxyInstance}{Galaxy\-Instance} & {\em \$galaxy} & A Galaxy Instance object.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An instance of a search object. 
+\end{DoxyReturn}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classGalaxySearch_a133c369b25fc30fa3c6b533c552e963e}{\index{Galaxy\-Search@{Galaxy\-Search}!create@{create}}
+\index{create@{create}!GalaxySearch@{Galaxy\-Search}}
+\subsubsection[{create}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Search\-::create (
+\begin{DoxyParamCaption}
+\item[{}]{\$query}
+\end{DoxyParamCaption}
+)}}\label{classGalaxySearch_a133c369b25fc30fa3c6b533c552e963e}
+Performs a search of the various elements in Galaxy.
+
+Corresponds to the galaxy method/path\-: Post /api/search
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$query} & Must be a valid, lowercase, S\-Q\-L expression, example\-: 'select $\ast$ from history where id = \textbackslash{}'290670ee50ab85f0\textbackslash{}''\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array of the Galaxy elements that matches the query. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+Search.\-inc\end{DoxyCompactItemize}

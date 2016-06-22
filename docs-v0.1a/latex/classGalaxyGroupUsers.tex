@@ -1,0 +1,129 @@
+\hypertarget{classGalaxyGroupUsers}{\section{Galaxy\-Group\-Users Class Reference}
+\label{classGalaxyGroupUsers}\index{Galaxy\-Group\-Users@{Galaxy\-Group\-Users}}
+}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classGalaxyGroupUsers_a005ecbf34150e68a4d708dc782de0837}{\-\_\-\-\_\-construct} (\hyperlink{classGalaxyInstance}{Galaxy\-Instance} \$galaxy)
+\item 
+\hyperlink{classGalaxyGroupUsers_a146609941e45ccfbecd2090472ac381e}{index} (\$group\-\_\-id)
+\item 
+\hyperlink{classGalaxyGroupUsers_a70ff40bb910e7eda83d60c0114b88d5b}{show} (\$group\-\_\-id, \$user\-\_\-id)
+\item 
+\hyperlink{classGalaxyGroupUsers_ad522aeafc9d096f2fe14783109d0f397}{update} (\$group\-\_\-id, \$user\-\_\-id)
+\item 
+\hyperlink{classGalaxyGroupUsers_a22b9cbe7425909725325a365632e5341}{delete} (\$group\-\_\-id, \$user\-\_\-id)
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classGalaxyGroupUsers_a005ecbf34150e68a4d708dc782de0837}{\index{Galaxy\-Group\-Users@{Galaxy\-Group\-Users}!\-\_\-\-\_\-construct@{\-\_\-\-\_\-construct}}
+\index{\-\_\-\-\_\-construct@{\-\_\-\-\_\-construct}!GalaxyGroupUsers@{Galaxy\-Group\-Users}}
+\subsubsection[{\-\_\-\-\_\-construct}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Group\-Users\-::\-\_\-\-\_\-construct (
+\begin{DoxyParamCaption}
+\item[{{\bf Galaxy\-Instance}}]{\$galaxy}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyGroupUsers_a005ecbf34150e68a4d708dc782de0837}
+The Group\-Users constructor.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\hyperlink{classGalaxyInstance}{Galaxy\-Instance} & {\em \$galaxy} & A \hyperlink{classGalaxyInstance}{Galaxy\-Instance} object.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An instance of a Groups Users object. 
+\end{DoxyReturn}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classGalaxyGroupUsers_a22b9cbe7425909725325a365632e5341}{\index{Galaxy\-Group\-Users@{Galaxy\-Group\-Users}!delete@{delete}}
+\index{delete@{delete}!GalaxyGroupUsers@{Galaxy\-Group\-Users}}
+\subsubsection[{delete}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Group\-Users\-::delete (
+\begin{DoxyParamCaption}
+\item[{}]{\$group\-\_\-id, }
+\item[{}]{\$user\-\_\-id}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyGroupUsers_a22b9cbe7425909725325a365632e5341}
+Deletes a user from a given group.
+
+Corresponds to the Galaxy A\-P\-I method and path\-: D\-E\-L\-E\-T\-E /api/groups/\{encoded\-\_\-group\-\_\-id\}/users/\{encoded\-\_\-user\-\_\-id\}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$group\-\_\-id} & The id of the group to modify. Group I\-Ds can be found using the \hyperlink{classGalaxyGroupUsers_a146609941e45ccfbecd2090472ac381e}{index()} function of this class. \\
+\hline
+{\em \$user\-\_\-id} & A user id to deassociate any users from the group. Use the Users class to retreive a list of user I\-Ds. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array of the user that has been removed from the group. 
+\end{DoxyReturn}
+\hypertarget{classGalaxyGroupUsers_a146609941e45ccfbecd2090472ac381e}{\index{Galaxy\-Group\-Users@{Galaxy\-Group\-Users}!index@{index}}
+\index{index@{index}!GalaxyGroupUsers@{Galaxy\-Group\-Users}}
+\subsubsection[{index}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Group\-Users\-::index (
+\begin{DoxyParamCaption}
+\item[{}]{\$group\-\_\-id}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyGroupUsers_a146609941e45ccfbecd2090472ac381e}
+Displays a collection (list) of users corresponding to a group..
+
+Corresponds to the Galaxy A\-P\-I method and path\-: G\-E\-T /api/groups/ \{encoded\-\_\-group\-\_\-id\}/users.
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$group\-\_\-id} & The id of the group whose users to list. Group I\-Ds can be found using the \hyperlink{classGalaxyGroupUsers_a146609941e45ccfbecd2090472ac381e}{index()} function of the Groups class. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array of all users of a given group. 
+\end{DoxyReturn}
+\hypertarget{classGalaxyGroupUsers_a70ff40bb910e7eda83d60c0114b88d5b}{\index{Galaxy\-Group\-Users@{Galaxy\-Group\-Users}!show@{show}}
+\index{show@{show}!GalaxyGroupUsers@{Galaxy\-Group\-Users}}
+\subsubsection[{show}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Group\-Users\-::show (
+\begin{DoxyParamCaption}
+\item[{}]{\$group\-\_\-id, }
+\item[{}]{\$user\-\_\-id}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyGroupUsers_a70ff40bb910e7eda83d60c0114b88d5b}
+Retreive information about a specific group user.
+
+Corresponds to the Galaxy A\-P\-I method and path\-: G\-E\-T /api/groups/\{encoded\-\_\-group\-\_\-id\}/users/\{encoded\-\_\-user\-\_\-id\}
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$group\-\_\-id} & The id of the group whose users to list. Group I\-Ds can be found using the \hyperlink{classGalaxyGroupUsers_a146609941e45ccfbecd2090472ac381e}{index()} function of the Groups class. \\
+\hline
+{\em \$user\-\_\-id} & The id of the specific user to show. User I\-D\-S can be found using the \hyperlink{classGalaxyGroupUsers_a146609941e45ccfbecd2090472ac381e}{index()} function of the Users class \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array containing details about the user of a given group. 
+\end{DoxyReturn}
+\hypertarget{classGalaxyGroupUsers_ad522aeafc9d096f2fe14783109d0f397}{\index{Galaxy\-Group\-Users@{Galaxy\-Group\-Users}!update@{update}}
+\index{update@{update}!GalaxyGroupUsers@{Galaxy\-Group\-Users}}
+\subsubsection[{update}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Group\-Users\-::update (
+\begin{DoxyParamCaption}
+\item[{}]{\$group\-\_\-id, }
+\item[{}]{\$user\-\_\-id}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyGroupUsers_ad522aeafc9d096f2fe14783109d0f397}
+Adds a user to a given group.
+
+Corresponds to the Galaxy A\-P\-I method and path\-: P\-U\-T /api/groups/\{encoded\-\_\-group\-\_\-id\}/users/\{encoded\-\_\-user\-\_\-id\}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$group\-\_\-id} & The id of the group to modify. Group I\-Ds can be found using the \hyperlink{classGalaxyGroupUsers_a146609941e45ccfbecd2090472ac381e}{index()} function of this class. \\
+\hline
+{\em \$user\-\_\-id} & A user id to associate any new users to the group. Use the Users class to retreive a list of existing user I\-Ds. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array of the user that has added to the group 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+Group\-Users.\-inc\end{DoxyCompactItemize}

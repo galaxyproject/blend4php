@@ -1,0 +1,133 @@
+\hypertarget{classGalaxyGroups}{\section{Galaxy\-Groups Class Reference}
+\label{classGalaxyGroups}\index{Galaxy\-Groups@{Galaxy\-Groups}}
+}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classGalaxyGroups_af67afa25dec1dcc4b3d7201c66b3368b}{\-\_\-\-\_\-construct} (\hyperlink{classGalaxyInstance}{Galaxy\-Instance} \$galaxy)
+\item 
+\hyperlink{classGalaxyGroups_a8f399f6bd46cf8ad7817cdd3d450e839}{index} ()
+\item 
+\hyperlink{classGalaxyGroups_aef76ab72832bf833550d71f0e6ca0e72}{create} (\$params)
+\item 
+\hyperlink{classGalaxyGroups_adfb27ac654054f1e1284eb89e177c0d1}{show} (\$params)
+\item 
+\hyperlink{classGalaxyGroups_af852c5f69b719b3bef13062cbf6c94b1}{update} (\$params)
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classGalaxyGroups_af67afa25dec1dcc4b3d7201c66b3368b}{\index{Galaxy\-Groups@{Galaxy\-Groups}!\-\_\-\-\_\-construct@{\-\_\-\-\_\-construct}}
+\index{\-\_\-\-\_\-construct@{\-\_\-\-\_\-construct}!GalaxyGroups@{Galaxy\-Groups}}
+\subsubsection[{\-\_\-\-\_\-construct}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Groups\-::\-\_\-\-\_\-construct (
+\begin{DoxyParamCaption}
+\item[{{\bf Galaxy\-Instance}}]{\$galaxy}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyGroups_af67afa25dec1dcc4b3d7201c66b3368b}
+The Groups constructor.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\hyperlink{classGalaxyInstance}{Galaxy\-Instance} & {\em \$galaxy} & A \hyperlink{classGalaxyInstance}{Galaxy\-Instance} object.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An instance of a Groups object. 
+\end{DoxyReturn}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classGalaxyGroups_aef76ab72832bf833550d71f0e6ca0e72}{\index{Galaxy\-Groups@{Galaxy\-Groups}!create@{create}}
+\index{create@{create}!GalaxyGroups@{Galaxy\-Groups}}
+\subsubsection[{create}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Groups\-::create (
+\begin{DoxyParamCaption}
+\item[{}]{\$params}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyGroups_aef76ab72832bf833550d71f0e6ca0e72}
+Create a new group.
+
+Corresponds to the Galaxy A\-P\-I method and path\-: P\-O\-S\-T /api/groups.
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$params} & An associative array containing the input parameters for this function. The following parameters are available\-:\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyItemize}
+\item name\-: Name of the group.
+\item user\-\_\-ids\-: An array of user\-\_\-ids, if any, to associate user id's to the group. Use the Users class to retrieve a list of users.
+\item role\-\_\-ids\-: An array of role\-\_\-ids to associate any new roles to the group. Use the Roles class to retreive a list of existing role I\-Ds.
+\end{DoxyItemize}
+
+\begin{DoxyReturn}{Returns}
+An array of the group that contains the users and roles. 
+\end{DoxyReturn}
+\hypertarget{classGalaxyGroups_a8f399f6bd46cf8ad7817cdd3d450e839}{\index{Galaxy\-Groups@{Galaxy\-Groups}!index@{index}}
+\index{index@{index}!GalaxyGroups@{Galaxy\-Groups}}
+\subsubsection[{index}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Groups\-::index (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyGroups_a8f399f6bd46cf8ad7817cdd3d450e839}
+Displays a collection (list) of groups.
+
+Corresponds to the Galaxy A\-P\-I method and path\-: G\-E\-T /api/groups.
+
+\begin{DoxyReturn}{Returns}
+An array of all groups. 
+\end{DoxyReturn}
+\hypertarget{classGalaxyGroups_adfb27ac654054f1e1284eb89e177c0d1}{\index{Galaxy\-Groups@{Galaxy\-Groups}!show@{show}}
+\index{show@{show}!GalaxyGroups@{Galaxy\-Groups}}
+\subsubsection[{show}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Groups\-::show (
+\begin{DoxyParamCaption}
+\item[{}]{\$params}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyGroups_adfb27ac654054f1e1284eb89e177c0d1}
+Retreive information about a group.
+
+Corresponds to the Galaxy A\-P\-I method and path\-: G\-E\-T /api/groups/\{encoded\-\_\-group\-\_\-id\}
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$params} & An associative array containing the input parameters for this function. The following parameters are available\-:\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyItemize}
+\item group\-\_\-id\-: The id of the specific group to show. Group I\-Ds can be found using the \hyperlink{classGalaxyGroups_a8f399f6bd46cf8ad7817cdd3d450e839}{index()} function of this class.
+\end{DoxyItemize}
+
+\begin{DoxyReturn}{Returns}
+An array containing details about the group. 
+\end{DoxyReturn}
+\hypertarget{classGalaxyGroups_af852c5f69b719b3bef13062cbf6c94b1}{\index{Galaxy\-Groups@{Galaxy\-Groups}!update@{update}}
+\index{update@{update}!GalaxyGroups@{Galaxy\-Groups}}
+\subsubsection[{update}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Groups\-::update (
+\begin{DoxyParamCaption}
+\item[{}]{\$params}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyGroups_af852c5f69b719b3bef13062cbf6c94b1}
+Supports changes to a group including the name, users and roles.
+
+Corresponds to the Galaxy A\-P\-I method and path\-: P\-U\-T /api/groups/\{encoded\-\_\-group\-\_\-id\}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$params} & An associative array containing the input parameters for this function. The following parameters are available\-:
+\begin{DoxyItemize}
+\item group\-\_\-id\-: The id of the group to modify. Group I\-Ds can be found using the \hyperlink{classGalaxyGroups_a8f399f6bd46cf8ad7817cdd3d450e839}{index()} function of this class.
+\item name\-: A new name, if any, to call the group.
+\item user\-\_\-ids\-: An array of user\-\_\-ids, if any, to associate user id's to the group. Use the Users class to retrieve a list of users.
+\item role\-\_\-ids\-: An array of role\-\_\-ids to associate any new roles to the group. Use the Roles class to retreive a list of existing role I\-Ds.
+\end{DoxyItemize}\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array of the group that contains the users and roles. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+Groups.\-inc\end{DoxyCompactItemize}

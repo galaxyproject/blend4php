@@ -1,0 +1,130 @@
+\hypertarget{classGalaxyVisualizations}{\section{Galaxy\-Visualizations Class Reference}
+\label{classGalaxyVisualizations}\index{Galaxy\-Visualizations@{Galaxy\-Visualizations}}
+}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classGalaxyVisualizations_ad350e12120553a0f096bb3a06de995ea}{\-\_\-\-\_\-construct} (\hyperlink{classGalaxyInstance}{Galaxy\-Instance} \$galaxy)
+\item 
+\hyperlink{classGalaxyVisualizations_ab964d18066a2d9b46e60f3d7102c76ac}{index} ()
+\item 
+\hyperlink{classGalaxyVisualizations_a0d733e2e32ef37e79672d907d38a4fee}{show} (\$viz\-\_\-id)
+\item 
+\hyperlink{classGalaxyVisualizations_ad15d1b1e61d19838dd0100d1ad5f81d9}{create} (\$type, \$title, \$dbkey, \$import\-\_\-id=N\-U\-L\-L)
+\item 
+\hyperlink{classGalaxyVisualizations_aaa570bd2b2e1a8b91ef0251d7c3219e3}{update} (\$viz\-\_\-id, \$title=N\-U\-L\-L, \$dbkey=N\-U\-L\-L, \$config=N\-U\-L\-L)
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classGalaxyVisualizations_ad350e12120553a0f096bb3a06de995ea}{\index{Galaxy\-Visualizations@{Galaxy\-Visualizations}!\-\_\-\-\_\-construct@{\-\_\-\-\_\-construct}}
+\index{\-\_\-\-\_\-construct@{\-\_\-\-\_\-construct}!GalaxyVisualizations@{Galaxy\-Visualizations}}
+\subsubsection[{\-\_\-\-\_\-construct}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Visualizations\-::\-\_\-\-\_\-construct (
+\begin{DoxyParamCaption}
+\item[{{\bf Galaxy\-Instance}}]{\$galaxy}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyVisualizations_ad350e12120553a0f096bb3a06de995ea}
+The visualizations constructor.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\hyperlink{classGalaxyInstance}{Galaxy\-Instance} & {\em \$galaxy} & A \hyperlink{classGalaxyInstance}{Galaxy\-Instance} object\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An instance of a Visualizations object 
+\end{DoxyReturn}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classGalaxyVisualizations_ad15d1b1e61d19838dd0100d1ad5f81d9}{\index{Galaxy\-Visualizations@{Galaxy\-Visualizations}!create@{create}}
+\index{create@{create}!GalaxyVisualizations@{Galaxy\-Visualizations}}
+\subsubsection[{create}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Visualizations\-::create (
+\begin{DoxyParamCaption}
+\item[{}]{\$type, }
+\item[{}]{\$title, }
+\item[{}]{\$dbkey, }
+\item[{}]{\$import\-\_\-id = {\ttfamily NULL}}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyVisualizations_ad15d1b1e61d19838dd0100d1ad5f81d9}
+Imports copy of existing visualizatiion into the workplace.
+
+Corresponds to the Galaxy A\-P\-I/paths at P\-O\-S\-T /api/visualizations or P\-O\-S\-T /api/visualizations?import\-\_\-id=\{encoded\-\_\-visualization\-\_\-id\}
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$type} & The visualization type for the new visualization. \\
+\hline
+{\em \$title} & The title for the visualization. \\
+\hline
+{\em \$dbkey} & The db key. \\
+\hline
+{\em \$import\-\_\-id} & (optional) The id of the visualization to import, if the user desires to import a visualization.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array containing the created visualization. 
+\end{DoxyReturn}
+\hypertarget{classGalaxyVisualizations_ab964d18066a2d9b46e60f3d7102c76ac}{\index{Galaxy\-Visualizations@{Galaxy\-Visualizations}!index@{index}}
+\index{index@{index}!GalaxyVisualizations@{Galaxy\-Visualizations}}
+\subsubsection[{index}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Visualizations\-::index (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyVisualizations_ab964d18066a2d9b46e60f3d7102c76ac}
+Retreive a list of all visualizations.
+
+Corresponds to the Galaxy A\-P\-I/path G\-E\-T /api/visualizations
+
+\begin{DoxyReturn}{Returns}
+An array containing all of galaxy's visualizations. 
+\end{DoxyReturn}
+\hypertarget{classGalaxyVisualizations_a0d733e2e32ef37e79672d907d38a4fee}{\index{Galaxy\-Visualizations@{Galaxy\-Visualizations}!show@{show}}
+\index{show@{show}!GalaxyVisualizations@{Galaxy\-Visualizations}}
+\subsubsection[{show}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Visualizations\-::show (
+\begin{DoxyParamCaption}
+\item[{}]{\$viz\-\_\-id}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyVisualizations_a0d733e2e32ef37e79672d907d38a4fee}
+Retreive detailed information about a specific visualization.
+
+Corresponds to the Galaxy A\-P\-I/path G\-E\-T /api/visualizations/\{viz\-\_\-id\}
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$viz\-\_\-id} & The visualization id whos details to display. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classGalaxyVisualizations_aaa570bd2b2e1a8b91ef0251d7c3219e3}{\index{Galaxy\-Visualizations@{Galaxy\-Visualizations}!update@{update}}
+\index{update@{update}!GalaxyVisualizations@{Galaxy\-Visualizations}}
+\subsubsection[{update}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Visualizations\-::update (
+\begin{DoxyParamCaption}
+\item[{}]{\$viz\-\_\-id, }
+\item[{}]{\$title = {\ttfamily NULL}, }
+\item[{}]{\$dbkey = {\ttfamily NULL}, }
+\item[{}]{\$config = {\ttfamily NULL}}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyVisualizations_aaa570bd2b2e1a8b91ef0251d7c3219e3}
+Update a specific visualization
+
+Corresponds to the Galaxy A\-P\-I/path at P\-U\-T /api/visualizations/\{visualizations id\}
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$viz\-\_\-id} & visualization id of the visualization to update. To obtain this id please use this class's index method. \\
+\hline
+{\em \$title} & If the user is changing the title, include the new title. \\
+\hline
+{\em \$dbkey} & If the user is changing the new db key, include the new dbkey. \\
+\hline
+{\em \$config} & The configuration of the visualization.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array containing the updated visualizaiton. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+Visualizations.\-inc\end{DoxyCompactItemize}

@@ -1,0 +1,214 @@
+\hypertarget{classGalaxyUsers}{\section{Galaxy\-Users Class Reference}
+\label{classGalaxyUsers}\index{Galaxy\-Users@{Galaxy\-Users}}
+}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classGalaxyUsers_a839396a9a09c4bbbfe3685c3acd5e00b}{\-\_\-\-\_\-construct} (\hyperlink{classGalaxyInstance}{Galaxy\-Instance} \$galaxy)
+\item 
+\hyperlink{classGalaxyUsers_aa9017150b67e960db64ba3d82b3d893c}{index} (\$params)
+\item 
+\hyperlink{classGalaxyUsers_afde96f1ed6b119847fb2d5f9cd5e8354}{show} (\$params)
+\item 
+\hyperlink{classGalaxyUsers_a42eadb009c8a5a2341e06e22f1e57103}{api\-Key} (\$params)
+\item 
+\hyperlink{classGalaxyUsers_aa7d58896728cf5ed3d84e791afdf90f2}{create} (\$params)
+\item 
+\hyperlink{classGalaxyUsers_a2596c3f0f96711dcfcf1414f5fbb13e7}{update} ()
+\item 
+\hyperlink{classGalaxyUsers_acaa27a8de249d306646e38cdfa8687b1}{undelete} ()
+\item 
+\hyperlink{classGalaxyUsers_a96b25fdb4acebd341e336032c23e1e85}{delete} (\$params)
+\item 
+\hyperlink{classGalaxyUsers_a786e425ad1feccd8f6ef09e7c4ca8a9e}{get\-User\-I\-D} (\$params)
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classGalaxyUsers_a839396a9a09c4bbbfe3685c3acd5e00b}{\index{Galaxy\-Users@{Galaxy\-Users}!\-\_\-\-\_\-construct@{\-\_\-\-\_\-construct}}
+\index{\-\_\-\-\_\-construct@{\-\_\-\-\_\-construct}!GalaxyUsers@{Galaxy\-Users}}
+\subsubsection[{\-\_\-\-\_\-construct}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Users\-::\-\_\-\-\_\-construct (
+\begin{DoxyParamCaption}
+\item[{{\bf Galaxy\-Instance}}]{\$galaxy}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyUsers_a839396a9a09c4bbbfe3685c3acd5e00b}
+The Users constructor.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\hyperlink{classGalaxyInstance}{Galaxy\-Instance} & {\em \$galaxy} & A \hyperlink{classGalaxyInstance}{Galaxy\-Instance} object.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An instance of a Users object. 
+\end{DoxyReturn}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classGalaxyUsers_a42eadb009c8a5a2341e06e22f1e57103}{\index{Galaxy\-Users@{Galaxy\-Users}!api\-Key@{api\-Key}}
+\index{api\-Key@{api\-Key}!GalaxyUsers@{Galaxy\-Users}}
+\subsubsection[{api\-Key}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Users\-::api\-Key (
+\begin{DoxyParamCaption}
+\item[{}]{\$params}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyUsers_a42eadb009c8a5a2341e06e22f1e57103}
+Creates a new A\-P\-I key for specified user.
+
+Corresponds to the Galaxy A\-P\-I/path P\-O\-S\-T /api/users/\{encoded\-\_\-user\-\_\-id\}/api\-\_\-key
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$params} & An associative array containing the input parameters for this function. The following parameters are available\-:\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyItemize}
+\item user\-\_\-id\-: The id of the specified user. To obtain a user id, please use this class's index function.
+\end{DoxyItemize}
+
+\begin{DoxyReturn}{Returns}
+The A\-P\-I key of the user. 
+\end{DoxyReturn}
+\hypertarget{classGalaxyUsers_aa7d58896728cf5ed3d84e791afdf90f2}{\index{Galaxy\-Users@{Galaxy\-Users}!create@{create}}
+\index{create@{create}!GalaxyUsers@{Galaxy\-Users}}
+\subsubsection[{create}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Users\-::create (
+\begin{DoxyParamCaption}
+\item[{}]{\$params}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyUsers_aa7d58896728cf5ed3d84e791afdf90f2}
+Creates new galaxy user.
+
+Corresponds to the Galaxy A\-P\-I/path P\-O\-S\-T /api/users For this method to work, the Galaxy instance must have the allow\-\_\-user\-\_\-creation option set to True and use\-\_\-remote\-\_\-user option set to False in the config/galaxy.\-ini configuration file.
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$params} & An associative array containing the input parameters for this function. The following parameters are available\-:\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyItemize}
+\item username\-: The username of the new user.
+\item user\-\_\-email\-: The email of the new user.
+\item password\-: The password of the new user.
+\end{DoxyItemize}
+
+\begin{DoxyReturn}{Returns}
+An array containing details of the new user. On failure F\-A\-L\-S\-E is returned. 
+\end{DoxyReturn}
+\hypertarget{classGalaxyUsers_a96b25fdb4acebd341e336032c23e1e85}{\index{Galaxy\-Users@{Galaxy\-Users}!delete@{delete}}
+\index{delete@{delete}!GalaxyUsers@{Galaxy\-Users}}
+\subsubsection[{delete}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Users\-::delete (
+\begin{DoxyParamCaption}
+\item[{}]{\$params}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyUsers_a96b25fdb4acebd341e336032c23e1e85}
+Mark a given user as deleted
+
+Corresponds to the Galaxy A\-P\-I/path D\-E\-L\-E\-T\-E /api/users/\{id\}
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$params} & An associative array containing the input parameters for this function. The following parameters are available\-:\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyItemize}
+\item user\-\_\-id\-: The id of the user to delete. To obtain a user id, please use this class's index function.
+\item purge (Optional)\-: If true, the user will be completely erased from Galaxy.
+\end{DoxyItemize}
+
+\begin{DoxyReturn}{Returns}
+An array containing details of the deleted user, or F\-A\-L\-S\-E on failure. 
+\end{DoxyReturn}
+\hypertarget{classGalaxyUsers_a786e425ad1feccd8f6ef09e7c4ca8a9e}{\index{Galaxy\-Users@{Galaxy\-Users}!get\-User\-I\-D@{get\-User\-I\-D}}
+\index{get\-User\-I\-D@{get\-User\-I\-D}!GalaxyUsers@{Galaxy\-Users}}
+\subsubsection[{get\-User\-I\-D}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Users\-::get\-User\-I\-D (
+\begin{DoxyParamCaption}
+\item[{}]{\$params}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyUsers_a786e425ad1feccd8f6ef09e7c4ca8a9e}
+Retrieves the I\-D of a Galaxy user.
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$params} & An associative array containing the input parameters for this function. The following parameters are available\-:\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyItemize}
+\item username\-: The name of the user.
+\end{DoxyItemize}
+
+\begin{DoxyReturn}{Returns}
+A string containing the user I\-D or F\-A\-L\-S\-E if the user could not be found. 
+\end{DoxyReturn}
+\hypertarget{classGalaxyUsers_aa9017150b67e960db64ba3d82b3d893c}{\index{Galaxy\-Users@{Galaxy\-Users}!index@{index}}
+\index{index@{index}!GalaxyUsers@{Galaxy\-Users}}
+\subsubsection[{index}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Users\-::index (
+\begin{DoxyParamCaption}
+\item[{}]{\$params}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyUsers_aa9017150b67e960db64ba3d82b3d893c}
+Displays a collection of Galaxy users.
+
+Corresponds to the Galaxy A\-P\-I/paths at G\-E\-T /api/users and G\-E\-T /api/users/deleted
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$params} & An associative array containing the input parameters for this function. The following parameters are available\-:\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyItemize}
+\item deleted (Optional)\-: If true, show deleted users.
+\item f\-\_\-email (Optional)\-: An email address to filter results based on.
+\item f\-\_\-name (Optional)\-: A username to filter results based on.
+\item f\-\_\-any (Optional)\-: If true, Filter on username O\-R email.
+\end{DoxyItemize}
+
+\begin{DoxyReturn}{Returns}
+An array containing information on the the users. 
+\end{DoxyReturn}
+\hypertarget{classGalaxyUsers_afde96f1ed6b119847fb2d5f9cd5e8354}{\index{Galaxy\-Users@{Galaxy\-Users}!show@{show}}
+\index{show@{show}!GalaxyUsers@{Galaxy\-Users}}
+\subsubsection[{show}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Users\-::show (
+\begin{DoxyParamCaption}
+\item[{}]{\$params}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyUsers_afde96f1ed6b119847fb2d5f9cd5e8354}
+Retreive detailed information on a specific user.
+
+Corresponds to the Galaxy A\-P\-I path G\-E\-T /api/users/\{encoded\-\_\-user\-\_\-id\} G\-E\-T /api/users/current G\-E\-T /api/users/deleted/\{encoded\-\_\-user\-\_\-id\}
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$params} & An associative array containing the input parameters for this function. The following parameters are available\-:\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyItemize}
+\item user\-\_\-id (Optional)\-: The id of the user whos details to retreive. To obtain a user id please use this class's \hyperlink{classGalaxyUsers_aa9017150b67e960db64ba3d82b3d893c}{index()} function.
+\item deleted (Optional)\-: If set to T\-R\-U\-E, will show deleted users.
+\item current (Default)\-: If neither of the above parameters are set then present details of current user. \begin{DoxyReturn}{Returns}
+An array containing the details of the user. 
+\end{DoxyReturn}
+
+\end{DoxyItemize}\hypertarget{classGalaxyUsers_acaa27a8de249d306646e38cdfa8687b1}{\index{Galaxy\-Users@{Galaxy\-Users}!undelete@{undelete}}
+\index{undelete@{undelete}!GalaxyUsers@{Galaxy\-Users}}
+\subsubsection[{undelete}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Users\-::undelete (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyUsers_acaa27a8de249d306646e38cdfa8687b1}
+The actual python implementation is not complete \hypertarget{classGalaxyUsers_a2596c3f0f96711dcfcf1414f5fbb13e7}{\index{Galaxy\-Users@{Galaxy\-Users}!update@{update}}
+\index{update@{update}!GalaxyUsers@{Galaxy\-Users}}
+\subsubsection[{update}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Users\-::update (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyUsers_a2596c3f0f96711dcfcf1414f5fbb13e7}
+The actual python implementation is not complete 
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+Users.\-inc\end{DoxyCompactItemize}

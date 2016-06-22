@@ -1,0 +1,109 @@
+\hypertarget{classGalaxyRoles}{\section{Galaxy\-Roles Class Reference}
+\label{classGalaxyRoles}\index{Galaxy\-Roles@{Galaxy\-Roles}}
+}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classGalaxyRoles_a59b232e4896eab50096a664651d56434}{\-\_\-\-\_\-construct} (\hyperlink{classGalaxyInstance}{Galaxy\-Instance} \$galaxy)
+\item 
+\hyperlink{classGalaxyRoles_a5582d5bb20104a7ea8beffb899241384}{index} ()
+\item 
+\hyperlink{classGalaxyRoles_acb463f11ee343f4b2a22ceee75117be0}{show} (\$params)
+\item 
+\hyperlink{classGalaxyRoles_a5e7093d606afd3be29b15aebf911a7b7}{create} (\$params)
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classGalaxyRoles_a59b232e4896eab50096a664651d56434}{\index{Galaxy\-Roles@{Galaxy\-Roles}!\-\_\-\-\_\-construct@{\-\_\-\-\_\-construct}}
+\index{\-\_\-\-\_\-construct@{\-\_\-\-\_\-construct}!GalaxyRoles@{Galaxy\-Roles}}
+\subsubsection[{\-\_\-\-\_\-construct}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Roles\-::\-\_\-\-\_\-construct (
+\begin{DoxyParamCaption}
+\item[{{\bf Galaxy\-Instance}}]{\$galaxy}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyRoles_a59b232e4896eab50096a664651d56434}
+The Roles constructor.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\hyperlink{classGalaxyInstance}{Galaxy\-Instance} & {\em \$galaxy} & A \hyperlink{classGalaxyInstance}{Galaxy\-Instance} object.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An instance of a roles object. 
+\end{DoxyReturn}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classGalaxyRoles_a5e7093d606afd3be29b15aebf911a7b7}{\index{Galaxy\-Roles@{Galaxy\-Roles}!create@{create}}
+\index{create@{create}!GalaxyRoles@{Galaxy\-Roles}}
+\subsubsection[{create}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Roles\-::create (
+\begin{DoxyParamCaption}
+\item[{}]{\$params}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyRoles_a5e7093d606afd3be29b15aebf911a7b7}
+Creates a new role.
+
+Corresponds to the Galaxy Api/path\-: P\-O\-S\-T /api/roles
+
+N\-O\-T\-E\-: only type admin can be applied for new roles
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$params} & An associative array containing the input parameters for this function. The following parameters are available\-:\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyItemize}
+\item name\-: The name of the new role.
+\item description\-: The description of the new role.
+\item user\-\_\-ids\-: An array of user ids to associate the new role with. To obtain a user id, please use the \hyperlink{classGalaxyRoles_a5582d5bb20104a7ea8beffb899241384}{index()} function of the users class.
+\item group\-\_\-ids\-: An array of group id's to associate the new role with. To obtain a group id, please use the \hyperlink{classGalaxyRoles_a5582d5bb20104a7ea8beffb899241384}{index()} function of the groups class.
+\end{DoxyItemize}
+
+\begin{DoxyReturn}{Returns}
+An array containing informaiton about the new role. 
+\end{DoxyReturn}
+\hypertarget{classGalaxyRoles_a5582d5bb20104a7ea8beffb899241384}{\index{Galaxy\-Roles@{Galaxy\-Roles}!index@{index}}
+\index{index@{index}!GalaxyRoles@{Galaxy\-Roles}}
+\subsubsection[{index}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Roles\-::index (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyRoles_a5582d5bb20104a7ea8beffb899241384}
+Retreive a list of all of Galaxy's roles.
+
+Corresponds to the Galaxy A\-P\-I/path\-: G\-E\-T /api/roles
+
+\begin{DoxyReturn}{Returns}
+An array containing details of all the roles in Galaxy. 
+\end{DoxyReturn}
+\hypertarget{classGalaxyRoles_acb463f11ee343f4b2a22ceee75117be0}{\index{Galaxy\-Roles@{Galaxy\-Roles}!show@{show}}
+\index{show@{show}!GalaxyRoles@{Galaxy\-Roles}}
+\subsubsection[{show}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Roles\-::show (
+\begin{DoxyParamCaption}
+\item[{}]{\$params}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyRoles_acb463f11ee343f4b2a22ceee75117be0}
+Retreive details about a specific Galaxy role.
+
+Corresponds to the Galaxy A\-P\-I/path\-: G\-E\-T /api/roles/\{encoded\-\_\-id\}
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$params} & An associative array containing the input parameters for this function. The following parameters are available\-:\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyItemize}
+\item role\-\_\-id\-: The id of the role whos informaiton to retreive. Please use this class's index function to retreive a list of role id's.
+\end{DoxyItemize}
+
+\begin{DoxyReturn}{Returns}
+An array containing details about the specified role. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+Roles.\-inc\end{DoxyCompactItemize}

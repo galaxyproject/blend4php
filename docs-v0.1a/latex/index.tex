@@ -1,0 +1,68 @@
+\hypertarget{index_intro_sec}{}\section{Introduction}\label{index_intro_sec}
+The blend4php package is a P\-H\-P wrapper for the Galaxy A\-P\-I (\href{https://docs.galaxyproject.org/en/master/api_doc.html}{\tt https\-://docs.\-galaxyproject.\-org/en/master/api\-\_\-doc.\-html}). It follows the lead of Bio\-Blend (\href{https://bioblend.readthedocs.io/en/latest/}{\tt https\-://bioblend.\-readthedocs.\-io/en/latest/}) which provides a Python package for interacting with Galaxy and Cloud\-Man--hence the use of 'blend' in the name of this package. blend4php currently offers a partial implementation of the Galaxy A\-P\-I and includes support for datasets, data types, folder contents, folders, genomes, group roles, groups, group users, histories, history contents, jobs, libraries, library contents, requests, roles, search, tools, toolshed repositories, users, visualizations and workflows.
+
+The motivation for development of this library is for integration with Tripal (\href{http://tripal.info}{\tt http\-://tripal.\-info}), an open-\/source toolkit for creation of online genomic, genetic and biological databases. Integration of Tripal and Galaxy will allow the community research databases to provide next-\/generation analytical tools to their users using Galaxy. However, this library was created independently of Tripal to support integration of any P\-H\-P application with Galaxy.\hypertarget{index_usage_sec}{}\section{Usage}\label{index_usage_sec}
+To use blend4php, first include the galaxy.\-inc file in your program. For example\-:
+
+
+\begin{DoxyCode}
+require\_once(\textcolor{stringliteral}{'[blend4php installation dir]/galaxy.inc'})
+\end{DoxyCode}
+
+
+Where \mbox{[}blend4php installation dir\mbox{]} is where the blend4php package is installed.
+
+To Connect to a galaxy instance\-:
+
+
+\begin{DoxyCode}
+$galaxy = \textcolor{keyword}{new} \hyperlink{classGalaxyInstance}{GalaxyInstance}($hostname, $port, $use\_https);
+\end{DoxyCode}
+
+
+The variables \$hostname and \$port should be the hostname (or I\-P address) and port number of the remote Galaxy server. If the server requires H\-T\-T\-Ps then \$use\-\_\-https should be T\-R\-U\-E.
+
+To authenticate and retrieve the user's A\-P\-I key for future requests\-:
+
+
+\begin{DoxyCode}
+$success = $galaxy->authenticate($username, $password, $error)
+\textcolor{keywordflow}{if} (!$success) \{
+  \textcolor{comment}{// Handle a failed authentication.}
+\}
+\end{DoxyCode}
+
+
+Where \$username is the name of the user on the remote Galaxy server and \$password is the user's password. The \$error variable will contain any error message if authentication fails. The function will return false if authentication fails.
+
+If the A\-P\-I key for the user is already known, the authentication step can be skiped and the A\-P\-I key directly set\-:
+
+
+\begin{DoxyCode}
+$galaxy->setAPIKey($api\_key);
+\end{DoxyCode}
+
+
+Where the \$api\-\_\-key variable contains the A\-P\-I key of the user on the remote Galaxy server.
+
+To interact with Galaxy regarding jobs, workflows, users, etc. Please review the Classes pages for each respective class.\hypertarget{index_error_sec}{}\section{Error Handling}\label{index_error_sec}
+All functions in the blend4php library return F\-A\-L\-S\-E on failure. If failure occurs then the most recent error can be retrieved using the following\-:
+
+
+\begin{DoxyCode}
+$error = $galaxy->getError();
+$emessage = $error[\textcolor{stringliteral}{'message'}]
+$etype = $error[\textcolor{stringliteral}{'type'}]
+\end{DoxyCode}
+
+
+Alternatively, the message and type can be retrieved independently\-:
+
+
+\begin{DoxyCode}
+$emessage = $galaxy->getErrorMessage();
+$etype = $galaxy->getErrorType();
+\end{DoxyCode}
+\hypertarget{index_funding_sec}{}\section{Funding}\label{index_funding_sec}
+This work is supported by the U\-S National Science Foundation (N\-S\-F) award \#1443040, titled “\-C\-I\-F21 D\-I\-B\-B\-S\-: Tripal Gateway, a Platform for Next-\/\-Generation Data Analysis and Sharing.\-”\hypertarget{index_license_sec}{}\section{License}\label{index_license_sec}
+blend4php is available under version 2 of the G\-N\-U General Public License 

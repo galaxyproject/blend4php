@@ -1,0 +1,117 @@
+\hypertarget{classGalaxyError}{\section{Galaxy\-Error Class Reference}
+\label{classGalaxyError}\index{Galaxy\-Error@{Galaxy\-Error}}
+}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classGalaxyError_af945b84be50ec41616a4c0b40e170bb9}{\-\_\-\-\_\-construct} ()
+\item 
+\hyperlink{classGalaxyError_a028ee131e1f68da22c29e510b405e0a7}{get\-Error} ()
+\item 
+\hyperlink{classGalaxyError_a1f1ec54a9bcb9520dbaa7abc3e163824}{get\-Error\-Message} ()
+\item 
+\hyperlink{classGalaxyError_a2e680e1a6475af8dfbcb6d1f07254f8c}{get\-Error\-Type} ()
+\item 
+\hyperlink{classGalaxyError_a4c3312a17a9f150a6a64b44b345a6143}{set\-Error} (\$type, \$message)
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classGalaxyError_af945b84be50ec41616a4c0b40e170bb9}{\index{Galaxy\-Error@{Galaxy\-Error}!\-\_\-\-\_\-construct@{\-\_\-\-\_\-construct}}
+\index{\-\_\-\-\_\-construct@{\-\_\-\-\_\-construct}!GalaxyError@{Galaxy\-Error}}
+\subsubsection[{\-\_\-\-\_\-construct}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Error\-::\-\_\-\-\_\-construct (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyError_af945b84be50ec41616a4c0b40e170bb9}
+Constructor. 
+
+\subsection{Member Function Documentation}
+\hypertarget{classGalaxyError_a028ee131e1f68da22c29e510b405e0a7}{\index{Galaxy\-Error@{Galaxy\-Error}!get\-Error@{get\-Error}}
+\index{get\-Error@{get\-Error}!GalaxyError@{Galaxy\-Error}}
+\subsubsection[{get\-Error}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Error\-::get\-Error (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyError_a028ee131e1f68da22c29e510b405e0a7}
+Retrieves the most recent error.
+
+The error message uses the key 'message' and the type uses the key 'type'. The following is a list of error types and their meaning\-:
+
+
+\begin{DoxyItemize}
+\item A\-P\-I\-: The blend4php A\-P\-I functions have been improperly used
+\item Galaxy\-: The Galaxy server indicated an error.
+\item H\-T\-T\-P\-: An error occured using the R\-E\-S\-T H\-T\-T\-P protocols (e.\-g. P\-U\-T, P\-O\-S\-T, G\-E\-T, P\-A\-T\-C\-H, D\-E\-L\-E\-T\-E).
+\item F\-I\-L\-E\-: An error occured saving a download file from Galaxy.
+\end{DoxyItemize}
+
+\begin{DoxyReturn}{Returns}
+An associative array containing both the 'type' and 'message' for the error. 
+\end{DoxyReturn}
+\hypertarget{classGalaxyError_a1f1ec54a9bcb9520dbaa7abc3e163824}{\index{Galaxy\-Error@{Galaxy\-Error}!get\-Error\-Message@{get\-Error\-Message}}
+\index{get\-Error\-Message@{get\-Error\-Message}!GalaxyError@{Galaxy\-Error}}
+\subsubsection[{get\-Error\-Message}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Error\-::get\-Error\-Message (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyError_a1f1ec54a9bcb9520dbaa7abc3e163824}
+Retrieves the most recent error message.
+
+\begin{DoxyReturn}{Returns}
+A string containing the error message. 
+\end{DoxyReturn}
+\hypertarget{classGalaxyError_a2e680e1a6475af8dfbcb6d1f07254f8c}{\index{Galaxy\-Error@{Galaxy\-Error}!get\-Error\-Type@{get\-Error\-Type}}
+\index{get\-Error\-Type@{get\-Error\-Type}!GalaxyError@{Galaxy\-Error}}
+\subsubsection[{get\-Error\-Type}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Error\-::get\-Error\-Type (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyError_a2e680e1a6475af8dfbcb6d1f07254f8c}
+Retrieves the most recent error type.
+
+The following is a list of error types and their meaning\-:
+
+
+\begin{DoxyItemize}
+\item A\-P\-I\-: The blend4php A\-P\-I functions have been improperly used
+\item Galaxy\-: The Galaxy server indicated an error.
+\item H\-T\-T\-P\-: An error occured using the R\-E\-S\-T H\-T\-T\-P protocols (e.\-g. P\-U\-T, P\-O\-S\-T, G\-E\-T, P\-A\-T\-C\-H, D\-E\-L\-E\-T\-E).
+\item F\-I\-L\-E\-: An error occured saving a download file from Galaxy.
+\end{DoxyItemize}
+
+\begin{DoxyReturn}{Returns}
+A string indicating the type of error. 
+\end{DoxyReturn}
+\hypertarget{classGalaxyError_a4c3312a17a9f150a6a64b44b345a6143}{\index{Galaxy\-Error@{Galaxy\-Error}!set\-Error@{set\-Error}}
+\index{set\-Error@{set\-Error}!GalaxyError@{Galaxy\-Error}}
+\subsubsection[{set\-Error}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Error\-::set\-Error (
+\begin{DoxyParamCaption}
+\item[{}]{\$type, }
+\item[{}]{\$message}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyError_a4c3312a17a9f150a6a64b44b345a6143}
+Set's the error type and message.
+
+The following is a list of error types and their meaning\-:
+
+
+\begin{DoxyItemize}
+\item A\-P\-I\-: The blend4php A\-P\-I functions have been improperly used
+\item Galaxy\-: The Galaxy server indicated an error.
+\item H\-T\-T\-P\-: An error occured using the R\-E\-S\-T H\-T\-T\-P protocols (e.\-g. P\-U\-T, P\-O\-S\-T, G\-E\-T, P\-A\-T\-C\-H, D\-E\-L\-E\-T\-E).
+\item F\-I\-L\-E\-: An error occured saving a download file from Galaxy.
+\end{DoxyItemize}
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$type} & The type of error. \\
+\hline
+{\em \$message} & The error message. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+Error.\-inc\end{DoxyCompactItemize}

@@ -1,0 +1,27 @@
+var annotated =
+[
+    [ "GalaxyDatasets", "classGalaxyDatasets.html", "classGalaxyDatasets" ],
+    [ "GalaxyDatatypes", "classGalaxyDatatypes.html", "classGalaxyDatatypes" ],
+    [ "GalaxyError", "classGalaxyError.html", "classGalaxyError" ],
+    [ "GalaxyFolderContents", "classGalaxyFolderContents.html", "classGalaxyFolderContents" ],
+    [ "GalaxyFolders", "classGalaxyFolders.html", "classGalaxyFolders" ],
+    [ "GalaxyGenomes", "classGalaxyGenomes.html", "classGalaxyGenomes" ],
+    [ "GalaxyGroupRoles", "classGalaxyGroupRoles.html", "classGalaxyGroupRoles" ],
+    [ "GalaxyGroups", "classGalaxyGroups.html", "classGalaxyGroups" ],
+    [ "GalaxyGroupUsers", "classGalaxyGroupUsers.html", "classGalaxyGroupUsers" ],
+    [ "GalaxyHistories", "classGalaxyHistories.html", "classGalaxyHistories" ],
+    [ "GalaxyHistoryContents", "classGalaxyHistoryContents.html", "classGalaxyHistoryContents" ],
+    [ "GalaxyHTTPRequest", "classGalaxyHTTPRequest.html", "classGalaxyHTTPRequest" ],
+    [ "GalaxyInstance", "classGalaxyInstance.html", "classGalaxyInstance" ],
+    [ "GalaxyJobs", "classGalaxyJobs.html", "classGalaxyJobs" ],
+    [ "GalaxyLibraries", "classGalaxyLibraries.html", "classGalaxyLibraries" ],
+    [ "GalaxyLibraryContents", "classGalaxyLibraryContents.html", "classGalaxyLibraryContents" ],
+    [ "GalaxyRequests", "classGalaxyRequests.html", "classGalaxyRequests" ],
+    [ "GalaxyRoles", "classGalaxyRoles.html", "classGalaxyRoles" ],
+    [ "GalaxySearch", "classGalaxySearch.html", "classGalaxySearch" ],
+    [ "GalaxyTools", "classGalaxyTools.html", "classGalaxyTools" ],
+    [ "GalaxyToolShedRepositories", "classGalaxyToolShedRepositories.html", "classGalaxyToolShedRepositories" ],
+    [ "GalaxyUsers", "classGalaxyUsers.html", "classGalaxyUsers" ],
+    [ "GalaxyVisualizations", "classGalaxyVisualizations.html", "classGalaxyVisualizations" ],
+    [ "GalaxyWorkflows", "classGalaxyWorkflows.html", "classGalaxyWorkflows" ]
+];

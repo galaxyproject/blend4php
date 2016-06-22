@@ -1,0 +1,380 @@
+\hypertarget{classGalaxyWorkflows}{\section{Galaxy\-Workflows Class Reference}
+\label{classGalaxyWorkflows}\index{Galaxy\-Workflows@{Galaxy\-Workflows}}
+}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classGalaxyWorkflows_ad433dc7aecc2d5267209fe5a725dc46f}{\-\_\-\-\_\-construct} (\hyperlink{classGalaxyInstance}{Galaxy\-Instance} \$galaxy)
+\item 
+\hyperlink{classGalaxyWorkflows_a98191c8d0819151ed0e1fcf926edda93}{index} (\$is\-\_\-published=F\-A\-L\-S\-E)
+\item 
+\hyperlink{classGalaxyWorkflows_a2db04c6d0e649fbf026906233e854091}{show} (\$workflow\-\_\-id, \$show\-\_\-published=true)
+\item 
+\hyperlink{classGalaxyWorkflows_ab5ae3640a3fadef9faea67fff6a927b2}{delete} (\$workflow\-\_\-id)
+\item 
+\hyperlink{classGalaxyWorkflows_ae1297b1c2660208e30657020ab6b1c53}{export} (\$workflow\-\_\-id)
+\item 
+\hyperlink{classGalaxyWorkflows_afb0322ba8b681e190e7101b269f37249}{download} (\$workflow\-\_\-id)
+\item 
+\hyperlink{classGalaxyWorkflows_af435376a78f549a7c59f5969bdb249e1}{update} (\$workflow\-\_\-id, \$J\-S\-O\-N\-\_\-\-Workflow)
+\item 
+\hyperlink{classGalaxyWorkflows_ade6c11a1bb22019babfb880b9a5c5d80}{build\-Module} (\$tool\-\_\-id, \$tool\-\_\-input\-\_\-ids=N\-U\-L\-L, \$tool\-\_\-version=N\-U\-L\-L, \$annotation=N\-U\-L\-L)
+\item 
+\hyperlink{classGalaxyWorkflows_ae854a683f8a3ebeed7f748853e2a74e7}{index\-Invocations} (\$workflow\-\_\-id)
+\item 
+\hyperlink{classGalaxyWorkflows_a2c181ced20cf625a8b23d4802fc745fe}{show\-Invocations} (\$workflow\-\_\-id, \$invocation\-\_\-id)
+\item 
+\hyperlink{classGalaxyWorkflows_afa960b0caa0b7d888f49f92441cfa71a}{cancel\-Invocation} (\$workflow\-\_\-id, \$invocation\-\_\-id)
+\item 
+\hyperlink{classGalaxyWorkflows_a8723202d8d7fe1fe8132ce9193d3279c}{invocation\-Steps} (\$workflow\-\_\-id, \$invocation\-\_\-id, \$step\-\_\-id)
+\item 
+\hyperlink{classGalaxyWorkflows_a8570fdd04ce133d45fef7716e1525ae6}{update\-Invocation\-Steps} (\$workflow\-\_\-id, \$invocation\-\_\-id, \$step\-\_\-id, \$payload=array())
+\item 
+\hyperlink{classGalaxyWorkflows_ac2e76982f5666761dd1ed95654b57834}{invoke} (\$workflow\-\_\-id, \$input\-\_\-dataset\-\_\-ids, \$parameters=N\-U\-L\-L, \$hist\-\_\-id=N\-U\-L\-L)
+\item 
+\hyperlink{classGalaxyWorkflows_adc1bca96c095e4681b7e9f17ad38e72b}{create} (\$params)
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classGalaxyWorkflows_ad433dc7aecc2d5267209fe5a725dc46f}{\index{Galaxy\-Workflows@{Galaxy\-Workflows}!\-\_\-\-\_\-construct@{\-\_\-\-\_\-construct}}
+\index{\-\_\-\-\_\-construct@{\-\_\-\-\_\-construct}!GalaxyWorkflows@{Galaxy\-Workflows}}
+\subsubsection[{\-\_\-\-\_\-construct}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Workflows\-::\-\_\-\-\_\-construct (
+\begin{DoxyParamCaption}
+\item[{{\bf Galaxy\-Instance}}]{\$galaxy}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyWorkflows_ad433dc7aecc2d5267209fe5a725dc46f}
+The Workflows constructor.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\hyperlink{classGalaxyInstance}{Galaxy\-Instance} & {\em \$galaxy} & A \hyperlink{classGalaxyInstance}{Galaxy\-Instance} object.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An instance of a workflows object. 
+\end{DoxyReturn}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classGalaxyWorkflows_ade6c11a1bb22019babfb880b9a5c5d80}{\index{Galaxy\-Workflows@{Galaxy\-Workflows}!build\-Module@{build\-Module}}
+\index{build\-Module@{build\-Module}!GalaxyWorkflows@{Galaxy\-Workflows}}
+\subsubsection[{build\-Module}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Workflows\-::build\-Module (
+\begin{DoxyParamCaption}
+\item[{}]{\$tool\-\_\-id, }
+\item[{}]{\$tool\-\_\-input\-\_\-ids = {\ttfamily NULL}, }
+\item[{}]{\$tool\-\_\-version = {\ttfamily NULL}, }
+\item[{}]{\$annotation = {\ttfamily NULL}}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyWorkflows_ade6c11a1bb22019babfb880b9a5c5d80}
+T\-O\-D\-O incomplete \hypertarget{classGalaxyWorkflows_afa960b0caa0b7d888f49f92441cfa71a}{\index{Galaxy\-Workflows@{Galaxy\-Workflows}!cancel\-Invocation@{cancel\-Invocation}}
+\index{cancel\-Invocation@{cancel\-Invocation}!GalaxyWorkflows@{Galaxy\-Workflows}}
+\subsubsection[{cancel\-Invocation}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Workflows\-::cancel\-Invocation (
+\begin{DoxyParamCaption}
+\item[{}]{\$workflow\-\_\-id, }
+\item[{}]{\$invocation\-\_\-id}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyWorkflows_afa960b0caa0b7d888f49f92441cfa71a}
+Cancel an invocation request.
+
+Corresponds to the Galaxy A\-P\-I/path at D\-E\-L\-E\-T\-E /api/workflows/\{workflow\-\_\-id\}/invocation/\{invocation\-\_\-id\}
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$workflow\-\_\-id} & The id of the workflow that the invocation belongs to. To obtain a workflow invocation, please use this class's \hyperlink{classGalaxyWorkflows_a98191c8d0819151ed0e1fcf926edda93}{index()} function. \\
+\hline
+{\em \$invocation\-\_\-id} & The id of the invocation to invoke.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array containing details of the specified invocation. 
+\end{DoxyReturn}
+\hypertarget{classGalaxyWorkflows_adc1bca96c095e4681b7e9f17ad38e72b}{\index{Galaxy\-Workflows@{Galaxy\-Workflows}!create@{create}}
+\index{create@{create}!GalaxyWorkflows@{Galaxy\-Workflows}}
+\subsubsection[{create}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Workflows\-::create (
+\begin{DoxyParamCaption}
+\item[{}]{\$params}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyWorkflows_adc1bca96c095e4681b7e9f17ad38e72b}
+Creates or edits a workflow with the given parameters.
+
+Corresponds to the Galaxy api/path at P\-O\-S\-T /api/workflows
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$params} & An associative array containing the input parameters for this function. The following parameters are available\-:\\
+\hline
+\end{DoxyParams}
+If importing a J\-S\-O\-N workflow\-:
+\begin{DoxyItemize}
+\item workflow\-: A J\-S\-O\-N representation of a workflow to be inserted into the database.
+\end{DoxyItemize}
+
+If running workflow from pre-\/existing workflow\-:
+\begin{DoxyItemize}
+\item workflow\-\_\-id\-: An existing workflow id. Either workflow\-\_\-id, installed\-\_\-repository\-\_\-file or from\-\_\-history\-\_\-id must be specified. To obtain a workflow id, please see this class's \hyperlink{classGalaxyWorkflows_a98191c8d0819151ed0e1fcf926edda93}{index()} function.
+\item parameters\-: If workflow\-\_\-id is set, specify the parameters for the workflow. See this class's \hyperlink{classGalaxyWorkflows_ac2e76982f5666761dd1ed95654b57834}{invoke()} for more details.
+\item ds\-\_\-map\-: If workflow\-\_\-id is set -\/ a dictionary mapping each input step id to a dictionary with 2 keys\-: ‘src’ (which can be ‘ldda’, ‘ld’ or ‘hda’) and ‘id’ (which should be the id of a Library\-Dataset\-Dataset\-Association, Library\-Dataset or History\-Dataset\-Association respectively).
+\item no\-\_\-add\-\_\-to\-\_\-history\-: If workflow\-\_\-id is set; if present in the payload with any value, the input datasets will not be added to the selected history.
+\item replacement\-\_\-params\-: If workflow\-\_\-id is set an optional dictionary used when renaming datasets.
+\item history\-: If workflow\-\_\-id is set optional history where to run the workflow, either the name of a new history or “hist\-\_\-id=H\-I\-S\-T\-\_\-\-I\-D” where H\-I\-S\-T\-\_\-\-I\-D is the id of an existing history. If not specified, the workflow will be run a new unnamed history. To obtain a history I\-D Please refer to the \hyperlink{classGalaxyWorkflows_a98191c8d0819151ed0e1fcf926edda93}{index()} function in the histories class.
+\end{DoxyItemize}
+
+If Creating / Running workflows from a History
+\begin{DoxyItemize}
+\item from\-\_\-history\-\_\-id\-: Id of history to extract a workflow from. Either workflow\-\_\-id, installed\-\_\-repository\-\_\-file or from\-\_\-history\-\_\-id must be specified.
+\item job\-\_\-ids\-: If from\-\_\-history\-\_\-id is set, optional list of jobs to include when extracting a workflow from history.
+\item dataset\-\_\-collection\-\_\-ids\-: If from\-\_\-history\-\_\-id is set -\/ optional list of H\-D\-C\-A hid`s corresponding to workflow inputs when extracting a workflow from history.
+\item workflow\-\_\-name\-: If from\-\_\-history\-\_\-id is set; name of the workflow to create when extracting a workflow from history.
+\item allow\-\_\-tool\-\_\-state\-\_\-corrections\-: if set to True, any Tool parameter changes will not prevent running workflow, defaults to False.
+\end{DoxyItemize}
+
+\begin{DoxyReturn}{Returns}
+An array containing the created workflow. 
+\end{DoxyReturn}
+\hypertarget{classGalaxyWorkflows_ab5ae3640a3fadef9faea67fff6a927b2}{\index{Galaxy\-Workflows@{Galaxy\-Workflows}!delete@{delete}}
+\index{delete@{delete}!GalaxyWorkflows@{Galaxy\-Workflows}}
+\subsubsection[{delete}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Workflows\-::delete (
+\begin{DoxyParamCaption}
+\item[{}]{\$workflow\-\_\-id}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyWorkflows_ab5ae3640a3fadef9faea67fff6a927b2}
+Delete a specified workflow.
+
+Corresponds to the Galaxy A\-P\-I/method at D\-E\-L\-E\-T\-E /api/workflows/\{encoded\-\_\-workflow\-\_\-id\}
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$workflow\-\_\-id} & The id of the workflow to delete. To obtain a workflow id please use this class's index function. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classGalaxyWorkflows_afb0322ba8b681e190e7101b269f37249}{\index{Galaxy\-Workflows@{Galaxy\-Workflows}!download@{download}}
+\index{download@{download}!GalaxyWorkflows@{Galaxy\-Workflows}}
+\subsubsection[{download}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Workflows\-::download (
+\begin{DoxyParamCaption}
+\item[{}]{\$workflow\-\_\-id}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyWorkflows_afb0322ba8b681e190e7101b269f37249}
+Returns a selected workflow (using a filepath) to download.
+
+It is similar to the export function except the returned array does not include a 'inputs' field.
+
+Corresponds to the Galaxy A\-P\-I/path G\-E\-T /api/workflows/\{encoded\-\_\-workflow\-\_\-id\}/download
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$workflow\-\_\-id} & Id of the Workflow to retreive To obtain a workflow id, please use this class \hyperlink{classGalaxyWorkflows_a98191c8d0819151ed0e1fcf926edda93}{index()} function.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array of the selected workflow. 
+\end{DoxyReturn}
+\hypertarget{classGalaxyWorkflows_ae1297b1c2660208e30657020ab6b1c53}{\index{Galaxy\-Workflows@{Galaxy\-Workflows}!export@{export}}
+\index{export@{export}!GalaxyWorkflows@{Galaxy\-Workflows}}
+\subsubsection[{export}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Workflows\-::export (
+\begin{DoxyParamCaption}
+\item[{}]{\$workflow\-\_\-id}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyWorkflows_ae1297b1c2660208e30657020ab6b1c53}
+Exports a workflow
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$workflow\-\_\-id} & Encoded workflow I\-D.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array representing the workflow requested. 
+\end{DoxyReturn}
+\hypertarget{classGalaxyWorkflows_a98191c8d0819151ed0e1fcf926edda93}{\index{Galaxy\-Workflows@{Galaxy\-Workflows}!index@{index}}
+\index{index@{index}!GalaxyWorkflows@{Galaxy\-Workflows}}
+\subsubsection[{index}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Workflows\-::index (
+\begin{DoxyParamCaption}
+\item[{}]{\$is\-\_\-published = {\ttfamily FALSE}}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyWorkflows_a98191c8d0819151ed0e1fcf926edda93}
+Retreive a list of all the workflows.
+
+Corresponds to the Galaxy A\-P\-I/path at G\-E\-T /api/workflows
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$is\-\_\-published} & Optional, if true, published workflows will be displayed.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array containing all of the workflows in Galaxy. 
+\end{DoxyReturn}
+\hypertarget{classGalaxyWorkflows_ae854a683f8a3ebeed7f748853e2a74e7}{\index{Galaxy\-Workflows@{Galaxy\-Workflows}!index\-Invocations@{index\-Invocations}}
+\index{index\-Invocations@{index\-Invocations}!GalaxyWorkflows@{Galaxy\-Workflows}}
+\subsubsection[{index\-Invocations}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Workflows\-::index\-Invocations (
+\begin{DoxyParamCaption}
+\item[{}]{\$workflow\-\_\-id}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyWorkflows_ae854a683f8a3ebeed7f748853e2a74e7}
+Retreive a list of the workflow invocations for a given workflow.
+
+Corresponds to the Galaxy A\-P\-I/path G\-E\-T /api/workflows/\{workflow\-\_\-id\}/invocations
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$workflow\-\_\-id} & The id of the workflow whos invocations to retreive.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array containing the invocations of a workflow. 
+\end{DoxyReturn}
+\hypertarget{classGalaxyWorkflows_a8723202d8d7fe1fe8132ce9193d3279c}{\index{Galaxy\-Workflows@{Galaxy\-Workflows}!invocation\-Steps@{invocation\-Steps}}
+\index{invocation\-Steps@{invocation\-Steps}!GalaxyWorkflows@{Galaxy\-Workflows}}
+\subsubsection[{invocation\-Steps}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Workflows\-::invocation\-Steps (
+\begin{DoxyParamCaption}
+\item[{}]{\$workflow\-\_\-id, }
+\item[{}]{\$invocation\-\_\-id, }
+\item[{}]{\$step\-\_\-id}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyWorkflows_a8723202d8d7fe1fe8132ce9193d3279c}
+Returns the invocation steps for a workflow.
+
+Corresponds to the Galaxy A\-P\-I/path at G\-E\-T /api/workflows/\{workflow\-\_\-id\}/invocation/\{invocation\-\_\-id\}/steps/\{step\-\_\-id\}
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$workflow\-\_\-id} & The id of the workflow whos invocation steps to retreive. To obtain a workflow id, please use this class's index function. \\
+\hline
+{\em \$invocation\-\_\-id} & The id of the invocation the step belongs to. To obtain an invocaiton id please use this class's index\-Invocation function. \\
+\hline
+{\em \$step\-\_\-id} & The id of the step to retreive.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array containing information for all the invocation steps of the given workflow invocation. 
+\end{DoxyReturn}
+\hypertarget{classGalaxyWorkflows_ac2e76982f5666761dd1ed95654b57834}{\index{Galaxy\-Workflows@{Galaxy\-Workflows}!invoke@{invoke}}
+\index{invoke@{invoke}!GalaxyWorkflows@{Galaxy\-Workflows}}
+\subsubsection[{invoke}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Workflows\-::invoke (
+\begin{DoxyParamCaption}
+\item[{}]{\$workflow\-\_\-id, }
+\item[{}]{\$input\-\_\-dataset\-\_\-ids, }
+\item[{}]{\$parameters = {\ttfamily NULL}, }
+\item[{}]{\$hist\-\_\-id = {\ttfamily NULL}}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyWorkflows_ac2e76982f5666761dd1ed95654b57834}
+Invokes (runs) a specified workflow.
+
+Corresponds to the Galaxy A\-P\-I method/path at P\-O\-S\-T /api/workflows/\{encoded\-\_\-workflow\-\_\-id\}/invocations
+
+If a \$hist\-\_\-id or \$hist\-\_\-name are not provided then a new history is created.
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$workflow\-\_\-id} & The I\-D of the workflow to invoke. \\
+\hline
+{\em \$input\-\_\-dataset\-\_\-ids} & The list of id's of the datasets to enter into the workflow. These id's can be found using the dataset class's \hyperlink{classGalaxyWorkflows_a98191c8d0819151ed0e1fcf926edda93}{index()} function. For right now the dataset must come from a history. Also The dataset 'state' must be 'ok and 'deleted' must be set to false. \\
+\hline
+{\em \$parameters} & Workflow tool parameters. \\
+\hline
+{\em \$hist\-\_\-id} & Optional. The id of the history to export the results to. If a new history is not created. Leave this ommitted if a new history is to be created.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array containing information on the workflow invoked. 
+\end{DoxyReturn}
+\hypertarget{classGalaxyWorkflows_a2db04c6d0e649fbf026906233e854091}{\index{Galaxy\-Workflows@{Galaxy\-Workflows}!show@{show}}
+\index{show@{show}!GalaxyWorkflows@{Galaxy\-Workflows}}
+\subsubsection[{show}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Workflows\-::show (
+\begin{DoxyParamCaption}
+\item[{}]{\$workflow\-\_\-id, }
+\item[{}]{\$show\-\_\-published = {\ttfamily true}}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyWorkflows_a2db04c6d0e649fbf026906233e854091}
+Retreive detailed information about a specific workflow.
+
+Corresponds to the Galaxy A\-P\-I/path at G\-E\-T /api/workflows/\{encoded\-\_\-workflow\-\_\-id\}
+
+
+\begin{DoxyParams}[1]{Parameters}
+ & {\em \$workflow\-\_\-id} & \\
+\hline
+show & {\em \$show\-\_\-published} & If true, show published workflows.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array containing the details of a workflow. 
+\end{DoxyReturn}
+\hypertarget{classGalaxyWorkflows_a2c181ced20cf625a8b23d4802fc745fe}{\index{Galaxy\-Workflows@{Galaxy\-Workflows}!show\-Invocations@{show\-Invocations}}
+\index{show\-Invocations@{show\-Invocations}!GalaxyWorkflows@{Galaxy\-Workflows}}
+\subsubsection[{show\-Invocations}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Workflows\-::show\-Invocations (
+\begin{DoxyParamCaption}
+\item[{}]{\$workflow\-\_\-id, }
+\item[{}]{\$invocation\-\_\-id}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyWorkflows_a2c181ced20cf625a8b23d4802fc745fe}
+Retreive a detailed specific workflow invocation
+
+Corresponds to the Galaxy A\-P\-I/path at G\-E\-T /api/workflows/\{workflow\-\_\-id\}/invocation/\{invocation\-\_\-id\}
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$workflow\-\_\-id} & The specified workflow of the invocation to show. To obtain a workflow id please use this class index function. \\
+\hline
+{\em \$invocation\-\_\-id} & The id of the invocaiton. To obtain an invocation id, please use this class's index invocation function.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array containing details of the specified invocation. 
+\end{DoxyReturn}
+\hypertarget{classGalaxyWorkflows_af435376a78f549a7c59f5969bdb249e1}{\index{Galaxy\-Workflows@{Galaxy\-Workflows}!update@{update}}
+\index{update@{update}!GalaxyWorkflows@{Galaxy\-Workflows}}
+\subsubsection[{update}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Workflows\-::update (
+\begin{DoxyParamCaption}
+\item[{}]{\$workflow\-\_\-id, }
+\item[{}]{\$\-J\-S\-O\-N\-\_\-\-Workflow}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyWorkflows_af435376a78f549a7c59f5969bdb249e1}
+Updates an existing workflow using a pre-\/built J\-S\-O\-N object.
+
+Corresponds to the Galaxy A\-P\-I method and path P\-U\-T /api/workflows/\{encoded\-\_\-workflow\-\_\-id\}
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$workflow\-\_\-id} & The id of the workflow to update. You can obtain a workflow id through this class's \hyperlink{classGalaxyWorkflows_a98191c8d0819151ed0e1fcf926edda93}{index()} function. \\
+\hline
+{\em \$\-J\-S\-O\-N\-\_\-\-Workflow} & The J\-S\-O\-N representation of what the final workflow should look like, including the updates.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array containing the updated workflow. 
+\end{DoxyReturn}
+\hypertarget{classGalaxyWorkflows_a8570fdd04ce133d45fef7716e1525ae6}{\index{Galaxy\-Workflows@{Galaxy\-Workflows}!update\-Invocation\-Steps@{update\-Invocation\-Steps}}
+\index{update\-Invocation\-Steps@{update\-Invocation\-Steps}!GalaxyWorkflows@{Galaxy\-Workflows}}
+\subsubsection[{update\-Invocation\-Steps}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Workflows\-::update\-Invocation\-Steps (
+\begin{DoxyParamCaption}
+\item[{}]{\$workflow\-\_\-id, }
+\item[{}]{\$invocation\-\_\-id, }
+\item[{}]{\$step\-\_\-id, }
+\item[{}]{\$payload = {\ttfamily array()}}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyWorkflows_a8570fdd04ce133d45fef7716e1525ae6}
+Update state of running workflow step invocations.
+
+Corresponds to the Galaxy A\-P\-I/path at P\-U\-T /api/workflows/\{workflow\-\_\-id\}/invocation/\{invocation\-\_\-id\}/steps/\{step\-\_\-id\}
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$workflow\-\_\-id} & The id of the workflow whos invocation steps to update. To obtain a workflow id, please use this class's index function. \\
+\hline
+{\em \$invocation\-\_\-id} & The id of the invocation the step belongs to. To obtain an invocaiton id please use this class's index\-Invocation function. \\
+\hline
+{\em \$step\-\_\-id} & The id of the step to update. \\
+\hline
+{\em \$payload} & The workflow as a J\-S\-O\-N object (in an array), containing any or all update fields for the workflow. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An array containing information of the updated invocation step. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+Workflows.\-inc\end{DoxyCompactItemize}

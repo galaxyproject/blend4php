@@ -1,0 +1,219 @@
+\hypertarget{classGalaxyFolders}{\section{Galaxy\-Folders Class Reference}
+\label{classGalaxyFolders}\index{Galaxy\-Folders@{Galaxy\-Folders}}
+}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classGalaxyFolders_a3f18114a03223f35f7f3cd59170a2b66}{\-\_\-\-\_\-construct} (\hyperlink{classGalaxyInstance}{Galaxy\-Instance} \$galaxy)
+\item 
+\hyperlink{classGalaxyFolders_a290b813faab2ce9e1b08768191673333}{index} ()
+\item 
+\hyperlink{classGalaxyFolders_a81c352039d08f6e62f6afc2a368f9ead}{show} (\$params)
+\item 
+\hyperlink{classGalaxyFolders_a4494ffa24728a35eb6a47d03e0ef1757}{create} (\$params)
+\item 
+\hyperlink{classGalaxyFolders_a7f5e257c6090fafc84c951b499ac9e82}{get\-Permissions} (\$params)
+\item 
+\hyperlink{classGalaxyFolders_a970c17189a6f60c29234256f38470b3f}{set\-Permissions} (\$params)
+\item 
+\hyperlink{classGalaxyFolders_af67cd128a46cb86e6ff42d03045d3139}{delete} (\$params)
+\item 
+\hyperlink{classGalaxyFolders_aea6b402f288fd6a31e0d18aa6fd11721}{update} (\$params)
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classGalaxyFolders_a3f18114a03223f35f7f3cd59170a2b66}{\index{Galaxy\-Folders@{Galaxy\-Folders}!\-\_\-\-\_\-construct@{\-\_\-\-\_\-construct}}
+\index{\-\_\-\-\_\-construct@{\-\_\-\-\_\-construct}!GalaxyFolders@{Galaxy\-Folders}}
+\subsubsection[{\-\_\-\-\_\-construct}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Folders\-::\-\_\-\-\_\-construct (
+\begin{DoxyParamCaption}
+\item[{{\bf Galaxy\-Instance}}]{\$galaxy}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyFolders_a3f18114a03223f35f7f3cd59170a2b66}
+The Folders constructor.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\hyperlink{classGalaxyInstance}{Galaxy\-Instance} & {\em \$galaxy} & A \hyperlink{classGalaxyInstance}{Galaxy\-Instance} object.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+An instance of a Folders object. 
+\end{DoxyReturn}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classGalaxyFolders_a4494ffa24728a35eb6a47d03e0ef1757}{\index{Galaxy\-Folders@{Galaxy\-Folders}!create@{create}}
+\index{create@{create}!GalaxyFolders@{Galaxy\-Folders}}
+\subsubsection[{create}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Folders\-::create (
+\begin{DoxyParamCaption}
+\item[{}]{\$params}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyFolders_a4494ffa24728a35eb6a47d03e0ef1757}
+Create a new folder.
+
+Corresponds to the A\-P\-I function/path\-: P\-O\-S\-T /api/folders/\{encoded\-\_\-parent\-\_\-folder\-\_\-id\}
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$params} & An associative array containing the input parameters for this function. The following parameters are available\-:\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyItemize}
+\item parent\-\_\-folder\-\_\-id\-: The id of the parent folder that this folder will be created under.
+\item name\-: The name of your new folder.
+\item description (optional)\-: The description of your new folder.
+\end{DoxyItemize}
+
+\begin{DoxyReturn}{Returns}
+An array containing information on the new folder. 
+\end{DoxyReturn}
+\hypertarget{classGalaxyFolders_af67cd128a46cb86e6ff42d03045d3139}{\index{Galaxy\-Folders@{Galaxy\-Folders}!delete@{delete}}
+\index{delete@{delete}!GalaxyFolders@{Galaxy\-Folders}}
+\subsubsection[{delete}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Folders\-::delete (
+\begin{DoxyParamCaption}
+\item[{}]{\$params}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyFolders_af67cd128a46cb86e6ff42d03045d3139}
+Mark the folder as 'deleted' or 'undeleted'.
+
+Corresponds to the Galaxy A\-P\-I function at D\-E\-L\-E\-T\-E /api/folders/\{folder\-\_\-id\}/
+
+Only admin users can delete/undelete folders
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$params} & An associative array containing the input parameters for this function. The following parameters are available\-:\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyItemize}
+\item folder\-\_\-id\-: The folder you want to delete/undelete.
+\item undelete\-: Specifying whether the item should be deleted (T\-R\-U\-E) or undeleted (F\-A\-L\-S\-E).
+\end{DoxyItemize}
+
+\begin{DoxyReturn}{Returns}
+An array containing information on the deleted (or undeleted) folder. 
+\end{DoxyReturn}
+\hypertarget{classGalaxyFolders_a7f5e257c6090fafc84c951b499ac9e82}{\index{Galaxy\-Folders@{Galaxy\-Folders}!get\-Permissions@{get\-Permissions}}
+\index{get\-Permissions@{get\-Permissions}!GalaxyFolders@{Galaxy\-Folders}}
+\subsubsection[{get\-Permissions}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Folders\-::get\-Permissions (
+\begin{DoxyParamCaption}
+\item[{}]{\$params}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyFolders_a7f5e257c6090fafc84c951b499ac9e82}
+Load all permissions for the folder with the given id.
+
+Corresponds to the Galaxy A\-P\-I/\-Path\-: G\-E\-T /api/folders/\{folder\-\_\-id\}/permissions
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$params} & An associative array containing the input parameters for this function. The following parameters are available\-:\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyItemize}
+\item folder\-\_\-id\-: The id of the folder to view permissions. The id can be obtained using the \hyperlink{classGalaxyFolders_a290b813faab2ce9e1b08768191673333}{index()} function in this class.
+\end{DoxyItemize}
+
+\begin{DoxyReturn}{Returns}
+An array containing permission information on a specified folder. 
+\end{DoxyReturn}
+\hypertarget{classGalaxyFolders_a290b813faab2ce9e1b08768191673333}{\index{Galaxy\-Folders@{Galaxy\-Folders}!index@{index}}
+\index{index@{index}!GalaxyFolders@{Galaxy\-Folders}}
+\subsubsection[{index}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Folders\-::index (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyFolders_a290b813faab2ce9e1b08768191673333}
+Retreive information about folders.
+
+Corresponds to the Galaxy A\-P\-I function/path\-: G\-E\-T /api/folders/
+
+\begin{DoxyReturn}{Returns}
+An array containing information about the specified folder. 
+\end{DoxyReturn}
+\hypertarget{classGalaxyFolders_a970c17189a6f60c29234256f38470b3f}{\index{Galaxy\-Folders@{Galaxy\-Folders}!set\-Permissions@{set\-Permissions}}
+\index{set\-Permissions@{set\-Permissions}!GalaxyFolders@{Galaxy\-Folders}}
+\subsubsection[{set\-Permissions}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Folders\-::set\-Permissions (
+\begin{DoxyParamCaption}
+\item[{}]{\$params}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyFolders_a970c17189a6f60c29234256f38470b3f}
+Set permissions for a specified folder.
+
+Corresponds to the Galaxy A\-P\-I function/path at\-: P\-O\-S\-T /api/folders/\{folder\-\_\-id\}/permissions There are 3 options that can be manipulated\-:
+\begin{DoxyEnumerate}
+\item Modify library item\-: Users can modify this library (\$folder\-\_\-id) item
+\item Add library item\-: Users can add library items to this (\$folder\-\_\-id) item
+\item Manage library permissions\-: Users can manage roles associated with permissions on this library item
+\end{DoxyEnumerate}
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$params} & An associative array containing the input parameters for this function. The following parameters are available\-:\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyItemize}
+\item folder\-\_\-id\-: The folder id you want to set permissions.
+\item add\-\_\-ids\-: An array of users that will have add item permission on the folder. To obtain a user id, please use the 'Users' class \hyperlink{classGalaxyFolders_a290b813faab2ce9e1b08768191673333}{index()} function.
+\item manage\-\_\-ids\-: An array of users that will have manage permission on the folder.
+\item modify\-\_\-ids\-: An array of users that will have modify permission on the folder. 
+\end{DoxyItemize}\hypertarget{classGalaxyFolders_a81c352039d08f6e62f6afc2a368f9ead}{\index{Galaxy\-Folders@{Galaxy\-Folders}!show@{show}}
+\index{show@{show}!GalaxyFolders@{Galaxy\-Folders}}
+\subsubsection[{show}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Folders\-::show (
+\begin{DoxyParamCaption}
+\item[{}]{\$params}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyFolders_a81c352039d08f6e62f6afc2a368f9ead}
+Retreive information about a specific folder
+
+Corresponds to the Galaxy A\-P\-I function/path\-: G\-E\-T /api/folders/\{folder\-\_\-id\}
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$params} & An associative array containing the input parameters for this function. The following parameters are available\-:\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyItemize}
+\item folder\-\_\-id\-: The folder that you would like to see. Please see the \hyperlink{classGalaxyFolders_a290b813faab2ce9e1b08768191673333}{index()} function in this class to obtain folder ids.
+\end{DoxyItemize}
+
+\begin{DoxyReturn}{Returns}
+An array containing information about the specified folder. 
+\end{DoxyReturn}
+\hypertarget{classGalaxyFolders_aea6b402f288fd6a31e0d18aa6fd11721}{\index{Galaxy\-Folders@{Galaxy\-Folders}!update@{update}}
+\index{update@{update}!GalaxyFolders@{Galaxy\-Folders}}
+\subsubsection[{update}]{\setlength{\rightskip}{0pt plus 5cm}Galaxy\-Folders\-::update (
+\begin{DoxyParamCaption}
+\item[{}]{\$params}
+\end{DoxyParamCaption}
+)}}\label{classGalaxyFolders_aea6b402f288fd6a31e0d18aa6fd11721}
+Updated the folder's name and description.
+
+Corresponds to the Galaxy A\-P\-I/path at\-: P\-A\-T\-C\-H /api/folders/\{folder\-\_\-id\}/
+
+Only admin users can update folders.
+
+
+\begin{DoxyParams}{Parameters}
+{\em \$params} & An associative array containing the input parameters for this function. The following parameters are available\-:\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyItemize}
+\item folder\-\_\-id\-: The folder you want to update
+\item payload\-: An array that contains 'name' =$>$ \mbox{[}new\-\_\-name\mbox{]} and 'description' =$>$ \mbox{[}can be null\mbox{]}.
+\end{DoxyItemize}
+
+\begin{DoxyReturn}{Returns}
+An array containing details about the deleted file history content. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+Folders.\-inc\end{DoxyCompactItemize}
