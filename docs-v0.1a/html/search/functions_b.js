@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['published',['published',['../classHistories.html#a6fbbf74042939c393cf7163b481cd0b1',1,'Histories']]]
+  ['published',['published',['../classGalaxyHistories.html#a580667415f0ddd56bc04d7f2ac6effb9',1,'GalaxyHistories']]]
 ];

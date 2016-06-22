@@ -1,15 +1,7 @@
 var searchData=
 [
-  ['reload',['reload',['../classTools.html#af681de7d892bf2b17d388d63534a45f9',1,'Tools']]],
-  ['repair_5frepository_5frevision',['repair_repository_revision',['../classToolShedRepositories.html#ae38b97508575d84d60d4f30bc72dc314',1,'ToolShedRepositories']]],
-  ['request',['Request',['../group__request__class.html',1,'']]],
-  ['requesterror',['RequestError',['../group__request__error__class.html',1,'']]],
-  ['requesterror',['RequestError',['../classRequestError.html',1,'']]],
-  ['requesterror_2einc',['RequestError.inc',['../RequestError_8inc.html',1,'']]],
-  ['requests',['Requests',['../classRequests.html',1,'']]],
-  ['requests_2einc',['Requests.inc',['../Requests_8inc.html',1,'']]],
-  ['reset_5fmetadata_5fon_5finstalled_5frepositories',['reset_metadata_on_installed_repositories',['../classToolShedRepositories.html#a29438f079b2fb983b66daad8a471b235',1,'ToolShedRepositories']]],
-  ['roles',['Roles',['../classRoles.html',1,'']]],
-  ['roles_2einc',['Roles.inc',['../Roles_8inc.html',1,'']]],
-  ['roels_20class',['roels Class',['../group__roles__class.html',1,'']]]
+  ['undelete',['undelete',['../classGalaxyHistories.html#a0fb60eb8c1f1c5ff7400a7452e224331',1,'GalaxyHistories\undelete()'],['../classGalaxyUsers.html#acaa27a8de249d306646e38cdfa8687b1',1,'GalaxyUsers\undelete()']]],
+  ['update',['update',['../classGalaxyFolderContents.html#a0836714c15c9279d0c49988fb56726ea',1,'GalaxyFolderContents\update()'],['../classGalaxyFolders.html#aea6b402f288fd6a31e0d18aa6fd11721',1,'GalaxyFolders\update()'],['../classGalaxyGroupRoles.html#aff6d1835c4a6bc2bd603e18e610142d7',1,'GalaxyGroupRoles\update()'],['../classGalaxyGroups.html#af852c5f69b719b3bef13062cbf6c94b1',1,'GalaxyGroups\update()'],['../classGalaxyGroupUsers.html#ad522aeafc9d096f2fe14783109d0f397',1,'GalaxyGroupUsers\update()'],['../classGalaxyHistoryContents.html#acf89090f7adca1d8453bf66514f9c546',1,'GalaxyHistoryContents\update()'],['../classGalaxyLibraries.html#a80b3b8d4c311d5f604a13953e9ac2cb0',1,'GalaxyLibraries\update()'],['../classGalaxyRequests.html#add4fcba998a368085e7785dc2eeb4d54',1,'GalaxyRequests\update()'],['../classGalaxyUsers.html#a2596c3f0f96711dcfcf1414f5fbb13e7',1,'GalaxyUsers\update()'],['../classGalaxyVisualizations.html#aaa570bd2b2e1a8b91ef0251d7c3219e3',1,'GalaxyVisualizations\update()'],['../classGalaxyWorkflows.html#af435376a78f549a7c59f5969bdb249e1',1,'GalaxyWorkflows\update()']]],
+  ['updateinvocationsteps',['updateInvocationSteps',['../classGalaxyWorkflows.html#a8570fdd04ce133d45fef7716e1525ae6',1,'GalaxyWorkflows']]],
+  ['uploadfile',['uploadFile',['../classGalaxyHTTPRequest.html#a1b0ac0853de2c399956b6a64bb82b5ad',1,'GalaxyHTTPRequest']]]
 ];

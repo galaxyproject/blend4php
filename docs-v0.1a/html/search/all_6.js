@@ -1,10 +1,7 @@
 var searchData=
 [
-  ['foldercontents_20class',['FolderContents class',['../group__folder__contents__class.html',1,'']]],
-  ['foldercontents',['FolderContents',['../classFolderContents.html',1,'']]],
-  ['foldercontents_2einc',['FolderContents.inc',['../FolderContents_8inc.html',1,'']]],
-  ['folders',['Folders',['../classFolders.html',1,'']]],
-  ['folders_2einc',['Folders.inc',['../Folders_8inc.html',1,'']]],
-  ['folders_20class',['Folders class',['../group__folders__class.html',1,'']]],
-  ['folders_20class',['Folders class',['../group__libraries__class.html',1,'']]]
+  ['edamformats',['edamFormats',['../classGalaxyDatatypes.html#a4e5f73d90ee19f5042f8a07bec045d04',1,'GalaxyDatatypes']]],
+  ['expectarray',['expectArray',['../classGalaxyHTTPRequest.html#aed346abf2949176de07ee0db1a8de506',1,'GalaxyHTTPRequest']]],
+  ['export',['export',['../classGalaxyWorkflows.html#ae1297b1c2660208e30657020ab6b1c53',1,'GalaxyWorkflows']]],
+  ['exportedworkflows',['exportedWorkflows',['../classGalaxyToolShedRepositories.html#a3d12283816b8b6161a81150f8069d555',1,'GalaxyToolShedRepositories']]]
 ];

@@ -1,8 +1,7 @@
 var searchData=
 [
-  ['cancelinvocation',['cancelInvocation',['../classWorkflows.html#a51ecb7843d3ae01aaa080e56b3dd4be7',1,'Workflows']]],
-  ['citations',['citations',['../classHistories.html#aa613fec2475a87da10e7cabc7cf3b4c0',1,'Histories\citations()'],['../classTools.html#adf67dfe22f68133f3a7a68950b9f3ec9',1,'Tools\citations()']]],
-  ['converted',['converted',['../classDatasets.html#a6a99b8298d2081d932e577c0ebb86cca',1,'Datasets']]],
-  ['converters',['converters',['../classDatatypes.html#acb539e0f93f2110b2455d319a19145b7',1,'Datatypes']]],
-  ['create',['create',['../classFolderContents.html#a3a74d968f4694357667bbdeed38a218f',1,'FolderContents\create()'],['../classFolders.html#aee151f1b40f0a3ae61afb943469e5339',1,'Folders\create()'],['../classGroups.html#a78573fc592f294df38e1754c642bf708',1,'Groups\create()'],['../classHistories.html#a69e4b7e9bde24290c1d40c29cd69a358',1,'Histories\create()'],['../classHistoryContents.html#ac2e074468ce3b73a9463adec372ebe91',1,'HistoryContents\create()'],['../classJobs.html#a4707d2d193d37086cbac02f9c7463eab',1,'Jobs\create()'],['../classLibraries.html#a5090fa7a9be0e26a91590d651a32abe9',1,'Libraries\create()'],['../classLibraryContents.html#ad6f818b7d72b436b40f47cab6f50b537',1,'LibraryContents\create()'],['../classRoles.html#ae7b1294d10eb7488dfb28bd98bd9823c',1,'Roles\create()'],['../classSearch.html#af1cd89ca839300909cfebf24e76c9434',1,'Search\create()'],['../classTools.html#a94a6d817eda85b60d90943049e50808f',1,'Tools\create()'],['../classUsers.html#a38f0657d88ec8be06dfc36c261b01814',1,'Users\create()'],['../classVisualizations.html#a8d6b51b5d14c79e698ce118ad05eb995',1,'Visualizations\create()'],['../classWorkflows.html#adec30fe8a3d234e40d257b5d917c079e',1,'Workflows\create()']]]
+  ['build',['build',['../classGalaxyTools.html#a152ae0dd26fb1095b1e4016a95a05f56',1,'GalaxyTools']]],
+  ['buildforrerun',['buildForRerun',['../classGalaxyJobs.html#a583ac2bfe50692c1332d79641aebc288',1,'GalaxyJobs']]],
+  ['buildmodule',['buildModule',['../classGalaxyWorkflows.html#ade6c11a1bb22019babfb880b9a5c5d80',1,'GalaxyWorkflows']]],
+  ['blend4php_20documentation',['blend4php Documentation',['../index.html',1,'']]]
 ];

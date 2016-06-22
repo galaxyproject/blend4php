@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['delete',['delete',['../classFolders.html#ae0ad5e1d1020ecd6542fe01c1dd4c573',1,'Folders\delete()'],['../classGroupRoles.html#aeaba3d91a004c24198dfd92ab420b231',1,'GroupRoles\delete()'],['../classGroupUsers.html#a2b6abd239c7f8819ba0dfa9a5d904bb6',1,'GroupUsers\delete()'],['../classHistoryContents.html#a53ffc8a65942b92724e248de38bdfe2b',1,'HistoryContents\delete()'],['../classLibraries.html#a3de3c2fdbaa21d621ad6fd7bb4f83a49',1,'Libraries\delete()'],['../classUsers.html#aca99b21a27c17a7ee22546fc8145257d',1,'Users\delete()'],['../classWorkflows.html#a02d170de2fc5922195c37bcbd40c7fc3',1,'Workflows\delete()']]],
-  ['deletehistory',['deleteHistory',['../classHistories.html#a97773d15901aea83dc44ea8d15e98e8b',1,'Histories']]],
-  ['diagnostics',['diagnostics',['../classTools.html#a6399f14dc2742734aac118c71896e77e',1,'Tools']]],
-  ['display',['display',['../classDatasets.html#a113427e6b87c5c3a3db281b5a973eb8b',1,'Datasets']]],
-  ['download',['download',['../classTools.html#a355eb988d4bbd7f3b28b505e4c950d58',1,'Tools\download()'],['../classWorkflows.html#a4eb19053303e1c5e12ea7abd2de5718c',1,'Workflows\download()']]]
+  ['delete',['delete',['../classGalaxyFolders.html#af67cd128a46cb86e6ff42d03045d3139',1,'GalaxyFolders\delete()'],['../classGalaxyGroupRoles.html#a9db7e333669b91b16ed745285df2102c',1,'GalaxyGroupRoles\delete()'],['../classGalaxyGroupUsers.html#a22b9cbe7425909725325a365632e5341',1,'GalaxyGroupUsers\delete()'],['../classGalaxyHistoryContents.html#ae6e7ab31c97206efc614d43abf2f1fd3',1,'GalaxyHistoryContents\delete()'],['../classGalaxyLibraries.html#ae143ace70c10f1b1983bc39e23892397',1,'GalaxyLibraries\delete()'],['../classGalaxyUsers.html#a96b25fdb4acebd341e336032c23e1e85',1,'GalaxyUsers\delete()'],['../classGalaxyWorkflows.html#ab5ae3640a3fadef9faea67fff6a927b2',1,'GalaxyWorkflows\delete()']]],
+  ['deletehistory',['deleteHistory',['../classGalaxyHistories.html#a8383cb468d247fb659f1f0a0eaa0f921',1,'GalaxyHistories']]],
+  ['diagnostics',['diagnostics',['../classGalaxyTools.html#ac6f5af723050d4ab39b839a490e080f8',1,'GalaxyTools']]],
+  ['display',['display',['../classGalaxyDatasets.html#af06f7b78544fab66c089bd32843a4401',1,'GalaxyDatasets']]],
+  ['download',['download',['../classGalaxyTools.html#a3fe75bf2e8d1c3e5035b7e92ce81a2e5',1,'GalaxyTools\download()'],['../classGalaxyWorkflows.html#afb0322ba8b681e190e7101b269f37249',1,'GalaxyWorkflows\download()']]]
 ];

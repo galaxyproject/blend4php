@@ -1,13 +1,9 @@
 var searchData=
 [
-  ['datatypes_20class',['DataTypes class',['../group__data__types__class.html',1,'']]],
-  ['datasets',['Datasets',['../classDatasets.html',1,'']]],
-  ['datasets_2einc',['DataSets.inc',['../DataSets_8inc.html',1,'']]],
-  ['datatypes',['Datatypes',['../classDatatypes.html',1,'']]],
-  ['datatypes_2einc',['DataTypes.inc',['../DataTypes_8inc.html',1,'']]],
-  ['delete',['delete',['../classFolders.html#ae0ad5e1d1020ecd6542fe01c1dd4c573',1,'Folders\delete()'],['../classGroupRoles.html#aeaba3d91a004c24198dfd92ab420b231',1,'GroupRoles\delete()'],['../classGroupUsers.html#a2b6abd239c7f8819ba0dfa9a5d904bb6',1,'GroupUsers\delete()'],['../classHistoryContents.html#a53ffc8a65942b92724e248de38bdfe2b',1,'HistoryContents\delete()'],['../classLibraries.html#a3de3c2fdbaa21d621ad6fd7bb4f83a49',1,'Libraries\delete()'],['../classUsers.html#aca99b21a27c17a7ee22546fc8145257d',1,'Users\delete()'],['../classWorkflows.html#a02d170de2fc5922195c37bcbd40c7fc3',1,'Workflows\delete()']]],
-  ['deletehistory',['deleteHistory',['../classHistories.html#a97773d15901aea83dc44ea8d15e98e8b',1,'Histories']]],
-  ['diagnostics',['diagnostics',['../classTools.html#a6399f14dc2742734aac118c71896e77e',1,'Tools']]],
-  ['display',['display',['../classDatasets.html#a113427e6b87c5c3a3db281b5a973eb8b',1,'Datasets']]],
-  ['download',['download',['../classTools.html#a355eb988d4bbd7f3b28b505e4c950d58',1,'Tools\download()'],['../classWorkflows.html#a4eb19053303e1c5e12ea7abd2de5718c',1,'Workflows\download()']]]
+  ['cancelinvocation',['cancelInvocation',['../classGalaxyWorkflows.html#afa960b0caa0b7d888f49f92441cfa71a',1,'GalaxyWorkflows']]],
+  ['checkforupdates',['checkForUpdates',['../classGalaxyToolShedRepositories.html#a8e976f43f27c4dcb35450812b25a0578',1,'GalaxyToolShedRepositories']]],
+  ['citations',['citations',['../classGalaxyHistories.html#a72c8ee9b77bd65b3cc97be6f2e379515',1,'GalaxyHistories\citations()'],['../classGalaxyTools.html#afa93c46dc803df1cd74df4bbb25ceaf6',1,'GalaxyTools\citations()']]],
+  ['converted',['converted',['../classGalaxyDatasets.html#a0cc78f7d1b21da1522f04e79e1e06b13',1,'GalaxyDatasets']]],
+  ['converters',['converters',['../classGalaxyDatatypes.html#a1a7972aee88fae45b2156feb39827b0d',1,'GalaxyDatatypes']]],
+  ['create',['create',['../classGalaxyFolderContents.html#a8497234cbbcaa30eccdeaa7d95131775',1,'GalaxyFolderContents\create()'],['../classGalaxyFolders.html#a4494ffa24728a35eb6a47d03e0ef1757',1,'GalaxyFolders\create()'],['../classGalaxyGroups.html#aef76ab72832bf833550d71f0e6ca0e72',1,'GalaxyGroups\create()'],['../classGalaxyHistories.html#a0021882753d9a7c1c43c459226bc3b23',1,'GalaxyHistories\create()'],['../classGalaxyHistoryContents.html#ab0141d9c3c48b4f70eb8a81764ab3300',1,'GalaxyHistoryContents\create()'],['../classGalaxyJobs.html#acdef8cbf37424947838dee85ebe86e21',1,'GalaxyJobs\create()'],['../classGalaxyLibraries.html#ab79a28da2f2da9da5e7baafa30e5d9a0',1,'GalaxyLibraries\create()'],['../classGalaxyLibraryContents.html#a36e054538e7765ff2307d895165386a3',1,'GalaxyLibraryContents\create()'],['../classGalaxyRoles.html#a5e7093d606afd3be29b15aebf911a7b7',1,'GalaxyRoles\create()'],['../classGalaxySearch.html#a133c369b25fc30fa3c6b533c552e963e',1,'GalaxySearch\create()'],['../classGalaxyTools.html#ae5996fd065cd127c5f9da3e2b04b20e5',1,'GalaxyTools\create()'],['../classGalaxyUsers.html#aa7d58896728cf5ed3d84e791afdf90f2',1,'GalaxyUsers\create()'],['../classGalaxyVisualizations.html#ad15d1b1e61d19838dd0100d1ad5f81d9',1,'GalaxyVisualizations\create()'],['../classGalaxyWorkflows.html#adc1bca96c095e4681b7e9f17ad38e72b',1,'GalaxyWorkflows\create()']]]
 ];

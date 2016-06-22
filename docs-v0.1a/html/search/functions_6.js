@@ -1,13 +1,13 @@
 var searchData=
 [
   ['getapikey',['getAPIKey',['../classGalaxyInstance.html#a563deeb4f829462d7476d3684ed099cb',1,'GalaxyInstance']]],
-  ['geterror',['getError',['../classHTTPRequest.html#acdbc89e298a3ab5beb0a00f4c67646ad',1,'HTTPRequest\getError()'],['../classRequestError.html#a76a63d88399943e9cc34789f5b67ff24',1,'RequestError\getError()']]],
-  ['geterrormessage',['getErrorMessage',['../classHTTPRequest.html#a8e705d701b167a71861e53c329f12824',1,'HTTPRequest']]],
-  ['geterrortype',['getErrorType',['../classHTTPRequest.html#a876aad5c328ef5a71345a04ff697def5',1,'HTTPRequest']]],
-  ['getlatestinstallable',['getLatestInstallable',['../classToolShedRepositories.html#a53d6bd1df455d24d3739a7899b4e7dc8',1,'ToolShedRepositories']]],
-  ['getpermissions',['getPermissions',['../classFolders.html#a68817a94c13feb8112e4d518ca1f9b7d',1,'Folders\getPermissions()'],['../classLibraries.html#abad2211e5699eb1c296db1ac22bf478c',1,'Libraries\getPermissions()']]],
-  ['getremotefile',['getRemoteFile',['../classHTTPRequest.html#a6d34dd87ee714604d6d4aaa677d52729',1,'HTTPRequest']]],
+  ['geterror',['getError',['../classGalaxyError.html#a028ee131e1f68da22c29e510b405e0a7',1,'GalaxyError\getError()'],['../classGalaxyHTTPRequest.html#a72f394afb282f6e578ed12fd26a3d22f',1,'GalaxyHTTPRequest\getError()']]],
+  ['geterrormessage',['getErrorMessage',['../classGalaxyError.html#a1f1ec54a9bcb9520dbaa7abc3e163824',1,'GalaxyError\getErrorMessage()'],['../classGalaxyHTTPRequest.html#ac66ae869af44fe97917c6301329b23d4',1,'GalaxyHTTPRequest\getErrorMessage()']]],
+  ['geterrortype',['getErrorType',['../classGalaxyError.html#a2e680e1a6475af8dfbcb6d1f07254f8c',1,'GalaxyError\getErrorType()'],['../classGalaxyHTTPRequest.html#afb2ca4429dcaaa34246755ebdedcd7e7',1,'GalaxyHTTPRequest\getErrorType()']]],
+  ['getlatestinstallable',['getLatestInstallable',['../classGalaxyToolShedRepositories.html#a6851067068982d942787634ff2aee2f0',1,'GalaxyToolShedRepositories']]],
+  ['getpermissions',['getPermissions',['../classGalaxyFolders.html#a7f5e257c6090fafc84c951b499ac9e82',1,'GalaxyFolders\getPermissions()'],['../classGalaxyLibraries.html#a6ab8ac66efef7f07d95933f069e58a3b',1,'GalaxyLibraries\getPermissions()']]],
+  ['getremotefile',['getRemoteFile',['../classGalaxyHTTPRequest.html#a522c94d27f40e84e11bf0020753d9d67',1,'GalaxyHTTPRequest']]],
   ['geturl',['getURL',['../classGalaxyInstance.html#a5b0c7191b82c21d857ec3d42068f3cf4',1,'GalaxyInstance']]],
-  ['getuserid',['getUserID',['../classUsers.html#a60cb5a1a81e5b7cdd9ca990d55f4624b',1,'Users']]],
+  ['getuserid',['getUserID',['../classGalaxyUsers.html#a786e425ad1feccd8f6ef09e7c4ca8a9e',1,'GalaxyUsers']]],
   ['getversion',['getVersion',['../classGalaxyInstance.html#afbb7256306223f7f8ee85f85868e2de2',1,'GalaxyInstance']]]
 ];

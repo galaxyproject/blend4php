@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['mapping',['mapping',['../classDatatypes.html#a0a0e9756ac8bec8717a14c774b6d5d35',1,'Datatypes']]]
+  ['published',['published',['../classGalaxyHistories.html#a580667415f0ddd56bc04d7f2ac6effb9',1,'GalaxyHistories']]]
 ];

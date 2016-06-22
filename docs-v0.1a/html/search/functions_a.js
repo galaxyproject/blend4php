@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['outputs',['outputs',['../classJobs.html#a6fa75d976f7dcbe31cb1191effa0a9ea',1,'Jobs']]]
+  ['outputs',['outputs',['../classGalaxyJobs.html#a2e33c69ed69aabf03fd73c8671aacd88',1,'GalaxyJobs']]]
 ];

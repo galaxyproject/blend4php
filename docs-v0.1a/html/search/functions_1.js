@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['apikey',['apiKey',['../classUsers.html#a3169049c092532596a5d5c664f2d3fc5',1,'Users']]],
-  ['archivedownload',['archiveDownload',['../classHistories.html#acbd17070f53a4326029374878760846d',1,'Histories']]],
-  ['archiveexport',['archiveExport',['../classHistories.html#addacbe6d8744835911f6547d4b935b41',1,'Histories']]],
-  ['auth',['auth',['../classHTTPRequest.html#a16855344f3ba37cb4247a5b9916798dd',1,'HTTPRequest']]],
-  ['authenticate',['authenticate',['../classGalaxyInstance.html#a865740987c5a498a9740a5127838f04e',1,'GalaxyInstance']]]
+  ['apikey',['apiKey',['../classGalaxyUsers.html#a42eadb009c8a5a2341e06e22f1e57103',1,'GalaxyUsers']]],
+  ['archivedownload',['archiveDownload',['../classGalaxyHistories.html#a8db649a8fe9cb7e9784dda8fe351fd1a',1,'GalaxyHistories']]],
+  ['archiveexport',['archiveExport',['../classGalaxyHistories.html#a4db70a5d0356df24812351b17d1863f4',1,'GalaxyHistories']]],
+  ['auth',['auth',['../classGalaxyHTTPRequest.html#a9e802c258f537b505aa18a3aec1315ba',1,'GalaxyHTTPRequest']]],
+  ['authenticate',['authenticate',['../classGalaxyInstance.html#a243315a49fd4ba0df8916b87872299ed',1,'GalaxyInstance']]]
 ];

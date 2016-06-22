@@ -1,5 +1,27 @@
 var searchData=
 [
-  ['datasets',['Datasets',['../classDatasets.html',1,'']]],
-  ['datatypes',['Datatypes',['../classDatatypes.html',1,'']]]
+  ['galaxydatasets',['GalaxyDatasets',['../classGalaxyDatasets.html',1,'']]],
+  ['galaxydatatypes',['GalaxyDatatypes',['../classGalaxyDatatypes.html',1,'']]],
+  ['galaxyerror',['GalaxyError',['../classGalaxyError.html',1,'']]],
+  ['galaxyfoldercontents',['GalaxyFolderContents',['../classGalaxyFolderContents.html',1,'']]],
+  ['galaxyfolders',['GalaxyFolders',['../classGalaxyFolders.html',1,'']]],
+  ['galaxygenomes',['GalaxyGenomes',['../classGalaxyGenomes.html',1,'']]],
+  ['galaxygrouproles',['GalaxyGroupRoles',['../classGalaxyGroupRoles.html',1,'']]],
+  ['galaxygroups',['GalaxyGroups',['../classGalaxyGroups.html',1,'']]],
+  ['galaxygroupusers',['GalaxyGroupUsers',['../classGalaxyGroupUsers.html',1,'']]],
+  ['galaxyhistories',['GalaxyHistories',['../classGalaxyHistories.html',1,'']]],
+  ['galaxyhistorycontents',['GalaxyHistoryContents',['../classGalaxyHistoryContents.html',1,'']]],
+  ['galaxyhttprequest',['GalaxyHTTPRequest',['../classGalaxyHTTPRequest.html',1,'']]],
+  ['galaxyinstance',['GalaxyInstance',['../classGalaxyInstance.html',1,'']]],
+  ['galaxyjobs',['GalaxyJobs',['../classGalaxyJobs.html',1,'']]],
+  ['galaxylibraries',['GalaxyLibraries',['../classGalaxyLibraries.html',1,'']]],
+  ['galaxylibrarycontents',['GalaxyLibraryContents',['../classGalaxyLibraryContents.html',1,'']]],
+  ['galaxyrequests',['GalaxyRequests',['../classGalaxyRequests.html',1,'']]],
+  ['galaxyroles',['GalaxyRoles',['../classGalaxyRoles.html',1,'']]],
+  ['galaxysearch',['GalaxySearch',['../classGalaxySearch.html',1,'']]],
+  ['galaxytools',['GalaxyTools',['../classGalaxyTools.html',1,'']]],
+  ['galaxytoolshedrepositories',['GalaxyToolShedRepositories',['../classGalaxyToolShedRepositories.html',1,'']]],
+  ['galaxyusers',['GalaxyUsers',['../classGalaxyUsers.html',1,'']]],
+  ['galaxyvisualizations',['GalaxyVisualizations',['../classGalaxyVisualizations.html',1,'']]],
+  ['galaxyworkflows',['GalaxyWorkflows',['../classGalaxyWorkflows.html',1,'']]]
 ];
