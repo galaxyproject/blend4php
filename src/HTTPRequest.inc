@@ -374,35 +374,47 @@ class GalaxyHTTPRequest  {
   }
 
   /**
+   * A wrapper function for retrieving an error.
    *
-   * @return
-   *   string error message from the server or CURL.
+   * Interacts with the GalaxyError object which is a private member of this
+   * class.
    *
-   *
+   * @see GalaxyError::getError()
    */
   public function getError() {
     return $this->error->getError();
   }
 
   /**
+   * A wrapper function for retrieving an error message.
    *
-   * @return The
+   * Interacts with the GalaxyError object which is a private member of this
+   * class.
+   *
+   * @see GalaxyError::getErrorMessage()
    */
   public function getErrorMessage() {
     return $this->error->getErrorMessage();
   }
   /**
+   * A wrapper function for retrieving an error type.
    *
-   * @return The
+   * Interacts with the GalaxyError object which is a private member of this
+   * class.
+   *
+   * @see GalaxyError::getErrorType()
    */
   public function getErrorType() {
     return $this->error->getErrorType();
   }
 
   /**
+   * A wrapper function for setting an error.
    *
-   * @param $type
-   * @param $message
+   * Interacts with the GalaxyError object which is a private member of this
+   * class.
+   *
+   * @see GalaxyError::setError()
    */
   public function setError($type, $message) {
     $this->error->setError($type, $message);

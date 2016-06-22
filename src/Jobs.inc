@@ -36,8 +36,8 @@ class GalaxyJobs {
    *   the job.
    *
    * @param $params
-   *   An associative array containing the input parameters that
-   *   are required to run this function.  Parameters include:
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
    *
    *    - id: The job id of the job whose information to retreive.
    *        The job id can be ontained from this class's index() function.
@@ -74,7 +74,8 @@ class GalaxyJobs {
   *   GET/api/jobs/{encoded_job_id}/inputs
   *
   * @param $params
-  *    A key value (associative array) where the keys can be the following:
+  *    An associative array containing the input parameters for this function.
+  *    The following parameters are available:
   *
   *    - job_id: The job id of the job whose information to retreive.
   *        The job id can be ontained from this class's index() function.
@@ -109,7 +110,8 @@ class GalaxyJobs {
   *
   *
   * @param $params
-  *    A key value (associative array) where the keys can be the following:
+  *    An associative array containing the input parameters for this function.
+  *   The following parameters are available:
   *
   *    - job_id: The job id of the job whose information to retreive.
   *        The job id can be ontained from this class's index() function.
@@ -143,7 +145,8 @@ class GalaxyJobs {
   *   GET /api/jobs/{job_id}
   *
   * @param $params
-  *   A key value (associative array) where the keys can be the following:
+  *   An associative array containing the input parameters for this function.
+  *   The following parameters are available:
   *
   *   - job_id: The job that you would like to see. Please see the
   *       index() function in this class to obtain job ids.
@@ -178,7 +181,8 @@ class GalaxyJobs {
   *
   *
   * @param $params
-  *   A key value (associative array) where the keys can be the following:
+  *   An associative array containing the input parameters for this function.
+  *   The following parameters are available:
   *
   *   - state: filter job search by any one of these conditions:
   *     (i)    'new'
@@ -217,7 +221,7 @@ class GalaxyJobs {
       if(!is_array($params['state'])){
         // Is there only one parameter?
         if (!is_string($params['state'])){
-          $this->galaxy->setError('User', 'Invalid state input scheme (string or array structure)');
+          $this->galaxy->setError('API', 'Invalid state input scheme (string or array structure)');
           return FALSE;
         }
 
@@ -240,7 +244,7 @@ class GalaxyJobs {
       if(!is_array($params['tool_ids'])){
         // Is there only one parameter?
         if (!is_string($params['tool_ids'])){
-          return $this->galaxy->setError('User', 'Invalid tool_id input scheme (string or array structure)');
+          return $this->galaxy->setError('API', 'Invalid tool_id input scheme (string or array structure)');
         }
         $URL .= '&tool_id=' . $params['tool_ids'];
       }
@@ -294,7 +298,8 @@ class GalaxyJobs {
     *   and simplyrecycle the old results.
     *
     * @param $params
-    *   A key value (associative array) where the keys can be the following:
+    *   An associative array containing the input parameters for this function.
+    *   The following parameters are available:
     *
     *   - tool_id:  Required. The tool id to execute. To find the tool id, use
     *     the index function of this class.
@@ -331,7 +336,7 @@ class GalaxyJobs {
 //       }
 //     }
 
-    // We can't include arrays as POST arguemtns. They must strings,
+    // We can't include arrays as POST arguments. They must be strings,
     // so we'll convert to a JSON array which Galaxy likes.
     if (array_key_exists('inputs', $params)) {
       $params['inputs'] = json_encode($params['inputs']);

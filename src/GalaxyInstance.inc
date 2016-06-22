@@ -68,7 +68,7 @@
  * error message if authentication fails.  The function will return false
  * if authentication fails.
  *
- * If the API key for the user is already known the authentication step can
+ * If the API key for the user is already known, the authentication step can
  * be skiped and the API key directly set:
  *
  * @code
@@ -79,7 +79,26 @@
  * remote Galaxy server.
  *
  * To interact with Galaxy regarding jobs, workflows, users, etc.  Please
- * review the Classes page for each respective class.
+ * review the Classes pages for each respective class.
+ *
+ * \section error_sec Error Handling
+ *
+ * All functions in the blend4php library return FALSE on failure. If failure
+ * occurs then the most recent error can be retrieved using the following:
+ *
+ * @code
+ *   $error = $galaxy->getError();
+ *   $emessage = $error['message']
+ *   $etype = $error['type']
+ * @endcode
+ *
+ * Alternatively, the message and type can be retrieved independently:
+ *
+ * @code
+ *   $emessage = $galaxy->getErrorMessage();
+ *   $etype = $galaxy->getErrorType();
+ * @endcode
+ *
  *
  * \section funding_sec Funding
  * This work is supported by the US National Science Foundation (NSF)

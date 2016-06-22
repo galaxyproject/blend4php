@@ -25,13 +25,26 @@ To authenticate and retrieve the user's API key for future requests:
 
 Where $username is the name of the user on the remote Galaxy server and $password is the user's password. The $error variable will contain any error message if authentication fails.  The function will return false if authentication fails.
 
-If the API key for the user is already known the authentication step can be skiped and the API key directly set:
+If the API key for the user is already known, the authentication step can be skiped and the API key directly set:
 
     $galaxy->setAPIKey($api_key);
     
 Where the $api_key variable contains the API key of the user on the remote Galaxy server.  
 
 To interact with Galaxy regarding jobs, workflows, users, etc.  Please see the blend4php documentation.
+
+# Error Handling
+All functions in the blend4php library return FALSE on failure. If failure
+occurs then the most recent error can be retrieved using the following:
+
+    $error = $galaxy->getError();
+    $emessage = $error['message']
+    $etype = $error['type']
+
+Alternatively, the message and type can be retrieved independently:
+
+    $emessage = $galaxy->getErrorMessage();
+    $etype = $galaxy->getErrorType();
 
 # Testing
 blend4php contains unit testing using the PHPUnit framework.  It is recommended to not run any tests on a Galaxy instance that will be used for production as these tests will add a lot of records (i.e. jobs, histories etc.) that cannot easily be removed.  Testing should be perofrmed on a test Galaxy instance. To execute test on an Ubuntu 14.04 LTS server.

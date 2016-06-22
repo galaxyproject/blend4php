@@ -404,7 +404,8 @@ class GalaxyWorkflows {
     *   POST /api/workflows
     *
     * @param $params
-    *   A key value (associative array) where the keys can be the following:
+    *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
     *
     *   If importing a JSON workflow:
     *   - workflow: A JSON representation of a workflow to be inserted into

@@ -38,8 +38,8 @@ class GalaxyDatasets {
    * GET /api/datasets/{dataset_id}/converted/{ext}
    *
    * @param $params
-   *   Dictionary (associative array) containing the input parameters
-   *   required and optional that this function can run.
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
    *
    *   - dataset_id: The dataset id of the information to pull.
    *       Can be obtained from this function's display().
@@ -80,8 +80,8 @@ class GalaxyDatasets {
    * history content (dataset).
    *
    * @param $params
-   *   A dictionary (associative array) containing the input parameters that
-   *   are required to run this function.
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
    *
    *   - hist_id: The history id of the datasets to find.
    *   - hist_content_id: The specified history content's dataset(s) to list.
@@ -134,8 +134,8 @@ class GalaxyDatasets {
    * GET /api/datasets/{encoded_dataset_id}
    *
    * @param $params
-   *   An associative array containing the input parameters that
-   *   are required to run this function.  Parameters include:
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
    *
    *   - dataset_id: The dataset_id's information that the function is to
    *       retreive. To obtain the dataset id, please use the Display function.

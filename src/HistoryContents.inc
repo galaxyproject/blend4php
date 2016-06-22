@@ -39,8 +39,8 @@ class GalaxyHistoryContents {
    *  is currently not supported.
    *
    * @param $params
-   *   A dictionary (associative array) containing the input parameters that
-   *   are required to run this function.
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
    *
    *   - history_id: The id of the history to add contents to. To obtain
    *       history id's, please refer to the index() function of the history
@@ -91,8 +91,8 @@ class GalaxyHistoryContents {
    *
    *
    * @param $params
-   *   A dictionary (associative array) containing the input parameters that
-   *   are required to run this function.
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
    *
    *   - id: The encoded history content id of the HDA to return please
    *       use the index() function for a list of content_id's.
@@ -127,8 +127,8 @@ class GalaxyHistoryContents {
    *  Some functionality from original python function is not available.
    *
    * @param $params
-   *   A dictionary (associative array) containing the input parameters that
-   *   are required to run this function.
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
    *
    *   - history_id: The id of the history to update. To find, please refer to
    *     'Histories' class index() function.
@@ -184,8 +184,8 @@ class GalaxyHistoryContents {
    *
    *
    * @param $params
-   *   A dictionary (associative array) containing the input parameters that
-   *   are required to run this function.
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
    *
    *   - history_id: The id of the history content to delete.
    *   - id: The id of the content to delete from the history, to find
@@ -226,8 +226,8 @@ class GalaxyHistoryContents {
    *   GET /api/histories/{history_id}/contents
    *
    * @param $params
-   *   A dictionary (associative array) containing the input parameters that
-   *   are required to run this function.
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
    *
    *   - history_id: The id of the history in order to view the contents.
    *   - ids: A comma separated string of encoded history content ids. If

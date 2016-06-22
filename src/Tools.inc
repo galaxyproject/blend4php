@@ -35,7 +35,8 @@ class GalaxyTools {
    *   GET /api/tools:
    *
    * @param $params
-   *   A key value (associative array) where the keys can be the following:
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
    *
    *   - tool_id: Optional, the id of the tool to specify.
    *   - q: Optional, additional search details.
@@ -75,7 +76,8 @@ class GalaxyTools {
    *
    *
    * @param $params
-   *   A key value (associative array) where the keys can be the following:
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
    *
    *   - tool_id: The id of the tool whos informaiton to obtain. To retreive a
    *       tool id please use this class's index funciton.
@@ -109,7 +111,8 @@ class GalaxyTools {
    *   GET /api/tools/{tool_id}/diagnostics
    *
    * @param $params
-   *   A key value (associative array) where the keys can be the following:
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
    *
    *   - tool_id: The id of the tool whos informaiton to obtain. To retreive a
    *       tool id please use this class's index funciton.
@@ -143,7 +146,8 @@ class GalaxyTools {
    *   GET /api/tools/{tool_id}/reload
    *
    * @param $params
-   *   A key value (associative array) where the keys can be the following:
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
    *
    *   - tool_id: The id of the tool to reload.
    *
@@ -178,7 +182,8 @@ class GalaxyTools {
    *
    *
    * @param $params
-   *   A key value (associative array) where the keys can be the following:
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
    *
    *   - tool_id: The id of the tool to perform this aciton on. Please use
    *       this class's index() function to retreive a tool id.
@@ -230,7 +235,8 @@ class GalaxyTools {
    *   GET /api/tools/{tool_id}/citations
    *
    * @param $params
-   *   A key value (associative array) where the keys can be the following:
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
    *
    *   - tool_id: The id of the specified tool. To obtain a tool id, please use
    *       this class' index() function.
@@ -267,7 +273,8 @@ class GalaxyTools {
    *   GET /api/tools/{tool_id}/download
    *
    * @param $params
-   *   A key value (associative array) where the keys can be the following:
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
    *
    *  - tool_id: The id of the specified tool. To obtain a tool id, please use
    *      this class's index() function.
@@ -309,7 +316,8 @@ class GalaxyTools {
    *   POST /api/tools
    *
    * @param $params
-   *   A key value (associative array) where the keys can be the following:
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
    *
    *   - tool_id: The id of the specified tool. To obtain a tool id, please use
    *       this class's index() function.

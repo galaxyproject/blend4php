@@ -51,7 +51,8 @@ class GalaxyGroups  {
    * Corresponds to the Galaxy API method and path: POST /api/groups.
    *
    * @param $params
-   *   A key value (associative array) where the keys can be the following:
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
    *
    *   - name: Name of the group.
    *   - user_ids: An array of user_ids, if any, to associate user id's to the
@@ -102,7 +103,8 @@ class GalaxyGroups  {
    *
    *
    * @param $params
-   *   A key value (associative array) where the keys can be the following:
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
    *
    *     - group_id: The id of the specific group to show.  Group IDs can be
    *         found using the index() function of this class.
@@ -129,7 +131,8 @@ class GalaxyGroups  {
    * PUT /api/groups/{encoded_group_id}.
    *
    * @param $params
-   *   A key value (associative array) where the keys can be the following:
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
    *     - group_id: The id of the group to modify.  Group IDs can be found
    *         using the index() function of this class.
    *     - name: A new name, if any, to call the group.

@@ -23,7 +23,8 @@ class GalaxyLibraryContents {
    * GET /api/libraries/{encoded_library_id}
    *
    * @param $params
-   *   A key value (associative array) where the keys can be the following:
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
    *
    *   - library_id: Unique id of a library to view its contents.
    *
@@ -50,9 +51,10 @@ class GalaxyLibraryContents {
    * of the content.
    *
    * @param $params
-   *   A key value (associative array) where the keys can be the following:
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
    *
-   *   -  library_id: Unique id of a libary to view a specified content.
+   *   - library_id: Unique id of a libary to view a specified content.
    *   - library_content_id: An entry within the library that contains data.
    *
    * @return
@@ -84,13 +86,14 @@ class GalaxyLibraryContents {
    * encoded id in from 'from_hda_id' (and optionally 'ldda_message').
    *
    * @param $params
-   *   A key value (associative array) where the keys can be the following:
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
    *
    *   - library_id: The repository where you want to 'create' this new data.
    *   - folder_id: A folder within a library to 'create' this new data.
    *   - create_type: The type of data category - file, folder, or collection.
    *   - collection_type (Only if create_type is 'collection'): Can be list,
-    *      paired, list:paired.
+   *      paired, list:paired.
    *   - element_identifiers (Only if create_type is 'collection'): List
    *       defining collection (the actual data for this new collection).
    *   - from_hda_id (Only if create_type is file): Id of HDA to copy into The

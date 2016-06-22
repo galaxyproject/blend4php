@@ -52,7 +52,8 @@ class GalaxyRoles {
    *   GET /api/roles/{encoded_id}
    *
    * @param $params
-   *   A key value (associative array) where the keys can be the following:
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
    *
    *   - role_id: The id of the role whos informaiton to retreive. Please use
    *       this class's index function to retreive a list of role id's.
@@ -84,7 +85,8 @@ class GalaxyRoles {
    * NOTE: only type admin can be applied for new roles
    *
    * @param $params
-   *   A key value (associative array) where the keys can be the following:
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
    *
    *   - name: The name of the new role.
    *   - description: The description of the new role.

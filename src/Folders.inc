@@ -55,7 +55,8 @@ class GalaxyFolders {
    *   GET /api/folders/{folder_id}
    *
    * @param $params
-   *   A key value (associative array) where the keys can be the following:
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
    *
    *   - folder_id: The folder that you would like to see. Please see the
    *       index() function in this class to obtain folder ids.
@@ -83,7 +84,8 @@ class GalaxyFolders {
    *   POST /api/folders/{encoded_parent_folder_id}
    *
    * @param $params
-   *   A key value (associative array) where the keys can be the following:
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
    *
    *  - parent_folder_id: The id of the parent folder that this folder will be
    *      created under.
@@ -119,7 +121,8 @@ class GalaxyFolders {
    *   GET /api/folders/{folder_id}/permissions
    *
    * @param $params
-   *   A key value (associative array) where the keys can be the following:
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
    *
    *   - folder_id: The id of the folder to view permissions. The id can be
    *       obtained using the index() function in this class.
@@ -152,7 +155,8 @@ class GalaxyFolders {
    *     permissions on this library item
    *
    * @param $params
-   *   A key value (associative array) where the keys can be the following:
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
    *
    *   - folder_id: The folder id you want to set permissions.
    *   - add_ids: An array of users that will have add item permission on the
@@ -184,7 +188,8 @@ class GalaxyFolders {
    * Only admin users can delete/undelete folders
    *
    * @param $params
-   *   A key value (associative array) where the keys can be the following:
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
    *
    *  - folder_id: The folder you want to delete/undelete.
    *  - undelete: Specifying whether the item should be deleted (TRUE) or
@@ -220,7 +225,8 @@ class GalaxyFolders {
    *  Only admin users can update folders.
    *
    * @param $params
-   *   A key value (associative array) where the keys can be the following:
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
    *
    *   - folder_id: The folder you want to update
    *   - payload: An array that contains 'name' => [new_name] and
