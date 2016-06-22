@@ -6,10 +6,6 @@
  *
  * A class Built to manage basic Galaxy REST request options.
  *
- * @defgroup request_class Request
- * @{
- * A class Built to manage basic Galaxy REST request options.
- * @}
  */
 
 class GalaxyRequests {
@@ -24,7 +20,7 @@ class GalaxyRequests {
    *
    *
    */
-  function __construct($galaxy) {
+  function __construct(GalaxyInstance $galaxy) {
     $this->galaxy = $galaxy;
   }
 
@@ -49,7 +45,7 @@ class GalaxyRequests {
    *
    * GET /api/requests/{encoded_request_id}
    *
-   * @param encoded_request_id
+   * @param $encoded_request_id
    *   The id of the galaxy entity to show.
    *
    * @return

@@ -10,15 +10,6 @@
  * and are named similarly to their Python counterparts.
  */
 
-/**
- * @defgroup genomes_class genome Class
- * @{
- *   The Genomes class interacts with Galaxy to manage contents of a Galaxy
- *   Genome. The functions in this class correspond to the Galaxy API
- *   functions and are named similarly to their Python counterparts.
- * @}
- */
-
 
 class GalaxyGenomes {
   private $galaxy;
@@ -34,7 +25,7 @@ class GalaxyGenomes {
    *
    *
    */
-  public function __construct($galaxy) {
+  public function __construct(GalaxyInstance $galaxy) {
     $this->galaxy = $galaxy;
   }
 
@@ -69,7 +60,7 @@ class GalaxyGenomes {
    *   use this class's index() funciton.
    *
    * @return
-   *   A JSON object containint detailed information about the specified
+   *   An array containing detailed information about the specified
    *   Galaxy Genome.
    *
    *

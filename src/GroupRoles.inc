@@ -10,16 +10,6 @@
  * are named similarly to their Python counterpart.
  *
  */
-
-/**
- * @defgroup group_roles_class GroupsRoles Class
- * @{
- *   The GroupRoles Class interacts with Galaxy to manage user groups and roles.
- *   The functions in this class correspond to the Galaxy API functions and
- *   are named similarly to their Python counterpart.
- * @}
- */
-
 class GalaxyGroupRoles {
   private $galaxy;
 
@@ -35,7 +25,7 @@ class GalaxyGroupRoles {
    *
    *
    */
-    public function __construct($galaxy) {
+    public function __construct(GalaxyInstance $galaxy) {
       $this->galaxy = $galaxy;
     }
 
@@ -46,7 +36,8 @@ class GalaxyGroupRoles {
     * {encoded_group_id}/roles.
     *
     * @param $params
-    *   A key value (associative array) where the keys can be the following:
+    *   An associative array containing the input parameters for this function.
+    *   The following parameters are available:
     *
     *   - group_id: The id of the group whose roles to list. Group IDs can be
     *       found using the index() function of the Groups class.
@@ -74,7 +65,8 @@ class GalaxyGroupRoles {
     * GET /api/groups/{encoded_group_id}/roles/{encoded_role_id}
     *
     * @param $params
-    *   A key value (associative array) where the keys can be the following:
+    *   An associative array containing the input parameters for this function.
+    *   The following parameters are available:
     *
     *   - group_id: The id of the group whose roles to list. Group IDs can be
     *       found using the index() function of the Groups class.
@@ -107,7 +99,8 @@ class GalaxyGroupRoles {
     * PUT /api/groups/{encoded_group_id}/roles/{encoded_role_id}.
     *
     * @param $params
-    *   A key value (associative array) where the keys can be the following:
+    *   An associative array containing the input parameters for this function.
+    *   The following parameters are available:
     *
     *   - group_id: The id of the group whose roles to list. Group IDs can be
     *       found using the index() function of the Groups class.
@@ -140,7 +133,8 @@ class GalaxyGroupRoles {
     * DELETE /api/groups/{encoded_group_id}/roles/{encoded_role_id}.
     *
     * @param $params
-    *   A key value (associative array) where the keys can be the following:
+    *   An associative array containing the input parameters for this function.
+    *   The following parameters are available:
     *
     *   - group_id: The id of the group whose roles to list. Group IDs can be
     *       found using the index() function of the Groups class.

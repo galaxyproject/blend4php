@@ -22,7 +22,7 @@ class GalaxyLibraries {
    *
    *
    */
-   public function __construct($galaxy) {
+   public function __construct(GalaxyInstance $galaxy) {
      $this->galaxy = $galaxy;
    }
 
@@ -34,7 +34,8 @@ class GalaxyLibraries {
    *   POST /api/libraries:
    *
    * @param $params
-   *    A key value (associative array) where the keys can be the following:
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
    *
    *    - name: The library's name.
    *    - description: Optional the new library's description.
@@ -65,7 +66,8 @@ class GalaxyLibraries {
    *
    *
    * @param $params
-   *    A key value (associative array) where the keys can be the following:
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
    *
    *    - name: New library's name.
    *    - description: New library's description.
@@ -87,7 +89,8 @@ class GalaxyLibraries {
    *   GET /api/libraries
    *
    * @param $params
-   *    A key value (associative array) where the keys can be the following:
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
    *
    *    - deleted: if TRUE, show only deleted libraries, if FALSE show only
    *        non-deleted.
@@ -117,7 +120,8 @@ class GalaxyLibraries {
    *
    *
    * @param $params
-   *    A key value (associative array) where the keys can be the following:
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
    *
    *    - library_id: The id of the library to show. To obtain library ids,
    *        please use this class's index() function.
@@ -163,7 +167,8 @@ class GalaxyLibraries {
    *   DELETE /api/libraries/{encoded_id}
    *
    * @param $params
-   *    A key value (associative array) where the keys can be the following:
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
    *
    *    - library_id: The id of the library to delete or undelete, to obtain
    *        library id's. Please use this class's index() function.
@@ -200,7 +205,8 @@ class GalaxyLibraries {
    *   GET /api/libraries/{encoded_library_id}/permissions
    *
    * @param $params
-   *    A key value (associative array) where the keys can be the following:
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
    *
    *    - library_id: The if of the library to receive permissions for. To
    *        obtain library id's please use this class's index function.
@@ -252,7 +258,8 @@ class GalaxyLibraries {
    *
    *
    * @param $params
-   *    A key value (associative array) where the keys can be the following:
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
    *
    *    - library_id: The id of the library to set permissions to. To obtain
    *        the library id. Refer to this class's index() function.

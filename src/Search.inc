@@ -10,14 +10,6 @@
  * and is named similarly.
  */
 
-/**
- * @defgroup search_class Search Class
- * @{
- *   The Search class contains a method for quering SQL searches
- *   accross Galaxy tables. This class corresponds to its Galaxy API equivalent
- *   and is named similarly.
- * @}
- */
 
 class GalaxySearch {
   private $galaxy;
@@ -25,7 +17,7 @@ class GalaxySearch {
   /**
    * Implements the Search constructor.
    *
-   * @param GalaxyInstance galaxy
+   * @param GalaxyInstance $galaxy
    *   A Galaxy Instance object.
    *
    * @return
@@ -33,9 +25,8 @@ class GalaxySearch {
    *
      *
    */
-  function __construct($galaxy) {
+  function __construct(GalaxyInstance $galaxy) {
     $this->galaxy = galaxy;
-    parent::__construct();
   }
 
 
@@ -45,8 +36,8 @@ class GalaxySearch {
    * Corresponds to the galaxy method/path:
    *   Post /api/search
      *
-   * @param $query,
-   *   must be a valid, lowercase,  SQL expression, example:
+   * @param $query
+   *   Must be a valid, lowercase,  SQL expression, example:
    *   'select * from history where id = \'290670ee50ab85f0\''
    *
    * @return

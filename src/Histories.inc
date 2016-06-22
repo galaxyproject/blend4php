@@ -26,7 +26,7 @@ class GalaxyHistories  {
    *
    *
    */
-   public function __construct($galaxy) {
+   public function __construct(GalaxyInstance $galaxy) {
      $this->galaxy = $galaxy;
    }
 
@@ -40,7 +40,8 @@ class GalaxyHistories  {
    *    Note the option to pass 'keys' and 'views' is currently not supported
    *
    * @param $params
-   *   A key value (associative array) where the keys can be the following:
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
    *
    *   - name: The new history's name
    *   - history_id: The id of the history to copy (will copy contents to new
@@ -78,7 +79,8 @@ class GalaxyHistories  {
    *  therefore, corresponds to both of the Galaxy API methods and paths:
    *
    *  @param $params
-   *    An associative array of parameters that can contain the following elements
+   *    An associative array containing the input parameters for this function.
+   *    The following parameters are available:
    *
    *      - deleted: If set true this will show deleted histories only.
    *
@@ -112,13 +114,14 @@ class GalaxyHistories  {
    *  POST /api/histories/{encoded_history_id}:
    *
    * @param $params
-   *   A key value (associative array) where the keys can be the following:
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
    *
    *   - history_id: The id of the history to retreive.
    *       To obtain history_id's, please use this classes' index() function.
    *
    * @return
-   *    Json array containing information about the specified history
+   *    An array containing information about the specified history
    *
    */
    public function show($params){
@@ -141,7 +144,8 @@ class GalaxyHistories  {
    *  GET /api/histories/{id}/exports/{jeha_id}
    *
    * @param $params
-   *   A key value (associative array) where the keys can be the following:
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
    *
    *   - history_id: The id of the history to download
    *       To obtain history_id's, use this classes' index() function.
@@ -181,7 +185,8 @@ class GalaxyHistories  {
    *  PUT /api/histories/{id}/exports:
    *
    * @param $params
-   *   A key value (associative array) where the keys can be the following:
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
    *
    *   - history_id: The encoded id of the history to export.
    *
@@ -212,7 +217,8 @@ class GalaxyHistories  {
    *
    *
    * @param $params
-   *   A key value (associative array) where the keys can be the following:
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
    *
    *  - history_id: The encoded id of the history to delete. To obtain
    *      history_id's, please use this classes' index() function.
@@ -242,7 +248,8 @@ class GalaxyHistories  {
    *   POST /api/histories/deleted/{encoded_history_id}
    *
    * @param $params
-   *   A key value (associative array) where the keys can be the following:
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
    *
    *   - history_id: The encoded id of the history to undelete.
    *       To obtain history_id's, please use this classes' index() function.
@@ -271,7 +278,8 @@ class GalaxyHistories  {
    *   GET /api/histories/{encoded_history_id}/citations
    *
    * @param $params
-   *   A key value (associative array) where the keys can be the following:
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
    *
    *   - history_id: The encoded id of the history to undelete.
    *       To obtain history_id's, please use this classes' index() function.

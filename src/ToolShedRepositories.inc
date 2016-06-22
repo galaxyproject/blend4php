@@ -23,7 +23,7 @@ class GalaxyToolShedRepositories {
    *
    *
    */
-   function __construct($galaxy) {
+   function __construct(GalaxyInstance $galaxy) {
      $this->galaxy = $galaxy;
    }
 
@@ -32,7 +32,8 @@ class GalaxyToolShedRepositories {
   *   GET /api/tool_shed_repositories/check_for_updates
   *
   * @param $params
-  *   A key value (associative array) where the keys can be the following:
+  *   An associative array containing the input parameters for this function.
+  *   The following parameters are available:
   *
   *   - id: the galaxy-side encoded repository ID
   *
@@ -61,7 +62,8 @@ class GalaxyToolShedRepositories {
   *   exported_workflows
   *
   * @param $params
-  *   A key value (associative array) where the keys can be the following:
+  *   An associative array containing the input parameters for this function.
+  *   The following parameters are available:
   *
   *   - tool_shed_repo_id: Encoded Tool Shed Repository object encoded ID. To
   *       obtain a tool shed repository id, please use this class's index() function.
@@ -88,7 +90,8 @@ class GalaxyToolShedRepositories {
   *   POST /api/tool_shed_repositories/install
   *
   * @param $params
-  *   A key value (associative array) where the keys can be the following:
+  *   An associative array containing the input parameters for this function.
+  *   The following parameters are available:
   *
   *   - tool_shed_url: The URL for the toolshed whence this repository is being
   *       installed.
@@ -134,7 +137,8 @@ class GalaxyToolShedRepositories {
   *   POST /api/tool_shed_repositories/get_latest_installable_revision
   *
   * @param $params
-  *   A key value (associative array) where the keys can be the following:
+  *   An associative array containing the input parameters for this function.
+  *   The following parameters are available:
   *
   *   - tool_shed_url: The URL of the Tool Shed from which to retrieve the Repo
   *        revision. This should be something similar to this:
@@ -169,8 +173,8 @@ class GalaxyToolShedRepositories {
   *   POST /api/tool_shed_repositories/import_workflow
   *
   * @param $params
-  *   A key value (associative array) where the keys can be the following:
-  *
+  *   An associative array containing the input parameters for this function.
+  *   The following parameters are available:
   *   - tool_shed_repo_id: The encoded id of the Tool Shed Repository object.
   *   - index: The location of the workflow to import from within the specified
   *       toolshed, defaults to 0
@@ -195,7 +199,8 @@ class GalaxyToolShedRepositories {
   *   POST /api/tool_shed_repositories/import_workflows
   *
   * @param $params
-  *   A key value (associative array) where the keys can be the following:
+  *   An associative array containing the input parameters for this function.
+  *   The following parameters are available:
   *
   *   - id: the encoded id of the ToolShedRepository object.
   *
@@ -222,7 +227,7 @@ class GalaxyToolShedRepositories {
   *   GET /api/tool_shed_repositories
   *
   * @return
-  *  Json containing metadata on remote toolsheds galaxy instance.
+  *  An array containing metadata on remote toolsheds galaxy instance.
   *
   *
   */
@@ -241,7 +246,8 @@ class GalaxyToolShedRepositories {
    *   POST /api/tool_shed_repositories/install_repository_revision
    *
    * @param $params
-   *   A key value (associative array) where the keys can be the following:
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
    *
    *   - tool_shed_url: The base URL of the Tool Shed from which to install the
    *       repository.
@@ -271,9 +277,9 @@ class GalaxyToolShedRepositories {
    *       config file (ex: galaxy.ini). At least oneshed-reelated tool panel
    *       config file is required to be configured. Setting this paramter to a
    *       specific file enables you to choose where the specified repository
-   *       will be installed because the tool_path attribute of the <toolbox>
+   *       will be installed because the tool_path attribute of the toolbox
    *       from the specified file is used as the installation location (ex:
-   *       <toolbox tool_path="../shed_tools">). If this parameter is not set,
+   *       toolbox tool_path="../shed_tools"). If this parameter is not set,
    *       a shed-related tool ppanel configuration file will be selected
    *       automatically.
    *
@@ -311,7 +317,8 @@ class GalaxyToolShedRepositories {
    *   POST /api/tool_shed_repositories/repair_repository_revision
    *
    * @param $params
-   *   A key value (associative array) where the keys can be the following:
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
    *
    *   - tool_shed_url: The base URL of the Tool Shed from which the Repo was installed.
    *   - name: The name of the Repository.
@@ -365,7 +372,8 @@ class GalaxyToolShedRepositories {
   *   GET /api/tool_shed_repositories/{encoded_tool_shed_repsository_id}
   *
   * @param $params
-  *   A key value (associative array) where the keys can be the following:
+  *   An associative array containing the input parameters for this function.
+  *   The following parameters are available:
   *
   *   - id: the encoded id of the ToolShedRepository object.
   *
@@ -390,7 +398,8 @@ class GalaxyToolShedRepositories {
   *   GET /api/tool_shed_repositories/{id}/status
   *
   * @param $params
-  *   A key value (associative array) where the keys can be the following:
+  *   An associative array containing the input parameters for this function.
+  *   The following parameters are available:
   *
   *   - id: the repository's encoded id
   *

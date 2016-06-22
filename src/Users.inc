@@ -24,7 +24,7 @@ class GalaxyUsers {
    *
    *
    */
-   function __construct($galaxy) {
+   function __construct(GalaxyInstance $galaxy) {
      $this->galaxy = $galaxy;
    }
 
@@ -36,7 +36,8 @@ class GalaxyUsers {
     *   GET /api/users/deleted
     *
     * @param $params
-    *   A key value (associative array) where the keys can be the following:
+    *   An associative array containing the input parameters for this function.
+    *   The following parameters are available:
     *
     *   - deleted (Optional): If true, show deleted users.
     *   - f_email (Optional): An email address to filter results based on.
@@ -76,7 +77,8 @@ class GalaxyUsers {
    *   GET /api/users/deleted/{encoded_user_id}
    *
    * @param $params
-   *   A key value (associative array) where the keys can be the following:
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
    *
    *   - user_id (Optional): The id of the user whos details to retreive. To obtain a user
    *       id please use this class's index() function.
@@ -116,7 +118,8 @@ class GalaxyUsers {
    *   POST /api/users/{encoded_user_id}/api_key
    *
    * @param $params
-   *   A key value (associative array) where the keys can be the following:
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
    *
    *   - user_id: The id of the specified user. To obtain a user id, please use
    *       this class's index function.
@@ -146,7 +149,8 @@ class GalaxyUsers {
    * config/galaxy.ini configuration file.
    *
    * @param $params
-   *   A key value (associative array) where the keys can be the following:
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
    *
    *   - username: The username of the new user.
    *   - user_email: The email of the new user.
@@ -184,7 +188,8 @@ class GalaxyUsers {
    *   DELETE /api/users/{id}
    *
    * @param $params
-   *   A key value (associative array) where the keys can be the following:
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
    *
    *   - user_id: The id of the user to delete. To obtain a user id, please use
    *     this class's index function.
@@ -214,7 +219,8 @@ class GalaxyUsers {
    * Retrieves the ID of a Galaxy user.
    *
    * @param $params
-   *   A key value (associative array) where the keys can be the following:
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
    *
    *   - username: The name of the user.
    *

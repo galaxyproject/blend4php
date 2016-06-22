@@ -13,35 +13,20 @@ require_once 'Error.inc';
 
 class GalaxyHTTPRequest  {
 
-   // Global Variable that contains any errors received from a rest request.
+   /** Global Variable that contains any errors received from a rest request. */
    private $error = NULL;
 
-   // A list of cookies from the most recent request.
-   private $cookies = array();
 
    /**
     * The GalaxyHTTPRequest constructor.
     *
-    * @param RequestError requesterror
-    *   Optional, set the class's request error to a pre-existing RequestError.
-    *
     * @return
-    *   An instance of a RestManager class.
+    *   An instance of a GalaxyHTTPRequest class.
     *
     *
     */
    function __construct() {
      $this->error = new GalaxyError();
-   }
-   /**
-    * Retreives the most recent cookies from the lastest request.
-    *
-    * @return
-    *   An array of cookies where the key is the cookie name and the value
-    *   is the cookie string.
-    */
-   public function getCookies() {
-      return $this->cookies;
    }
 
   /**
@@ -77,17 +62,6 @@ class GalaxyHTTPRequest  {
           $headers[strtolower($matches[1])] = array();
         }
         $headers[strtolower($matches[1])][] = strtolower($matches[2]);
-      }
-    }
-    // Get any cookies and save them
-    if (array_key_exists('set-cookie', $headers)) {
-      foreach ($headers['set-cookie'] as $i => $cookie) {
-        // Split cookie
-        $matches = array();
-        preg_match('/^(.+?)=(.+?);.*$/', $cookie, $matches);
-        if ($matches[1] == 'galaxysession') {
-          $this->cookies[$matches[1]] = $matches[2];
-        }
       }
     }
 
@@ -171,7 +145,7 @@ class GalaxyHTTPRequest  {
    * Performs a GET request.
    *
    * @param $URL
-   *   The URL to perform the GET request on.
+   *   The URL for the GET.
    * @param $curl_options
    *   Any additional information to retreive from the resource while
    *   the GET request.
@@ -196,9 +170,9 @@ class GalaxyHTTPRequest  {
   /**
    * Perform a POST request.
    *
-   * @param URL
-   *   The url to perform the POST request on.
-   * @param Input
+   * @param $URL
+   *   The url for the POST.
+   * @param $input
    *   The input data to a given URL.
    *
    * @return
@@ -206,15 +180,15 @@ class GalaxyHTTPRequest  {
    *
    *
    */
-  public function httpPOST($URL, $post_fields = NULL) {
+  public function httpPOST($URL, $input = NULL) {
 
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $URL);
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_SAFE_UPLOAD, 1);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, True);
-    if ($post_fields !== NULL)
-      curl_setopt($ch, CURLOPT_POSTFIELDS, $post_fields);
+    if ($input !== NULL)
+      curl_setopt($ch, CURLOPT_POSTFIELDS, $input);
 
     $response = $this->getCURLResponse($ch);
 
@@ -224,15 +198,16 @@ class GalaxyHTTPRequest  {
   /**
    * Perform a PUT request
    *
-   * @param URL
-   *   The URL to perform the PUT request on.
-   * @param Input
+   * @param $URL
+   *   The URL for the PUT
+   *
+   * @param $input
    *   The input data to give to the URL.
    *
    * @return
-   *   curl server response.
-   *
-   *
+   *   An associative array containing the response from the Galaxy server
+   *   or FALSE if an error occured. If FALSE then use the getError()
+   *   function to retrieve the error message and type.
    */
   public function httpPUT($URL, $input = NULL) {
     $ch = curl_init();
@@ -251,9 +226,10 @@ class GalaxyHTTPRequest  {
   /**
    * Perform a PATCH request
    *
-   * @param URL
-   *   The URL to perform the PUT request on.
-   * @param Input
+   * @param $URL
+   *   The URL for the PATCH request.
+   *
+   * @param $input
    *   The input data to give to the URL.
    *
    * @return
@@ -398,35 +374,47 @@ class GalaxyHTTPRequest  {
   }
 
   /**
+   * A wrapper function for retrieving an error.
    *
-   * @return
-   *   string error message from the server or CURL.
+   * Interacts with the GalaxyError object which is a private member of this
+   * class.
    *
-   *
+   * @see GalaxyError::getError()
    */
   public function getError() {
     return $this->error->getError();
   }
 
   /**
+   * A wrapper function for retrieving an error message.
    *
-   * @return The
+   * Interacts with the GalaxyError object which is a private member of this
+   * class.
+   *
+   * @see GalaxyError::getErrorMessage()
    */
   public function getErrorMessage() {
     return $this->error->getErrorMessage();
   }
   /**
+   * A wrapper function for retrieving an error type.
    *
-   * @return The
+   * Interacts with the GalaxyError object which is a private member of this
+   * class.
+   *
+   * @see GalaxyError::getErrorType()
    */
   public function getErrorType() {
     return $this->error->getErrorType();
   }
 
   /**
+   * A wrapper function for setting an error.
    *
-   * @param $type
-   * @param $message
+   * Interacts with the GalaxyError object which is a private member of this
+   * class.
+   *
+   * @see GalaxyError::setError()
    */
   public function setError($type, $message) {
     $this->error->setError($type, $message);
