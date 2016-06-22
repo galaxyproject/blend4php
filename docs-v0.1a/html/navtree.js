@@ -1,6 +1,7 @@
 var NAVTREE =
 [
   [ "blend4php", "index.html", [
+    [ "GitHub Project Page", "^http://github.com/tripal/blend4php/", null ],
     [ "blend4php Documentation", "index.html", [
       [ "Introduction", "index.html#intro_sec", null ],
       [ "Usage", "index.html#usage_sec", null ],
