@@ -174,7 +174,7 @@ class GalaxyHTTPRequest  {
    *   The URL to perform the GET request on.
    * @param $curl_options
    *   Any additional information to retreive from the resource while
-   *   the GET request...yo.
+   *   the GET request.
    * @return
    *   curl server response.
    *

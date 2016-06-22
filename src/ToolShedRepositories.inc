@@ -41,12 +41,12 @@ class GalaxyToolShedRepositories {
   *
   */
   public function checkForUpdates($params){
-    if(!array_key_exists('id', $params)){
-      $this->galaxy->setError("API", "Specify an 'id' of a tool shed repository in order to check for updates.");
-      return FALSE;
-    }
-     $URL = $this->galaxy->getURL() . '/api/tool_shed_repositories/check_for_updates' .  '?key=' . $this->galaxy->getAPIKey();
-     $response = $this->httpGET($URL, $params);
+    // if(!array_key_exists('id', $params)){
+    //   $this->galaxy->setError("API", "Specify an 'id' of a tool shed repository in order to check for updates.");
+    //   return FALSE;
+    // }
+     $URL = $this->galaxy->getURL() . '/api/tool_shed_repositories/check_for_updates/' .  '?key=' . $this->galaxy->getAPIKey();
+     $response = $this->galaxy->httpGET($URL);
      return $this->galaxy->expectArray($response);
   }
 
@@ -92,6 +92,8 @@ class GalaxyToolShedRepositories {
   *
   *   - tool_shed_url: The URL for the toolshed whence this repository is being
   *       installed.
+  *   - name: The name of the tool shed.
+  *   - owner: The owner of the tool shed.
   *   - install_tool_dependencies (Optional): True to install tool dependencies.
   *   - tool_panel_section_id (Optional): The unique identifier for an existing
   *       tool panel section
@@ -105,6 +107,8 @@ class GalaxyToolShedRepositories {
   *       repository.
   *
   * @return
+  *   A URL linking to the tool shed's installation progress on the local
+  *     server.
   *
   *
   */
@@ -114,10 +118,12 @@ class GalaxyToolShedRepositories {
       return FALSE;
     }
 
-    $URL = $this->galaxy->getURL() . 'api/tool_shed_repositories/install' . '?key=' . $this->galaxy->getAPIKey();
+    $URL = $this->galaxy->getURL() . '/api/tool_shed_repositories/install/' . '?key=' . $this->galaxy->getAPIKey();
 
      $response = $this->galaxy->httpPOST($URL, $params);
-     return $this->galaxy->expectArray($response);
+     // This is not supposed to be a meta data dict but the URL on where the
+     // repository's progress in its installation on the local server being run
+     return $response;
   }
 
   /**
@@ -397,7 +403,7 @@ class GalaxyToolShedRepositories {
       $this->galaxy->setError("API", "An 'id' is required in order to see a tool shed repository's status.");
       return FALSE;
     }
-    
+
     $URL = $this->galaxy->getURL() . '/api/tool_shed_repositories/' . $params['id'] . '/status?key=' . $this->galaxy->getAPIKey();
     $response = $this->galaxy->httpGET($URL);
     return $this->galaxy->expectArray($response);
