@@ -35,7 +35,7 @@ If the API key for the user is already known, the authentication step can be ski
     
 Where the $api_key variable contains the API key of the user on the remote Galaxy server.  
 
-To interact with Galaxy regarding jobs, workflows, users, etc.  Please see the blend4php documentation.
+To interact with Galaxy regarding jobs, workflows, users, etc.  Please see the [blend4php API documentation](http://tripal.github.io/blend4php/docs-v0.1a/html/index.html).
 
 # Error Handling
 All functions in the blend4php library return FALSE on failure. If failure
