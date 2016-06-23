@@ -46,7 +46,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </script>
   <div id="navrow1" class="tabs">
     <ul class="tablist">
-      <li><a href="http://github.com/tripal/blend4php/"><span>GitHub&#160;Project&#160;Page</span></a></li>
+      <li><a href="http://github.com/galaxyproject/blend4php/"><span>GitHub&#160;Project&#160;Page</span></a></li>
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li>
@@ -350,6 +350,8 @@ Public Member Functions</h2></td></tr>
 </dl>
 <ul>
 <li>tool_shed_url: The URL for the toolshed whence this repository is being installed.</li>
+<li>name: The name of the tool shed.</li>
+<li>owner: The owner of the tool shed.</li>
 <li>install_tool_dependencies (Optional): True to install tool dependencies.</li>
 <li>tool_panel_section_id (Optional): The unique identifier for an existing tool panel section</li>
 <li>install_repository_dependencies (Optional): True to install repository dependencies.</li>
@@ -357,7 +359,7 @@ Public Member Functions</h2></td></tr>
 <li>shed_tool_conf (Optional): The shed tool config file to use for this installation.</li>
 <li>changeset (Optional): The changeset to update to after cloning the repository.</li>
 </ul>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A URL linking to the tool shed's installation progress on the local server. </dd></dl>
 
 </div>
 </div>
