@@ -1,11 +1,8 @@
 <?php
 
-require_once '../src/GalaxyInstance.inc';
+require_once '../galaxy.inc';
 require_once './testConfig.inc';
-require_once '../src/Histories.inc';
-require_once '../src/HistoryContents.inc';
-require_once '../src/Tools.inc';
-require_once '../src/Workflows.inc';
+
 
 
 class WorkflowsTest extends PHPUnit_Framework_TestCase {
@@ -39,11 +36,11 @@ class WorkflowsTest extends PHPUnit_Framework_TestCase {
     $workflows = new GalaxyWorkflows($galaxy);
 
     // Case 1: A list of workflows is successfully retreived in an array.
-    $workflows_list = $workflows->index();
+    $workflows_list = $workflows->index(array());
     $this->assertTrue(is_array($workflows_list), $galaxy->getErrorMessage());
 
     // Case 2: enter boolean parameter also retreives an array
-    $workflows_list = $workflows->index(TRUE);
+    $workflows_list = $workflows->index(array('is_published' => TRUE));
     $this->assertTrue(is_array($workflows_list), $galaxy->getErrorMessage());
 
     // Return a workflow id
@@ -64,20 +61,16 @@ class WorkflowsTest extends PHPUnit_Framework_TestCase {
 
     // Case 1: given a workflow id, the show function successfully retreive a
     // workflow
-    $workflow = $workflows->show($workflow_id);
+    $workflow = $workflows->show(array('workflow_id' => $workflow_id));
     $this->assertTrue(is_array($workflow), $galaxy->getErrorMessage());
 
     // Case 2: enter boolean parameter also retreives an array
-    $workflow = $workflows->show($workflow_id, TRUE);
+    $workflow = $workflows->show(array('workflow_id' => $workflow_id, 'show_published' => TRUE));
     $this->assertTrue(is_array($workflow), $galaxy->getErrorMessage());
 
     // Case 3: providing a malformed workflow id with a TRUE paramater returns
     // false.
-    $workflow = $workflows->show("123", TRUE);
-    $this->assertFalse(is_array($workflow), "Workflows class 'show' should have returned false upon incorrect workflow id");
-
-    // Case 4: Providing a malformed id alone also returns false
-    $workflow = $workflows->show("123");
+    $workflow = $workflows->show(array('workflow_id' => '123', 'show_published' => TRUE));
     $this->assertFalse(is_array($workflow), "Workflows class 'show' should have returned false upon incorrect workflow id");
 
   }
@@ -96,13 +89,13 @@ class WorkflowsTest extends PHPUnit_Framework_TestCase {
 
     // Case 1: successfully return a workflow created from json
     $json_workflow = file_get_contents("./files/Galaxy-Workflow-UnitTest_Workflow.ga");
-    $workflow = $workflows->create(array('workflow'=>$json_workflow));
+    $workflow = $workflows->create(array('workflow' => $json_workflow));
     $this->assertTrue(is_array($workflow), $galaxy->getErrorMessage());
     $workflow_id = $workflow['id'];
 
     // Case 2: successfully return false when incorrect information provided
     // for the JSON workflow.
-    $workflow = $workflows->create(array('workflow'=>"{ Incorrect JSON }"));
+    $workflow = $workflows->create(array('workflow' => "{ Incorrect JSON }"));
     $this->assertFalse(is_array($workflow), $galaxy->getErrorMessage());
 
     // TODO: create more tests for the other parameters, once we understand how
