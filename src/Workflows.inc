@@ -55,9 +55,12 @@ class GalaxyWorkflows {
     *
     * Corresponds to the Galaxy API/path at
     *   GET /api/workflows/{encoded_workflow_id}
+    * @param $params
+    *   An associative array containing the input parameters for this function.
+    *   The following parameters are available:
     *
-    * @param $workflow_id
-    * @param show $show_published
+    *  - workflow_id
+    *  - show_published
     *   If true, show published workflows.
     *
     * @return
@@ -65,8 +68,9 @@ class GalaxyWorkflows {
     *
     *
     */
-   public function show($workflow_id, $show_published=true){
-     $URL = $this->galaxy->getURL() . '/api/workflows/' .$workflow_id. '/?key=' . $this->galaxy->getAPIKey();
+   public function show($params){
+     if(!array_key_exists(''))
+     $URL = $this->galaxy->getURL() . '/api/workflows/' . $params['workflow_id'] . '/?key=' . $this->galaxy->getAPIKey();
      $URL .= '&show_published=' . $show_published;
      $response = $this->galaxy->httpGET($URL);
      return $this->galaxy->expectArray($response);

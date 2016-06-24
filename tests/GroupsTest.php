@@ -31,7 +31,7 @@ class GroupsTest extends PHPUnit_Framework_TestCase {
     $users = new GalaxyUsers($galaxy);
 
     // First get the list of users that we'll add to our test group.
-    $user_list = $users->index();
+    $user_list = $users->index(array());
     $user_ids = array();
     foreach ($user_list as $user) {
       $user_ids[] = $user['id'];

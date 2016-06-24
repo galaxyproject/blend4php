@@ -23,7 +23,7 @@ class GroupRolesTest extends PHPUnit_Framework_TestCase {
   }
 
   /**
-   * Prepares a group with roles  for further testing.
+   * Prepares a group with roles for further testing.
    *
    * This function does not correspond to a function in the GroupUsers Class.
    *

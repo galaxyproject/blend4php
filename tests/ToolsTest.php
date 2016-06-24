@@ -50,7 +50,7 @@ class ToolsTest extends PHPUnit_Framework_TestCase {
     // The return will be the list of the tool id('s) that contain the query's
     // contents.
     array_pop($inputs);
-    $inputs['q'] = 'UCSC Test';
+    $inputs['q'] = urlencode("UCSC Test");
     $tools_list = $tools->index($inputs);
     $this->assertTrue(is_array($tools_list), $galaxy->getErrorMessage());
 
@@ -68,7 +68,7 @@ class ToolsTest extends PHPUnit_Framework_TestCase {
 
     // Case 6:
     $inputs['trackster'] = TRUE;
-    $inputs['q'] = 'UCSC Test';
+    $inputs['q'] = urlencode('UCSC Test');
     $inputs['tool_id'] = 'ucsc_table_direct_test1';
     $tools_list = $tools->index($inputs);
     $this->assertTrue(is_array($tools_list), $galaxy->getErrorMessage());

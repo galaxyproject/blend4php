@@ -143,8 +143,8 @@ class GalaxyToolShedRepositories {
   *   - tool_shed_url: The URL of the Tool Shed from which to retrieve the Repo
   *        revision. This should be something similar to this:
   *   https://toolshed.g2.bx.psu.edu/repository?repository_id=253e22fdaf6a52c1
-  *   - name_of_repo: The name of the repository.
-  *   - owner_of_repo: The name of the owner of the repository.
+  *   - name: The name of the repository.
+  *   - owner: The name of the owner of the repository.
   *
   * @return
   *   A changeset_revision hash (describes the revison 'number' of the tool)
@@ -175,7 +175,7 @@ class GalaxyToolShedRepositories {
   * @param $params
   *   An associative array containing the input parameters for this function.
   *   The following parameters are available:
-  *   - tool_shed_repo_id: The encoded id of the Tool Shed Repository object.
+  *   - id: The encoded id of the Tool Shed Repository object.
   *   - index: The location of the workflow to import from within the specified
   *       toolshed, defaults to 0
   *       the index location of the workflow tuple in the list of exported

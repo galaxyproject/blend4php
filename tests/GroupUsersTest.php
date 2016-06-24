@@ -1,9 +1,5 @@
 <?php
-require_once '../src/GroupUsers.inc';
-require_once '../src/Groups.inc';
-require_once '../src/Users.inc';
-require_once '../src/Roles.inc';
-require_once '../src/GalaxyInstance.inc';
+require_once  '../galaxy.inc';
 require_once './testConfig.inc';
 
 
