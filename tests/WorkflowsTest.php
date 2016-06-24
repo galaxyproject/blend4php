@@ -1,11 +1,8 @@
 <?php
 
-require_once '../src/GalaxyInstance.inc';
+require_once '../galaxy.inc';
 require_once './testConfig.inc';
-require_once '../src/Histories.inc';
-require_once '../src/HistoryContents.inc';
-require_once '../src/Tools.inc';
-require_once '../src/Workflows.inc';
+
 
 
 class WorkflowsTest extends PHPUnit_Framework_TestCase {
@@ -39,11 +36,11 @@ class WorkflowsTest extends PHPUnit_Framework_TestCase {
     $workflows = new GalaxyWorkflows($galaxy);
 
     // Case 1: A list of workflows is successfully retreived in an array.
-    $workflows_list = $workflows->index();
+    $workflows_list = $workflows->index(array());
     $this->assertTrue(is_array($workflows_list), $galaxy->getErrorMessage());
 
     // Case 2: enter boolean parameter also retreives an array
-    $workflows_list = $workflows->index(TRUE);
+    $workflows_list = $workflows->index(array('is_published' => TRUE));
     $this->assertTrue(is_array($workflows_list), $galaxy->getErrorMessage());
 
     // Return a workflow id
@@ -64,20 +61,16 @@ class WorkflowsTest extends PHPUnit_Framework_TestCase {
 
     // Case 1: given a workflow id, the show function successfully retreive a
     // workflow
-    $workflow = $workflows->show($workflow_id);
+    $workflow = $workflows->show(array('workflow_id' => $workflow_id));
     $this->assertTrue(is_array($workflow), $galaxy->getErrorMessage());
 
     // Case 2: enter boolean parameter also retreives an array
-    $workflow = $workflows->show($workflow_id, TRUE);
+    $workflow = $workflows->show(array('workflow_id' => $workflow_id, 'show_published' => TRUE));
     $this->assertTrue(is_array($workflow), $galaxy->getErrorMessage());
 
     // Case 3: providing a malformed workflow id with a TRUE paramater returns
     // false.
-    $workflow = $workflows->show("123", TRUE);
-    $this->assertFalse(is_array($workflow), "Workflows class 'show' should have returned false upon incorrect workflow id");
-
-    // Case 4: Providing a malformed id alone also returns false
-    $workflow = $workflows->show("123");
+    $workflow = $workflows->show(array('workflow_id' => '123', 'show_published' => TRUE));
     $this->assertFalse(is_array($workflow), "Workflows class 'show' should have returned false upon incorrect workflow id");
 
   }
@@ -96,13 +89,13 @@ class WorkflowsTest extends PHPUnit_Framework_TestCase {
 
     // Case 1: successfully return a workflow created from json
     $json_workflow = file_get_contents("./files/Galaxy-Workflow-UnitTest_Workflow.ga");
-    $workflow = $workflows->create(array('workflow'=>$json_workflow));
+    $workflow = $workflows->create(array('workflow' => $json_workflow));
     $this->assertTrue(is_array($workflow), $galaxy->getErrorMessage());
     $workflow_id = $workflow['id'];
 
     // Case 2: successfully return false when incorrect information provided
     // for the JSON workflow.
-    $workflow = $workflows->create(array('workflow'=>"{ Incorrect JSON }"));
+    $workflow = $workflows->create(array('workflow' => "{ Incorrect JSON }"));
     $this->assertFalse(is_array($workflow), $galaxy->getErrorMessage());
 
     // TODO: create more tests for the other parameters, once we understand how
@@ -129,18 +122,20 @@ class WorkflowsTest extends PHPUnit_Framework_TestCase {
     $tools = new GalaxyTools($galaxy);
 
     // Create our very own history for this test!
-    $ourHistory = $histories->create("Testing Workflows Invoke");
+    $ourHistory = $histories->create(array('name' => "Testing Workflows Invoke"));
     $history_id = $ourHistory['id'];
 
     // Now we need some content!
-    $files = array(
-      0=> array(
+    $inputs['files'] = array(
+      0 => array(
         'name'=> 'test.bed',
         'path'=> getcwd() . '/files/test.bed',
       ),
     );
-    $tool = $tools->create('upload1', $history_id, $files);
-    $content_list = $history_content->index($history_id);
+    $inputs['tool_id'] = 'upload1';
+    $inputs['history_id'] = $history_id;
+    $tool = $tools->create($inputs);
+    $content_list = $history_content->index(array('history_id' => $history_id));
 
     // Make sure the count of this list is greater than 0
     $this->assertTrue((count($content_list) > 0) , "Content was not added to history.");
@@ -148,7 +143,7 @@ class WorkflowsTest extends PHPUnit_Framework_TestCase {
 
 
     // Case 1: Successfully execute workflow with defualt perameters
-    $invocation = $workflows->invoke($workflow_id, array($content_id));
+    $invocation = $workflows->invoke(array('workflow_id' => $workflow_id, 'input_dataset_ids' => array($content_id)));
     $this->assertTrue(is_array($invocation), $galaxy->getErrorMessage());
     $this->assertTrue(array_key_exists('state', $invocation) and $invocation['state'] == 'new',
         "Workflow invoked returned an array but the workflow is not in the proper state.");
@@ -156,22 +151,27 @@ class WorkflowsTest extends PHPUnit_Framework_TestCase {
     // 'running'.
     while ($invocation['state'] == 'running' or $invocation['state'] == 'new' ) {
       sleep(1);
-      $invocation =  $workflows->showInvocations($workflow_id, $invocation['id']);
+      $invocation =  $workflows->showInvocations(array('workflow_id' => $workflow_id, 'invocation_id' => $invocation['id']));
       $this->assertTrue(is_array($invocation), $galaxy->getErrorMessage());
     }
 
     // Case 2: Successfully execute workflow with history id
-    $invocation = $workflows->invoke($workflow_id, array($content_id), NULL, $history_id);
+    $invocation = $workflows->invoke(array(
+      'workflow_id' => $workflow_id,
+      'input_dataset_ids' => array($content_id),
+      'hist_id' => $history_id
+      
+    ));
     $this->assertTrue(is_array($invocation), $galaxy->getErrorMessage());
     // Make sure the newly created invoke workflow is not of state 'new' or state
     // 'running'.
     while ($invocation['state'] == 'running' or $invocation['state'] == 'new' ) {
       sleep(1);
-      $invocation =  $workflows->showInvocations($workflow_id, $invocation['id']);
+      $invocation =  $workflows->showInvocations(array('workflow_id' => $workflow_id, 'invocation_id' => $invocation['id']));
       $this->assertTrue(is_array($invocation), $galaxy->getErrorMessage());
     }
     // Check to make sure history has the outputted dataset
-    $content_list = $history_content->index($history_id);
+    $content_list = $history_content->index(array('history_id' => $history_id));
     $this->assertTrue(count($content_list) > 1 and
         array_key_exists('name', $content_list[1]) and $content_list[1]['name'] ==
         'Line/Word/Character count on data 1', "Content not in the desired history");
@@ -189,15 +189,15 @@ class WorkflowsTest extends PHPUnit_Framework_TestCase {
   function testIndexInvocation ($galaxy, $workflow_id){
     global $config;
     $workflows = new GalaxyWorkflows($galaxy);
-    $invocation_id ='';
+    $invocation_id = '';
 
     // Case 1: correctly return a list of invocations upon a correct workflow_id
-    $invocations = $workflows->indexInvocations($workflow_id);
+    $invocations = $workflows->indexInvocations(array('workflow_id' => $workflow_id));
     $this->assertTrue(is_array($invocations), $galaxy->getErrorMessage());
     $invocation_id = $invocations[0]['id'];
 
     // Case 2: correctly return false upon an incorrect workflow_id
-    $invocations = $workflows->indexInvocations("@@@");
+    $invocations = $workflows->indexInvocations(array('workflow_id' => "@@@"));
     $this->assertFalse(is_array($invocations), "Returned non-false on incorrect workflow id");
 
     return $invocation_id;
@@ -218,13 +218,13 @@ class WorkflowsTest extends PHPUnit_Framework_TestCase {
   $step_id = '';
 
   // Case 1: correctly return a list of invocations upon a correct workflow_id
-  $invocation = $workflows->showInvocations($workflow_id, $invocation_id);
+  $invocation = $workflows->showInvocations(array('workflow_id' => $workflow_id, 'invocation_id' => $invocation_id));
   $this->assertTrue(is_array($invocation), $galaxy->getErrorMessage());
-  $this->assertTrue(count($invocation)>0);
+  $this->assertTrue(count($invocation) > 0);
   $step_id = $invocation['steps'][0]['id'];
 
   // Case 2: return false if incorrect $invocation_id entered
-  $invocation = $workflows->showInvocations($workflow_id, "@@");
+  $invocation = $workflows->showInvocations(array('workflow_id' => $workflow_id, 'invocation_id' => "@@"));
   $this->assertFalse(is_array($invocation), $galaxy->getErrorMessage());
 
   return $step_id;
@@ -247,16 +247,13 @@ class WorkflowsTest extends PHPUnit_Framework_TestCase {
 
    // Case 1: Correctly find information about an invocation step, given correct
    // parameters
-   $invocation_step = $workflows->invocationSteps($workflow_id, $invocation_id, $step_id);
+   $invocation_step = $workflows->invocationSteps(array('workflow_id' => $workflow_id, 'invocation_id' => $invocation_id, 'step_id' => $step_id));
    $this->assertTrue(is_array($invocation_step), $galaxy->getErrorMessage());
 
    // Case 2: Given an incorrect invocation id, return false gracefully
-   $invocation_step = $workflows->invocationSteps($workflow_id, "@@@", $step_id);
+   $invocation_step = $workflows->invocationSteps(array('workflow_id' => $workflow_id, 'invocation_id' => "@@", 'step_id' => $step_id));
    $this->assertFalse(is_array($invocation_step), $galaxy->getErrorMessage());
 
-   // Case 3: Given an incorrect workflow id, return false gracefully
-   $invocation_step = $workflows->invocationSteps("@@@", "@@@", $step_id);
-   $this->assertFalse(is_array($invocation_step), $galaxy->getErrorMessage());
 
  }
 
@@ -294,7 +291,7 @@ class WorkflowsTest extends PHPUnit_Framework_TestCase {
    global $config;
    $workflows = new GalaxyWorkflows($galaxy);
 
-   $error = $workflows->cancelInvocation($workflow_id, $invocation_id);
+   $error = $workflows->cancelInvocation(array('workflow_id' => $workflow_id, 'invocation_id' => $invocation_id));
    $this->assertFalse($error,"updateInvocations function should return false");
  }
 
@@ -313,15 +310,15 @@ class WorkflowsTest extends PHPUnit_Framework_TestCase {
    $json_workflow = file_get_contents("./files/Galaxy-Workflow-update.ga");
 
    // Case 1: Successfully update workflows given a correct json workflow
-   $updated_workflow = $workflows->update($workflow_id, $json_workflow);
+   $updated_workflow = $workflows->update(array('workflow_id' => $workflow_id, 'workflow' => $json_workflow));
    $this->assertTrue(is_array($updated_workflow), $galaxy->getErrorMessage());
 
    // Case 2: Gracefully return false given an incorrect workflow_id
-   $updated_workflow = $workflows->update("@@@", $json_workflow);
+   $updated_workflow = $workflows->update(array('workflow_id' => "@@", 'workflow' => $json_workflow));
    $this->assertFalse(is_array($updated_workflow), "Incorrect workflow returned true");
 
    // Case 3: Gracefully return false given an incorrect json
-   $updated_workflow = $workflows->update($workflow_id, "{Workflow Update Test}");
+   $updated_workflow = $workflows->update((array('workflow_id' => $workflow_id, 'workflow' => "{Workflow Update Test}")));
    $this->assertFalse(is_array($updated_workflow), "Incorrect workflow returned true");
 
  }
@@ -340,12 +337,12 @@ class WorkflowsTest extends PHPUnit_Framework_TestCase {
    $workflows = new GalaxyWorkflows($galaxy);
 
    // Case 1: Successfully export workflow as an array
-   $exported_workflow = $workflows->export($workflow_id);
-   $this->assertTrue(is_array($exported_workflow), $workflows->getError());
+   $exported_workflow = $workflows->export(array('workflow_id' => $workflow_id));
+   $this->assertTrue(is_array($exported_workflow), $galaxy->getErrorMessage());
 
    // Case 2: given incorrect workflow_id, gracefully return false
-   $exported_workflow = $workflows->export("@@@");
-   $this->assertFalse(is_array($exported_workflow), $workflows->getError());
+   $exported_workflow = $workflows->export(array('workflow_id' => "@@@"));
+   $this->assertFalse(is_array($exported_workflow), $galaxy->getErrorMessage());
 
  }
 
@@ -364,12 +361,12 @@ class WorkflowsTest extends PHPUnit_Framework_TestCase {
    $workflows = new GalaxyWorkflows($galaxy);
 
    // Case 1: Successfully export workflow as an array
-   $array_workflow = $workflows->download($workflow_id);
-   $this->assertTrue(is_array($array_workflow), $workflows->getError());
+   $array_workflow = $workflows->download(array('workflow_id' => $workflow_id));
+   $this->assertTrue(is_array($array_workflow), $galaxy->getErrorMessage());
 
    // Case 2: Gracefully return false if an incorrect workflow id is entered.
-   $array_workflow = $workflows->download("@@@");
-   $this->assertFalse(is_array($array_workflow), $workflows->getError());
+   $array_workflow = $workflows->download(array('workflow_id' => "@@@"));
+   $this->assertFalse(is_array($array_workflow), $galaxy->getErrorMessage());
  }
 
  /**
@@ -416,19 +413,16 @@ class WorkflowsTest extends PHPUnit_Framework_TestCase {
    $workflows = new GalaxyWorkflows($galaxy);
 
    // Case 1: Successfully export workflow as an array
-   $deleted = $workflows->delete($workflow_id);
-   $this->assertTrue(is_array($deleted), $workflows->getError());
+   $deleted = $workflows->delete(array('workflow_id' => $workflow_id));
+   $this->assertTrue(is_array($deleted), $galaxy->getErrorMessage());
 
-   $marked_deleted = $deleted['deleted'] =="true";
+   $marked_deleted = $deleted['deleted'] == "true";
    $this->assertTrue($marked_deleted, "Workflow not marked as deleted");
 
    // Case 2: Gracefully return false upon incorrect wokrflow id
-   $deleted = $workflows->delete("@@@");
+   $deleted = $workflows->delete(array('workflow_id' => "@@@"));
    $this->assertFalse(is_array($deleted), "Deleting a non-existing workflow should return false");
 
  }
-
-
-
 
 }

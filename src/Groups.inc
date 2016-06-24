@@ -147,12 +147,6 @@ class GalaxyGroups  {
    *
    */
   public function update($params) {
-    // If the user does not include an update to the name, group_ids, role_ids
-    // then reject the update
-    if (array_key_exists('user_ids', $params) or array_key_exists('role_ids', $params) or array_key_exists('name', $params)){
-     $this->galaxy->setError('API', "At least one optional argument (name, user_ids, role_ids) must be provided to the Groups::update() function.");
-     return FALSE;
-   }
     $URL = $this->galaxy->getURL() . '/api/groups/' . $params['group_id'] . '/?key=' . $this->galaxy->getAPIKey();
     //$params['key'] = $this->galaxy->getAPIKey();
     if (array_key_exists('user_ids', $params))

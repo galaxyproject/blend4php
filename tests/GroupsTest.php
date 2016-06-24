@@ -148,7 +148,8 @@ class GroupsTest extends PHPUnit_Framework_TestCase {
 
     // A different approach is needed in order to see if the group is updated.
     // The word 'updated' is added to the name of the group.
-    $isupdated = $groups->show(array('group_id' => $group['id']));
+    $isupdated = $groups->show(array('group_id' => $group['id']));    
+    
     preg_match("/updated$/", $isupdated['name'], $matches);
     $this->assertTrue(!empty($matches), $galaxy->getErrorMessage());
   }
