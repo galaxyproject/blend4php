@@ -35,7 +35,7 @@ class GroupUsersTest extends PHPUnit_Framework_TestCase {
 
     // Add the user from the config file..
     $users = new GalaxyUsers($galaxy);
-    $user_id = $users->getUserID($config['user']);
+    $user_id = $users->getUserID(array('username' => $config['user']));
     $user_ids = array($user_id);
 
     // Create a new group to be used for testing by this class, and

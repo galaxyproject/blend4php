@@ -345,8 +345,8 @@ class GalaxyJobs {
 
     $response = $this->galaxy->httpPOST($URL, $params);
 
-    print "\nResponse:";
-    print_r($response);
+//     print "\nResponse:";
+//     print_r($response);
 
     return $response;
 

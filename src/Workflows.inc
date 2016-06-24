@@ -469,7 +469,7 @@ class GalaxyWorkflows {
     
     $history_input = '';
     
-    if ($hist_id !== NULL) {
+    if (array_key_exists('hist_id', $params)) {
       $history_input = 'hist_id=' . $params['hist_id'];
     }
     

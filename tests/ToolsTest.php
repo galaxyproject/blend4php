@@ -170,7 +170,7 @@ class ToolsTest extends PHPUnit_Framework_TestCase {
 
     // Case 1: Upload a file usinng the upload1 tool
 
-    // !!!!!!! upload1 can only upload ONE file at a time
+// upload1 can only upload ONE file at a time
     // This extra element is to demonstrate how to further populate the array
     // in the event of using a tool that uses multiple files
     $inputs['files'] = array(
