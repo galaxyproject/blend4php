@@ -68,7 +68,9 @@ class DataSetsTest extends PHPUnit_Framework_TestCase {
     $tools = new GalaxyTools($galaxy);
 
     // Create our very own history for this test!
-    $ourHistory = $histories->create("Testing HistoryContentsCreate!");
+    $ourHistory = $histories->create(array('name' => "Testing HistoryContentsCreate!"));
+    $this->assertTrue(is_array($ourHistory), $galaxy->getErrorMessage());
+
     $history_list = $histories->index();
     $history_id = $history_list[0]['id'];
 
@@ -79,10 +81,14 @@ class DataSetsTest extends PHPUnit_Framework_TestCase {
         'path'=> getcwd() . '/files/test.bed',
       ),
     );
-    $tool = $tools->create('upload1', $history_id, $files);
+    $tool = $tools->create(array(
+      'tool_id' => 'upload1',
+      'history_id' => $history_id,
+      'files' => $files
+    ));
 
     // Now history_list[0] should have some content to it
-    $content_list = $history_content->index($history_id);
+    $content_list = $history_content->index(array('history_id' => $history_id));
 
     // Make sure the count of this list is greater than 0
     $this->assertTrue((count($content_list) > 0) , "Content was not added to history.");
@@ -92,11 +98,11 @@ class DataSetsTest extends PHPUnit_Framework_TestCase {
     $datasets = new GalaxyDatasets($galaxy);
 
     // Case 1: Correctly obtain the converted datasets
-    $converted = $datasets->converted($content_id);
+    $converted = $datasets->converted(array('dataset_id' => $content_id));
     $this->assertTrue(is_array($converted), $galaxy->getErrorMessage());
 
     // Case 2: If an incorrect id is entered, the function should return false
-    $converted = $datasets->converted("123");
+    $converted = $datasets->converted(array('dataset_id' => "123"));
     $this->assertFalse(is_array($converted), "Datasets should not have returned an array");
 
 
@@ -121,7 +127,9 @@ class DataSetsTest extends PHPUnit_Framework_TestCase {
     $tools = new GalaxyTools($galaxy);
 
     // Create our very own history for this test!
-    $ourHistory = $histories->create("Testing HistoryContentsCreate!");
+    $ourHistory = $histories->create(array('name' => "Testing HistoryContentsCreate!"));
+    $this->assertTrue(is_array($ourHistory), $galaxy->getErrorMessage());
+
     $history_list = $histories->index();
     $history_id = $history_list[0]['id'];
 
@@ -132,27 +140,37 @@ class DataSetsTest extends PHPUnit_Framework_TestCase {
         'path'=> getcwd() . '/files/test.bed',
       ),
     );
-    $tool = $tools->create('upload1', $history_id, $files);
+    $tool = $tools->create(array(
+      'tool_id' => 'upload1',
+      'history_id' => $history_id,
+      'files' => $files
+    ));
 
     // Now history_list[0] should have some content to it
-    $content_list = $history_content->index($history_id);
+    $content_list = $history_content->index(array('history_id' => $history_id));
 
     // Make sure the count of this list is greater than 0
     $this->assertTrue((count($content_list) > 0) , "Content was not added to history.");
     $content_id = $content_list[0]['id'];
 
-    $history_id = $ourHistory->index();
-    $history_id = $history_id[0];
+    $history_id = $histories->index();
+    $history_id = $history_id[0]['id'];
 
     //Declare a new datasets
     $datasets = new GalaxyDatasets($galaxy);
 
-    // Case 1: correctly call a datasets display
-    $display = $datasets->display($history_id, $content_id);
-    $this->assertTrue(is_array($display), $datasets->getError());
+    // Case 1: correctly retreive a datasets display
+    $display = $datasets->display(array(
+      'hist_id' => $history_id,
+      'hist_content_id' => $content_id,
+    ));
+    $this->assertTrue(is_array($display), $galaxy->getError());
 
     // Case 2: Return false given incorrect informaiton
-    $display = $datasets->display("123", "456");
+    $display = $datasets->display(array(
+      'hist_id' => "123",
+      'hist_content_id' => "456"
+    ));
     $this->assertFalse(is_array($display), "Datasets function did not return false on incorrect input.");
   }
 
@@ -175,7 +193,9 @@ class DataSetsTest extends PHPUnit_Framework_TestCase {
     $tools = new GalaxyTools($galaxy);
 
     // Create our very own history for this test!
-    $ourHistory = $histories->create("Testing HistoryContentsCreate!");
+    $ourHistory = $histories->create(array('name' => "Testing HistoryContentsCreate!"));
+    $this->assertTrue(is_array($ourHistory), $galaxy->getErrorMessage());
+
     $history_list = $histories->index();
     $history_id = $history_list[0]['id'];
 
@@ -186,10 +206,14 @@ class DataSetsTest extends PHPUnit_Framework_TestCase {
         'path'=> getcwd() . '/files/test.bed',
       ),
     );
-    $tool = $tools->create('upload1', $history_id, $files);
+    $tool = $tools->create(array(
+      'tool_id' => 'upload1',
+      'history_id' => $history_id,
+      'files' => $files,
+    ));
 
     // Now history_list[0] should have some content to it
-    $content_list = $history_content->index($history_id);
+    $content_list = $history_content->index(array('history_id' => $history_id));
 
     // Make sure the count of this list is greater than 0
     $this->assertTrue((count($content_list) > 0) , "Content was not added to history.");
@@ -199,11 +223,11 @@ class DataSetsTest extends PHPUnit_Framework_TestCase {
     $datasets = new GalaxyDatasets($galaxy);
 
     // Case 1: We successfully obtain an array given correct inputs.
-    $details = $datasets->show($content_id);
+    $details = $datasets->show(array('dataset_id' => $content_id));
     $this->assertTrue(is_array($details), $galaxy->getErrorMessage());
 
     // Case 2: We successfully obtain 'FALSE' given incorrect inputs.
-    $details = $datasets->show("@@");
+    $details = $datasets->show(array('dataset_id' => "@@"));
     $this->assertFalse(is_array($details), "Datasets did not successfully return false given incorrect inputs.");
   }
 

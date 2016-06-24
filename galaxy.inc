@@ -10,6 +10,7 @@ require_once "src/FolderContents.inc";
 require_once "src/Folders.inc";
 require_once "src/Forms.inc";
 require_once "src/GalaxyInstance.inc";
+require_once "src/GalaxyService.inc";
 require_once "src/Genomes.inc";
 require_once "src/GroupRoles.inc";
 require_once "src/Groups.inc";

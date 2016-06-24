@@ -40,10 +40,12 @@ class FolderContentsTest extends PHPUnit_Framework_TestCase {
     // Create a folder within the above history
     $folder_inputs = array(
       'name' => 'Folder for FolderContentsTest',
-      'parent_folder_id' => $library['id'],
+      'parent_id' => $library['id'],
     );
 
     $folder = $folders->create($folder_inputs);
+    $this->assertTrue(is_array($folder), $galaxy->getErrorMessage());
+
     $folder_content = $folder_contents->index(array('folder_id' => $folder['id']));
     $this->assertTrue(is_array($folder_content), $galaxy->getErrorMessage());
   }
@@ -86,6 +88,7 @@ class FolderContentsTest extends PHPUnit_Framework_TestCase {
     $inputs['history_id'] = $history_list[0]['id'];
     $inputs['tool_id'] = 'upload1';
     $tool = $tools->create($inputs);
+    $this->assertTrue(is_array($tool), $galaxy->getErrorMessage());
 
     unset($inputs['files']);
     unset($inputs['tool_id']);
@@ -109,21 +112,23 @@ class FolderContentsTest extends PHPUnit_Framework_TestCase {
     $libraries = new GalaxyLibraries($galaxy);
 
     $library = $libraries->create(array('name' => 'Library for Folder Contents'));
+    $this->assertTrue(is_array($library), $galaxy->getErrorMessage());
 
     $folder_inputs = array(
-      'parent_folder_id' => $library['id'],
+      'parent_id' => $library['id'],
       'name' => 'Folder for Folder Contents',
       'description' => 'Making sure that we are able to add a Folder Content
       to a given folder.'
     );
 
     $folder = $folders->create($folder_inputs);
+    $this->assertTrue(is_array($folder), $galaxy->getErrorMessage());
 
     $hda = $history_content->index(array('history_id' => $history_list[0]['id']));
+    $this->assertTrue(is_array($hda), $galaxy->getErrorMessage());
 
     $folder_contents_inputs = array(
-      'parent_folder_id' => $folder['id'],
-      'create_type' => 'dataset',
+      'folder_id' => $folder['id'],
       'from_hda_id' =>  $hda[0]['id'],
     );
 

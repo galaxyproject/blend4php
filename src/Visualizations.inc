@@ -1,5 +1,7 @@
-
 <?php
+
+require_once ("GalaxyAPIService.inc");
+
 /**
  * @file
  *
@@ -10,23 +12,7 @@
  * and are named similarly to their Python counterparts.
  */
 
-class GalaxyVisualizations {
-  private $galaxy;
-
-  /**
-   * The visualizations constructor.
-   *
-   * @param GalaxyInstance $galaxy
-   *   A GalaxyInstance object
-   *
-   * @return
-   *   An instance of a Visualizations object
-   *
-   *
-   */
-  function __construct(GalaxyInstance $galaxy) {
-    $this->galaxy = $galaxy;
-  }
+class GalaxyVisualizations extends GalaxyAPIService {
 
   /**
    * Retreive a list of all visualizations.
@@ -51,13 +37,22 @@ class GalaxyVisualizations {
    * Corresponds to the Galaxy API/path
    *   GET /api/visualizations/{viz_id}
    *
-   * @param $viz_id
-   *   The visualization id whos details to display.
+   * @param $params
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
    *
+   *   - viz_id: The ID of the visualization to retrieve.
    *
+   * @return
+   *   An array containing information about the matching visualization.
    */
-  function show($viz_id){
-    $URL = $this->galaxy->getURL() . '/api/visualizations/'. $viz_id . '?/key=' . $this->galaxy->getAPIKey();
+  function show($params){
+    // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('viz_id'))) {
+      return FALSE;
+    }
+
+    $URL = $this->galaxy->getURL() . '/api/visualizations/'. $params['viz_id'] . '/?key=' . $this->galaxy->getAPIKey();
     $response = $this->galaxy->httpGET($URL);
     return $this->galaxy->expectArray($response);
   }
@@ -70,35 +65,37 @@ class GalaxyVisualizations {
    *  or
    *  POST /api/visualizations?import_id={encoded_visualization_id}
    *
-   * @param $type
-   *   The visualization type for the new visualization.
-   * @param $title
-   *   The title for the visualization.
-   *  @param $dbkey
-   *   The db key.
-   * @param $import_id
-   *   (optional) The id of the visualization to import, if the user
-   *   desires to import a visualization.
+   * @param $params
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
+   *
+   *   - type: The visualization type for the new visualization.
+   *   - title: The title for the visualization.
+   *   - dbkey: The db key.
+   *   - import_id: (optional) The id of the visualization to import, if the
+   *     user desires to import a visualization.
    *
    * @return
-   *   An array containing the created visualization.
+   *   An array containing information about the created visualization.
    *
    */
-  function create($type, $title, $dbkey, $import_id = NULL){
-    if($import_id != NULL) {
-      $URL = $this->galaxy->getURL() . '/api/visualizations?import_id=' . $import_id . '&key=' . $this->galaxy->getAPIKey();
+  function create($params){
+
+    // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('type', 'title', 'dbkey'))) {
+      return FALSE;
+    }
+
+    if (array_key_exists('import_id', $params)) {
+      $URL = $this->galaxy->getURL() . '/api/visualizations?import_id=' . $params['import_id'] . '&key=' . $this->galaxy->getAPIKey();
       $response = $this->galaxy->httpPOST($URL);
       return $this->galaxy->expectArray($response);
     }
-
-    $URL = $this->galaxy->getURL() . '/api/visualizations?key=' . $this->galaxy->getAPIKey();
-    $elements = array(
-      'type' => $type,
-      'title' => $title,
-      'dbkey' => $dbkey,
-    );
-    $response = $this->galaxy->httpPOST($URL, $elements);
-    return $this->galaxy->expectArray($response);
+    else {
+      $URL = $this->galaxy->getURL() . '/api/visualizations?key=' . $this->galaxy->getAPIKey();
+      $response = $this->galaxy->httpPOST($URL, $params);
+      return $this->galaxy->expectArray($response);
+    }
   }
 
 

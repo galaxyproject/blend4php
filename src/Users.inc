@@ -92,7 +92,7 @@ class GalaxyUsers {
    */
   function show($params) {
     if(array_key_exists('deleted', $params) and $params['deleted'] == TRUE and !array_key_exists('user_id', $params)){
-      $this->setError("API", "Provide a 'user_id' along with the 'delete' parameter.");
+      $this->galaxy->setError("API", "Provide a 'user_id' along with the 'delete' parameter.");
       return FALSE;
     }
 
@@ -131,7 +131,7 @@ class GalaxyUsers {
    */
   function apiKey($params) {
     if(!array_key_exists('user_id', $params)){
-      $this->setError("API", "Specify a 'user_id' in order to generate a new API key.");
+      $this->galaxy->setError("API", "Specify a 'user_id' in order to generate a new API key.");
       return FALSE;
     }
 
@@ -202,7 +202,7 @@ class GalaxyUsers {
    */
   function delete($params) {
     if(!array_key_exists('user_id', $params)){
-      $this->setError("API", "To delete a user, you must specify a 'user_id'.");
+      $this->galaxy->setError("API", "To delete a user, you must specify a 'user_id'.");
       return FALSE;
     }
 

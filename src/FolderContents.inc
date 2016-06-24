@@ -47,29 +47,33 @@ class GalaxyFolderContents {
    *
    *
    */
-  public function index ($params) {
+  public function index($params) {
+    if(!array_key_exists('folder_id', $params)){
+      $this->galaxy->setError("API", "A 'folder_id' is required in order to invoke this call");
+      return FALSE;
+    }
+
     $URL = $this->galaxy->getURL() . '/api/folders/'  . $params['folder_id'] . '/contents' . '/?key=' . $this->galaxy->getAPIKey();
     $response = $this->galaxy->httpGET($URL);
     return $this->galaxy->expectArray($response);
   }
 
   /**
-   * Create a new content for specified folder
+   * Create a new dataset inside of a folder.
    *
-   * Corresponds to the Galaxy API/path at:
-   *  POST /api/folders/{folder_id}/contents
+   * Corresponds to an HTTP POST to the Galaxy API path
+   *  /api/folders/{folder_id}/contents
    *
    * @param $params
    *  An associative array containing the input parameters for this function.
    *  The following parameters are available:
    *
-   *  - parent_folder_id: The parent folder of the new item. To obtain id,
-   *     see the index() function in the Folder class.
+   *  - folder_id: The ID of the folder into which the dataset should be added.
    *  - from_hda_id (Optional): The id of an accessible HDA to into the
    *     library. To obtain this id, see index() in HistoryContents class.
    *  - ldda_messge (Optional): Any message to send along with the
    *     LibraryDatasetAssociation.
-   *  - extented_metadata (Optional): Sub-dictionary containing any extended
+   *  - extented_metadata (Optional): associative array containing any extended
    *     metadata to associate with the item.
    *
    * @return
@@ -78,13 +82,13 @@ class GalaxyFolderContents {
    *
    */
   public function create($params){
-    if(!array_key_exists('parent_folder_id', $params)){
-     $this->setError("API", "This creation requires at least a parent_folder_id.");
+    if(!array_key_exists('folder_id', $params)){
+     $this->galaxy->setError("API", "A 'folder_id' is required in order to invoke this call");
      return FALSE;
     }
 
-    $URL = $this->galaxy->getURL() . '/api/folders/' . $params['parent_folder_id'] . '/contents/?key=' . $this->galaxy->getAPIKey();
-    unset($params['parent_folder_id']);
+    $URL = $this->galaxy->getURL() . '/api/folders/' . $params['folder_id'] . '/contents/?key=' . $this->galaxy->getAPIKey();
+    unset($params['folder_id']);
 
     $response = $this->galaxy->httpPOST($URL, $params);
     return $this->galaxy->expectArray($response);

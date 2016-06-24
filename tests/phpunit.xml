@@ -17,6 +17,11 @@
       <file>JobsTest.php</file>
       <file>ToolShedRepositoriesTest.php</file>
       <file>WorkflowsTest.php</file>
+      <file>DataSetsTest.php</file>
+      <file>DataTypesTest.php</file>
+      <file>FolderContentsTest.php</file>
+      <file>GenomesTest.php</file>
+      <file>VisualizationsTest.php</file>
     </testsuite>
   </testsuites>
 </phpunit>

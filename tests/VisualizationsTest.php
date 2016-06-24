@@ -35,12 +35,19 @@ class VisualizationsTest extends PHPUnit_Framework_TestCase {
     $vizs = new GalaxyVisualizations($galaxy);
 
     // Case 1: Successful creation of a new visualization
-    $response = $vizs->create("A type", "A Title", "a db_key" , 'password');
+    $response = $vizs->create(array(
+      'type' => "A type",
+      'title' => "A Title",
+      'dbkey' => "a db_key" ,
+    ));
     $this->assertTrue(is_array($response), $galaxy->getErrorMessage());
 
     // Case 2: Failed creation of a visuzalization
-    $response = $visz->create("@@",  "@@!@@", '@@' );
-    $this->assertTrue($response === FALSE, "Creation should fail but didn't:" . print_r($response, TRUE));
+    $response = $vizs->create(array(
+      'title' => "@@!@@",
+      'dbkey' => '@@'
+    ));
+    $this->assertFalse($response, "Creation should fail but didn't: " . print_r($galaxy->getErrorMessage(), TRUE));
   }
 
 
@@ -78,7 +85,7 @@ class VisualizationsTest extends PHPUnit_Framework_TestCase {
 
     $vizs = new GalaxyVisualizations($galaxy);
 
-    // Get the ID of our config .
+    // Get the ID of our config.
     $response = $vizs->index();
     $viz_id = NULL;
     foreach($response as $viz){
@@ -87,13 +94,13 @@ class VisualizationsTest extends PHPUnit_Framework_TestCase {
     }
 
     // Case 1:  Get the visualization information for the config user.
-    $response = $vizs->show($viz_id);
+    $response = $vizs->show(array('viz_id' => $viz_id));
     $this->assertTrue(is_array($response), $galaxy->getErrorMessage());
 
     // Case 2: Wrong visualization id entered. We should get a FALSE value instead
     // of an error.
-    $response = $vizs->show("123456");
-    $this->assertTrue($response === FALSE, "Showing user should have failed: " . print_r($response, TRUE));
+    $response = $vizs->show(array('viz_id' => "123456"));
+    $this->assertFalse($response, "Showing user should have failed: " . print_r($galaxy->getErrorMessage(), TRUE));
 
   }
 

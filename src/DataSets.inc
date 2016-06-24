@@ -1,4 +1,7 @@
 <?php
+
+require_once('GalaxyAPIService.inc');
+
 /**
  * @file
  *
@@ -11,24 +14,8 @@
  */
 
 
-class GalaxyDatasets {
+class GalaxyDatasets extends GalaxyAPIService {
   private $galaxy;
-
-  /**
-   * The DataSets constructor.
-   *
-   * @param GalaxyInstance $galaxy
-   *          A GalaxyInstance object.
-   *
-   * @return An instance of a DataSet object.
-   *
-   *
-   */
-  public function __construct($galaxy) {
-    $this->galaxy = $galaxy;
-
-    parent::__construct();
-  }
 
   /**
    * Retreive information about datasets made by converting
@@ -50,21 +37,18 @@ class GalaxyDatasets {
    *
    */
   public function converted($params) {
+
+    // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('dataset_id'))) {
+      return FALSE;
+    }
+
     $URL = "";
-
-    if (array_key_exists('dataset_id', $params)) {
-      if (array_key_exists('extension', $params)) {
-        $URL = $this->galaxy->getURL() . '/api/datasets/' . $params ['dataset_id'] . '/converted/' . $params ['extension'] . '/?key=' . $this->galaxy->getAPIKey();
-      }
-
-      else {
-        $URL = $this->galaxy->getURL() . '/api/datasets/' . $params ['dataset_id'] . '/converted/?key=' . $this->galaxy->getAPIKey();
-      }
+    if (array_key_exists('extension', $params)) {
+      $URL = $this->galaxy->getURL() . '/api/datasets/' . $params ['dataset_id'] . '/converted/' . $params ['extension'] . '/?key=' . $this->galaxy->getAPIKey();
     }
     else {
-      $this->galaxy->setError("API", "This function expects at least a the parameter \'dataset_id\'.
-        The \'extension'\ parameter is optional.");
-      return FALSE;
+      $URL = $this->galaxy->getURL() . '/api/datasets/' . $params ['dataset_id'] . '/converted/?key=' . $this->galaxy->getAPIKey();
     }
 
     $response = $this->galaxy->httpGET($URL);
@@ -92,27 +76,14 @@ class GalaxyDatasets {
    *
    */
   public function display($params) {
-    if (array_key_exists('hist_id', $params)) {
 
-      if (array_key_exists('hist_content_id', $params)) {
-        $URL = $this->galaxy->getURL() . '/api/histories/' . $params ['hist_id'] . '/contents/' . $params ['hist_content_id'] . '/?key=' . $this->galaxy->getAPIKey();
-      }
-
-      else{
-        $this->galaxy->setError("API", "This function requires the \'hist_id\' AND the \'hist_content_id\'.
-             If one or the other is missing you will receive this error.");
-        return FALSE;
-      }
-    }
-
-    else{
-      $this->galaxy->setError("API", "This function requires the \'hist_id\' AND the \'hist_content_id\'.
-             If one or the other is missing you will receive this error.");
+    // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('hist_id', 'hist_content_id'))) {
       return FALSE;
     }
 
+    $URL = $this->galaxy->getURL() . '/api/histories/' . $params['hist_id'] . '/contents/' . $params['hist_content_id'] . '/?key=' . $this->galaxy->getAPIKey();
     $response = $this->galaxy->httpGET($URL);
-
     return $this->galaxy->expectArray($response);
   }
 
@@ -146,9 +117,8 @@ class GalaxyDatasets {
    */
   public function show($params) {
 
-    // The 'dataset_id' is required.
-    if (!array_key_exists('dataset_id', $params)) {
-      $this->galaxy->setError("API", "A 'dataset_id' is required in order to invoke this call");
+    // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('dataset_id'))) {
       return FALSE;
     }
 

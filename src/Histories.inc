@@ -36,7 +36,7 @@ class GalaxyHistories  {
    *  Corresponds to the Galaxy API method and path:
    *    POST /api/histories:
    *
-   *  Creates a new  history in a galaxy instance
+   *  Creates a new history in a galaxy instance
    *    Note the option to pass 'keys' and 'views' is currently not supported
    *
    * @param $params
@@ -57,17 +57,14 @@ class GalaxyHistories  {
    */
    public function create($params){
 
-     $URL = $this->galaxy->getURL() . '/api/histories/?key=' . $this->galaxy->getAPIKey();
-
-     if(array_key_exists('name', $params)){
-       $response = $this->galaxy->httpPOST($URL, $params);
-       return $this->galaxy->expectArray($response);
-     }
-
-     else{
-       $this->galaxy->setError("API", "A 'name' for the history is required in order to invoke this call");
+     if (!array_key_exists('name', $params)) {
+       $this->galaxy->setError("API", "The history 'name' is required in order to invoke this call");
        return FALSE;
      }
+
+     $URL = $this->galaxy->getURL() . '/api/histories/?key=' . $this->galaxy->getAPIKey();
+     $response = $this->galaxy->httpPOST($URL, $params);
+     return $this->galaxy->expectArray($response);
    }
 
   /**
