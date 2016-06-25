@@ -1,5 +1,7 @@
 <?php
 
+require_once('GalaxyAPIService.inc');
+
 /**
  * @file
  *
@@ -11,23 +13,7 @@
  *
  */
 
-class GalaxyGroupUsers {
-  private $galaxy;
-
-  /**
-   * The GroupUsers constructor.
-   *
-   * @param GalaxyInstance $galaxy
-   *   A GalaxyInstance object.
-   *
-   * @return
-   *   An instance of a Groups Users object.
-   *
-   *
-   */
-   public function __construct(GalaxyInstance $galaxy) {
-     $this->galaxy = $galaxy;
-   }
+class GalaxyGroupUsers extends GalaxyAPIService {
 
    /**
     * Displays a collection (list) of users corresponding to a group..
@@ -35,16 +21,26 @@ class GalaxyGroupUsers {
     * Corresponds to the Galaxy API method and path: GET /api/groups/
     * {encoded_group_id}/users.
     *
-    * @param $group_id
-    *   The id of the group whose users to list.  Group IDs can be found using the
-    *   index() function of the Groups class.
+    * @param $params
+    *   An associative array containing the input parameters for this function.
+    *   The following parameters are available:
+    *
+    *   - group_id:  The id of the group whose users to list.  Group IDs can
+    *     be found using the index() function of the Groups class.
+    *
     * @return
     *   An array of all users of a given group.
     *
     *
     */
-  public function index($group_id) {
-    $URL = $this->galaxy->getURL() . '/api/groups/' . $group_id .'/users/?key=' . $this->galaxy->getAPIKey();
+  public function index($params) {
+
+    // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('group_id'))) {
+      return FALSE;
+    }
+
+    $URL = $this->galaxy->getURL() . '/api/groups/' . $params['group_id'] .'/users/?key=' . $this->galaxy->getAPIKey();
     $response = $this->galaxy->httpGET($URL);
     return $this->galaxy->expectArray($response);
   }
@@ -55,19 +51,26 @@ class GalaxyGroupUsers {
    * Corresponds to the Galaxy API method and path:
    * GET /api/groups/{encoded_group_id}/users/{encoded_user_id}
    *
-   * @param $group_id
-   *   The id of the group whose users to list.  Group IDs can be found using the
-   *   index() function of the Groups class.
-   * @param $user_id
-   *   The id of the specific user to show. User IDS can be found using the index()
-   *   function of the Users class
+   * @param $params
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
+   *
+   *   - group_id: The id of the group whose users to list.  Group IDs can be
+   *     found using the index() function of the Groups class.
+   *   - user_id: The id of the specific user to show. User IDS can be found
+   *     using the index() function of the Users class.
+   *
    * @return
    *   An array containing details about the user of a given group.
-   *
-   *
    */
-  public function show($group_id, $user_id) {
-    $URL = $this->galaxy->getURL() .'/api/groups/' .$group_id .'/users/' .$user_id .'/?key=' .$this->galaxy->getAPIKey();
+  public function show($params) {
+
+    // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('group_id', 'user_id'))) {
+      return FALSE;
+    }
+
+    $URL = $this->galaxy->getURL() .'/api/groups/' . $params['group_id'] .'/users/' . $params['user_id'] .'/?key=' . $this->galaxy->getAPIKey();
     $response = $this->galaxy->httpGET($URL);
     return $this->galaxy->expectArray($response);
   }
@@ -78,19 +81,26 @@ class GalaxyGroupUsers {
    * Corresponds to the Galaxy API method and path:
    * PUT /api/groups/{encoded_group_id}/users/{encoded_user_id}.
    *
-   * @param $group_id
-   *   The id of the group to modify.  Group IDs can be found using the
-   *   index() function of this class.
-   * @param $user_id
-   *   A user id to associate any new users to the group. Use the
-   *   Users class to retreive a list of existing user IDs.
+   * @param $params
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
+   *
+   *   - group_id: The id of the group to modify.  Group IDs can be found using
+   *     the index() function of this class.
+   *   - user_id: A user id to associate any new users to the group. Use the
+   *     Users class to retreive a list of existing user IDs.
+   *
    * @return
    *   An array of the user that has added to the group
-   *
-   *
    */
-  public function update($group_id, $user_id) {
-    $URL = $this->galaxy->getURL() . '/api/groups/' . $group_id .'/users/' . $user_id .'/?key=' . $this->galaxy->getAPIKey();
+  public function update($params) {
+
+    // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('group_id', 'user_id'))) {
+      return FALSE;
+    }
+
+    $URL = $this->galaxy->getURL() . '/api/groups/' . $params['group_id'] .'/users/' . $params['user_id'] .'/?key=' . $this->galaxy->getAPIKey();
     $response = $this->galaxy->httpPUT($URL);
     return $this->galaxy->expectArray($response);
   }
@@ -101,19 +111,27 @@ class GalaxyGroupUsers {
    * Corresponds to the Galaxy API method and path:
    * DELETE /api/groups/{encoded_group_id}/users/{encoded_user_id}.
    *
-   * @param $group_id
-   *   The id of the group to modify.  Group IDs can be found using the
-   *   index() function of this class.
-   * @param $user_id
-   *   A user id to deassociate any users from the group. Use the
-   *   Users class to retreive a list of user IDs.
+   *
+   * @param $params
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
+   *
+   *   - group_id:  The id of the group to modify.  Group IDs can be found
+   *     using the index() function of this class.
+   *   - user_id: A user id to deassociate any users from the group. Use the
+   *     Users class to retreive a list of user IDs.
+   *
    * @return
    *   An array of the user that has been removed from the group.
-   *
-   *
    */
-  public function delete($group_id, $user_id) {
-    $URL = $this->galaxy->getURL() . '/api/groups/' . $group_id . '/users/' . $user_id . '/?key=' . $this->galaxy->getAPIKey();
+  public function delete($params) {
+
+    // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('group_id', 'user_id'))) {
+      return FALSE;
+    }
+
+    $URL = $this->galaxy->getURL() . '/api/groups/' . $params['group_id'] . '/users/' . $params['user_id'] . '/?key=' . $this->galaxy->getAPIKey();
     $response =  $this->galaxy->httpDELETE($URL);
     return $this->galaxy->expectArray($response);
   }

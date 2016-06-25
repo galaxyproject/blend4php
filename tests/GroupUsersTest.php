@@ -42,7 +42,7 @@ class GroupUsersTest extends PHPUnit_Framework_TestCase {
     // add users to it.
     $groups = new GalaxyGroups($galaxy);
     $group_name = uniqid('galaxy-php-test-group_users-');
-    $group = $groups->create($group_name, $user_ids);
+    $group = $groups->create(array('name' => $group_name, 'user_ids' => $user_ids));
     $this->assertTrue(is_array($group), $galaxy->getErrorMessage());
 
     return $group;
@@ -61,7 +61,7 @@ class GroupUsersTest extends PHPUnit_Framework_TestCase {
     $group_users = new GalaxyGroupUsers($galaxy);
 
     // Case 1:  Are we getting an array, and are we getting only 1 users.
-    $users_list = $group_users->index($group['id']);
+    $users_list = $group_users->index(array('group_id' => $group['id']));
     $this->assertTrue(is_array($users_list), $galaxy->getErrorMessage());
     $this->assertTrue(count($users_list) == 1, "The GroupUsers::index() function does not return a single user: " . print_r($users_list, TRUE));
     return $users_list;
@@ -79,12 +79,13 @@ class GroupUsersTest extends PHPUnit_Framework_TestCase {
     $group_users = new GalaxyGroupUsers($galaxy);
 
     $users = new GalaxyUsers($galaxy);
-    $user_id = $users->getUserID($config['user']);
+    $user_id = $users->getUserID(array('username' => $config['user']));
+    $this->assertTrue(isset($user_id), $galaxy->getErrorMessage());
 
     $group_id = $group['id'];
 
     // Case 1:  Are we getting an array for the user.
-    $user = $group_users->show($group_id, $user_id);
+    $user = $group_users->show(array('group_id' => $group_id, 'user_id' => $user_id));
     $this->assertTrue(is_array($user), $galaxy->getErrorMessage());
 
     // Case 2: Wrong group id entered. We should get a FALSE value instead
@@ -117,17 +118,17 @@ class GroupUsersTest extends PHPUnit_Framework_TestCase {
     // the way to make sure this is true is to add a new group.
     $groups = new GalaxyGroups($galaxy);
     $group_name = uniqid('galaxy-php-test-group_users2-');
-    $group = $groups->create($group_name);
+    $group = $groups->create(array('name' => $group_name));
     $this->assertTrue(is_array($group), $galaxy->getErrorMessage());
 
     // Case 2: Test that this group has no users.
     $group_users = new GalaxyGroupUsers($galaxy);
-    $users_list = $group_users->index($group['id']);
+    $users_list = $group_users->index(array('group_id' => $group['id']));
     $this->assertTrue(is_array($users_list), $galaxy->getErrorMessage());
     $this->assertTrue(count($users_list) == 0, "The group should have no users, but it does: " . print_r($users_list, TRUE));
 
     // Case 3:  Add the user and make sure we get a group array back.
-    $user = $group_users->update($group['id'], $user_id);
+    $user = $group_users->update(array('group_id' => $group['id'], 'user_id' => $user_id));
     $this->assertTrue(is_array($user), $galaxy->getErrorMessage());
 
     // Case 4:  Make sure the user is added to the group.

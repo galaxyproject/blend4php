@@ -15,7 +15,6 @@ require_once('GalaxyAPIService.inc');
 
 
 class GalaxyDatasets extends GalaxyAPIService {
-  private $galaxy;
 
   /**
    * Retreive information about datasets made by converting

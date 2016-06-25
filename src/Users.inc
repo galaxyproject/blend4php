@@ -1,4 +1,7 @@
 <?php
+
+require_once('GalaxyAPIService.inc');
+
 /**
  * @file
  *
@@ -9,24 +12,7 @@
  * and are named similarly to their Python counterparts.
  */
 
-class GalaxyUsers {
-
-  private $galaxy;
-
-  /**
-   * The Users constructor.
-   *
-   * @param GalaxyInstance $galaxy
-   *   A GalaxyInstance object.
-   *
-   * @return
-   *   An instance of a Users object.
-   *
-   *
-   */
-   function __construct(GalaxyInstance $galaxy) {
-     $this->galaxy = $galaxy;
-   }
+class GalaxyUsers extends GalaxyAPIService {
 
   /**
     * Displays a collection of Galaxy users.
@@ -228,6 +214,12 @@ class GalaxyUsers {
    *   A string containing the user ID or FALSE if the user could not be found.
    */
   function getUserID($params) {
+
+    // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('username'))) {
+      return FALSE;
+    }
+
     // Get the index and iterate through until we find our user.
     $users = $this->index(array());
 

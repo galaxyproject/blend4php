@@ -1,5 +1,7 @@
 <?php
 
+require_once('GalaxyAPIService.inc');
+
 /**
  * @file
  *
@@ -11,23 +13,7 @@
  *
  */
 
-class GalaxyGroups  {
-  private $galaxy;
-
-  /**
-   * The Groups constructor.
-   *
-   * @param GalaxyInstance $galaxy
-   *   A GalaxyInstance object.
-   *
-   * @return
-   *   An instance of a Groups object.
-   *
-   *
-   */
-  public function __construct(GalaxyInstance $galaxy) {
-    $this->galaxy = $galaxy;
-  }
+class GalaxyGroups extends GalaxyAPIService {
 
   /**
    * Displays a collection (list) of groups.
@@ -55,9 +41,9 @@ class GalaxyGroups  {
    *   The following parameters are available:
    *
    *   - name: Name of the group.
-   *   - user_ids: An array of user_ids, if any, to associate user id's to the
+   *   - user_ids: (optional) An array of user_ids, if any, to associate user id's to the
    *       group. Use the Users class to retrieve a list of users.
-   *   - role_ids: An array of role_ids to associate any new roles to the
+   *   - role_ids: (optional) An array of role_ids to associate any new roles to the
    *       group. Use the Roles class to retreive a list of existing role IDs.
    *
    * @return
@@ -67,8 +53,8 @@ class GalaxyGroups  {
    */
   public function create($params){
 
-    if(!array_key_exists('name', $params)){
-      $this->galaxy->setError('API', "Please provide a 'name'  as an input to this function.");
+    // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('name'))) {
       return FALSE;
     }
 
