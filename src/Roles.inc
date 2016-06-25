@@ -1,4 +1,7 @@
 <?php
+
+require_once('GalaxyAPIService.inc');
+
 /**
  * @file
  *
@@ -9,24 +12,8 @@
  * and are named similarly to their Python counterparts.
  */
 
-class GalaxyRoles {
+class GalaxyRoles extends GalaxyAPIService {
 
-  private $galaxy;
-
-  /**
-   * The Roles constructor.
-   *
-   * @param GalaxyInstance $galaxy
-   *   A GalaxyInstance object.
-   *
-   * @return
-   *   An instance of a roles object.
-   *
-   *
-   */
-  public function __construct(GalaxyInstance $galaxy) {
-    $this->galaxy = $galaxy;
-  }
 
   /**
    * Retreive a list of all of Galaxy's roles.
@@ -64,8 +51,12 @@ class GalaxyRoles {
    *
    */
   public function show($params){
-    if(!array_key_exists('role_id', $params)){
-      $this->galaxy->setError('API', 'Please provide a value for the \'role_id\' argument.');
+    // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('role_id'))) {
+      return FALSE;
+    }
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('role_id'))) {
       return FALSE;
     }
 
@@ -104,12 +95,12 @@ class GalaxyRoles {
    */
   public function create($params) {
 
-    if(!array_key_exists('name', $params)){
-      $this->galaxy->setError('API', "Please provide a 'name'  as an input to this function.");
+    // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('name', 'description'))) {
       return FALSE;
     }
-    if(!array_key_exists('description', $params)){
-      $this->galaxy->setError('API', "Please provide a 'description' as an input to this function.");
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('name', 'description', 'user_ids', 'group_ids'))) {
       return FALSE;
     }
 

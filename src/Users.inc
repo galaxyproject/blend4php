@@ -219,6 +219,10 @@ class GalaxyUsers extends GalaxyAPIService {
     if (!$this->checkRequiredParams($params, array('username'))) {
       return FALSE;
     }
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('username'))) {
+      return FALSE;
+    }
 
     // Get the index and iterate through until we find our user.
     $users = $this->index(array());

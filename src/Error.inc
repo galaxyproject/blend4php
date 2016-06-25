@@ -1,6 +1,8 @@
 <?php
+
 class GalaxyError {
-  // Global Variable that contains any errors received from a rest request.
+
+  /** Global Variable that contains any errors received from a rest request. */
   private $error = array(
     'type' => '',
     'message' => '',

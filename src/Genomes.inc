@@ -1,5 +1,8 @@
 <?php
 
+require_once('GalaxyAPIService.inc');
+
+
 /**
  * @file
  *
@@ -11,23 +14,7 @@
  */
 
 
-class GalaxyGenomes {
-  private $galaxy;
-
-  /**
-   * The Genomes constructor.
-   *
-   * @param GalaxyInstance $galaxy
-   *   A GalaxyInstance object.
-   *
-   * @return
-   *   An instance of a Genomes object.
-   *
-   *
-   */
-  public function __construct(GalaxyInstance $galaxy) {
-    $this->galaxy = $galaxy;
-  }
+class GalaxyGenomes extends GalaxyAPIService {
 
   /**
    * Returns a list of installed genomes.

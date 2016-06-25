@@ -1,4 +1,8 @@
 <?php
+
+require_once('GalaxyAPIService.inc');
+
+
 /**
  * @file
  *
@@ -7,28 +11,10 @@
  * The Folders Class interacts with Galaxy to manage contents of a folder.
  * The functions in this class correspond to the Galaxy API functions and
  * are named similarly to their Python counterpart.
- * 
+ *
  */
 
-class GalaxyFolders {
-
-  /** The GalaxyInstance object */
-  private $galaxy;
-
-  /**
-  * The Folders constructor.
-  *
-  * @param GalaxyInstance $galaxy
-  *   A GalaxyInstance object.
-  *
-  * @return
-  *   An instance of a Folders object.
-  *
-  *
-  */
-   public function __construct(GalaxyInstance $galaxy) {
-     $this->galaxy = $galaxy;
-   }
+class GalaxyFolders extends GalaxyAPIService {
    /**
     * Retreive information about folders.
     *

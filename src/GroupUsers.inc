@@ -99,8 +99,12 @@ class GalaxyGroupUsers extends GalaxyAPIService {
     if (!$this->checkRequiredParams($params, array('group_id', 'user_id'))) {
       return FALSE;
     }
+    // Check for allowed fields.
+    if (!$this->checkRequiredParams($params, array('group_id', 'user_id'))) {
+      return FALSE;
+    }
 
-    $URL = $this->galaxy->getURL() . '/api/groups/' . $params['group_id'] .'/users/' . $params['user_id'] .'/?key=' . $this->galaxy->getAPIKey();
+    $URL = $this->galaxy->getURL() . '/api/groups/' . $params['group_id'] . '/users/' . $params['user_id'] .'/?key=' . $this->galaxy->getAPIKey();
     $response = $this->galaxy->httpPUT($URL);
     return $this->galaxy->expectArray($response);
   }

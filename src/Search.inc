@@ -1,5 +1,7 @@
 <?php
 
+require_once('GalaxyAPIService.inc');
+
 /**
  * @file
  *
@@ -11,23 +13,7 @@
  */
 
 
-class GalaxySearch {
-  private $galaxy;
-
-  /**
-   * Implements the Search constructor.
-   *
-   * @param GalaxyInstance $galaxy
-   *   A Galaxy Instance object.
-   *
-   * @return
-   *   An instance of a search object.
-   *
-     *
-   */
-  function __construct(GalaxyInstance $galaxy) {
-    $this->galaxy = galaxy;
-  }
+class GalaxySearch extends GalaxyAPIService {
 
 
   /**

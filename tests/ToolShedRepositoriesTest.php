@@ -59,27 +59,27 @@ class ToolShedRepositoriesTest extends PHPUnit_Framework_TestCase {
 //     $this->assertTrue(is_array($updates), $galaxy->getErrorMessage());
 //   }
 //
-  
+
   /**
    * Lists remote repositories connected to the local instance.
-   * 
-   * 
+   *
+   *
    * @depends testInitGalaxy
    */
   public function testIndex($galaxy){
-  
+
     $tool_shed_repo = new GalaxyToolShedRepositories($galaxy);
-  
+
     $result = $tool_shed_repo->index();
-  
+
     $this->assertTrue(is_array($result), $galaxy->getErrorMessage());
-  
+
 //     $this->assertTrue(!empty($result), "You have no remote repositories to test the rest of this unit test suite with. Please
 //         refer to the following URL https://wiki.galaxyproject.org/Admin/Tools/AddToolFromToolShedTutorial");
-  
+
     return $result;
   }
-  
+
   /**
    * Tests about a given tool shed repository's list of exported workflows
    * Whether the list is populated or not would imply if any of the workflows
@@ -89,14 +89,14 @@ class ToolShedRepositoriesTest extends PHPUnit_Framework_TestCase {
    * @depends testInitGalaxy
    */
   public function testExportWorkflow($result, $galaxy){
-  
+
     $tool_shed_repo = new GalaxyToolShedRepositories($galaxy);
-  
+
     $exports = $tool_shed_repo->exportedWorkflows(array('tool_shed_repo_id' => $result[0]['id']));
-  
+
     $this->assertTrue(is_array($exports), $galaxy->getErrorMessage());
   }
-  
+
   /**
    * Tests to see if a changeset revision string will be presented.
    * This will only happen if there exists a more recent version of the tool
@@ -106,20 +106,20 @@ class ToolShedRepositoriesTest extends PHPUnit_Framework_TestCase {
    * @depends testInitGalaxy
    */
   public function testGetLatestInstallable($result, $galaxy){
-  
+
     $tool_shed_repo = new GalaxyToolShedRepositories($galaxy);
-    
+
     $inputs = array(
       'tool_shed_url' => 'https://' . $result[0]['tool_shed'],
       'name' => $result[0]['name'],
       'owner' => $result[0]['owner']
     );
-  
+
     $result = $tool_shed_repo->getLatestInstallable($inputs);
-  
+
     $this->assertTrue(is_string($result), $galaxy->getErrorMessage());
   }
-  
+
   /**
    * Import specified workflow from external toolshed to local instance
    *
@@ -134,7 +134,7 @@ class ToolShedRepositoriesTest extends PHPUnit_Framework_TestCase {
    */
   public function testImportWorkflow($galaxy, $result){
     $tool_shed_repo = new GalaxyToolShedRepositories($galaxy);
-  
+
     foreach ($result as $candidate){
       if (!empty($tool_shed_repo->exportedWorkflows(array('tool_shed_repo_id' => $candidate['id'])))){
         $inputs = array(

@@ -22,8 +22,6 @@ class GalaxyGroups extends GalaxyAPIService {
    *
    * @return
    *   An array of all groups.
-   *
-   *
    */
   public function index() {
     $URL = $this->galaxy->getURL() . '/api/groups/?key=' . $this->galaxy->getAPIKey();
@@ -48,13 +46,15 @@ class GalaxyGroups extends GalaxyAPIService {
    *
    * @return
    *   An array of the group that contains the users and roles.
-   *
-   *
    */
   public function create($params){
 
     // Check for required fields.
     if (!$this->checkRequiredParams($params, array('name'))) {
+      return FALSE;
+    }
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('name', 'user_ids', 'role_ids'))) {
       return FALSE;
     }
 
@@ -92,17 +92,19 @@ class GalaxyGroups extends GalaxyAPIService {
    *   An associative array containing the input parameters for this function.
    *   The following parameters are available:
    *
-   *     - group_id: The id of the specific group to show.  Group IDs can be
-   *         found using the index() function of this class.
+   *   - group_id: The id of the specific group to show.  Group IDs can be
+   *     found using the index() function of this class.
    *
    * @return
    *   An array containing details about the group.
-   *
-   *
    */
   public function show($params) {
-    if(!array_key_exists('group_id', $params)){
-      $this->galaxy->setError("API", "A 'group_id' is required to show metadata about a group");
+      // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('group_id'))) {
+      return FALSE;
+    }
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('group_id'))) {
       return FALSE;
     }
     $URL = $this->galaxy->getURL() . '/api/groups/' . $params['group_id'] . '/?key=' . $this->galaxy->getAPIKey();
@@ -133,8 +135,18 @@ class GalaxyGroups extends GalaxyAPIService {
    *
    */
   public function update($params) {
+
+    // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('group_id'))) {
+      return FALSE;
+    }
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('group_id', 'name', 'user_ids', 'role_ids'))) {
+      return FALSE;
+    }
+
     $URL = $this->galaxy->getURL() . '/api/groups/' . $params['group_id'] . '/?key=' . $this->galaxy->getAPIKey();
-    //$params['key'] = $this->galaxy->getAPIKey();
+
     if (array_key_exists('user_ids', $params))
       $params['user_ids'] = json_encode($user_ids);
 

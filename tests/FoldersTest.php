@@ -72,19 +72,18 @@ class FoldersTest extends PHPUnit_Framework_TestCase {
     $folders = new GalaxyFolders($galaxy);
 
     // Create a folder to retain as
-    $inputs['parent_folder_id'] = $inputs['folder_id'];
-    unset($inputs['folder_id']);
-    $inputs['name'] = uniqid('galaxy-php-test-folder1-');
-    $inputs['description'] = 'Folder Unit Test 1';
-    $folder = $folders->create($inputs);
+    $folder = $folders->create(array(
+      'parent_id' => $inputs['folder_id'],
+      'name' => uniqid('galaxy-php-test-folder1-'),
+      'description' => 'Folder Unit Test 1',
+    ));
     $this->assertTrue(is_array($folder), $galaxy->getErrorMessage());
 
-
-    $inputs['parent_folder_id'] = $inputs['folder_id'];
-    unset($inputs['folder_id']);
-    $inputs['name'] = uniqid('galaxy-php-test-folder-toBeDeleted-');
-    $inputs['description'] = 'Folder Unit Test Which will be \'deleted\' by the subsequent unit test delete function';
-    $folder = $folders->create($inputs);
+    $folder = $folders->create(array(
+      'parent_id' => $inputs['folder_id'],
+      'name' => uniqid('galaxy-php-test-folder-toBeDeleted-'),
+      'description' => 'Folder Unit Test Which will be \'deleted\' by the subsequent unit test delete function',
+    ));
     $this->assertTrue(is_array($folder), $galaxy->getErrorMessage());
 
     return $folder;

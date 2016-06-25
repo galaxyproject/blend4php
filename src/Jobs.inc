@@ -1,4 +1,7 @@
 <?php
+
+require_once('GalaxyAPIService.inc');
+
 /**
  * @file
  *
@@ -10,22 +13,7 @@
  *
  */
 
-class GalaxyJobs {
-  private $galaxy;
- /**
-  * The Jobs constructor.
-  *
-  * @param GalaxyInstance $galaxy
-  *   A GalaxyInstance object.
-  *
-  * @return
-  *   An instance of a Jobs object.
-  *
-  *
-  */
-  public function __construct(GalaxyInstance $galaxy){
-    $this->galaxy = $galaxy;
-  }
+class GalaxyJobs extends GalaxyAPIService {
 
   /**
    * Retreive a tool input template populated with this job's information.

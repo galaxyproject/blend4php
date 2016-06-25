@@ -1,22 +1,9 @@
 <?php
 
-class GalaxyLibraryContents {
+require_once("GalaxyAPIService.inc");
 
-  private $galaxy;
-  /**
-   * The Folders constructor.
-   *
-   * @param GalaxyInstance $galaxy
-   *   A GalaxyInstance object.
-   *
-   * @return
-   *   An instance of a Libraries object.
-   *
-   *
-   */
-  public function __construct(GalaxyInstance $galaxy) {
-    $this->galaxy = $galaxy;
-  }
+class GalaxyLibraryContents extends GalaxyAPIService {
+
 
   /**
    * Gather the contents from the specified libarary.
@@ -32,10 +19,16 @@ class GalaxyLibraryContents {
    *   Files and Folders within the specified library.
    */
   public function index($params){
-    if(!array_key_exists('library_id', $params)){
-      $this->galaxy->setError("API", "Provide a 'library_id' in order to view a library's contents");
+
+    // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('library_id'))) {
       return FALSE;
     }
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('library_id'))) {
+      return FALSE;
+    }
+
     $URL = $this->galaxy->getURL() . '/api/libraries/' . $params['library_id'] . '?key=' . $this->galaxy->getAPIKey();
 
     $response = $this->galaxy->httpGET($URL);
@@ -61,14 +54,16 @@ class GalaxyLibraryContents {
    *   Detailed library item information.
    */
   public function show($params){
-    if(!array_key_exists('library_id', $params)){
-      $this->galaxy->setError("API", "A 'library_id' is a required paramater to invoke this function");
+
+    // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('library_id', 'library_content_id'))) {
       return FALSE;
     }
-    if(!array_key_exists('library_content_id', $params)){
-      $this->galaxy->setError("API", "A 'library_content_id' is a required paramater to invoke this function.");
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('library_id', 'library_content_id'))) {
       return FALSE;
     }
+
     $URL = $this->galaxy->getURL() . '/api/libraries/' . $params['library_id'] . '/contents/' . $params['library_content_id'] .  '?key=' . $this->galaxy->getAPIKey();
 
     $response = $this->galaxy->httpGET($URL);
@@ -122,20 +117,19 @@ class GalaxyLibraryContents {
    *   The data that was uploaded and its metadata.
    */
   public function create($params){
-    if(!array_key_exists('library_id', $params)){
-      $this->galaxy->setError("API", "Please provide a 'library_id' in order to house your selected data.");
+
+    // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('library_id', 'folder_id', 'create_type'))) {
+      return FALSE;
+    }
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array(
+        'library_id', 'folder_id', 'create_type', 'collection_type', 'element_identifiers',
+        'from_hda_id', 'ldda_message', 'extended_metadata', 'upload_option',
+        'server_dir', 'filesystem_paths', 'link_data_only', 'name', 'description'))) {
       return FALSE;
     }
 
-    if(!array_key_exists('folder_id', $params)){
-      $this->galaxy->setError("API", "Please provide a 'folder_id' in order to house your selected data.");
-      return FALSE;
-    }
-
-    if(!array_key_exists('create_type', $params)){
-      $this->galaxy->setError("API", "Please provide a 'create_type' in order to house your selected data.");
-      return FALSE;
-    }
 
     $URL = $this->galaxy->getURL() . '/api/libraries/' . $params['library_id'] . '/contents/?key=' . $this->galaxy->getAPIKey();
     unset($params['library_id']);

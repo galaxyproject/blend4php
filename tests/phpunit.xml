@@ -15,7 +15,7 @@
       <file>GroupUsersTest.php</file>
       <file>GroupRolesTest.php</file>
       <file>JobsTest.php</file>
-      <file>ToolShedRepositoriesTest.php</file>
+      <!--<file>ToolShedRepositoriesTest.php</file>-->
       <file>WorkflowsTest.php</file>
       <file>DataSetsTest.php</file>
       <file>DataTypesTest.php</file>

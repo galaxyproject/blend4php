@@ -1,5 +1,8 @@
 <?php
 
+require_once('GalaxyAPIService.inc');
+
+
 /**
  * @file
  *
@@ -12,23 +15,7 @@
  */
 
 
-class GalaxyHistoryContents {
-
-  private $galaxy;
- /**
-   * The HistoryContents constructor.
-   *
-   * @param GalaxyInstance $galaxy
-   *   A GalaxyInstance object.
-   *
-   * @return
-   *   An instance of a HistoryContents object.
-   *
-   *
-   */
-  public function __construct(GalaxyInstance $galaxy) {
-    $this->galaxy = $galaxy;
-  }
+class GalaxyHistoryContents extends GalaxyAPIService {
 
   /**
    * Create a new HistoryContents component to a given history

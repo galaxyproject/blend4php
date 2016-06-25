@@ -111,7 +111,8 @@ class GroupUsersTest extends PHPUnit_Framework_TestCase {
     $group_users = new GalaxyGroupUsers($galaxy);
 
     $users = new GalaxyUsers($galaxy);
-    $user_id = $users->getUserID($config['user']);
+    $user_id = $users->getUserID(array('username' => $config['user']));
+    $this->assertTrue($user_id !== FALSE, $galaxy->getErrorMessage());
 
     // Case 1: First add a new group for testing of an update. We need to
     // gaurantee that the user we add isn't already in the group so
@@ -128,11 +129,14 @@ class GroupUsersTest extends PHPUnit_Framework_TestCase {
     $this->assertTrue(count($users_list) == 0, "The group should have no users, but it does: " . print_r($users_list, TRUE));
 
     // Case 3:  Add the user and make sure we get a group array back.
-    $user = $group_users->update(array('group_id' => $group['id'], 'user_id' => $user_id));
+    $user = $group_users->update(array(
+      'group_id' => $group['id'],
+      'user_id' => $user_id
+    ));
     $this->assertTrue(is_array($user), $galaxy->getErrorMessage());
 
     // Case 4:  Make sure the user is added to the group.
-    $users_list = $group_users->index($group['id']);
+    $users_list = $group_users->index(array('group_id' => $group['id']));
     $this->assertTrue(is_array($users_list), $galaxy->getErrorMessage());
     $this->assertTrue(count($users_list) == 1, "The group should have a single users, but does not: " . print_r($users_list, TRUE));
 
@@ -152,15 +156,19 @@ class GroupUsersTest extends PHPUnit_Framework_TestCase {
     $group_users = new GalaxyGroupUsers($galaxy);
 
     $users = new GalaxyUsers($galaxy);
-    $user_id = $users->getUserID($config['user']);
+    $user_id = $users->getUserID(array('username' => $config['user']));
+    $this->assertTrue($user_id !== FALSE, $galaxy->getErrorMessage());
     $group_id = $group['id'];
 
     // Case 1: The delete function should return an array of the group.
-    $deleted_group = $group_users->delete($group_id, $user_id);
+    $deleted_group = $group_users->delete(array(
+      'group_id' => $group_id,
+      'user_id' => $user_id
+    ));
     $this->assertTrue(is_array($deleted_group), $galaxy->getErrorMessage());
 
     // Case 2: There should be no users left in the group
-    $users_list = $group_users->index($group['id']);
+    $users_list = $group_users->index(array('group_id' => $group['id']));
     $this->assertTrue(is_array($users_list), $galaxy->getErrorMessage());
     $this->assertTrue(count($users_list) == 0, "The group should have no users, but it does: " . print_r($users_list, TRUE));
 

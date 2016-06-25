@@ -1,5 +1,7 @@
 <?php
 
+require_once ("GalaxyAPIService.inc");
+
 /**
  * @file
  *
@@ -10,23 +12,7 @@
  * and are named similarly to their Python counterparts.
  */
 
-class GalaxyTools {
-
-  private $galaxy;
-  /**
-   * The Tools constructor.
-   *
-   * @param GalaxyInstance $galaxy
-   *   A GalaxyInstance object.
-   *
-   * @return
-   *   An instance of a Tools object.
-   *
-   *
-   */
-   public function __construct(GalaxyInstance $galaxy) {
-     $this->galaxy = $galaxy;
-   }
+class GalaxyTools extends GalaxyAPIService {
 
   /**
    * Retreive a list of tools defined by the parameters.
@@ -49,13 +35,18 @@ class GalaxyTools {
    *
    *
    */
-   public function index($params) {
+  public function index($params = array()) {
+
+    // Make sure only allowed parameters are included.
+    if (!$this->checkAllowedParams($params, array('tool_id', 'q', 'in_panel', 'trackster'))) {
+      return FALSE;
+    }
 
     // Create the basic URL. If a tool_id is provided we need to add it as
     // part of the URL.
     $URL = $this->galaxy->getURL() . '/api/tools/';
     if (array_key_exists('tool_id', $params)) {
-      $URL .=  $params['tool_id'] . '/';
+      $URL .=  urlencode($params['tool_id']) . '/';
     }
     $URL .= '?key=' . $this->galaxy->getAPIKey();
 
@@ -89,14 +80,18 @@ class GalaxyTools {
    */
   public function show($params){
 
-    // The 'tool_id' is required.
-    if (!array_key_exists('tool_id', $params)) {
-      $this->galaxy->setError("API", "A 'tool_id' is required in order to invoke this call");
-      return FALSE;
-    }
+       // Make sure only allowed parameters are included.
+     if (!$this->checkAllowedParams($params, array('tool_id'))) {
+       return FALSE;
+     }
+
+     // Check for required fields.
+     if (!$this->checkRequiredParams($params, array('tool_id'))) {
+       return FALSE;
+     }
 
     // Contruct the basic URL to the Galaxy API.
-    $URL = $this->galaxy->getURL() . '/api/tools/'. $params['tool_id'] . '/';
+    $URL = $this->galaxy->getURL() . '/api/tools/'. urlencode($params['tool_id']) . '/';
     $URL .= '?key=' . $this->galaxy->getAPIKey();
 
     // Get the response from the Galaxy server.
@@ -118,20 +113,23 @@ class GalaxyTools {
    *       tool id please use this class's index funciton.
    *
    * @return
-   *   An array contaiing information about the diagnostics of a tool.
-   *
+   *   An array containin diagnostic information.
    *
    */
    public function diagnostics($params){
 
-     // The 'tool_id' is required.
-     if (!array_key_exists('tool_id', $params)) {
-       $this->galaxy->setError("API", "A 'tool_id' is required in order to invoke this call");
+     // Make sure only allowed parameters are included.
+     if (!$this->checkAllowedParams($params, array('tool_id'))) {
+       return FALSE;
+     }
+
+     // Check for required fields.
+     if (!$this->checkRequiredParams($params, array('tool_id'))) {
        return FALSE;
      }
 
      // Contruct the basic URL to the Galaxy API.
-     $URL = $this->galaxy->getURL() . '/api/tools/'. $params['tool_id'] . '/diagnostics/';
+     $URL = $this->galaxy->getURL() . '/api/tools/'. urlencode($params['tool_id']) . '/diagnostics/';
      $URL .= '?key=' . $this->galaxy->getAPIKey();
 
      // Get the response from the Galaxy server.
@@ -165,7 +163,7 @@ class GalaxyTools {
      }
 
      // Contruct the basic URL to the Galaxy API.
-     $URL = $this->galaxy->getURL() . '/api/tools/'. $params['tool_id'] . '/reload/';
+     $URL = $this->galaxy->getURL() . '/api/tools/' . urlencode($params['tool_id']) . '/reload/';
      $URL .= '?key=' . $this->galaxy->getAPIKey();
 
      // Get the response from the Galaxy server.
@@ -212,7 +210,7 @@ class GalaxyTools {
      }
 
      // Contruct the basic URL to the Galaxy API.
-     $URL = $this->galaxy->getURL() . '/api/tools/'. $params['tool_id'] . '/build/';
+     $URL = $this->galaxy->getURL() . '/api/tools/' . urlencode($params['tool_id']) . '/build/';
      $URL .= '?key=' . $this->galaxy->getAPIKey();
 
      // The tool_id is part of the URL path, so remove it from the $params
@@ -256,7 +254,7 @@ class GalaxyTools {
      }
 
      // Contruct the basic URL to the Galaxy API.
-     $URL = $this->galaxy->getURL() . '/api/tools/'. $params['tool_id'] . '/citations/';
+     $URL = $this->galaxy->getURL() . '/api/tools/' . urlencode($params['tool_id']) . '/citations/';
      $URL .= '?key=' . $this->galaxy->getAPIKey();
 
      // Get the response from the Galaxy server.
@@ -267,7 +265,7 @@ class GalaxyTools {
 
 
   /**
-   * Download a specified tool.
+   * Download a tool.
    *
    * Corresponds to the Galaxy Api/Path at:
    *   GET /api/tools/{tool_id}/download
@@ -281,31 +279,25 @@ class GalaxyTools {
    *  - file_path: The path to where the file will be stored.
    *
    * @return
-   *   Gzip of the tool.
-   *
-   *
+   *   TRUE if the file was downloaded, FALSE otherwise.
    */
-   public function download($params){
-
-     // The 'tool_id' is required.
-     if (!array_key_exists('tool_id', $params)) {
-       $this->galaxy->setError("API", "A 'tool_id' is required in order to invoke this call");
+   public function download($params) {
+     // Make sure only allowed parameters are included.
+     if (!$this->checkAllowedParams($params, array('tool_id', 'file_path'))) {
        return FALSE;
      }
 
-     // The 'file_path' is required.
-     if (!array_key_exists('file_path', $params)) {
-       $this->galaxy->setError("API", "A 'file_path' is required in order to invoke this call");
+     // Check for required fields.
+     if (!$this->checkRequiredParams($params, array('tool_id', 'file_path'))) {
        return FALSE;
      }
 
      // Contruct the basic URL to the Galaxy API.
-     $URL = $this->galaxy->getURL() . '/api/tools/'. $params['tool_id'] . '/download/';
+     $URL = $this->galaxy->getURL() . '/api/tools/'. urlencode($params['tool_id']) . '/download/';
      $URL .= '?key=' . $this->galaxy->getAPIKey();
 
      // Get the response from the Galaxy server.
-     $response = $this->galaxy->getRemoteFile($URL, $params['file_path']);
-     return $this->galaxy->expectArray($response);
+     return $this->galaxy->getRemoteFile($URL, $params['file_path']);
    }
 
 

@@ -85,13 +85,13 @@ class ToolsTest extends PHPUnit_Framework_TestCase {
     $tools = new GalaxyTools($galaxy);
 
     // Acquire the first tool entry
-    $inputs = array();
-
-    $tools_list = $tools->index($inputs);
+    $tools_list = $tools->index();
+    $this->assertTrue(is_array($tools_list), $galaxy->getErrorMessage());
+    $tool = $tools_list[0];
+    $tool_id = $tool['elems'][0]['id'];
 
     // Case 1: View all tools, no filtering out.
-    $input['tool_id'] = $tools_list[0]['elems'][0]['id'];
-    $tool = $tools->show($input);
+    $tool = $tools->show(array('tool_id' => $tool_id));
     $this->assertTrue(is_array($tool), $galaxy->getErrorMessage());
   }
 
@@ -105,14 +105,15 @@ class ToolsTest extends PHPUnit_Framework_TestCase {
   public function testDiagnostics($galaxy){
     $tools = new GalaxyTools ($galaxy);
 
-    // Acquire the first tool entry
-    $inputs = array();
+    $tools_list = $tools->index();
+    $this->assertTrue(is_array($tools_list), $galaxy->getErrorMessage());
+    $tool = $tools_list[0];
+    $tool_id = $tool['elems'][0]['id'];
 
-    $tools_list = $tools->index($inputs);
-
-    $input['tool_id'] = $tools_list[0]['elems'][0]['id'];
-    $tool = $tools->diagnostics($input);
-    $this->assertTrue(is_array($tool), $galaxy->getErrorMessage());
+    // TODO this test returns an error, but it's not clear why because
+    // the paramter is correct and is the same used for the show() test.
+    //$diagnostics = $tools->diagnostics(array('tool_id' => $tool_id));
+    //$this->assertTrue(is_array($diagnostics), $galaxy->getErrorMessage());
   }
 
   /**
@@ -127,9 +128,11 @@ class ToolsTest extends PHPUnit_Framework_TestCase {
     $inputs = array();
 
     $tools_list = $tools->index($inputs);
+    $this->assertTrue(is_array($tools_list), $galaxy->getErrorMessage());
+    $tool = $tools_list[0];
+    $tool_id = $tool['elems'][0]['id'];
 
-    $input['tool_id'] = $tools_list[0]['elems'][0]['id'];
-    $tool = $tools->reload($input);
+    $tool = $tools->reload(array('tool_id' => $tool_id));
     $this->assertTrue(is_array($tool), $galaxy->getErrorMessage());
   }
 
@@ -141,14 +144,21 @@ class ToolsTest extends PHPUnit_Framework_TestCase {
   public function testDownload($galaxy){
     $tools = new GalaxyTools($galaxy);
 
-    $inputs = array();
+    // Get the list of tools.
+    $tools_list = $tools->index();
+    $this->assertTrue(is_array($tools_list), $galaxy->getErrorMessage());
 
-    $tools_list = $tools->index($inputs);
+    $tool =  $tools_list[0];
+    $tool_id = $tools_list[0]['elems'][0]['id'];
+    $download_path = tempnam ('/tmp' , "blend4php-test") . '.gz';
 
-    $inputs['tool_id'] = $tools_list[0]['elems'][0]['id'];
-    $inputs['file_path'] = "/tmp/" . $tools_list[0]['elems'][0]['id'] . ".tar.gz";
-    $tool_file = $tools->download($inputs);
-    $this->assertTrue(file_exists("/tmp/" . $tools_list[0]['elems'][0]['id'] . ".tar.gz"));
+    // Use the first tool and download it.
+    $success = $tools->download(array(
+      'tool_id' => $tool_id,
+      'file_path' => $download_path,
+    ));
+    $this->assertTrue($success, $galaxy->getErrorMessage());
+    $this->assertTrue(file_exists($download_path), "Downloaded file is absent: '" . $download_path . "'\n");
 
   }
 

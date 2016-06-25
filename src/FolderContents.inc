@@ -1,4 +1,7 @@
 <?php
+
+require_once('GalaxyAPIService.inc');
+
 /**
  * @file
  *
@@ -10,24 +13,7 @@
  *
  */
 
-class GalaxyFolderContents {
-
-  private $galaxy;
-
-  /**
-  * The FolderContents constructor.
-  *
-  * @param GalaxyInstance $galaxy
-  *  A GalaxyInstance object.
-  *
-  * @return
-  *  An instance of a FolderContents object.
-  *
-  *
-  */
-  public function __construct(GalaxyInstance $galaxy) {
-    $this->galaxy = $galaxy;
-  }
+class GalaxyFolderContents extends GalaxyAPIService {
 
   /**
    * Displays all the contents of a folder.

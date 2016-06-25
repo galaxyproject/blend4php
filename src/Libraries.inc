@@ -1,4 +1,7 @@
 <?php
+
+require_once('GalaxyAPIService.inc');
+
 /**
  * @file
  *
@@ -9,22 +12,7 @@
  * are named similarly to their Python counterpart.
  */
 
-class GalaxyLibraries {
-  private $galaxy;
-  /**
-   * The Folders constructor.
-   *
-   * @param GalaxyInstance $galaxy
-   *   A GalaxyInstance object.
-   *
-   * @return
-   *   An instance of a Libraries object.
-   *
-   *
-   */
-   public function __construct(GalaxyInstance $galaxy) {
-     $this->galaxy = $galaxy;
-   }
+class GalaxyLibraries extends GalaxyAPIService {
 
 
   /**

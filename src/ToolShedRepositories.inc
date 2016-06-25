@@ -1,4 +1,7 @@
 <?php
+
+require_once('GalaxyAPIService.inc');
+
 /**
  * @file
  *
@@ -9,23 +12,7 @@
  * and are named similarly to their Python counterparts.
  */
 
-class GalaxyToolShedRepositories {
-   private $galaxy;
-
-  /**
-   * The Tools constructor.
-   *
-   * @param GalaxyInstance $galaxy
-   *   A GalaxyInstance object.
-   *
-   * @return
-   *   An instance of a Tool shed repositories object.
-   *
-   *
-   */
-   function __construct(GalaxyInstance $galaxy) {
-     $this->galaxy = $galaxy;
-   }
+class GalaxyToolShedRepositories extends GalaxyAPIService {
 
   /**
   * Check for updates to the specified repository, or all installed repositories.
@@ -35,20 +22,19 @@ class GalaxyToolShedRepositories {
   *   An associative array containing the input parameters for this function.
   *   The following parameters are available:
   *
-  *   - id: the galaxy-side encoded repository ID
+  *   - id: the repository ID
   *
   * @return
   *
   *
   */
-  public function checkForUpdates($params){
-    // if(!array_key_exists('id', $params)){
-    //   $this->galaxy->setError("API", "Specify an 'id' of a tool shed repository in order to check for updates.");
-    //   return FALSE;
-    // }
-     $URL = $this->galaxy->getURL() . '/api/tool_shed_repositories/check_for_updates/' .  '?key=' . $this->galaxy->getAPIKey();
-     $response = $this->galaxy->httpGET($URL);
-     return $this->galaxy->expectArray($response);
+  public function checkForUpdates($params = array()){
+
+    // TODO the 'id' field is currently not being used.
+
+    $URL = $this->galaxy->getURL() . '/api/tool_shed_repositories/check_for_updates/' .  '?key=' . $this->galaxy->getAPIKey();
+    $response = $this->galaxy->httpGET($URL);
+    return $this->galaxy->expectArray($response);
   }
 
 
@@ -74,16 +60,20 @@ class GalaxyToolShedRepositories {
   *
   *
   */
-    public function exportedWorkflows ($params){
-      if(!array_key_exists('tool_shed_repo_id', $params)){
-        $this->galaxy->setError("API", "This function requires a 'tool_shed_repo_id' in order to invoke this function.");
-        return FALSE;
-      }
+  public function exportedWorkflows ($params){
+    // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('tool_shed_repo_id'))) {
+      return FALSE;
+    }
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('tool_shed_repo_id'))) {
+      return FALSE;
+    }
 
-     $URL = $this->galaxy->getURL() . '/api/tool_shed_repositories/' . $params['tool_shed_repo_id'] . '/exported_workflows?key=' . $this->galaxy->getAPIKey();
-     $response = $this->galaxy->httpGET($URL);
-     return $this->galaxy->expectArray($response);
-   }
+    $URL = $this->galaxy->getURL() . '/api/tool_shed_repositories/' . $params['tool_shed_repo_id'] . '/exported_workflows?key=' . $this->galaxy->getAPIKey();
+    $response = $this->galaxy->httpGET($URL);
+    return $this->galaxy->expectArray($response);
+  }
 
   /**
   * Initiate the installation of a repository.
@@ -116,17 +106,24 @@ class GalaxyToolShedRepositories {
   *
   */
   public function install($params){
-    if(!array_key_exists('tool_shed_url', $params)){
-      $this->galaxy->setError("API", "This function needs at least a tool_shed_url in order to install a toolshed.");
+
+    // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('tool_shed_url'))) {
+      return FALSE;
+    }
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('tool_shed_url', 'name',
+        'owner', 'install_tool_dependencies', 'tool_panel_section_id',
+        'install_repository_dependencies', 'new_tool_panel_section_label',
+        'shed_tool_conf', 'changeset'))) {
       return FALSE;
     }
 
     $URL = $this->galaxy->getURL() . '/api/tool_shed_repositories/install/' . '?key=' . $this->galaxy->getAPIKey();
-
-     $response = $this->galaxy->httpPOST($URL, $params);
-     // This is not supposed to be a meta data dict but the URL on where the
-     // repository's progress in its installation on the local server being run
-     return $response;
+    $response = $this->galaxy->httpPOST($URL, $params);
+    // This is not supposed to be an array but rather the URL on where the
+    // repository's progress in its installation on the local server being run
+    return $response;
   }
 
   /**
@@ -140,23 +137,28 @@ class GalaxyToolShedRepositories {
   *   An associative array containing the input parameters for this function.
   *   The following parameters are available:
   *
-  *   - tool_shed_url: The URL of the Tool Shed from which to retrieve the Repo
-  *        revision. This should be something similar to this:
-  *   https://toolshed.g2.bx.psu.edu/repository?repository_id=253e22fdaf6a52c1
+  *   - tool_shed_url: The URL of the tool shed from which to retrieve the repo
+  *     revision. This should be something similar to:
+  *     https://toolshed.g2.bx.psu.edu/repository?repository_id=253e22fdaf6a52c1
   *   - name: The name of the repository.
   *   - owner: The name of the owner of the repository.
   *
   * @return
   *   A changeset_revision hash (describes the revison 'number' of the tool)
-  *   i.e 1:7002b364c3f8
-  *
-  *   1 being the true rev. number (the larger the more changes it's been
-  *   through, behind the colon is a supposed unique hash string, though
-  *   collisions happen)
-  *
-  *
+  *   i.e 1:7002b364c3f8 where the fisrt number (e.g. 1) is
+  *   the true rev. number (the larger the more changes it's been
+  *   through), behind the colon is a supposed unique hash string.
   */
    public function getLatestInstallable ($params){
+     // Check for required fields.
+     if (!$this->checkRequiredParams($params, array('tool_shed_url'))) {
+       return FALSE;
+     }
+     // Check for allowed fields.
+     if (!$this->checkAllowedParams($params, array('tool_shed_url', 'name', 'owner'))) {
+       return FALSE;
+     }
+
 
      $URL = $this->galaxy->getURL() . '/api/tool_shed_repositories/' . 'get_latest_installable_revision' . '?key=' . $this->galaxy->getAPIKey();
 
@@ -177,22 +179,24 @@ class GalaxyToolShedRepositories {
   *   The following parameters are available:
   *   - id: The encoded id of the Tool Shed Repository object.
   *   - index: The location of the workflow to import from within the specified
-  *       toolshed, defaults to 0
-  *       the index location of the workflow tuple in the list of exported
-  *       workflows stored in the metadata for the specified repository.
+  *       toolshed, defaults to 0. The index location of the workflow tuple
+  *       in the list of exported workflows stored in the metadata for the
+  *       specified repository.
   *
   * @return
   *   An array containing informaiton of the imported workflow.
-  *
-  *
   */
-  public function importWorkflow ($params){
+  public function importWorkflow($params = array()){
+
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('id', 'index'))) {
+      return FALSE;
+    }
+
     $URL = $this->galaxy->getURL() . '/api/tool_shed_repositories/import_workflow?key=' . $this->galaxy->getAPIKey();
-
-     $result = $this->galaxy->httpPOST($URL, $params);
-
-     return $this->galaxy->expectArray($result);
-   }
+    $result = $this->galaxy->httpPOST($URL, $params);
+    return $this->galaxy->expectArray($result);
+  }
 
   /**
   * Import all of the exported workflows contained in the specified installed tool shed repository into Galaxy.
@@ -209,8 +213,12 @@ class GalaxyToolShedRepositories {
   *
   */
   public function importWorkflows($params){
-    if(!array_key_exists('id', $params)){
-      $this->galaxy->setError("API", "This function needs an 'id' of the tool shed repository to draw the workflows from.");
+    // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('id'))) {
+      return FALSE;
+    }
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('id'))) {
       return FALSE;
     }
 
@@ -231,7 +239,7 @@ class GalaxyToolShedRepositories {
   *
   *
   */
-  public function index (){
+  public function index(){
     $URL = $this->galaxy->getURL() . '/api/tool_shed_repositories' . '?key=' . $this->galaxy->getAPIKey();
 
     $result = $this->galaxy->httpGET($URL);
@@ -286,20 +294,17 @@ class GalaxyToolShedRepositories {
    *
    */
   public function install_repository_revision ($params){
-    if(!array_key_exists('tool_shed_url',$params)){
-      $this->galaxy->setError("API", "A 'tool_shed_url' is required in order to invoke this call.");
+
+    // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('tool_shed_url', 'name',
+      'owner', 'changeset_revision'))) {
       return FALSE;
     }
-    if(!array_key_exists('name',$params)){
-      $this->galaxy->setError("API", "A 'name' is required in order to invoke this call.");
-      return FALSE;
-    }
-    if(!array_key_exists('owner',$params)){
-      $this->galaxy->setError("API", "An 'owner' is required in order to invoke this call.");
-      return FALSE;
-    }
-    if(!array_key_exists('changeset_revision',$params)){
-      $this->galaxy->setError("API", "A 'changeset_revision' is required in order to invoke this call.");
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('tool_shed_url', 'name',
+      'owner', 'changeset_revision', 'new_tool_panel_section_label',
+      'tool_panel_section_id', 'install_repository_dependencies',
+      'install_tool_dependencies', 'shed_tool_conf'))) {
       return FALSE;
     }
 
@@ -329,20 +334,15 @@ class GalaxyToolShedRepositories {
    *
    */
   public function repair_repository_revision ($params){
-      if(!array_key_exists('tool_shed_url',$params)){
-      $this->galaxy->setError("API", "A 'tool_shed_url' is required in order to invoke this call.");
+
+      // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('tool_shed_url', 'name',
+      'owner', 'changeset_revision'))) {
       return FALSE;
     }
-    if(!array_key_exists('name',$params)){
-      $this->galaxy->setError("API", "A 'name' is required in order to invoke this call.");
-      return FALSE;
-    }
-    if(!array_key_exists('owner',$params)){
-      $this->galaxy->setError("API", "An 'owner' is required in order to invoke this call.");
-      return FALSE;
-    }
-    if(!array_key_exists('changeset_revision',$params)){
-      $this->galaxy->setError("API", "A 'changeset_revision' is required in order to invoke this call.");
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('tool_shed_url', 'name',
+      'owner', 'changeset_revision'))) {
       return FALSE;
     }
 
@@ -357,8 +357,6 @@ class GalaxyToolShedRepositories {
   *
   * Corresponds to the Galaxy API/path
   *   PUT /api/tool_shed_repositories/reset_metadata_on_installed_repositories
-  *
-  *
   */
   public function reset_metadata_on_installed_repositories (){
     $URL = $this->galaxy->getURL() . 'api/tool_shed_repositories/reset_metadata_on_installed_repositories?key=' . $this->galaxy->getAPIKey();
@@ -368,7 +366,8 @@ class GalaxyToolShedRepositories {
    }
 
   /**
-  * Display a dictionary containing information about a specified tool_shed_repository.
+  * Retrieve information about a specified tool shedrepository.
+  *
   *   GET /api/tool_shed_repositories/{encoded_tool_shed_repsository_id}
   *
   * @param $params
@@ -378,14 +377,18 @@ class GalaxyToolShedRepositories {
   *   - id: the encoded id of the ToolShedRepository object.
   *
   * @return
-  *
-  *
+  *   An associative array containing information about the repository.
   */
   public function show($params){
-    if(!array_key_exists('id', $params)){
-      $this->galaxy->setError("API", "An 'id' is required in order to see a tool shed repository.");
+      // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('id'))) {
       return FALSE;
     }
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('id'))) {
+      return FALSE;
+    }
+
 
     $URL = $this->galaxy->getURL() . '/api/tool_shed_repositories/' . $params['id'] . '?key=' . $this->galaxy->getAPIKey();
     $response = $this->galaxy->httpGET($URL);
@@ -393,8 +396,8 @@ class GalaxyToolShedRepositories {
   }
 
   /**
-  * Display a dictionary containing information about a specified repository's installation
-  * status and a list of its dependencies and the status of each.
+  * Retrieves the status of a repository's installation
+  *
   *   GET /api/tool_shed_repositories/{id}/status
   *
   * @param $params
@@ -404,12 +407,15 @@ class GalaxyToolShedRepositories {
   *   - id: the repository's encoded id
   *
   * @return
-  *
-  *
+  *  An associative array containing information about status of the repository.
   */
   public function status($params){
-    if(!array_key_exists('id', $params)){
-      $this->galaxy->setError("API", "An 'id' is required in order to see a tool shed repository's status.");
+      // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('id'))) {
+      return FALSE;
+    }
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('id'))) {
       return FALSE;
     }
 

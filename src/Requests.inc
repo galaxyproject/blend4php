@@ -1,4 +1,7 @@
 <?php
+
+require_once('GalaxyAPIService.inc');
+
 /**
  * @file
  *
@@ -8,21 +11,7 @@
  *
  */
 
-class GalaxyRequests {
-
-  private $galaxy = NULL;
-
-  /**
-   * The Request constructor.
-   *
-   * @return
-   *   An instance of a Request object.
-   *
-   *
-   */
-  function __construct(GalaxyInstance $galaxy) {
-    $this->galaxy = $galaxy;
-  }
+class GalaxyRequests extends GalaxyAPIService {
 
   /**
    * Displays a collection (list) of sequencing requests.

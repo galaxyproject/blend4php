@@ -1,5 +1,8 @@
 <?php
 
+require_once('GalaxyAPIService.inc');
+
+
 /**
  * @file
  *
@@ -10,24 +13,7 @@
  * and are named similarly to their Python counterparts.
  */
 
-class GalaxyWorkflows {
-
-  private $galaxy;
-
-  /**
-  * The Workflows constructor.
-  *
-  * @param GalaxyInstance $galaxy
-  *   A GalaxyInstance object.
-  *
-  * @return
-  *   An instance of a workflows object.
-  *
-  *
-  */
-  function __construct(GalaxyInstance $galaxy) {
-    $this->galaxy = $galaxy;
-  }
+class GalaxyWorkflows extends GalaxyAPIService {
 
 
   /**
@@ -65,7 +51,7 @@ class GalaxyWorkflows {
    *
    * Corresponds to the Galaxy API/path at
    *   GET /api/workflows/{encoded_workflow_id}
-   *   
+   *
    * @param $params
    *   An associative array containing the input parameters for this function.
    *   The following parameters are available:
@@ -84,14 +70,14 @@ class GalaxyWorkflows {
       $this->galaxy->setError("API", "A 'workflow_id' is required to show a workflow.");
       return FALSE;
     }
-     
+
     $URL = $this->galaxy->getURL() . '/api/workflows/' . $params['workflow_id'] . '/?key=' . $this->galaxy->getAPIKey();
-     
+
     if(array_key_exists('show_published', $params))
       $URL .= '&show_published=' . $params['show_published'];
-     
+
     $response = $this->galaxy->httpGET($URL);
-     
+
     return $this->galaxy->expectArray($response);
    }
 
@@ -114,10 +100,10 @@ class GalaxyWorkflows {
     if(!array_key_exists('workflow_id', $params)){
       $this->galaxy->setError("API", "A 'workflow_id' is needed in order to delete a workflow.");
       return FALSE;
-    }  
-    
+    }
+
     $URL = $this->galaxy->getURL() . '/api/workflows/' . $params['workflow_id'] . '?key=' . $this->galaxy->getAPIKey();
-    
+
     return $this->rest->delete($URL);
    }
 
@@ -128,10 +114,10 @@ class GalaxyWorkflows {
    * @param $params
    *   An associative array containing the input parameters for this function.
    *   The following parameters are available:
-   *   
+   *
    *  - workflow_id
    *    Encoded workflow ID.
-   *   
+   *
    * @return
    *   An array representing the workflow requested.
    *
@@ -157,7 +143,7 @@ class GalaxyWorkflows {
    *
    * Corresponds to the Galaxy API/path
    *   GET /api/workflows/{encoded_workflow_id}/download
-   *   
+   *
    * @param $params
    *   An associative array containing the input parameters for this function.
    *   The following parameters are available:
@@ -171,12 +157,12 @@ class GalaxyWorkflows {
    *
    */
   public function download($params) {
-    
+
     if(!array_key_exists('workflow_id', $params)){
       $this->galaxy->setError("API", "A 'workflow_id' is needed in order to download a workflow.");
       return FALSE;
     }
-    
+
     $URL = $this->galaxy->getURL() . '/api/workflows/' . $params['workflow_id'] . '/download/?key=' . $this->galaxy->getAPIKey();
 
     $response = $this->galaxy->httpGET($URL);
@@ -190,7 +176,7 @@ class GalaxyWorkflows {
    *
    * Corresponds to the Galaxy API method and path
    *   PUT /api/workflows/{encoded_workflow_id}
-   *   
+   *
    * @param $params
    *   An associative array containing the input parameters for this function.
    *   The following parameters are available:
@@ -208,14 +194,14 @@ class GalaxyWorkflows {
    *
    */
    public function update($params){
-     
+
      if(!array_key_exists('workflow_id', $params)){
        $this->galaxy->setError("API", "A 'workflow_id' is needed in order to update a workflow.");
        return FALSE;
      }
 
     $URL = $this->galaxy->getURL() . '/api/workflows/'. $params['workflow_id'] . '/?key=' . $this->galaxy->getAPIKey();
-    
+
     unset($params['workflow_id']);
 
     $response = $this->galaxy->httpPUT($URL, $params);
@@ -284,7 +270,7 @@ class GalaxyWorkflows {
        $this->galaxy->setError("API", "A 'workflow_id' is needed in order to view the invocations of a workflow.");
        return FALSE;
      }
-     
+
      $URL = $this->galaxy->getURL() . '/api/workflows/' . $params['workflow_id'] . '/invocations/?key=' . $this->galaxy->getAPIKey();
      $response = $this->galaxy->httpGET($URL);
      return $this->galaxy->expectArray($response);
@@ -295,7 +281,7 @@ class GalaxyWorkflows {
    *
    * Corresponds to the Galaxy API/path at
    *   GET /api/workflows/{workflow_id}/invocation/{invocation_id}
-   *   
+   *
    * @param $params
    *   An associative array containing the input parameters for this function.
    *   The following parameters are available:
@@ -310,20 +296,20 @@ class GalaxyWorkflows {
    *
    * @return
    *   An array containing details of the specified invocation.
-   *    
+   *
    */
    public function showInvocations($params) {
-     
+
      if(!array_key_exists('workflow_id', $params)){
        $this->galaxy->setError("API", "A 'workflow_id' is needed in order to view an invocation step of a workflow.");
        return FALSE;
      }
-     
+
      if(!array_key_exists('invocation_id', $params)){
        $this->galaxy->setError("API", "An 'invocation_id' is needed in order to view an ivocation step of a workflow.");
        return FALSE;
      }
-     
+
      $URL = $this->galaxy->getURL() . '/api/workflows/' . $params['workflow_id'] . '/invocations/' . $params['invocation_id'] . '/?key=' . $this->galaxy->getAPIKey();
      $response = $this->galaxy->httpGET($URL);
      return $this->galaxy->expectArray($response);
@@ -432,7 +418,7 @@ class GalaxyWorkflows {
    * @param $params
    *   An associative array containing the input parameters for this function.
    *   The following parameters are available:
-   *   
+   *
    *  - workflow_id
    *    The ID of the workflow to invoke.
    *  - input_dataset_ids
@@ -455,7 +441,7 @@ class GalaxyWorkflows {
   public function invoke($params) {
 
     $URL = $this->galaxy->getURL() . '/api/workflows/' . $params['workflow_id'] . '/invocations/?key=' . $this->galaxy->getAPIKey();
-    
+
     $input_ids = array();
     $i = 0;
 
@@ -466,13 +452,13 @@ class GalaxyWorkflows {
       );
       $i++;
     }
-    
+
     $history_input = '';
-    
+
     if (array_key_exists('hist_id', $params)) {
       $history_input = 'hist_id=' . $params['hist_id'];
     }
-    
+
     $elements = array(
       'inputs' => json_encode($input_ids,JSON_FORCE_OBJECT),
       'dataset_map' => json_encode($input_ids,JSON_FORCE_OBJECT),
