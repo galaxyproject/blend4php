@@ -68,9 +68,14 @@ class GalaxyFolderContents extends GalaxyAPIService {
    *
    */
   public function create($params){
-    if(!array_key_exists('folder_id', $params)){
-     $this->galaxy->setError("API", "A 'folder_id' is required in order to invoke this call");
-     return FALSE;
+    // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('folder_id'))) {
+      return FALSE;
+    }
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('folder_id', 'from_hda_id',
+         'ldda_messge', 'extented_metadata'))) {
+      return FALSE;
     }
 
     $URL = $this->galaxy->getURL() . '/api/folders/' . $params['folder_id'] . '/contents/?key=' . $this->galaxy->getAPIKey();
