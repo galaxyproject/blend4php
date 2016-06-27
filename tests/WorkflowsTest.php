@@ -25,6 +25,35 @@ class WorkflowsTest extends PHPUnit_Framework_TestCase {
   }
 
   /**
+   * Tests the create function of the workflows class.
+   *
+   * Creates or updates a workflow.
+   *
+   * @depends testInitGalaxy
+   */
+  function testCreate($galaxy){
+    global $config;
+    $workflows = new GalaxyWorkflows($galaxy);
+    $workflow_id = "";
+  
+    // Case 1: successfully return a workflow created from json
+    $json_workflow = file_get_contents("./files/Galaxy-Workflow-UnitTest_Workflow.ga");
+    $workflow = $workflows->create(array('workflow' => $json_workflow));
+    $this->assertTrue(is_array($workflow), $galaxy->getErrorMessage());
+    $workflow_id = $workflow['id'];
+  
+    // Case 2: successfully return false when incorrect information provided
+    // for the JSON workflow.
+    $workflow = $workflows->create(array('workflow' => "{ Incorrect JSON }"));
+    $this->assertFalse(is_array($workflow), $galaxy->getErrorMessage());
+  
+    // TODO: create more tests for the other parameters, once we understand how
+    // the parameters are formated.
+  
+    return $workflow_id;
+  }
+  
+  /**
    * Tests the index funciton of workflows
    *
    * retreives a list of workflows from galaxy
@@ -42,7 +71,7 @@ class WorkflowsTest extends PHPUnit_Framework_TestCase {
     // Case 2: enter boolean parameter also retreives an array
     $workflows_list = $workflows->index(array('is_published' => TRUE));
     $this->assertTrue(is_array($workflows_list), $galaxy->getErrorMessage());
-
+    
     // Return a workflow id
     return $workflows_list[0]['id'];
   }
@@ -73,35 +102,6 @@ class WorkflowsTest extends PHPUnit_Framework_TestCase {
     $workflow = $workflows->show(array('workflow_id' => '123', 'show_published' => TRUE));
     $this->assertFalse(is_array($workflow), "Workflows class 'show' should have returned false upon incorrect workflow id");
 
-  }
-
-  /**
-   * Tests the create function of the workflows class.
-   *
-   * Creates or updates a workflow.
-   *
-   * @depends testInitGalaxy
-   */
-  function testCreate($galaxy){
-    global $config;
-    $workflows = new GalaxyWorkflows($galaxy);
-    $workflow_id = "";
-
-    // Case 1: successfully return a workflow created from json
-    $json_workflow = file_get_contents("./files/Galaxy-Workflow-UnitTest_Workflow.ga");
-    $workflow = $workflows->create(array('workflow' => $json_workflow));
-    $this->assertTrue(is_array($workflow), $galaxy->getErrorMessage());
-    $workflow_id = $workflow['id'];
-
-    // Case 2: successfully return false when incorrect information provided
-    // for the JSON workflow.
-    $workflow = $workflows->create(array('workflow' => "{ Incorrect JSON }"));
-    $this->assertFalse(is_array($workflow), $galaxy->getErrorMessage());
-
-    // TODO: create more tests for the other parameters, once we understand how
-    // the parameters are formated.
-
-    return $workflow_id;
   }
 
   /**

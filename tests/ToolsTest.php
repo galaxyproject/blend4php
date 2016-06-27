@@ -1,7 +1,5 @@
 <?php
-require_once '../src/Tools.inc';
-require_once '../src/Histories.inc';
-require_once '../src/GalaxyInstance.inc';
+require_once '../galaxy.inc';
 require_once 'testConfig.inc';
 
 
@@ -112,8 +110,8 @@ class ToolsTest extends PHPUnit_Framework_TestCase {
 
     // TODO this test returns an error, but it's not clear why because
     // the paramter is correct and is the same used for the show() test.
-    //$diagnostics = $tools->diagnostics(array('tool_id' => $tool_id));
-    //$this->assertTrue(is_array($diagnostics), $galaxy->getErrorMessage());
+    $diagnostics = $tools->diagnostics(array('tool_id' => $tool_id));
+    $this->assertTrue(is_array($diagnostics), $galaxy->getErrorMessage());
   }
 
   /**
