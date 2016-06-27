@@ -32,17 +32,18 @@ class GalaxyGroups extends GalaxyAPIService {
   /**
    * Create a new group.
    *
-   * Corresponds to the Galaxy API method and path: POST /api/groups.
+   * Corresponds to an HTTP POST on the Galaxy API path
+   *   /api/groups.
    *
    * @param $params
    *   An associative array containing the input parameters for this function.
    *   The following parameters are available:
    *
    *   - name: Name of the group.
-   *   - user_ids: (optional) An array of user_ids, if any, to associate user id's to the
-   *       group. Use the Users class to retrieve a list of users.
-   *   - role_ids: (optional) An array of role_ids to associate any new roles to the
-   *       group. Use the Roles class to retreive a list of existing role IDs.
+   *   - user_ids: (Optional) An array of user_ids, if any, to associate user id's to the
+   *       group. Use the Users::index() to retrieve a list of users.
+   *   - role_ids: (Optional) An array of role_ids to associate any new roles to the
+   *       group. Use the Roles::index() to retreive a list of existing role IDs.
    *
    * @return
    *   An array of the group that contains the users and roles.
@@ -84,21 +85,22 @@ class GalaxyGroups extends GalaxyAPIService {
   /**
    * Retreive information about a group.
    *
-   * Corresponds to the Galaxy API method and path:
-   * GET /api/groups/{encoded_group_id}
+   * Corresponds to an HTTP GET on the Galaxy API path
+   *   /api/groups/{encoded_group_id}
    *
    *
    * @param $params
    *   An associative array containing the input parameters for this function.
    *   The following parameters are available:
    *
-   *   - group_id: The id of the specific group to show.  Group IDs can be
-   *     found using the index() function of this class.
+   *   - group_id: The ID of the specific group to show.  Group IDs can be
+   *     found using Groups::index().
    *
    * @return
    *   An array containing details about the group.
    */
   public function show($params) {
+    
       // Check for required fields.
     if (!$this->checkRequiredParams($params, array('group_id'))) {
       return FALSE;
@@ -115,19 +117,19 @@ class GalaxyGroups extends GalaxyAPIService {
   /**
    * Supports changes to a group including the name, users and roles.
    *
-   * Corresponds to the Galaxy API method and path:
-   * PUT /api/groups/{encoded_group_id}.
+   * Corresponds to an HTTP PUT on the Galaxy API path
+   *   /api/groups/{encoded_group_id}.
    *
    * @param $params
    *   An associative array containing the input parameters for this function.
    *   The following parameters are available:
-   *     - group_id: The id of the group to modify.  Group IDs can be found
-   *         using the index() function of this class.
-   *     - name: A new name, if any, to call the group.
+   *     - group_id: The ID of the group to modify.  Group IDs can be found
+   *         using Groups::index().
+   *     - name: (Optional) A new name to call the group.
    *     - user_ids: An array of user_ids, if any, to associate user id's to
-   *         the group. Use the Users class to retrieve a list of users.
+   *         the group. Use Users::index() to retrieve a list of users.
    *     - role_ids: An array of role_ids to associate any new roles to the
-   *         group. Use the Roles class to retreive a list of existing role IDs.
+   *         group. Use the Roles::index() class to retreive a list of existing role IDs.
    *
    * @return
    *   An array of the group that contains the users and roles.
@@ -154,6 +156,6 @@ class GalaxyGroups extends GalaxyAPIService {
       $params['role_ids'] = json_encode($role_ids);
 
     $response = $this->galaxy->httpPUT($URL, $params);
-    return $response;// $this->galaxy->expectArray($response);
+    return $response;
   }
 }

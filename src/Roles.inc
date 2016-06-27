@@ -18,15 +18,14 @@ class GalaxyRoles extends GalaxyAPIService {
   /**
    * Retreive a list of all of Galaxy's roles.
    *
-   * Corresponds to the Galaxy API/path:
-   *   GET /api/roles
+   * Corresponds to an HTTP GET on the Galaxy API path
+   *   /api/roles
    *
    * @return
    *   An array containing details of all the roles in Galaxy.
-   *
-   *
    */
-  public function index(){
+  public function index() {
+    
     $URL = $this->galaxy->getURL() . '/api/roles/?key=' . $this->galaxy->getAPIKey();
     $response = $this->galaxy->httpGET($URL);
     return $this->galaxy->expectArray($response);
@@ -35,20 +34,18 @@ class GalaxyRoles extends GalaxyAPIService {
   /**
    * Retreive details about a specific Galaxy role.
    *
-   * Corresponds to the Galaxy API/path:
-   *   GET /api/roles/{encoded_id}
+   * Corresponds to an HTTP GET on the Galaxy API path
+   *   /api/roles/{encoded_id}
    *
    * @param $params
    *   An associative array containing the input parameters for this function.
    *   The following parameters are available:
    *
-   *   - role_id: The id of the role whos informaiton to retreive. Please use
-   *       this class's index function to retreive a list of role id's.
+   *   - role_id: The ID of a role to retreive information. Use Roles::index()
+   *       to retreive a list of role ID's.
    *
    * @return
    *   An array containing details about the specified role.
-   *
-   *
    */
   public function show($params){
     // Check for required fields.
@@ -63,17 +60,16 @@ class GalaxyRoles extends GalaxyAPIService {
     $URL = $this->galaxy->getURL() . '/api/roles/' . $params['role_id'] . '/?key=' . $this->galaxy->getAPIKey();
     $response = $this->galaxy->httpGET($URL);
     return $this->galaxy->expectArray($response);
-
   }
 
 
   /**
    * Creates a new role.
    *
-   * Corresponds to the Galaxy Api/path:
-   *   POST /api/roles
+   * Corresponds to an HTTP POST on the Galaxy API path
+   *   /api/roles
    *
-   * NOTE: only type admin can be applied for new roles
+   * NOTE: Only an admin can create new roles
    *
    * @param $params
    *   An associative array containing the input parameters for this function.
@@ -81,17 +77,15 @@ class GalaxyRoles extends GalaxyAPIService {
    *
    *   - name: The name of the new role.
    *   - description: The description of the new role.
-   *   - user_ids: An array of user ids to associate the new role with.
+   *   - user_ids: (Optional) An array of user ids to associate the new role with.
    *       To obtain a user id, please use the index() function of
    *       the users class.
-   *   - group_ids: An array of group id's to associate the new role with.
+   *   - group_ids: (Optional) An array of group id's to associate the new role with.
    *       To obtain a group id, please use the index() function of the
    *       groups class.
    *
    * @return
    *   An array containing informaiton about the new role.
-   *
-   *
    */
   public function create($params) {
 

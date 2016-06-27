@@ -20,8 +20,9 @@ class GalaxyHistoryContents extends GalaxyAPIService {
   /**
    * Create a new HistoryContents component to a given history
    *
-   * Corresponds to the Galaxy API method at:
-   *  POST /api/histories/{history_id}/contents/{type}
+   * Corresponds to an HTTP POST on the Galaxy API path
+   *   /api/histories/{history_id}/contents/{type}
+   *  
    *  Types will be "datasets" by default. The other option "dataset_collection"
    *  is currently not supported.
    *
@@ -32,7 +33,7 @@ class GalaxyHistoryContents extends GalaxyAPIService {
    *   - history_id: The id of the history to add contents to. To obtain
    *       history id's, please refer to the index() function of the history
    *       class.
-   *   - source: Can be any one of the following source types:
+   *   - source: Can be any ONE of the following source types:
    *     (i)   library: Copy from library, would contain the id of the library dataset
    *     (ii)  library_folder: Copy from library folder, conains the id of the
    *       library folder.
@@ -43,73 +44,73 @@ class GalaxyHistoryContents extends GalaxyAPIService {
    *            - name: Name of the the new dataset collection
    *            - element_identifiers: List defining collection (the actual data
    *                for this new collection).
-   *   - type(Optional): Type of history content, defaults to 'dataset', alternative is
+   *   - type: (Optional) Type of history content, defaults to 'dataset', alternative is
    *       'dataset_collection'
-   *
-   *   - content: The id of the content associated to the selected source to
-   *       add to the history. To obtian content (id's) please refer to this
-   *       class's index() function.
+   *   - content: (Optional) The id of the content associated to the selected source to
+   *       add to the history. To obtain content IDs refer to 
+   *       HistoryContents::index().
    *
    * @return
    *   An array containing information about the new History content component.
-   *
-   *
    */
   public function create($params) {
-    if(array_key_exists('source', $params)){
-      if(array_key_exists('history_id', $params)){
-        $URL = $this->galaxy->getURL() . '/api/histories/' . $params['history_id'] . '/contents/datasets/?key=' . $this->galaxy->getAPIKey();
-        $response = $this->galaxy->httpPOST($URL, $params);
-        return $this->galaxy->expectArray($response);
-      }
-      $this->galaxy->setError("API", "This API call needs a 'history_id' to create a history content");
+    
+    // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('history_id', 'source'))) {
       return FALSE;
     }
-
-    $this->galaxy->setError("API", "This API call needs a 'source' to create a history content");
-    return FALSE;
+    
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('history_id', 'source', 'type', 'content'))) {
+      return FALSE;
+    }
+    
+    $URL = $this->galaxy->getURL() . '/api/histories/' . $params['history_id'] . '/contents/datasets/?key=' . $this->galaxy->getAPIKey();
+    $response = $this->galaxy->httpPOST($URL, $params);
+    return $this->galaxy->expectArray($response);
   }
 
   /**
    * Retrieve detailed information about a specific hda.
    *
-   * Corresponds to the Galaxy API method and path:
-   *   GET /api/histories/{history_id}/contents/{id}
+   * Corresponds to an HTTP GET on the Galaxy API path
+   *   /api/histories/{history_id}/contents/{id}
    *
    *
    * @param $params
    *   An associative array containing the input parameters for this function.
    *   The following parameters are available:
    *
-   *   - id: The encoded history content id of the HDA to return please
-   *       use the index() function for a list of content_id's.
-   *   - history_id: The id of the history to present. To find, please refer to
-   *     'Histories' class index() funciton.
+   *   - id: The encoded history content ID of the HDA to return, use
+   *       HistoryContents::index() for a list of content_ids.
+   *   - history_id: The ID of the history to present. To find, refer to
+   *     Histories::index().
    *
    * @return
    *   An array containing detailed HDA (history dataset association) information.
-   *
-   *
    */
   public function show($params) {
-    if(array_key_exists('history_id', $params)){
-      if(array_key_exists('id', $params)){
-        $URL = $this->galaxy->getURL() . '/api/histories/' . $params['history_id'] . '/contents/' . $params['id'] .'/?key=' . $this->galaxy->getAPIKey();
-        $response = $this->galaxy->httpGET($URL);
-        return $this->galaxy->expectArray($response);
-      }
-      $this->galaxy->setError("API", "This API call needs an 'id' to be present the correct history content");
+    
+    // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('history_id', 'id'))) {
       return FALSE;
     }
-    $this->galaxy->setError("API", "This API call needs a 'history_id' to acquire a history");
-    return FALSE;
+    
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('history_id', 'id'))) {
+      return FALSE;
+    }
+    
+    $URL = $this->galaxy->getURL() . '/api/histories/' . $params['history_id'] . '/contents/' . $params['id'] .'/?key=' . $this->galaxy->getAPIKey();
+    $response = $this->galaxy->httpGET($URL);
+    return $this->galaxy->expectArray($response);
   }
 
   /**
    * Updates the values for the History content with the given id.
    *
-   * Corresponds to the Galaxy API method and path:
-   *   PUT /api/histories/{history_id}/contents/{id}
+   * Corresponds to an HTTP PUT on the Galaxy API path
+   *   /api/histories/{history_id}/contents/{id}
    *
    *  Some functionality from original python function is not available.
    *
@@ -117,12 +118,12 @@ class GalaxyHistoryContents extends GalaxyAPIService {
    *   An associative array containing the input parameters for this function.
    *   The following parameters are available:
    *
-   *   - history_id: The id of the history to update. To find, please refer to
-   *     'Histories' class index() function.
-   *   - id: The id of the content to update the selected hda in the
-   *       history, this can be a dataset. To find dataset id's go to:
-   *       ./api/histories/[history_id]/content, only 'ok' state datasets work
-   *   - annotation: The new annotation for the hda.
+   *   - history_id: The ID of the history to update. To find, refer to
+   *       Histories::index().
+   *   - id: The ID of the content to update (the selected hda) in the
+   *       history, this can be a dataset. To find dataset IDs use
+   *       HistoryContents::index(), only 'ok' state datasets work.
+   *   - annotation: (Optional) The new annotation for the hda.
    *
    *    **This was in the api docs but it does not seem to work.
    *    TODO: Figure out what this payload does during the update.
@@ -137,107 +138,117 @@ class GalaxyHistoryContents extends GalaxyAPIService {
    *       (v)    annotation: The new genome annotation for the hda.
    *       (vi)   deleted: A boolean value if the hda is deleted or not.
    *       (vii)  visible: A boolean value if the hda is visible or not.
+   *       
    * @return
    *   An array containing detailed HDA (history dataset association)
    *   information.
-   *
-   *
    */
   public function update($params) {
-    if (array_key_exists('history_id', $params)){
-      if(array_key_exists('id', $params)){
-        $URL = $this->galaxy->getURL() . '/api/histories/' . $params['history_id'] . '/contents/' . $params['id'] . '/?key=' . $this->galaxy->getAPIKey();
-
-        unset($params['history_id']);
-        unset($params['id']);
-
-        $response = $this->galaxy->httpPUT($URL, $params);
-        return $this->galaxy->expectArray($response);
-      }
-      $this->galaxy->setError("API", "HistoryContents update requires an 'id' parameter to update the appropriate hda");
+    
+    // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('history_id', 'id'))) {
       return FALSE;
     }
-    $this->galaxy->setError("API", "HistoryContents update requires a 'history_id' parameter to update the appropriate hda");
-    return FALSE;
+    
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('history_id', 'id', 'annotation', 'payload'))) {
+      return FALSE;
+    }
+    
+    $URL = $this->galaxy->getURL() . '/api/histories/' . $params['history_id'] . '/contents/' . $params['id'] . '/?key=' . $this->galaxy->getAPIKey();
 
+    // Clear these params to prevent them from being put in the request.
+    unset($params['history_id']);
+    unset($params['id']);
+
+    $response = $this->galaxy->httpPUT($URL, $params);
+    return $this->galaxy->expectArray($response);
   }
 
 
   /**
    * Delete the History content with the given id.
    *
-   * Corresponds to the galaxy API path at:
-   *   DELETE /api/histories/{history_id}/contents/{id}
+   * Corresponds to an HTTP DELETE on the Galaxy API path
+   *   /api/histories/{history_id}/contents/{id}
    *
    *
    * @param $params
    *   An associative array containing the input parameters for this function.
    *   The following parameters are available:
    *
-   *   - history_id: The id of the history content to delete.
-   *   - id: The id of the content to delete from the history, to find
-   *       the (dataset) id's go to:
-   *       /api/histories/[history_id]/content, only 'ok' state datasets work
-   *       Or use this classe's index() function.
-   *   - purge: A value of TRUE will remove this history content from the
+   *   - history_id: The ID of the history to delete a history content.
+   *   - id: The ID of the content to delete from the history to find
+   *       the (dataset) ID(s) use HistoryContent::index(), only 'ok' state
+   *       datasets work.
+   *   - purge: (Optional) A value of TRUE will remove this history content from the
    *       deleted page as well.
    *
    * @return
    *   An array containing detailed HDA (history dataset association)
    *   information.
-   *
-   *
    */
   public function delete($params) {
-    if (array_key_exists('history_id', $params)){
-      if(array_key_exists('id', $params)){
-        $URL = $this->galaxy->getURL() . '/api/histories/' . $params['history_id'] . '/contents/' . $params['id'] . '/?key=' . $this->galaxy->getAPIKey();
-
-        if(array_key_exists('purge', $params) and $params['purge'] == TRUE)
-          $URL .= '&purge=true';
-
-        $response =  $this->galaxy->httpDELETE($URL);
-        return $this->galaxy->expectArray($response);
-      }
-      $this->galaxy->setError("API", "HistoryContents delete requires an 'id' parameter to delete the appropriate hda");
+    
+    // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('history_id', 'id'))) {
       return FALSE;
     }
-    $this->galaxy->setError("API", "HistoryContents delete requires a 'history_id' parameter to delete the appropriate hda");
-    return FALSE;
+    
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('history_id', 'id', 'purge'))) {
+      return FALSE;
+    }
+    
+    $URL = $this->galaxy->getURL() . '/api/histories/' . $params['history_id'] . '/contents/' . $params['id'] . '/?key=' . $this->galaxy->getAPIKey();
+
+    if(array_key_exists('purge', $params) and $params['purge'] == TRUE)
+      $URL .= '&purge=true';
+
+    $response =  $this->galaxy->httpDELETE($URL);
+    return $this->galaxy->expectArray($response);
   }
 
   /**
    * Displays a collection of history content components.
    *
-   * Corresponds to th Galaxy API path at:
-   *   GET /api/histories/{history_id}/contents
+   * Corresponds to an HTTP GET on the Galaxy API path
+   *   /api/histories/{history_id}/contents
    *
    * @param $params
    *   An associative array containing the input parameters for this function.
    *   The following parameters are available:
    *
-   *   - history_id: The id of the history in order to view the contents.
-   *   - ids: A comma separated string of encoded history content ids. If
-   *       the history does not exist then all contents of the history will be
-   *       included.
+   *   - history_id: The ID of the history in order to view the contents.
+   *   - ids: A comma separated string of encoded history content IDs. If
+   *       the specified content does not exist then all contents of the 
+   *       history will be included.
    *
    * @return
    *   An array containing a summary or detailed HDA(history dataset
    *   association) of all the history contents.
-   *
-   *
    */
   public function index($params) {
-    if(array_key_exists('history_id', $params)){
-      $URL = $this->galaxy->getURL() . '/api/histories/' . $params['history_id'] . '/contents' . '/?key=' . $this->galaxy->getAPIKey();
-      if(array_key_exists('ids', $params)){
-        $URL .= '/&ids=' . json_encode($params['ids']);
-      }
-      $response = $this->galaxy->httpGET($URL);
-      return $this->galaxy->expectArray($response);
+    
+    // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('history_id'))) {
+      return FALSE;
     }
-    $this->galaxy->setError("API", "HistoryContents index requires a 'history_id' parameter to view the contents of the history");
-    return FALSE;
-
+    
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('history_id', 'ids'))) {
+      return FALSE;
+    }
+    
+    $URL = $this->galaxy->getURL() . '/api/histories/' . $params['history_id'] . '/contents' . '/?key=' . $this->galaxy->getAPIKey();
+    
+    // Check if the user asks for any specific content ids
+    if(array_key_exists('ids', $params)){
+      $URL .= '/&ids=' . json_encode($params['ids']);
+    }
+    
+    $response = $this->galaxy->httpGET($URL);
+    return $this->galaxy->expectArray($response);
   }
+  
 }
