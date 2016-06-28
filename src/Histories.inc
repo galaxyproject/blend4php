@@ -126,6 +126,8 @@ class GalaxyHistories  extends GalaxyAPIService {
       return FALSE;
     }
     
+    $URL = $this->galaxy->getURL() . '/api/histories/' . $params['history_id'] . '/?key=' . $this->galaxy->getAPIKey();
+    
     $response = $this->galaxy->httpGET($URL);
     return $this->galaxy->expectArray($response);
   }

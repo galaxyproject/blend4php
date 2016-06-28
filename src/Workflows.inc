@@ -19,55 +19,56 @@ class GalaxyWorkflows extends GalaxyAPIService {
   /**
    * Retreive a list of all the workflows.
    *
-   * Corresponds to the Galaxy API/path at
-   *   GET /api/workflows
+   * Corresponds to an HTTP GET on the Galaxy API path
+   *   /api/workflows
    *
    * @param $params
    *   An associative array containing the input parameters for this function.
    *   The following parameters are available:
    *
-   * @param $is_published
-   *   Optional, if true, published workflows will be displayed.
+   * - is_published: (Optional) If true, published workflows will be displayed.
    *
    * @return
    *   An array containing all of the workflows in Galaxy.
-   *
-   *
    */
-  public function index($params){
+  public function index($params) {
+    
     if(array_key_exists('is_published', $params)){
       $URL = $this->galaxy->getURL() . '/api/workflows/?is_published=' . $params['is_published'] .'/&key=' . $this->galaxy->getAPIKey(); ;
       $response = $this->galaxy->httpGET($URL);
       return $this->galaxy->expectArray($response);
     }
+    
     $URL = $this->galaxy->getURL() . '/api/workflows/?' . '/&key=' . $this->galaxy->getAPIKey(); ;
     $response = $this->galaxy->httpGET($URL);
     return $this->galaxy->expectArray($response);
-
   }
 
   /**
    * Retreive detailed information about a specific workflow.
    *
-   * Corresponds to the Galaxy API/path at
-   *   GET /api/workflows/{encoded_workflow_id}
+   * Corresponds to an HTTP GET on the Galaxy API path
+   *   /api/workflows/{encoded_workflow_id}
    *
    * @param $params
    *   An associative array containing the input parameters for this function.
    *   The following parameters are available:
    *
-   *  - workflow_id
-   *  - show_published
-   *   If true, show published workflows.
+   *  - workflow_id: The particular workflow that the user wants to see.
+   *  - show_published: (Optional) If true, show published workflows.
    *
    * @return
    *   An array containing the details of a workflow.
-   *
-   *
    */
-  public function show($params){
-    if(!array_key_exists('workflow_id', $params)){
-      $this->galaxy->setError("API", "A 'workflow_id' is required to show a workflow.");
+  public function show($params) {
+    
+    // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('workflow_id'))) {
+      return FALSE;
+    }
+    
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('workflow_id', 'show_published'))) {
       return FALSE;
     }
 
@@ -84,85 +85,67 @@ class GalaxyWorkflows extends GalaxyAPIService {
   /**
    * Delete a specified workflow.
    *
-   * Corresponds to the Galaxy API/method at
-   *   DELETE /api/workflows/{encoded_workflow_id}
+   * Corresponds to an HTTP DELETE on the Galaxy API path
+   *   /api/workflows/{encoded_workflow_id}
+   *   
    * @param $params
    *   An associative array containing the input parameters for this function.
    *   The following parameters are available:
    *
-   *   - workflow_id
-   *     The id of the workflow to delete. To obtain a workflow id
-   *     please use this class's index function.
-   *
+   * - workflow_id: The ID of the workflow to delete. To obtain a workflow ID
+   *     use Workflows::index().
+   * 
+   * @return
    *
    */
   public function delete($params) {
-    if(!array_key_exists('workflow_id', $params)){
-      $this->galaxy->setError("API", "A 'workflow_id' is needed in order to delete a workflow.");
+    
+    // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('workflow_id'))) {
+      return FALSE;
+    }
+    
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('workflow_id'))) {
       return FALSE;
     }
 
     $URL = $this->galaxy->getURL() . '/api/workflows/' . $params['workflow_id'] . '?key=' . $this->galaxy->getAPIKey();
 
-    return $this->rest->delete($URL);
-   }
-
-  /**
-   * Exports a workflow
-   *
-   *
-   * @param $params
-   *   An associative array containing the input parameters for this function.
-   *   The following parameters are available:
-   *
-   *  - workflow_id
-   *    Encoded workflow ID.
-   *
-   * @return
-   *   An array representing the workflow requested.
-   *
-   *
-   */
-   public function export($params) {
-     if(!array_key_exists('workflow_id', $params)){
-       $this->galaxy->setError("API", "A 'workflow_id' is needed in order to export a workflow.");
-       return FALSE;
-     }
-
-     $URL = $this->galaxy->getURL() . '/api/workflows/' . $params['workflow_id'] . '?key=' . $this->galaxy->getAPIKey();
-
-     $response = $this->galaxy->httpGET($URL);
-     return $this->galaxy->expectArray($response);
+    return $this->galaxy->httpDELETE($URL);
    }
 
   /**
    * Returns a selected workflow (using a filepath) to download.
-   *
+   * 
+   * Corresponds to an HTTP GET on the Galaxy API path
+   *   /api/workflows/{encoded_workflow_id}/download
+   *   
    * It is similar to the export function except the returned array does not
    * include a 'inputs' field.
-   *
-   * Corresponds to the Galaxy API/path
-   *   GET /api/workflows/{encoded_workflow_id}/download
    *
    * @param $params
    *   An associative array containing the input parameters for this function.
    *   The following parameters are available:
    *
-   *  - workflow_id
-   *    Id of the Workflow to retreive To obtain a workflow id, please
-   *    use this class index() function.
+   * - workflow_id: ID of the workflow to retreive. To obtain a workflow ID,
+   *     use Workflows::index().
    *
    * @return
    *   An array of the selected workflow.
-   *
    */
   public function download($params) {
 
-    if(!array_key_exists('workflow_id', $params)){
-      $this->galaxy->setError("API", "A 'workflow_id' is needed in order to download a workflow.");
+    // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('workflow_id'))) {
       return FALSE;
     }
-
+    
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('workflow_id'))) {
+      return FALSE;
+    }
+    
     $URL = $this->galaxy->getURL() . '/api/workflows/' . $params['workflow_id'] . '/download/?key=' . $this->galaxy->getAPIKey();
 
     $response = $this->galaxy->httpGET($URL);
@@ -170,36 +153,36 @@ class GalaxyWorkflows extends GalaxyAPIService {
 
   }
 
-
   /**
    * Updates an existing workflow using a pre-built JSON object.
    *
-   * Corresponds to the Galaxy API method and path
-   *   PUT /api/workflows/{encoded_workflow_id}
+   * Corresponds to an HTTP PUT on the Galaxy API path
+   *   /api/workflows/{encoded_workflow_id}
    *
    * @param $params
    *   An associative array containing the input parameters for this function.
    *   The following parameters are available:
    *
-   *  - workflow_id
-   *    The id of the workflow to update. You can obtain a workflow id through
-   *    this class's index() function.
-   *  - workflow
-   *    The JSON representation of what the final workflow should look like,
-   *    including the updates.
+   * - workflow_id: The ID of the workflow to update. Obtain a workflow ID 
+   *     using Workflows::index().
+   * - workflow: The JSON representation of what the final workflow should 
+   *     look like, including the updates.
    *
    * @return
    *   An array containing the updated workflow.
-   *
-   *
    */
-   public function update($params){
+  public function update($params) {
 
-     if(!array_key_exists('workflow_id', $params)){
-       $this->galaxy->setError("API", "A 'workflow_id' is needed in order to update a workflow.");
-       return FALSE;
-     }
-
+    // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('workflow_id'))) {
+      return FALSE;
+    }
+    
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('workflow_id', 'workflow'))) {
+      return FALSE;
+    }
+    
     $URL = $this->galaxy->getURL() . '/api/workflows/'. $params['workflow_id'] . '/?key=' . $this->galaxy->getAPIKey();
 
     unset($params['workflow_id']);
@@ -249,28 +232,30 @@ class GalaxyWorkflows extends GalaxyAPIService {
   /**
    * Retreive a list of the workflow invocations for a given workflow.
    *
-   * Corresponds to the Galaxy API/path
-   *   GET /api/workflows/{workflow_id}/invocations
+   * Corresponds to an HTTP GET on the Galaxy API path
+   *   api/workflows/{workflow_id}/invocations
    *
    * @param $params
    *   An associative array containing the input parameters for this function.
    *   The following parameters are available:
    *
-   *  - workflow_id
-   *    The id of the workflow whos invocations to retreive.
+   * - workflow_id: The ID of the workflow's invocations to retreive.
    *
    * @return
    *   An array containing the invocations of a workflow.
-   *
-   *
    */
-   public function indexInvocations($params){
+   public function indexInvocations($params) {
 
-     if(!array_key_exists('workflow_id', $params)){
-       $this->galaxy->setError("API", "A 'workflow_id' is needed in order to view the invocations of a workflow.");
+     // Check for required fields.
+     if (!$this->checkRequiredParams($params, array('workflow_id'))) {
        return FALSE;
      }
-
+     
+     // Check for allowed fields.
+     if (!$this->checkAllowedParams($params, array('workflow_id'))) {
+       return FALSE;
+     }
+     
      $URL = $this->galaxy->getURL() . '/api/workflows/' . $params['workflow_id'] . '/invocations/?key=' . $this->galaxy->getAPIKey();
      $response = $this->galaxy->httpGET($URL);
      return $this->galaxy->expectArray($response);
@@ -279,34 +264,30 @@ class GalaxyWorkflows extends GalaxyAPIService {
   /**
    * Retreive a detailed specific workflow invocation
    *
-   * Corresponds to the Galaxy API/path at
-   *   GET /api/workflows/{workflow_id}/invocation/{invocation_id}
+   * Corresponds to an HTTP GET on the Galaxy API path
+   *   /api/workflows/{workflow_id}/invocation/{invocation_id}
    *
    * @param $params
    *   An associative array containing the input parameters for this function.
    *   The following parameters are available:
    *
-   *  - workflow_id
-   *    The specified workflow of the invocation to show.
-   *    To obtain a workflow id please use this class index function.
-   * - invocation_id
-   *    The id of the invocaiton.
-   *    To obtain an invocation id, please use this class's index invocation
-   *    function.
+   * - workflow_id: The specified workflow of the invocation to show. To obtain
+   *     a workflow ID use Workflows::index().
+   * - invocation_id: The ID of the invocaiton. To obtain an invocation ID, 
+   *     use Workflows::index().
    *
    * @return
    *   An array containing details of the specified invocation.
-   *
    */
    public function showInvocations($params) {
-
-     if(!array_key_exists('workflow_id', $params)){
-       $this->galaxy->setError("API", "A 'workflow_id' is needed in order to view an invocation step of a workflow.");
+     
+     // Check for required fields.
+     if (!$this->checkRequiredParams($params, array('workflow_id', 'invocation_id'))) {
        return FALSE;
      }
-
-     if(!array_key_exists('invocation_id', $params)){
-       $this->galaxy->setError("API", "An 'invocation_id' is needed in order to view an ivocation step of a workflow.");
+      
+     // Check for allowed fields.
+     if (!$this->checkAllowedParams($params, array('workflow_id', 'invocation_id'))) {
        return FALSE;
      }
 
@@ -318,24 +299,21 @@ class GalaxyWorkflows extends GalaxyAPIService {
   /**
    * Cancel an invocation request.
    *
-   * Corresponds to the Galaxy API/path at
-   *   DELETE /api/workflows/{workflow_id}/invocation/{invocation_id}
+   * Corresponds to an HTTP DELETE on the Galaxy API path
+   *   /api/workflows/{workflow_id}/invocation/{invocation_id}
    *
    * @param $params
    *   An associative array containing the input parameters for this function.
    *   The following parameters are available:
    *
-   *  - workflow_id
-   *    The id of the workflow that the invocation belongs to. To obtain
-   *    a workflow invocation, please use this class's index() function.
-   *  - invocation_id
-   *    The id of the invocation to invoke.
+   * - workflow_id: The ID of the workflow that the invocation belongs to. To 
+   *     obtain a workflow invocation, use Workflows::index().
+   * - invocation_id: The ID of the invocation to delete.
    *
    * @return
    *   An array containing details of the specified invocation.
-   *
    */
-   public function cancelInvocation($params){
+   public function cancelInvocation($params) {
      $URL = $this->galaxy->getURL() . '/api/workflows/' . $params['workflow_id'] . 'invocations/'. $params['invocation_id'] . '/?key=' . $this->galaxy->getAPIKey();
       $this->galaxy->setError("API", "This function has not yet been implemented by PHP. Please see our issues thread on github to learn more.");
       return FALSE;
@@ -344,29 +322,36 @@ class GalaxyWorkflows extends GalaxyAPIService {
   /**
    * Returns the invocation steps for a workflow.
    *
-   * Corresponds to the Galaxy API/path at
-   *   GET /api/workflows/{workflow_id}/invocation/{invocation_id}/steps/{step_id}
+   * Corresponds to an HTTP GET on the Galaxy API path
+   *   /api/workflows/{workflow_id}/invocation/{invocation_id}/steps/{step_id}
    *
    * @param $params
    *   An associative array containing the input parameters for this function.
    *   The following parameters are available:
    *
-   *  - workflow_id
-   *    The id of the workflow whos invocation steps to retreive. To obtain
-   *    a workflow id, please use this class's index function.
-   *  - invocation_id
-   *    The id of the invocation the step belongs to. To obtain an invocaiton id
-   *    please use this class's indexInvocation function.
-   *  - step_id
-   *    The id of the step to retreive.
+   * - workflow_id: The ID of the workflow's invocation steps to retreive. To 
+   *     obtain a workflow ID, use Workflows::index().
+   *  - invocation_id: The ID of the invocation the step belongs to. To obtain 
+   *      an invocaiton ID, use Workflows::indexInvocation().
+   *  - step_id: The ID of the step to retreive.
    *
    * @return
-   *   An array containing information for all the invocation steps of
+   *   An array containing information for the invocation step of
    *   the given workflow invocation.
-   *
    */
-   public function invocationSteps($params){
-     $URL = $this->galaxy->getURL() . '/api/workflows/' . $params['workflow_id'] . '/invocations/'. $params['invocation_id'].'/?key=' . $this->galaxy->getAPIKey();
+   public function invocationSteps($params) {
+     
+     // Check for required fields.
+     if (!$this->checkRequiredParams($params, array('workflow_id', 'invocation_id' , 'step_id'))) {
+       return FALSE;
+     }
+     
+     // Check for allowed fields.
+     if (!$this->checkAllowedParams($params, array('workflow_id', 'invocation_id', 'step_id'))) {
+       return FALSE;
+     }
+     
+     $URL = $this->galaxy->getURL() . '/api/workflows/' . $params['workflow_id'] . '/invocations/'. $params['invocation_id'] . '/steps/' . $params['step_id'] .'/?key=' . $this->galaxy->getAPIKey();
 
      $response = $this->galaxy->httpGET($URL);
      return $this->galaxy->expectArray($response);
@@ -409,8 +394,8 @@ class GalaxyWorkflows extends GalaxyAPIService {
   /**
    * Invokes (runs) a specified workflow.
    *
-   * Corresponds to the Galaxy API method/path at
-   *   POST /api/workflows/{encoded_workflow_id}/invocations
+   * Corresponds to an HTTP POST on the Galaxy API path
+   *   /api/workflows/{encoded_workflow_id}/invocations
    *
    * If a $hist_id or $hist_name are not provided then a new history is
    * created.
@@ -419,26 +404,30 @@ class GalaxyWorkflows extends GalaxyAPIService {
    *   An associative array containing the input parameters for this function.
    *   The following parameters are available:
    *
-   *  - workflow_id
-   *    The ID of the workflow to invoke.
-   *  - input_dataset_ids
-   *    The list of id's of the datasets to enter into the workflow.
-   *    These id's can be found using the dataset class's index() function.
-   *    For right now the dataset must come from a history.
-   *    Also The dataset 'state' must be 'ok and 'deleted' must be set to false.
-   *  - parameters
-   *    Workflow tool parameters.
-   *  - hist_id
-   *    Optional. The id of the history to export the results to.
-   *    If a new history is not created. Leave this ommitted if a new history
-   *    is to be created.
+   * - workflow_id: The ID of the workflow to invoke.
+   * - input_dataset_ids: The list of id's of the datasets to enter into the 
+   *     workflow. These IDs can be found using class's Dataset::index().
+   *     For right now the dataset must come from a history. Also The dataset 
+   *     'state' must be 'ok and 'deleted' must be set to false.
+   * - parameters: (Optional) Workflow tool parameters.
+   * - hist_id: (Optional) The ID of the history to export the results to.
+   *     If a new history is not created. Leave this ommitted if a new history
+   *     is to be created.
    *
    * @return
    *   An array containing information on the workflow invoked.
-   *
-   *
    */
   public function invoke($params) {
+    
+    // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('workflow_id', 'input_dataset_ids'))) {
+      return FALSE;
+    }
+     
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('workflow_id', 'input_dataset_ids' , 'parameters', 'hist_id'))) {
+      return FALSE;
+    }
 
     $URL = $this->galaxy->getURL() . '/api/workflows/' . $params['workflow_id'] . '/invocations/?key=' . $this->galaxy->getAPIKey();
 
@@ -470,62 +459,66 @@ class GalaxyWorkflows extends GalaxyAPIService {
   }
 
 
-   /**
-    * Creates or edits a workflow with the given parameters.
-    *
-    * Corresponds to the Galaxy api/path at
-    *   POST /api/workflows
-    *
-    * @param $params
-    *   An associative array containing the input parameters for this function.
+  /**
+   * Creates or edits a workflow with the given parameters.
+   *
+   * Corresponds to the Galaxy api/path at
+   *   POST /api/workflows
+   *
+   * @param $params
+   *   An associative array containing the input parameters for this function.
    *   The following parameters are available:
-    *
-    *   If importing a JSON workflow:
-    *   - workflow: A JSON representation of a workflow to be inserted into
-    *       the database.
-    *
-    *   If running workflow from pre-existing workflow:
-    *   - workflow_id:  An existing workflow id. Either workflow_id,
-    *       installed_repository_file or from_history_id must be specified.
-    *       To obtain a workflow id, please see this class's index() function.
-    *   - parameters: If workflow_id is set, specify the parameters for the
-    *       workflow. See this class's invoke() for more details.
-    *   - ds_map: If workflow_id is set - a dictionary mapping each input step
-    *       id to a dictionary with 2 keys: ‘src’ (which can be ‘ldda’,
-    *       ‘ld’ or ‘hda’) and ‘id’ (which should be the id of a
-    *       LibraryDatasetDatasetAssociation, LibraryDataset or
-    *       HistoryDatasetAssociation respectively).
-    *   - no_add_to_history: If workflow_id is set; if present in the payload
-    *       with any value, the input datasets will not be added to the
-    *       selected history.
-    *   - replacement_params:  If workflow_id is set  an optional dictionary
-    *       used when renaming datasets.
-    *   - history:  If workflow_id is set  optional history where to run the
-    *       workflow, either the name of a new history or “hist_id=HIST_ID”
-    *       where HIST_ID is the id of an existing history. If not specified,
-    *       the workflow will be run a new unnamed history.  To obtain a history
-    *       ID Please refer to the index() function in the histories class.
-    *
-    *   If Creating / Running workflows from a History
-    *   - from_history_id:  Id of history to extract a workflow from. Either
-    *       workflow_id, installed_repository_file or from_history_id must be
-    *       specified.
-    *   - job_ids:  If from_history_id is set, optional list of jobs to include
-    *       when extracting a workflow from history.
-    *   - dataset_collection_ids: If from_history_id is set - optional list of
-    *       HDCA hid`s corresponding to workflow inputs when extracting a
-    *       workflow from history.
-    *   - workflow_name: If from_history_id is set; name of the workflow to
-    *       create when extracting a workflow from history.
-    *   - allow_tool_state_corrections: if set to True, any Tool parameter
-    *       changes will not prevent running workflow, defaults to False.
-    *
-    *  @return
-    *   An array containing the created workflow.
-    *
-    *
-    **/
-   public function create($params) {
+   *
+   *   If importing a JSON workflow:
+   *   - workflow: A JSON representation of a workflow to be inserted into
+   *       the database.
+   *
+   *   If running workflow from pre-existing workflow:
+   *   - workflow_id: An existing workflow id. Either workflow_id,
+   *       installed_repository_file or from_history_id must be specified.
+   *       To obtain a workflow id, please see this class's index() function.
+   *   - parameters: If workflow_id is set, specify the parameters for the
+   *       workflow. See  Workflows::invoke() for more details.
+   *   - ds_map: If workflow_id is set - a dictionary mapping each input step
+   *       id to a dictionary with 2 keys: ‘src’ (which can be ‘ldda’,
+   *       ‘ld’ or ‘hda’) and ‘id’ (which should be the id of a
+   *       LibraryDatasetDatasetAssociation, LibraryDataset or
+   *       HistoryDatasetAssociation respectively).
+   *   - no_add_to_history: If workflow_id is set; if present in the payload
+   *       with any value, the input datasets will not be added to the
+   *       selected history.
+   *   - replacement_params: (Optional) If workflow_id is set an dictionary
+   *       used when renaming datasets.
+   *   - history: (Optional) If workflow_id is sethistory where to run the
+   *       workflow, either the name of a new history or “hist_id=HIST_ID”
+   *       where HIST_ID is the id of an existing history. If not specified,
+   *       the workflow will be run a new unnamed history.  To obtain a history
+   *       ID Please refer to the index() function in the histories class.
+   *
+   *   If Creating/Running workflows from a History
+   *   - from_history_id: ID of history to extract a workflow from. Either
+   *       workflow_id, installed_repository_file or from_history_id must be
+   *       specified.
+   *   - job_ids: (Optional) If from_history_id is set, list of jobs to include
+   *       when extracting a workflow from history.
+   *   - dataset_collection_ids: (Optional) If from_history_id is set - list of
+   *       HDCA hid`s corresponding to workflow inputs when extracting a
+   *       workflow from history.
+   *   - workflow_name: If from_history_id is set; name of the workflow to
+   *       create when extracting a workflow from history.
+   *   - allow_tool_state_corrections: (Optional) If set to True, any Tool parameter
+   *       changes will not prevent running workflow, defaults to False.
+   *
+   *  @return
+   *   An array containing the created workflow.
+   */
+  public function create($params) {
+    
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('workflow', 'workflow_id', 'parameters', 'ds_map', 'no_add_to_history', 'replacement_params',
+      'history', 'from_history_id', 'job_ids', 'dataset_collection_ids', 'workflow_name', 'allow_tool_state_corrections'))) {
+      return FALSE;
+    }
 
     $URL = $this->galaxy->getURL() . '/api/workflows/?key=' . $this->galaxy->getAPIKey();
 

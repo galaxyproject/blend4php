@@ -192,12 +192,12 @@ class GalaxyTools extends GalaxyAPIService {
   public function build($params) {
      
     // Make sure only allowed parameters are included.
-    if (!$this->checkAllowedParams($params, array('tool_id', 'history_id'))) {
+    if (!$this->checkRequiredParams($params, array('tool_id', 'history_id'))) {
       return FALSE;
     }
      
     // Check for required fields.
-    if (!$this->checkRequiredParams($params, array('tool_id', 'history_id', 'tool_version'))) {
+    if (!$this->checkAllowedParams($params, array('tool_id', 'history_id', 'tool_version'))) {
       return FALSE;
     }
 

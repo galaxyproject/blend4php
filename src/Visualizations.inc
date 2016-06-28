@@ -17,15 +17,14 @@ class GalaxyVisualizations extends GalaxyAPIService {
   /**
    * Retreive a list of all visualizations.
    *
-   * Corresponds to the Galaxy API/path
-   *   GET /api/visualizations
+   * Corresponds to an HTTP GET on the Galaxy API path
+   *   /api/visualizations
    *
    * @return
    *   An array containing all of galaxy's visualizations.
-   *
-   *
    */
-  function index(){
+  function index() {
+    
     $URL = $this->galaxy->getURL() . '/api/visualizations/?key=' . $this->galaxy->getAPIKey();
     $response = $this->galaxy->httpGET($URL);
     return $this->galaxy->expectArray($response);
@@ -34,8 +33,8 @@ class GalaxyVisualizations extends GalaxyAPIService {
   /**
    * Retreive detailed information about a specific visualization.
    *
-   * Corresponds to the Galaxy API/path
-   *   GET /api/visualizations/{viz_id}
+   * Corresponds to an HTTP GET on the Galaxy API path
+   *   /api/visualizations/{viz_id}
    *
    * @param $params
    *   An associative array containing the input parameters for this function.
@@ -46,9 +45,15 @@ class GalaxyVisualizations extends GalaxyAPIService {
    * @return
    *   An array containing information about the matching visualization.
    */
-  function show($params){
+  function show($params) {
+    
     // Check for required fields.
     if (!$this->checkRequiredParams($params, array('viz_id'))) {
+      return FALSE;
+    }
+    
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('viz_id'))) {
       return FALSE;
     }
 
@@ -60,10 +65,10 @@ class GalaxyVisualizations extends GalaxyAPIService {
   /**
    * Imports copy of existing visualizatiion into the  workplace.
    *
-   * Corresponds to the Galaxy API/paths at
-   *  POST /api/visualizations
+   * Corresponds to an HTTP POST on the Galaxy API paths
+   *  /api/visualizations
    *  or
-   *  POST /api/visualizations?import_id={encoded_visualization_id}
+   *  /api/visualizations?import_id={encoded_visualization_id}
    *
    * @param $params
    *   An associative array containing the input parameters for this function.
@@ -72,17 +77,21 @@ class GalaxyVisualizations extends GalaxyAPIService {
    *   - type: The visualization type for the new visualization.
    *   - title: The title for the visualization.
    *   - dbkey: The db key.
-   *   - import_id: (optional) The id of the visualization to import, if the
+   *   - import_id: (Optional) The id of the visualization to import, if the
    *     user desires to import a visualization.
    *
    * @return
    *   An array containing information about the created visualization.
-   *
    */
-  function create($params){
+  function create($params) {
 
     // Check for required fields.
     if (!$this->checkRequiredParams($params, array('type', 'title', 'dbkey'))) {
+      return FALSE;
+    }
+    
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('type', 'title', 'dbkey', 'import_id'))) {
       return FALSE;
     }
 
@@ -91,6 +100,7 @@ class GalaxyVisualizations extends GalaxyAPIService {
       $response = $this->galaxy->httpPOST($URL);
       return $this->galaxy->expectArray($response);
     }
+    
     else {
       $URL = $this->galaxy->getURL() . '/api/visualizations?key=' . $this->galaxy->getAPIKey();
       $response = $this->galaxy->httpPOST($URL, $params);
@@ -102,40 +112,41 @@ class GalaxyVisualizations extends GalaxyAPIService {
   /**
    * Update a specific visualization
    *
-   * Corresponds to the Galaxy API/path at
-   *   PUT /api/visualizations/{visualizations id}
+   * Corresponds to an HTTP PUT on the Galaxy API path
+   *   /api/visualizations/{visualizations id}
    *
-   * @param $viz_id
-   *   visualization id of the visualization to update. To obtain this id
-   *   please use this class's index method.
-   * @param $title
-   *   If the user is changing the title, include the new title.
-   * @param $dbkey
-   *   If the user is changing the new db key, include the new dbkey.
-   * @param $config
-   *   The configuration of the visualization.
+   * @param $params
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
+   *
+   * - viz_id: Visualization ID of the visualization to update. To obtain this 
+   *     ID use Visualizations::index().
+   * - title: (Optional) If the user is changing the title, include the new title.
+   * - dbkey: (Optional) If the user is changing the new db key, include the new dbkey.
+   * - config: The configuration of the visualization.
    *
    * @return
    *   An array containing the updated visualizaiton.
-   *
    */
-  function update($viz_id, $title = NULL, $dbkey = NULL, $config = NULL){
-    $URL = $this->galaxy->getURL() . '/api/visualizations/' .$viz_id. '/?key=' . $this->galaxy->getAPIKey();
-    $inputs = array(
-      'title'=>$title,
-      'dbkey'=>$dbkey,
-      'config'=>$config,
-    );
-    //collect non-null inputs
-    $elements = array();
-    foreach($inputs as $input=>$value){
-      if($input !==null) {
-        $elements[$input]=$value;
-      }
-    }
+  function update($params) {
 
-    $response = $this->galaxy->httpPUT($URL, $elements);
+    // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('viz_id', 'config'))) {
+      return FALSE;
+    }
+    
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('viz_id', 'config', 'title', 'dbkey'))) {
+      return FALSE;
+    }
+    
+    $URL = $this->galaxy->getURL() . '/api/visualizations/' . $params['viz_id'] . '/?key=' . $this->galaxy->getAPIKey();
+    
+    unset($params['viz_id']);
+
+    $response = $this->galaxy->httpPUT($URL, $params);
     return $this->galaxy->expectArray($response);
 
   }
+  
 }

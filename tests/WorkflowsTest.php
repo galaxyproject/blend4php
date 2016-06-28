@@ -249,12 +249,6 @@ class WorkflowsTest extends PHPUnit_Framework_TestCase {
    // parameters
    $invocation_step = $workflows->invocationSteps(array('workflow_id' => $workflow_id, 'invocation_id' => $invocation_id, 'step_id' => $step_id));
    $this->assertTrue(is_array($invocation_step), $galaxy->getErrorMessage());
-
-   // Case 2: Given an incorrect invocation id, return false gracefully
-   $invocation_step = $workflows->invocationSteps(array('workflow_id' => $workflow_id, 'invocation_id' => "@@", 'step_id' => $step_id));
-   $this->assertFalse(is_array($invocation_step), $galaxy->getErrorMessage());
-
-
  }
 
  /**
@@ -320,29 +314,6 @@ class WorkflowsTest extends PHPUnit_Framework_TestCase {
    // Case 3: Gracefully return false given an incorrect json
    $updated_workflow = $workflows->update((array('workflow_id' => $workflow_id, 'workflow' => "{Workflow Update Test}")));
    $this->assertFalse(is_array($updated_workflow), "Incorrect workflow returned true");
-
- }
-
- /**
-  * Tests Workflows export function
-  *
-  * Exports a workflow as an array!
-  *
-  * @depends testInitGalaxy
-  * @depends testCreate
-  */
- function testExport($galaxy, $workflow_id){
-   global $config;
-
-   $workflows = new GalaxyWorkflows($galaxy);
-
-   // Case 1: Successfully export workflow as an array
-   $exported_workflow = $workflows->export(array('workflow_id' => $workflow_id));
-   $this->assertTrue(is_array($exported_workflow), $galaxy->getErrorMessage());
-
-   // Case 2: given incorrect workflow_id, gracefully return false
-   $exported_workflow = $workflows->export(array('workflow_id' => "@@@"));
-   $this->assertFalse(is_array($exported_workflow), $galaxy->getErrorMessage());
 
  }
 

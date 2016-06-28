@@ -65,6 +65,7 @@ class GalaxyToolShedRepositories extends GalaxyAPIService {
     if (!$this->checkRequiredParams($params, array('tool_shed_repo_id'))) {
       return FALSE;
     }
+    
     // Check for allowed fields.
     if (!$this->checkAllowedParams($params, array('tool_shed_repo_id'))) {
       return FALSE;
@@ -112,6 +113,7 @@ class GalaxyToolShedRepositories extends GalaxyAPIService {
     if (!$this->checkRequiredParams($params, array('tool_shed_url'))) {
       return FALSE;
     }
+    
     // Check for allowed fields.
     if (!$this->checkAllowedParams($params, array('tool_shed_url', 'name',
         'owner', 'install_tool_dependencies', 'tool_panel_section_id',
@@ -156,6 +158,7 @@ class GalaxyToolShedRepositories extends GalaxyAPIService {
     if (!$this->checkRequiredParams($params, array('tool_shed_url'))) {
       return FALSE;
     }
+    
     // Check for allowed fields.
     if (!$this->checkAllowedParams($params, array('tool_shed_url', 'name', 'owner'))) {
       return FALSE;
@@ -226,6 +229,7 @@ class GalaxyToolShedRepositories extends GalaxyAPIService {
     if (!$this->checkRequiredParams($params, array('id'))) {
       return FALSE;
     }
+    
     // Check for allowed fields.
     if (!$this->checkAllowedParams($params, array('id'))) {
       return FALSE;
@@ -349,6 +353,7 @@ class GalaxyToolShedRepositories extends GalaxyAPIService {
       'owner', 'changeset_revision'))) {
       return FALSE;
     }
+    
     // Check for allowed fields.
     if (!$this->checkAllowedParams($params, array('tool_shed_url', 'name',
       'owner', 'changeset_revision'))) {
@@ -398,6 +403,7 @@ class GalaxyToolShedRepositories extends GalaxyAPIService {
     if (!$this->checkRequiredParams($params, array('id'))) {
       return FALSE;
     }
+    
     // Check for allowed fields.
     if (!$this->checkAllowedParams($params, array('id'))) {
       return FALSE;
@@ -430,6 +436,7 @@ class GalaxyToolShedRepositories extends GalaxyAPIService {
     if (!$this->checkRequiredParams($params, array('id'))) {
       return FALSE;
     }
+    
     // Check for allowed fields.
     if (!$this->checkAllowedParams($params, array('id'))) {
       return FALSE;
