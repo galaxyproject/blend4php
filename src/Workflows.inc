@@ -31,7 +31,7 @@ class GalaxyWorkflows extends GalaxyAPIService {
    * @return
    *   An array containing all of the workflows in Galaxy.
    */
-  public function index($params) {
+  public function index($params = array()) {
     
     if(array_key_exists('is_published', $params)){
       $URL = $this->galaxy->getURL() . '/api/workflows/?is_published=' . $params['is_published'] .'/&key=' . $this->galaxy->getAPIKey(); ;
@@ -39,7 +39,8 @@ class GalaxyWorkflows extends GalaxyAPIService {
       return $this->galaxy->expectArray($response);
     }
     
-    $URL = $this->galaxy->getURL() . '/api/workflows/?' . '/&key=' . $this->galaxy->getAPIKey(); ;
+    
+    $URL = $this->galaxy->getURL() . '/api/workflows/?' . 'key=' . $this->galaxy->getAPIKey();
     $response = $this->galaxy->httpGET($URL);
     return $this->galaxy->expectArray($response);
   }
