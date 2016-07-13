@@ -318,25 +318,42 @@ class GalaxyHistories  extends GalaxyAPIService {
    * @return
    *   An array of published histories.
    */
-   public function published() {
+  public function published() {
      
-     $URL = $this->galaxy->getURL() . '/api/histories/published/?key=' . $this->galaxy->getAPIKey();
-     $response = $this->galaxy->httpGET($URL);
-     return $this->galaxy->expectArray($response);
-   }
+    $URL = $this->galaxy->getURL() . '/api/histories/published/?key=' . $this->galaxy->getAPIKey();
+    $response = $this->galaxy->httpGET($URL);
+    return $this->galaxy->expectArray($response);
+  }
 
   /**
-  * Retreive all histories that are shared with the current user.
-  *
-  * Corresponds to an HTTP GET on the Galaxy API path
-  *   /api/histories/shared_with_me:
-  *
-  * @return
-  *   An array histories shared with the current user.
-  */
+   * Retreive all histories that are shared with the current user.
+   *
+   * Corresponds to an HTTP GET on the Galaxy API path
+   *   /api/histories/shared_with_me:
+   *
+   * @return
+   *   An array histories shared with the current user.
+   */
   public function sharedWithMe() {
     
     $URL = $this->galaxy->getURL() . '/api/histories/shared_with_me/?key=' . $this->galaxy->getAPIKey();
+    $response = $this->galaxy->httpGET($URL);
+    return $this->galaxy->expectArray($response);
+  }
+  
+  
+  /**
+   * Retreive the current history found in the right pane of the galaxy server
+   *   gui.
+   *
+   * Corresponds to an HTTP GET on the Galaxy API path
+   *   /history/current_history_json:
+   *
+   * @return
+   *   An array of the current history of the current user.
+   */
+  public function getCurrentHistory() {
+    $URL = $this->galaxy->getURL() . '/history/current_history_json?' . $this->galaxy->getAPIKey();
     $response = $this->galaxy->httpGET($URL);
     return $this->galaxy->expectArray($response);
   }
