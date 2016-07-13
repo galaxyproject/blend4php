@@ -345,6 +345,8 @@ class GalaxyHistories  extends GalaxyAPIService {
   /**
    * Retreive the current history found in the right pane of the galaxy server
    *   gui.
+   *   
+   *   TODO: https://github.com/galaxyproject/blend4php/issues/18
    *
    * Corresponds to an HTTP GET on the Galaxy API path
    *   /history/current_history_json:
@@ -353,7 +355,7 @@ class GalaxyHistories  extends GalaxyAPIService {
    *   An array of the current history of the current user.
    */
   public function getCurrentHistory() {
-    $URL = $this->galaxy->getURL() . '/history/current_history_json?key=' . $this->galaxy->getAPIKey();
+    $URL = $this->galaxy->getURL() . '/history/current_history_json/';
     $response = $this->galaxy->httpGET($URL);
     return $this->galaxy->expectArray($response);
   }
