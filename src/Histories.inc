@@ -353,7 +353,7 @@ class GalaxyHistories  extends GalaxyAPIService {
    *   An array of the current history of the current user.
    */
   public function getCurrentHistory() {
-    $URL = $this->galaxy->getURL() . '/history/current_history_json?' . $this->galaxy->getAPIKey();
+    $URL = $this->galaxy->getURL() . '/history/current_history_json?key=' . $this->galaxy->getAPIKey();
     $response = $this->galaxy->httpGET($URL);
     return $this->galaxy->expectArray($response);
   }
