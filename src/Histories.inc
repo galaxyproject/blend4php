@@ -356,7 +356,24 @@ class GalaxyHistories  extends GalaxyAPIService {
    */
   public function getCurrentHistory() {
     $URL = $this->galaxy->getURL() . '/history/current_history_json/';
-    $response = $this->galaxy->httpGET($URL);
+    
+    // This is simply to generate an auth cookie particular to the user in
+    // order to see their current history
+    $cookieURL = $this->galaxy->getURL() . '/api/histories/?key=' . $this->galaxy->getAPIKey();
+    $options = array(
+      CURLOPT_HEADER => 1,
+    );
+    
+    $content = $this->galaxy->httpGET($cookieURL, $options);
+    
+    preg_match_all('|Set-Cookie: (.*);|U', $content, $results);
+    $cookies = implode(';', $results[1]);
+    
+    $cookieOptions = array(
+      CURLOPT_COOKIE => $cookies,
+    );
+    
+    $response = $this->galaxy->httpGET($URL, $cookieOptions);
     return $this->galaxy->expectArray($response);
   }
   
