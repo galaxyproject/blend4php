@@ -362,7 +362,7 @@ class GalaxyHistories  extends GalaxyAPIService {
   public function getMostRecentlyUsed() {
     $URL = $this->galaxy->getURL() . '/api/histories/most_recently_used?key=' . $this->galaxy->getAPIKey();
     
-    $response = $this->galaxy->httpGET($URL, $cookieOptions);
+    $response = $this->galaxy->httpGET($URL);
     return $this->galaxy->expectArray($response);
   }
   
