@@ -343,35 +343,24 @@ class GalaxyHistories  extends GalaxyAPIService {
   
   
   /**
-   * Retreive the current history found in the right pane of the galaxy server
-   *   gui.
+   * Retreive the last used history found in the right pane of the galaxy 
+   *   server gui.
+   *   
+   * For now the user should have the history that will be 
    *   
    *   TODO: https://github.com/galaxyproject/blend4php/issues/18
+   *   This is a workaround right now till 
+   *   https://github.com/galaxyproject/galaxy/issues/2404 is 
+   *   fixed as well.
    *
    * Corresponds to an HTTP GET on the Galaxy API path
-   *   /history/current_history_json:
+   *   /api/histories/most_recently_used:
    *
    * @return
    *   An array of the current history of the current user.
    */
-  public function getCurrentHistory() {
-    $URL = $this->galaxy->getURL() . '/history/current_history_json/';
-    
-    // This is simply to generate an auth cookie particular to the user in
-    // order to see their current history
-    $cookieURL = $this->galaxy->getURL() . '/api/histories/?key=' . $this->galaxy->getAPIKey();
-    $options = array(
-      CURLOPT_HEADER => 1,
-    );
-    
-    $content = $this->galaxy->httpGET($cookieURL, $options);
-    
-    preg_match_all('|Set-Cookie: (.*);|U', $content, $results);
-    $cookies = implode(';', $results[1]);
-    
-    $cookieOptions = array(
-      CURLOPT_COOKIE => $cookies,
-    );
+  public function getMostRecentlyUsed() {
+    $URL = $this->galaxy->getURL() . '/api/histories/most_recently_used?key=' . $this->galaxy->getAPIKey();
     
     $response = $this->galaxy->httpGET($URL, $cookieOptions);
     return $this->galaxy->expectArray($response);
