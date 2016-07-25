@@ -405,15 +405,26 @@ class GalaxyWorkflows extends GalaxyAPIService {
    *   An associative array containing the input parameters for this function.
    *   The following parameters are available:
    *
-   * - workflow_id: The ID of the workflow to invoke.
-   * - input_dataset_ids: The list of id's of the datasets to enter into the 
-   *     workflow. These IDs can be found using class's Dataset::index().
-   *     For right now the dataset must come from a history. Also The dataset 
-   *     'state' must be 'ok and 'deleted' must be set to false.
-   * - parameters: (Optional) Workflow tool parameters.
-   * - hist_id: (Optional) The ID of the history to export the results to.
-   *     If a new history is not created. Leave this ommitted if a new history
-   *     is to be created.
+   *  - workflow_id
+   *    The ID of the workflow to invoke.
+   *  - input_dataset_ids
+   *    The list of id's of the datasets to enter into the workflow.
+   *    These id's can be found using the dataset class's index() function.
+   *    The dataset must be present in a history, and the dataset 'state' must
+   *    be 'ok' and 'deleted' must be set to FALSE.
+   *  - parameters
+   *    A mapping of tool parameters that are non-datasets parameters. The map
+   *    must be in the following format:
+   *    @code
+   *    'parameters' = array(
+   *      [step_id_or_UUID] => array([param_name] => [value]),
+   *      [step_id_or_UUID] => array([param_name] => [value])
+   *    );
+   *    @endcode
+   *  - hist_id
+   *    Optional. The id of the history to export the results to.
+   *    If a new history is not created. Leave this ommitted if a new history
+   *    is to be created.
    *
    * @return
    *   An array containing information on the workflow invoked.
@@ -450,10 +461,16 @@ class GalaxyWorkflows extends GalaxyAPIService {
     }
 
     $elements = array(
-      'inputs' => json_encode($input_ids,JSON_FORCE_OBJECT),
-      'dataset_map' => json_encode($input_ids,JSON_FORCE_OBJECT),
+      'inputs' => json_encode($input_ids, JSON_FORCE_OBJECT),
+      'dataset_map' => json_encode($input_ids, JSON_FORCE_OBJECT),
       'history' => $history_input,
     );
+
+    // If the user provided parameters we want to add them to the elements
+    // that get passed to the POST.
+    if (array_key_exists('parameters', $params)) {
+      $elements['parameters'] = json_encode($params['parameters'], JSON_FORCE_OBJECT);
+    }
 
     $response = $this->galaxy->httpPOST($URL, $elements);
     return $this->galaxy->expectArray($response);
