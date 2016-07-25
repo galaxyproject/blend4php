@@ -158,6 +158,7 @@ class HistoriesTest extends PHPUnit_Framework_TestCase {
     $inputs = array(
       'history_id' => $history_list[0]['id'],
     );
+    
     $history = $histories->show($inputs);
     $this->assertTrue(is_array($history), $galaxy->getErrorMessage());
 

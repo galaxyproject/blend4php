@@ -19,18 +19,15 @@ class GalaxyGenomes extends GalaxyAPIService {
   /**
    * Returns a list of installed genomes.
    *
-   * Corresponds to the Galaxy api function/path:
-   *   GET /api/genomes
+   * Corresponds to an HTTP GET on the Galaxy API path
+   *   /api/genomes
    *
    * @return
    *   An array containing a list of all of the genome entities in Galaxy.
-   *
-   *
    */
   public function index(){
-    $api_key = $this->galaxy->getAPIKey();
 
-    $URL = $this->galaxy->getURL() . '/api/genomes/'  .  '?key=' . $api_key;
+    $URL = $this->galaxy->getURL() . '/api/genomes/'  .  '?key=' . $this->galaxy->getAPIKey();
 
     $response = $this->galaxy->httpGET($URL);
     return $this->galaxy->expectArray($response);
@@ -39,22 +36,23 @@ class GalaxyGenomes extends GalaxyAPIService {
   /**
    * Returns  detailed information about a specific Galaxy genome.
    *
-   * Corresponds to the Galaxy api function/path:
-   *   GET /api/genomes/{encodedGenomeid}
+   * Corresponds to an HTTP GET on the Galaxy API path
+   *   GET /api/genomes/{genome_id}
+   *   
+   * @param $params
+   *  An associative array containing the input parameters for this function.
+   *  The following parameters are available:
    *
-   * @param $genome_id
-   *   The id of the genome to examine. To obtained genome id's please
-   *   use this class's index() funciton.
+   *  - genome_id: The id of the genome to examine. To obtain genome ids refer
+   *      to Genomes::index() funciton.
    *
    * @return
    *   An array containing detailed information about the specified
    *   Galaxy Genome.
-   *
-   *
    */
-  public function show($genome_id){
-    $api_key = $this->galaxy->getAPIKey();
-    $URL = $this->galaxy->getURL() . '/api/genomes/' . $genome_id .  '?key=' . $api_key;
+  public function show($params){
+    
+    $URL = $this->galaxy->getURL() . '/api/genomes/' . $params['genome_id'] .  '?key=' . $this->galaxy->getAPIKey();
 
     $response = $this->galaxy->httpGET($URL);
     return $this->galaxy->expectArray($response);

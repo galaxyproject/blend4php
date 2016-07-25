@@ -57,11 +57,11 @@ class GenomesTest extends PHPUnit_Framework_TestCase {
 
     // Case 1: Our method should return false given correct inputs,
     // at the moment, galaxy is still constructing this function
-    $genome_details = $genomes->show($genome_id);
+    $genome_details = $genomes->show(array('genome_id' => $genome_id));
     $this->assertFalse(is_array($genome_details), $galaxy->getErrorMessage());
 
     // Case 2: our method should return false given incorrect inputs,
-    $genome_details = $genomes->show("Incorrect");
+    $genome_details = $genomes->show(array('genome_id' => "Incorrect"));
     $this->assertFalse(is_array($genome_details), $galaxy->getErrorMessage());
   }
 

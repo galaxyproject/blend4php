@@ -18,8 +18,9 @@ class GalaxyJobs extends GalaxyAPIService {
   /**
    * Retreive a tool input template populated with this job's information.
    *
-   * Corresponds to the Galaxy Api/path at:
-   *   GET /api/jobs/{encoded_job_id}/build_for_rerun
+   * Corresponds to an HTTP GET on the Galaxy API path
+   *   /api/jobs/{encoded_job_id}/build_for_rerun
+   *   
    *   This function is suitable for rerunning or rendering parameters of
    *   the job.
    *
@@ -27,20 +28,22 @@ class GalaxyJobs extends GalaxyAPIService {
    *   An associative array containing the input parameters for this function.
    *   The following parameters are available:
    *
-   *    - id: The job id of the job whose information to retreive.
-   *        The job id can be ontained from this class's index() function.
+   *    - id: The ID of the job to retreive.
+   *        The job id can be obtained from Jobs::index().
    *
    * @return
    *   An array containing ouput informaiton of the tool that has been
    *   built.
-   *
-   *
    */
-  public function buildForRerun($params){
+  public function buildForRerun($params) {
 
-    // The 'tool_id' is required.
-    if (!array_key_exists('id', $params)) {
-      $this->galaxy->setError("API", "A 'id' is required in order to invoke this call");
+    // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('id'))) {
+      return FALSE;
+    }
+    
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('id'))) {
       return FALSE;
     }
 
@@ -50,34 +53,34 @@ class GalaxyJobs extends GalaxyAPIService {
 
     // Get the response from the Galaxy server.
     $response = $this->galaxy->httpGET($URL);
-    //     $this->galaxy->setError("API", "This function is not complete, the corresponding Galaxy API
-    //         function wants a history_id, why or how is still uknown. Please see our issues page on Github for more information");
     return $this->galaxy->expectArray($response);
   }
 
  /**
   * Retreive the input datasets created from the specified job.
   *
-  * Corresponds to the Galaxy Api/path at:
-  *   GET/api/jobs/{encoded_job_id}/inputs
+  * Corresponds to an HTTP GET on the Galaxy API path
+  *   /api/jobs/{encoded_job_id}/inputs
   *
   * @param $params
   *    An associative array containing the input parameters for this function.
   *    The following parameters are available:
   *
-  *    - job_id: The job id of the job whose information to retreive.
-  *        The job id can be ontained from this class's index() function.
+  *    - job_id: The ID of the job's inputs to retreive.
+  *        The job id can be obtained from Jobs::index().
   *
   * @return
   *   An array containing ouput informaiton of the job input.
-  *
-  *
   */
-  public function inputs($params){
-
-    // The 'tool_id' is required.
-    if (!array_key_exists('job_id', $params)) {
-      $this->galaxy->setError("API", "A 'job_id' is required to see a job's inputs");
+  public function inputs($params) {
+    
+    // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('job_id'))) {
+      return FALSE;
+    }
+    
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('job_id'))) {
       return FALSE;
     }
 
@@ -93,30 +96,32 @@ class GalaxyJobs extends GalaxyAPIService {
  /**
   * Retreive the output datasets created from the specified job.
   *
-  * Corresponds to the Galaxy Api/path at:
-  *   GET/api/jobs/{encoded_job_id}/inputs.
+  * Corresponds to an HTTP GET on the Galaxy API path
+  *   /api/jobs/{encoded_job_id}/inputs.
   *
   *
   * @param $params
   *    An associative array containing the input parameters for this function.
   *   The following parameters are available:
   *
-  *    - job_id: The job id of the job whose information to retreive.
-  *        The job id can be ontained from this class's index() function.
+  *    - job_id: The ID of the job's outputs to retreive.
+  *        The job id can be obtained from Jobs::index().
   *
   * @return
   *   An array containing ouput informaiton of the job outputs.
-  *
-  *
   */
-  public function outputs($params){
+  public function outputs($params) {
 
-    // The 'tool_id' is required.
-    if (!array_key_exists('job_id', $params)) {
-      $this->galaxy->setError("API", "A 'job_id' is required to see a job's outputs");
+    // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('job_id'))) {
       return FALSE;
     }
-
+    
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('job_id'))) {
+      return FALSE;
+    }
+    
     // Contruct the basic URL to the Galaxy API.
     $URL = $this->galaxy->getURL() . '/api/jobs/'. $params['job_id'] . '/outputs/';
     $URL .= '?key=' . $this->galaxy->getAPIKey();
@@ -129,26 +134,27 @@ class GalaxyJobs extends GalaxyAPIService {
  /**
   * Retreive information about a specific job
   *
-  * Corresponds to the Galaxy API function/path:
-  *   GET /api/jobs/{job_id}
+  * Corresponds to an HTTP GET on the Galaxy API path
+  *   /api/jobs/{job_id}
   *
   * @param $params
   *   An associative array containing the input parameters for this function.
   *   The following parameters are available:
   *
-  *   - job_id: The job that you would like to see. Please see the
-  *       index() function in this class to obtain job ids.
+  *   - job_id: The job to present. See the Jobs::index() to obtain job IDs.
   *
   * @return
   *   An array containing information about the specified job.
-  *
-  *
   */
-  public function show($params){
+  public function show($params) {
 
-    // The 'tool_id' is required.
-    if (!array_key_exists('job_id', $params)) {
-      $this->galaxy->setError("API", "A 'job_id' is required to see a job's metadata");
+    // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('job_id'))) {
+      return FALSE;
+    }
+    
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('job_id'))) {
       return FALSE;
     }
 
@@ -164,15 +170,15 @@ class GalaxyJobs extends GalaxyAPIService {
  /**
   * Retreive a list of jobs for current user.
   *
-  * Corresponds to the Galaxy Api method/path:
-  *   GET /api/jobs
+  * Corresponds to an HTTP GET on the Galaxy API path
+  *   /api/jobs
   *
   *
   * @param $params
   *   An associative array containing the input parameters for this function.
   *   The following parameters are available:
   *
-  *   - state: filter job search by any one of these conditions:
+  *   - state: filter job search by any of these conditions:
   *     (i)    'new'
   *     (ii)   'upload'
   *     (iii)  'waiting'
@@ -183,26 +189,31 @@ class GalaxyJobs extends GalaxyAPIService {
   *     (viii) 'paused'
   *     (ix)   'deleted'
   *     (x)    'deleted_now'
-  *   - tool_ids: A list of tool ids that limit  the  search to include only
-  *       those with given tool_ids. To find tool id's, please refer to this
-  *       class's index() function.
-  *   - date_range_min: Limit the search of jobs updated after this date.
-  *   - date_range_max: Limit the search of jobs updated before this date.
-  *   - history_id: Limit listing of jobs to those that match history_id.
-  *       To find the history id, please refer to the history class.
+  *   - tool_ids: (Optional) A list of tool IDs that limit the search to 
+  *       include only those with given tool_ids. To find tool IDs, refer to 
+  *       Tools::index().
+  *   - date_range_min: (Optional) Limit the search of jobs updated after this
+  *       date.
+  *   - date_range_max: (Optional) Limit the search of jobs updated before this
+  *       date.
+  *   - history_id: (Optional) Limit listing of jobs to those that match 
+  *       history_id. To find the history id, refer to Histories::index().
   *
   * @return
   *   An array containing a list of all the jobs that matched
   *   the given parameters.
-  *
-  *
   */
-  public function index($params){
+  public function index($params) {
 
     // Contruct the basic URL to the Galaxy API.
     $URL = $this->galaxy->getURL() . '/api/jobs/?key=' . $this->galaxy->getAPIKey();
+    
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('state', 'tool_ids', 'date_range_min', 'date_range_max', 'history_id'))) {
+      return FALSE;
+    }
 
-    // If a state is specified chech to see if the user is looking for multiple
+    // If a state is specified check to see if the user is looking for multiple
     // states or if the user is only specifiying one
     if(array_key_exists('state', $params)){
       // Is the parameter an array of states?
@@ -225,7 +236,7 @@ class GalaxyJobs extends GalaxyAPIService {
     }
 
 
-    // If a state is specified chech to see if the user is looking for multiple
+    // If a state is specified check to see if the user is looking for multiple
     // tool_ids or if the user is only specifiying one
     if(array_key_exists('tool_ids', $params)){
       // Is the parameter an array of tool_ids?
@@ -245,7 +256,7 @@ class GalaxyJobs extends GalaxyAPIService {
       unset($params['tool_ids']);
 
 
-    // Add all other parameters to the URL.
+    // Add all other parameters to the URL as key value pairs.
     foreach ($params as $key => $value) {
       $URL .= '&' . $key . '=' . $value;
     }
@@ -265,8 +276,6 @@ class GalaxyJobs extends GalaxyAPIService {
   *
   * @return
   *   FALSE
-  *
-  *
   */
   public function create() {
      $this->galaxy->setError('Galaxy', 'Not implemented: Creating/submitting a job is actually run under tools.py');
@@ -277,34 +286,42 @@ class GalaxyJobs extends GalaxyAPIService {
   /**
     * Search for previously created jobs.
     *
-    * Corresponds to the Galaxy api/path at:
-    *   POST /api/jobs/search
+    * Corresponds to an HTTP POST on the Galaxy API path
+    *   /api/jobs/search
     *
     * This method is designed to scan the list of previously run jobs and find
     *   records of jobs that had the exact some input parameters and datasets.
     *   This can be used to minimize, the amount of repeated work,
-    *   and simplyrecycle the old results.
+    *   and recycle old results.
     *
     * @param $params
     *   An associative array containing the input parameters for this function.
     *   The following parameters are available:
     *
-    *   - tool_id:  Required. The tool id to execute. To find the tool id, use
-    *     the index function of this class.
-    *   - inputs:  Required. An associative array of key/value pairs where
+    *   - tool_id: The tool ID to execute. To find a tool ID, use
+    *     Tools::index().
+    *   - inputs: An associative array of key value pairs where
     *     valid keys are 'id' and 'src' and 'id' is a tool_id (e.g. wc_gnu),
     *     and 'src' is is optional but defaults to 'hda'.  Alternatively, if
     *     multiple inputs are desired, this can be an array of associative
     *     arrays.
-    *   - state: Optional. The state of the job: 'running', 'queued',
+    *   - state: (Optional) The state of the job: 'running', 'queued',
     *     'waiting', 'ok'.
     * @return
     *   An array of jobs matching the provided arguments.
-    *
-    *
     */
   public function search($params) {
 
+    // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('tool_id', 'inputs'))) {
+      return FALSE;
+    }
+    
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('tool_id', 'inputs', 'state'))) {
+      return FALSE;
+    }
+    
     $URL = $this->galaxy->getURL() . '/api/jobs/search/?key=' . $this->galaxy->getAPIKey();
 
     // Check that incoming arguments are appropriate.
@@ -313,37 +330,19 @@ class GalaxyJobs extends GalaxyAPIService {
       return FALSE;
     }
 
-    // Make sure if the inputs argument exists then it's an associative array.
-//     if (array_key_exists('inputs', $params)) {
-//       $keys = array_keys($params['inputs']);
-//       foreach ($keys as $key) {
-//         if ($key !== 'src' and $key !== 'id') {
-//           $this->galaxy->setError('API', "The \"inputs\" parameter must be an associative array with keys either 'id' or 'src'.");
-//           return FALSE;
-//         }
-//       }
-//     }
-
     // We can't include arrays as POST arguments. They must be strings,
     // so we'll convert to a JSON array which Galaxy likes.
     if (array_key_exists('inputs', $params)) {
       $params['inputs'] = json_encode($params['inputs']);
     }
 
-
     $response = $this->galaxy->httpPOST($URL, $params);
-
-//     print "\nResponse:";
-//     print_r($response);
 
     return $response;
 
     $this->galaxy->setError("API", "This function is incomplete, please see our issues page on GitHub for
         more information");
     return FALSE;
-
   }
+  
 }
-
-
-?>

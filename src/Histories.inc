@@ -19,47 +19,53 @@ class GalaxyHistories  extends GalaxyAPIService {
   /**
    *  Create a new History component in Galaxy.
    *
-   *  Corresponds to the Galaxy API method and path:
-   *    POST /api/histories:
+   *  Corresponds to an HTTP POST on the Galaxy API path 
+   *    /api/histories
    *
    *  Creates a new history in a galaxy instance
-   *    Note the option to pass 'keys' and 'views' is currently not supported
+   *    Note the option to pass 'keys' and 'views' are currently not supported
    *
    * @param $params
    *   An associative array containing the input parameters for this function.
    *   The following parameters are available:
    *
    *   - name: The new history's name
-   *   - history_id: The id of the history to copy (will copy contents to new
+   *   - history_id: (Optional) The ID of the history to copy (will copy contents to new
    *       history). To obtain history_id's, please use this classes' index()
    *       function.
-   *   - archive_source: The url that will generate the archive to import.
-   *   - archive_type: 'url' (default).
-   *   - bool all_datasets: Copy deleted hdas/hdcas 'True' or 'False',
-   *     defaults to True.
+   *   - archive_source: (Optional) The url that will generate the archive to import.
+   *   - archive_type: (Optional) 'url' (default).
+   *   - all_datasets: (Optional) Copy deleted hdas/hdcas 'TRUE' or 'FALSE'
+   *     defaults to TRUE.
    *
    * @return
    *    An array containing information about the new History component.
    */
-   public function create($params){
+  public function create($params){
+    
+    // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('name'))) {
+      return FALSE;
+    }
 
-     if (!array_key_exists('name', $params)) {
-       $this->galaxy->setError("API", "The history 'name' is required in order to invoke this call");
-       return FALSE;
-     }
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('name', 'history_id', 'archive_source', 'archive_type', 'all_datasets'))) {
+      return FALSE;
+    }
 
-     $URL = $this->galaxy->getURL() . '/api/histories/?key=' . $this->galaxy->getAPIKey();
-     $response = $this->galaxy->httpPOST($URL, $params);
-     return $this->galaxy->expectArray($response);
-   }
+    $URL = $this->galaxy->getURL() . '/api/histories/?key=' . $this->galaxy->getAPIKey();
+    $response = $this->galaxy->httpPOST($URL, $params);
+    return $this->galaxy->expectArray($response);
+  }
 
   /**
    *  Displays a collection of history components in Galaxy.
    *
-   *  GET /api/histories and  GET /api/histories/deleted
+   *  Corresponds to an HTTP GET on the Galaxy API paths
+   *    GET /api/histories 
+   *    GET /api/histories/deleted
    *
-   *  This function combines the list of active and deleted histories and
-   *  therefore, corresponds to both of the Galaxy API methods and paths:
+   *  This function can present the list of active and deleted histories.
    *
    *  @param $params
    *    An associative array containing the input parameters for this function.
@@ -69,69 +75,77 @@ class GalaxyHistories  extends GalaxyAPIService {
    *
    * @return
    *    An array containing list of histories in galaxy instance.
-   *
-   *
    */
-   public function index($params = array()){
+  public function index($params = array()) {
+     
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('deleted'))) {
+      return FALSE;
+    }
 
-     // Get the deleted histories.
-     if(array_key_exists('deleted', $params) and $params['deleted'] == TRUE){
-       $URL = $this->galaxy->getURL() . '/api/histories/deleted/?key=' . $this->galaxy->getAPIKey();
-       $response = $this->galaxy->httpGET($URL);
-     }
+    // Get the deleted histories.
+    if(array_key_exists('deleted', $params) and $params['deleted'] == TRUE){
+      $URL = $this->galaxy->getURL() . '/api/histories/deleted/?key=' . $this->galaxy->getAPIKey();
+      $response = $this->galaxy->httpGET($URL);
+    }
 
-     // Get the active histories.
-     else{
-       $URL = $this->galaxy->getURL() . '/api/histories/?key=' . $this->galaxy->getAPIKey();
-       $response = $this->galaxy->httpGET($URL);
+    // Get the active histories.
+    else{
+      $URL = $this->galaxy->getURL() . '/api/histories/?key=' . $this->galaxy->getAPIKey();
+      $response = $this->galaxy->httpGET($URL);
+    }
 
-     }
-
-     return $response;
-   }
+    return $this->galaxy->expectArray($response);
+  }
 
   /**
    *  Retreive detailed information about a particular history component.
    *
-   *  Corresponds to the Galaxy API method and path:
-   *  POST /api/histories/{encoded_history_id}:
+   *  Corresponds to an HTTP POST on the Galaxy API path
+   *    /api/histories/{encoded_history_id}:
    *
    * @param $params
    *   An associative array containing the input parameters for this function.
    *   The following parameters are available:
    *
-   *   - history_id: The id of the history to retreive.
-   *       To obtain history_id's, please use this classes' index() function.
+   *   - history_id: The ID of the history to retreive.
+   *       To obtain history_ids, use Histories::index() function.
    *
    * @return
    *    An array containing information about the specified history
-   *
    */
-   public function show($params){
-     if(array_key_exists('history_id', $params)){
-
-       $URL = $this->galaxy->getURL() . '/api/histories/' . $params['history_id'] . '/?key=' . $this->galaxy->getAPIKey();
-     }
-
-     $response = $this->galaxy->httpGET($URL);
-     return $this->galaxy->expectArray($response);
-   }
+  public function show($params) {
+    
+    // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('history_id'))) {
+      return FALSE;
+    }
+    
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('history_id'))) {
+      return FALSE;
+    }
+    
+    $URL = $this->galaxy->getURL() . '/api/histories/' . $params['history_id'] . '/?key=' . $this->galaxy->getAPIKey();
+    
+    $response = $this->galaxy->httpGET($URL);
+    return $this->galaxy->expectArray($response);
+  }
 
   /**
    * Download a given history with indicated history id.
    *
-   * Corresponds to the Galaxy API method and path:
-   *
-   *  PUT /api/histories/{id}/exports'
-   *    and:
-   *  GET /api/histories/{id}/exports/{jeha_id}
+   * Corresponds to an HTTP PUT on the Galaxy API path
+   *   PUT /api/histories/{id}/exports'
+   *     and
+   *   GET /api/histories/{id}/exports/{jeha_id}
    *
    * @param $params
    *   An associative array containing the input parameters for this function.
    *   The following parameters are available:
    *
-   *   - history_id: The id of the history to download
-   *       To obtain history_id's, use this classes' index() function.
+   *   - history_id: The ID of the history to download
+   *       To obtain history_ids, use Histories::index() function.
    *   - file_path: The full path (including the file name) on the file system
    *       where the file should be written. Ideally, the file name should
    *       have a .tar.gz extension as the downloaded file will be
@@ -139,183 +153,217 @@ class GalaxyHistories  extends GalaxyAPIService {
    *
    * @return
    *    TRUE if the download was successful and FALSE otherwise.
-   *
    */
-   public function archiveDownload($params) {
+  public function archiveDownload($params) {
+     
+     // Check for required fields.
+     if (!$this->checkRequiredParams($params, array('history_id', 'file_path'))) {
+       return FALSE;
+     }
 
+     // Check for allowed fields.
+     if (!$this->checkAllowedParams($params, array('history_id', 'file_path'))) {
+       return FALSE;
+     }
+     
     // Obtain download URL, with the necessary jeha_id
-    if(array_key_exists('history_id', $params))
-      $download_url = $this->archiveExport($params);
-    else{
-      $this->galaxy->setError("API", "This function requires a history to download, please provide a 'history_id'");
-      return FALSE;
-    }
+    $download_url = $this->archiveExport($params);
+    
+    // Generate the URL and download
     $URL = $this->galaxy->getURL() . '/' . $download_url['download_url'] . '?key=' . $this->galaxy->getAPIKey();
-    if(array_key_exists('file_path', $params)){
-      $file_contents = $this->galaxy->getRemoteFile($URL, $params['file_path']);
-      return $file_contents;
-    }
-    else{
-      $this->galaxy->setError("API", "This function requires a location to download history, please provide a 'file_path'");
-      return FALSE;
-    }
+    $file_contents = $this->galaxy->getRemoteFile($URL, $params['file_path']);
+    return $file_contents;
   }
 
   /**
    * Start Job to create history export for corresponding history.
    *
-   * Corresponds to the Galaxy API method and path:
-   *  PUT /api/histories/{id}/exports:
+   * Corresponds to an HTTP PUT on the Galaxy API path
+   *   /api/histories/{id}/exports:
    *
    * @param $params
    *   An associative array containing the input parameters for this function.
    *   The following parameters are available:
    *
-   *   - history_id: The encoded id of the history to export.
+   *   - history_id: The encoded ID of the history to export.
    *
    * @return
    *   A URL of where to download the export.
-   *
-   *
    */
-   public function archiveExport($params){
+  public function archiveExport($params) {
+    
+    
+    // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('history_id'))) {
+      return FALSE;
+    }
+    
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('history_id'))) {
+      return FALSE;
+    }
 
-     if(array_key_exists('history_id', $params)){
-       $URL = $this->galaxy->getURL() . '/api/histories/' . $params['history_id'] . '/exports/?key=' . $this->galaxy->getAPIKey();
-       $input = array('id' => $params['history_id']);
-       return $this->galaxy->httpPUT($URL, $input);
-     }
-     else{
-       $this->galaxy->setError("API", "A 'history_id' is required in order to export");
-       return FALSE;
-     }
-
-   }
+    $URL = $this->galaxy->getURL() . '/api/histories/' . $params['history_id'] . '/exports/?key=' . $this->galaxy->getAPIKey();
+    $input = array('id' => $params['history_id']);
+    return $this->galaxy->httpPUT($URL, $input);
+  }
 
   /**
    * Delete a specified history.
    *
-   * Corresponds to the Galaxy API method and path:
-   *  DELETE /api/histories/{encoded_history_id}
+   *  Corresponds to an HTTP DELETE on the Galaxy API path
+   *    /api/histories/{encoded_history_id}
    *
    *
    * @param $params
    *   An associative array containing the input parameters for this function.
    *   The following parameters are available:
    *
-   *  - history_id: The encoded id of the history to delete. To obtain
-   *      history_id's, please use this classes' index() function.
+   *  - history_id: The encoded ID of the history to delete. To obtain
+   *      history_id, use Histories::index().
    *
    * @return
    *   An array of deleted histories.
-   *
-   *
    */
-   public function deleteHistory($params){
-     if(array_key_exists('history_id', $params)){
-       $URL = $this->galaxy->getURL() . '/api/histories/'. $params['history_id'] . '/?key=' . $this->galaxy->getAPIKey();
-       $response =  $this->galaxy->httpDELETE($URL);
-       return $this->galaxy->expectArray($response);
-     }
-     else{
-       $this->galaxy->setError("API", "A 'history_id' is required in order to delete the history");
-       return FALSE;
-     }
+  public function deleteHistory($params) {
+     
+    // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('history_id'))) {
+      return FALSE;
+    }
+     
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('history_id'))) {
+      return FALSE;
+    }
+     
+    $URL = $this->galaxy->getURL() . '/api/histories/'. $params['history_id'] . '/?key=' . $this->galaxy->getAPIKey();
+    $response =  $this->galaxy->httpDELETE($URL);
+    return $this->galaxy->expectArray($response);
 
-   }
+  }
 
   /**
    * Undelete a specified history.
    *
-   * Corresponds to the Galaxy API method and path:
-   *   POST /api/histories/deleted/{encoded_history_id}
+   * Corresponds to an HTTP POST on the Galaxy API path
+   *   /api/histories/deleted/{encoded_history_id}
    *
    * @param $params
    *   An associative array containing the input parameters for this function.
    *   The following parameters are available:
    *
-   *   - history_id: The encoded id of the history to undelete.
-   *       To obtain history_id's, please use this classes' index() function.
+   *   - history_id: The encoded ID of the history to undelete.
+   *       To obtain history_ids, use Histories::index() function.
    *
    * @return
    *   An array of undeleted histories.
-   *
-   *
    */
-   public function undelete($params){
-     if(array_key_exists('history_id', $params)){
-       $URL = $this->galaxy->getURL() . '/api/histories/deleted/'. $params['history_id'] . '/undelete?key=' . $this->galaxy->getAPIKey();
-       $response = $this->galaxy->httpPOST($URL);
-       return $this->galaxy->expectArray($response);
-     }
-     else{
-       $this->galaxy->setError("API", "A 'history_id' is required in order to UNdelete the history");
-       return FALSE;
-     }
-   }
+  public function undelete($params) {
+     
+    // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('history_id'))) {
+      return FALSE;
+    }
+    
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('history_id'))) {
+      return FALSE;
+    }
+     
+    $URL = $this->galaxy->getURL() . '/api/histories/deleted/'. $params['history_id'] . '/undelete?key=' . $this->galaxy->getAPIKey();
+    $response = $this->galaxy->httpPOST($URL);
+    return $this->galaxy->expectArray($response);
+  }
 
   /**
    * Retreive information of the citations of a specified history.
    *
-   * Corresponds to the Galaxy API method and path:
-   *   GET /api/histories/{encoded_history_id}/citations
+   * Corresponds to an HTTP GET on the Galaxy API path
+   *   /api/histories/{encoded_history_id}/citations
    *
    * @param $params
    *   An associative array containing the input parameters for this function.
    *   The following parameters are available:
    *
-   *   - history_id: The encoded id of the history to undelete.
-   *       To obtain history_id's, please use this classes' index() function.
+   *   - history_id: The encoded ID of the history to undelete.
+   *       To obtain history_ids, use Histories::index() function.
    *
    * @return
    *   An array of citations.
-   *
-   *
    */
-   public function citations($params){
-     if(array_key_exists('history_id', $params)){
-       $URL = $this->galaxy->getURL() . '/api/histories/'. $params['history_id'] . '/citations?key=' . $this->galaxy->getAPIKey();
-       $response = $this->galaxy->httpGET($URL);
-       return $this->galaxy->expectArray($response);
-     }
-     else{
-       $this->galaxy->setError("API", "A 'history_id' is required in order to see the citations of the history");
-       return FALSE;
-     }
-
-   }
+  public function citations($params) {
+     
+    // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('history_id'))) {
+      return FALSE;
+    }
+     
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('history_id'))) {
+      return FALSE;
+    }
+     
+    $URL = $this->galaxy->getURL() . '/api/histories/'. $params['history_id'] . '/citations?key=' . $this->galaxy->getAPIKey();
+    $response = $this->galaxy->httpGET($URL);
+    return $this->galaxy->expectArray($response);
+  }
 
   /**
    * Retreive all histories that have been published.
    *
-   * Corresponds to the Galaxy API method and path:
-   *   GET /api/histories/published:
+   * Corresponds to an HTTP GET on the Galaxy API path
+   *   /api/histories/published:
    *
    * @return
    *   An array of published histories.
-   *
-   *
    */
-   public function published(){
-     $URL = $this->galaxy->getURL() . '/api/histories/published/?key=' . $this->galaxy->getAPIKey();
-     $response = $this->galaxy->httpGET($URL);
-     return $this->galaxy->expectArray($response);
-   }
+  public function published() {
+     
+    $URL = $this->galaxy->getURL() . '/api/histories/published/?key=' . $this->galaxy->getAPIKey();
+    $response = $this->galaxy->httpGET($URL);
+    return $this->galaxy->expectArray($response);
+  }
 
   /**
-  * Retreive all histories that are shared with the current user.
-  *
-  * Corresponds to the Galaxy API method and path:
-  *   GET /api/histories/shared_with_me:
-  *
-  * @return
-  *   An array histories shared with the current user.
-  *
-  *
-  */
-  public function sharedWithMe(){
+   * Retreive all histories that are shared with the current user.
+   *
+   * Corresponds to an HTTP GET on the Galaxy API path
+   *   /api/histories/shared_with_me:
+   *
+   * @return
+   *   An array histories shared with the current user.
+   */
+  public function sharedWithMe() {
+    
     $URL = $this->galaxy->getURL() . '/api/histories/shared_with_me/?key=' . $this->galaxy->getAPIKey();
     $response = $this->galaxy->httpGET($URL);
     return $this->galaxy->expectArray($response);
   }
+  
+  
+  /**
+   * Retreive the last used history found in the right pane of the galaxy 
+   *   server gui.
+   *   
+   * For now the user should have the history that will be 
+   *   
+   *   TODO: https://github.com/galaxyproject/blend4php/issues/18
+   *   This is a workaround right now till 
+   *   https://github.com/galaxyproject/galaxy/issues/2404 is 
+   *   fixed as well.
+   *
+   * Corresponds to an HTTP GET on the Galaxy API path
+   *   /api/histories/most_recently_used:
+   *
+   * @return
+   *   An array of the current history of the current user.
+   */
+  public function getMostRecentlyUsed() {
+    $URL = $this->galaxy->getURL() . '/api/histories/most_recently_used?key=' . $this->galaxy->getAPIKey();
+    
+    $response = $this->galaxy->httpGET($URL);
+    return $this->galaxy->expectArray($response);
+  }
+  
 }

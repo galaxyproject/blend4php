@@ -17,11 +17,11 @@ require_once('GalaxyAPIService.inc');
 class GalaxyDatasets extends GalaxyAPIService {
 
   /**
-   * Retreive information about datasets made by converting
-   * to a new file format.
+   * Retreive information about datasets made by converting to a new file
+   *   format.
    *
-   * Corresponds to the galaxy API function at:
-   * GET /api/datasets/{dataset_id}/converted/{ext}
+   * Corresponds to an HTTP GET on the Galaxy API path
+   *   /api/datasets/{dataset_id}/converted/{ext}
    *
    * @param $params
    *   An associative array containing the input parameters for this function.
@@ -29,11 +29,10 @@ class GalaxyDatasets extends GalaxyAPIService {
    *
    *   - dataset_id: The dataset id of the information to pull.
    *       Can be obtained from this function's display().
-   *   - extension (optional): If supplied this will look at the file extension.
+   *   - extension (Optional): If supplied this will look at the file extension.
    *
    * @return
    *   An array containing information about the matching dataset(s).
-   *
    */
   public function converted($params) {
 
@@ -41,8 +40,12 @@ class GalaxyDatasets extends GalaxyAPIService {
     if (!$this->checkRequiredParams($params, array('dataset_id'))) {
       return FALSE;
     }
-
-    $URL = "";
+    
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('dataset_id', 'extension'))) {
+      return FALSE;
+    }
+    
     if (array_key_exists('extension', $params)) {
       $URL = $this->galaxy->getURL() . '/api/datasets/' . $params ['dataset_id'] . '/converted/' . $params ['extension'] . '/?key=' . $this->galaxy->getAPIKey();
     }
@@ -58,9 +61,9 @@ class GalaxyDatasets extends GalaxyAPIService {
   /**
    * Retreives a list of datasets associated with a given history.
    *
-   * Corresponds to the Galaxy Api method and path:
-   * GET /api/histories/{encoded_history_id}/contents/{encoded_content_id}/display
-   * history content (dataset).
+   * Corresponds to an HTTP GET on the Galaxy API path
+   *   /api/histories/{encoded_history_id}/contents/{encoded_content_id}
+   *
    *
    * @param $params
    *   An associative array containing the input parameters for this function.
@@ -68,16 +71,20 @@ class GalaxyDatasets extends GalaxyAPIService {
    *
    *   - hist_id: The history id of the datasets to find.
    *   - hist_content_id: The specified history content's dataset(s) to list.
-   *       Please see the HistoryContents class to obtain the history content id
+   *       See the HistoryContents class to obtain the history content id
    *
    * @return
    *   An array containing information about the matching dataset(s).
-   *
    */
   public function display($params) {
 
     // Check for required fields.
     if (!$this->checkRequiredParams($params, array('hist_id', 'hist_content_id'))) {
+      return FALSE;
+    }
+    
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('hist_id', 'hist_content_id'))) {
       return FALSE;
     }
 
@@ -100,19 +107,18 @@ class GalaxyDatasets extends GalaxyAPIService {
   /**
    * Retreives detailed content on a specific dataset.
    *
-   * Corresponds to the Galaxy Api function and path:
-   * GET /api/datasets/{encoded_dataset_id}
+   * Corresponds to an HTTP GET on the Galaxy API path
+   *   /api/datasets/{encoded_dataset_id}
    *
    * @param $params
    *   An associative array containing the input parameters for this function.
    *   The following parameters are available:
    *
    *   - dataset_id: The dataset_id's information that the function is to
-   *       retreive. To obtain the dataset id, please use the Display function.
+   *       retreive. To obtain the dataset id, use the Datasets::display().
    *
    * @return
    *   An array containing information about the matching dataset.
-   *
    */
   public function show($params) {
 
@@ -120,9 +126,13 @@ class GalaxyDatasets extends GalaxyAPIService {
     if (!$this->checkRequiredParams($params, array('dataset_id'))) {
       return FALSE;
     }
+    
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('dataset_id'))) {
+      return FALSE;
+    }
 
-    $dataset_id = $params['dataset_id'];
-    $URL = $this->galaxy->getURL() . '/api/datasets/' . $dataset_id . '/?key=' . $this->galaxy->getAPIKey();
+    $URL = $this->galaxy->getURL() . '/api/datasets/' . $params['dataset_id'] . '/?key=' . $this->galaxy->getAPIKey();
     $response = $this->galaxy->httpGET($URL);
     return $this->galaxy->expectArray($response);
   }

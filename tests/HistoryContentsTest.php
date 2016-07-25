@@ -216,12 +216,12 @@ class HistoryContentsTest extends PHPUnit_Framework_TestCase {
    $history_content = new GalaxyHistoryContents($galaxy);
 
    $deleted = $history_content->delete($inputs);
-
+   unset($inputs['id']);
    // Obtan the content_id of the content in the 0'th index
    $content_list = $history_content->index($inputs);
 
    // Case 1 make sure the history content is marked as deleted.
-   $this->assertTrue($content_list[0]['deleted'] == 1);
+   $this->assertTrue($content_list[0]['deleted']  == 'true');
  }
+ 
 }
-?>

@@ -7,13 +7,15 @@ class GalaxyLibraryContents extends GalaxyAPIService {
 
   /**
    * Gather the contents from the specified libarary.
-   * GET /api/libraries/{encoded_library_id}
+   * 
+   * Corresponds to an HTTP GET on the Galaxy API path
+   *   api/libraries/{encoded_library_id}
    *
    * @param $params
    *   An associative array containing the input parameters for this function.
    *   The following parameters are available:
    *
-   *   - library_id: Unique id of a library to view its contents.
+   *   - library_id: Unique ID of a library to view its contents.
    *
    * @return
    *   Files and Folders within the specified library.
@@ -38,16 +40,15 @@ class GalaxyLibraryContents extends GalaxyAPIService {
   /**
    * View the specified library content within a given library.
    *
-   * GET /api/libraries/{encoded_library_id}/
    *
-   * You need both of the specific id's in order to see the information
-   * of the content.
+   * Corresponds to an HTTP GET on the Galaxy API path
+   *   /api/libraries/{encoded_library_id}/
    *
    * @param $params
    *   An associative array containing the input parameters for this function.
    *   The following parameters are available:
    *
-   *   - library_id: Unique id of a libary to view a specified content.
+   *   - library_id: Unique ID of a libary to view a specified content.
    *   - library_content_id: An entry within the library that contains data.
    *
    * @return
@@ -73,19 +74,21 @@ class GalaxyLibraryContents extends GalaxyAPIService {
   /**
    * Add a folder/file/data collection to the specified the library.
    *
-   * This is one is important when you want to upload files to said library
-   * from a local filesystem to the given galaxy instance.
-   *
-   * POST /api/libraries/{library_id}/contents
-   * To copy an HDA into a library send 'create_type' of 'file' and the HDA's
-   * encoded id in from 'from_hda_id' (and optionally 'ldda_message').
+   * This funciton is used when a users wants to upload files to said library
+   * from a local filesystem to a given galaxy instance.
+   * 
+   * Corresponds to an HTTP POST on the Galaxy API path
+   *   /api/libraries/{library_id}/contents
+   * 
+   * To copy an HDA into a library set the 'create_type' to type 'file' and set
+   * the 'from_hda_id' to the HDA's encoded ID.
    *
    * @param $params
    *   An associative array containing the input parameters for this function.
    *   The following parameters are available:
    *
-   *   - library_id: The repository where you want to 'create' this new data.
-   *   - folder_id: A folder within a library to 'create' this new data.
+   *   - library_id: The repository where to 'create' the new data.
+   *   - folder_id: A folder within a library to 'create' the new data.
    *   - create_type: The type of data category - file, folder, or collection.
    *   - collection_type (Only if create_type is 'collection'): Can be list,
    *      paired, list:paired.

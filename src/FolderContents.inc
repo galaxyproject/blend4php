@@ -18,24 +18,28 @@ class GalaxyFolderContents extends GalaxyAPIService {
   /**
    * Displays all the contents of a folder.
    *
-   * Corresponds to the Galaxy API/path:
-   *  GET /api/folders/F{folder_id}/contents.
+   * Corresponds to an HTTP GET on the Galaxy API path
+   *   /api/folders/F{folder_id}/contents.
    *
    * @param $params
    *  An associative array containing the input parameters for this function.
    *  The following parameters are available:
    *
    *  - folder_id: Id of the folder's contents to display. To obtain an id
-   *     see the index() function in the Folder class.
+   *     see Folders::index().
    *
    * @return
    *  An array of The specified folder's contents
-   *
-   *
    */
   public function index($params) {
-    if(!array_key_exists('folder_id', $params)){
-      $this->galaxy->setError("API", "A 'folder_id' is required in order to invoke this call");
+    
+    // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('folder_id'))) {
+      return FALSE;
+    }
+    
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('folder_id'))) {
       return FALSE;
     }
 
@@ -48,7 +52,7 @@ class GalaxyFolderContents extends GalaxyAPIService {
    * Create a new dataset inside of a folder.
    *
    * Corresponds to an HTTP POST to the Galaxy API path
-   *  /api/folders/{folder_id}/contents
+   *   /api/folders/{folder_id}/contents
    *
    * @param $params
    *  An associative array containing the input parameters for this function.
@@ -64,10 +68,9 @@ class GalaxyFolderContents extends GalaxyAPIService {
    *
    * @return
    *  An array containing the newly created folder content.
-   *
-   *
    */
-  public function create($params){
+  public function create($params) {
+    
     // Check for required fields.
     if (!$this->checkRequiredParams($params, array('folder_id'))) {
       return FALSE;
@@ -88,8 +91,8 @@ class GalaxyFolderContents extends GalaxyAPIService {
   /**
   * Retreive details of for a specified folder.
   *
-  * Corresponds to the Galaxy API/path:
-  *  GET /api/folders/{folder_id}/
+  * Corresponds to an HTTP GET on the Galaxy API path
+  *   /api/folders/{folder_id}/
   *
   * @param $params
   *  An associative array containing the input parameters for this function.
@@ -97,10 +100,9 @@ class GalaxyFolderContents extends GalaxyAPIService {
   *
   * @return
   *  False.
-  *
-  *
   */
-  public function show($params){
+  public function show($params) {
+    
    //Not implemented in the python counterpart
     return FALSE;
   }
@@ -108,15 +110,14 @@ class GalaxyFolderContents extends GalaxyAPIService {
   /**
    * Update the contents to a specific folder
    *
-   * Corresponds to the Galaxy API/PATH
-   *  PUT /api/folders/{folder_id}/
+   * Corresponds to an HTTP PUT on the Galaxy API path
+   *  /api/folders/{folder_id}/
    *
    * @return
    *  False.
-   *
-   *
    */
-  public function update($params){
+  public function update($params) {
+    
    //Not implemented by the python counterpart.
    return FALSE;
   }

@@ -15,24 +15,23 @@ require_once('GalaxyAPIService.inc');
  */
 
 class GalaxyFolders extends GalaxyAPIService {
-   /**
-    * Retreive information about folders.
-    *
-    * Corresponds to the Galaxy API function/path:
-    *   GET /api/folders/
-    *
-    * @return
-    *   An array containing information about the specified folder.
-    *
-    *
-    */
-   public function index() {
-     // Currentlly, listing all of the folders is not implmented. But we
-     // provide the API function for when it is.
-     $URL = $this->galaxy->getURL() . '/api/folders?key=' . $this->galaxy->getAPIKey();
-     $response = $this->galaxy->httpGET($URL);
-     return $this->galaxy->expectArray($response);
-   }
+  /**
+   * Retreive information about folders.
+   *
+   * Corresponds to an HTTP GET on the Galaxy API path
+   *   /api/folders/
+   *
+   * @return
+   *   An array containing information about the specified folder.
+   */
+  public function index() {
+    
+    // Currentlly, listing all of the folders is not implmented. But we
+    // provide the API function for when it is.
+    $URL = $this->galaxy->getURL() . '/api/folders?key=' . $this->galaxy->getAPIKey();
+    $response = $this->galaxy->httpGET($URL);
+    return $this->galaxy->expectArray($response);
+  }
 
   /**
    * Retreive information about a specific folder
@@ -44,24 +43,28 @@ class GalaxyFolders extends GalaxyAPIService {
    *   An associative array containing the input parameters for this function.
    *   The following parameters are available:
    *
-   *   - folder_id: The folder that you would like to see. Please see the
-   *       index() function in this class to obtain folder ids.
+   *   - folder_id: The folder to show. Use the Folders::index() to obtain
+   *       folder ids.
    *
    * @return
    *   An array containing information about the specified folder.
-   *
-   *
    */
-   public function show($params) {
-     if(array_key_exists('folder_id', $params)){
-       $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' . $params['folder_id'] .'/?key=' . $this->galaxy->getAPIKey();
-       $response = $this->galaxy->httpGET($URL);
-       return $this->galaxy->expectArray($response);
-     }
-     $this->galaxy->setError("API", "A 'folder_id' is required in order to show a specific folder.");
-     return FALSE;
-
-   }
+  public function show($params) {
+    
+    // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('folder_id'))) {
+      return FALSE;
+    }
+    
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('folder_id'))) {
+      return FALSE;
+    }
+ 
+    $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' . $params['folder_id'] .'/?key=' . $this->galaxy->getAPIKey();
+    $response = $this->galaxy->httpGET($URL);
+    return $this->galaxy->expectArray($response);
+  }
 
   /**
    * Creates a new folder.
@@ -73,7 +76,7 @@ class GalaxyFolders extends GalaxyAPIService {
    *   An associative array containing the input parameters for this function.
    *   The following parameters are available:
    *
-   *  - parent_id: The id of the parent folder or library into which the
+   *  - parent_id: The id of a parent folder or library folder which the
    *      folder will be placed.
    *  - name: The name of the folder.
    *  - description: (Optional) A description of the folder.
@@ -82,14 +85,15 @@ class GalaxyFolders extends GalaxyAPIService {
    *   An associative array containing details about the created folder such
    *   as the creation time, access constraints, location, etc.
    */
-  public function create($params){
-    if(!array_key_exists('parent_id', $params)){
-      $this->galaxy->setError("API", "A 'parent_id' is required in order to create a new folder");
+  public function create($params) {
+    
+    // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('parent_id', 'name'))) {
       return FALSE;
     }
-
-    if(!array_key_exists('name', $params)){
-      $this->galaxy->setError("API", "A 'name' is required in order to create a new folder.");
+    
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('parent_id', 'description', 'name'))) {
       return FALSE;
     }
 
@@ -110,21 +114,27 @@ class GalaxyFolders extends GalaxyAPIService {
    *   The following parameters are available:
    *
    *   - folder_id: The id of the folder to view permissions. The id can be
-   *       obtained using the index() function in this class.
+   *       obtained using Folders::index().
    *
    * @return
    *   An array containing permission information on a specified folder.
    */
-   public function getPermissions($params){
-     if(!array_key_exists('folder_id', $params)){
-       $this->galaxy->setError("API", "A 'folder_id' is required in order to create a new folder");
-       return FALSE;
-     }
+  public function getPermissions($params) {
+    
+    // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('folder_id'))) {
+      return FALSE;
+    }
 
-       $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' .$params['folder_id'] . '/permissions' .'?key=' . $this->galaxy->getAPIKey();
-       $response = $this->galaxy->httpGET($URL);
-       return $this->galaxy->expectArray($response);
-   }
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('folder_id'))) {
+      return FALSE;
+    }
+    
+    $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' .$params['folder_id'] . '/permissions' .'?key=' . $this->galaxy->getAPIKey();
+    $response = $this->galaxy->httpGET($URL);
+    return $this->galaxy->expectArray($response);
+  }
 
   /**
    * Set permissions for a specified folder.
@@ -142,26 +152,32 @@ class GalaxyFolders extends GalaxyAPIService {
    *
    *   - folder_id: The folder id to set permissions.
    *   - add_ids: An array of user IDs that should be given permission to
-   *     add items to the folder.
+   *       add items to the folder.
    *   - manage_ids: An array of user IDs that should be given permission to
-   *     manage the folder.
+   *       manage the folder.
    *   - modify_ids: An array of user IDs that should be given permission to
-   *     modify the folder.
+   *       modify the folder.
    *
    * @return
    *   An associative array containing details about newly set permissions.
    */
-   public function setPermissions($params){
-     if(!array_key_exists('folder_id', $params)){
-       $this->galaxy->setError("API", "A 'folder_id' is required in order to set permissions.");
-       return FALSE;
-     }
-
-     $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' . $params['folder_id'] . '/permissions' .'?key=' . $this->galaxy->getAPIKey();
-     $params['action'] = 'set_permissions';
-     unset($params['folder_id']);
-     $response = $this->galaxy->httpPOST($URL, $params);
-     return $this->galaxy->expectArray($response);
+  public function setPermissions($params) {
+    
+    // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('folder_id'))) {
+      return FALSE;
+    }
+    
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('folder_id', 'add_ids', 'manage_ids', 'modify_ids'))) {
+      return FALSE;
+    }
+    
+    $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' . $params['folder_id'] . '/permissions' .'?key=' . $this->galaxy->getAPIKey();
+    $params['action'] = 'set_permissions';
+    unset($params['folder_id']);
+    $response = $this->galaxy->httpPOST($URL, $params);
+    return $this->galaxy->expectArray($response);
    }
 
   /**
@@ -176,7 +192,7 @@ class GalaxyFolders extends GalaxyAPIService {
    *   An associative array containing the input parameters for this function.
    *   The following parameters are available:
    *
-   *  - folder_id: The folder you want to delete/undelete.
+   *  - folder_id: The folder ID to delete/undelete.
    *  - undelete: Specifying whether the item should be deleted (TRUE) or
    *      undeleted (FALSE).
    *
@@ -184,20 +200,26 @@ class GalaxyFolders extends GalaxyAPIService {
    *   An array containing information on the deleted (or undeleted)
    *   folder.
    */
-   public function delete($params){
-     if(!array_key_exists('folder_id', $params)){
-       $this->galaxy->setError("API", "A 'folder_id' is required in order to delete/undelete a folder");
-       return FALSE;
-     }
+  public function delete($params) {
+    
+    // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('folder_id'))) {
+      return FALSE;
+    }
+    
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('folder_id', 'undelete'))) {
+      return FALSE;
+    }
+     
+    if(!array_key_exists('undelete', $params) and $params['undelete'] == TRUE){
+      $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' . $params['folder_id']  .'?key=' . $this->galaxy->getAPIKey(). '&undelete=True';
+      return $this->galaxy->httpDELETE($URL);
+    }
 
-     if(!array_key_exists('undelete', $params) and $params['undelete'] == TRUE){
-       $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' . $params['folder_id']  .'?key=' . $this->galaxy->getAPIKey(). '&undelete=True';
-       return $this->rest->delete($URL);
-     }
-
-     $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' . $params['folder_id'] .'?key=' . $this->galaxy->getAPIKey();
-     return $this->galaxy->httpDELETE($URL);
-   }
+    $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' . $params['folder_id'] .'?key=' . $this->galaxy->getAPIKey();
+    return $this->galaxy->httpDELETE($URL);
+  }
 
   /**
    * Updated the folder's name and description.
@@ -211,22 +233,26 @@ class GalaxyFolders extends GalaxyAPIService {
    *   An associative array containing the input parameters for this function.
    *   The following parameters are available:
    *
-   *   - folder_id: The folder you want to update
-   *   - payload: An array that contains 'name' => [new_name] and
+   *   - folder_id: The folder ID to update
+   *   - payload: An array that contains an associative array:
+   *       'name' => [new_name]
    *       'description' => [can be null].
    *
    * @return
    *   An array containing details about the deleted file history content.
    */
-   public function update($params){
-     if(!array_key_exists('folder_id', $params)){
-       $this->galaxy->setError("API", "A 'folder_id' is required in order to update a folder");
+   public function update($params) {
+     
+     // Check for required fields.
+     if (!$this->checkRequiredParams($params, array('folder_id', 'payload'))) {
        return FALSE;
      }
-     if(!array_key_exists('payload', $params)){
-       $this->galaxy->setError("API", "A 'payload' is required in order to update a folder");
-         return FALSE;
+     
+     // Check for allowed fields.
+     if (!$this->checkAllowedParams($params, array('folder_id', 'payload'))) {
+       return FALSE;
      }
+
      $URL = $this->galaxy->getURL() . '/api/folders/' . 'F' .$params['folder_id'] .'/?key=' . $this->galaxy->getAPIKey();
      return $this->galaxy->httpPATCH($URL, $params['payload']);
    }

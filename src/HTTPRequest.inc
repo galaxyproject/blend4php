@@ -22,8 +22,6 @@ class GalaxyHTTPRequest  {
     *
     * @return
     *   An instance of a GalaxyHTTPRequest class.
-    *
-    *
     */
    function __construct() {
      $this->error = new GalaxyError();
@@ -37,8 +35,6 @@ class GalaxyHTTPRequest  {
    *
    * @return
    *   TRUE if error was found, FALSE otherwise.
-   *
-   *
    */
   private function getCURLResponse($ch) {
 
@@ -151,16 +147,21 @@ class GalaxyHTTPRequest  {
    *   the GET request.
    * @return
    *   curl server response.
-   *
-   *
    */
   public function httpGET($URL, $curl_options = array()) {
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $URL);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+    
     foreach ($curl_options as $option => $value) {
       curl_setopt($ch, $option, $value);
     }
+    
+    curl_setopt($ch, CURLOPT_URL, $URL);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+    
+    // TODO: https://github.com/galaxyproject/blend4php/issues/18
+    // This is a hack to make sure cookie information is gathered for getting
+    // Histories::getCurrentHistory()
+    
     $response = $this->getCURLResponse($ch);
     curl_close($ch);
 
@@ -177,8 +178,6 @@ class GalaxyHTTPRequest  {
    *
    * @return
    *   curl server response.
-   *
-   *
    */
   public function httpPOST($URL, $input = NULL) {
 
@@ -234,8 +233,6 @@ class GalaxyHTTPRequest  {
    *
    * @return
    *   curl server response.
-   *
-   *
    */
   public function httpPATCH($URL, $input = NULL) {
     $ch = curl_init();
@@ -294,8 +291,6 @@ class GalaxyHTTPRequest  {
    *
    * @return
    *   curl server response
-   *
-   *
    */
   public function uploadFile($URL, $data, $files){
     $ch = curl_init();
@@ -332,8 +327,6 @@ class GalaxyHTTPRequest  {
    *
    * @return
    *   curl server response
-   *
-   *
    */
   public function httpDELETE($URL, $input = NULL) {
     $ch = curl_init();
