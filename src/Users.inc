@@ -77,7 +77,7 @@ class GalaxyUsers extends GalaxyAPIService {
   function show($params) {
 
     if(array_key_exists('deleted', $params) and $params['deleted'] == TRUE)
-      $URL = $this->galaxy->getURL() . '/api/users/deleted/' . $params['user_id'];
+      $URL = $this->galaxy->getURL() . '/api/users/deleted/';
 
     else if(array_key_exists('user_id', $params))
       $URL = $this->galaxy->getURL() . '/api/users/' . $params['user_id'];

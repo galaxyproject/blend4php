@@ -460,6 +460,7 @@ class GalaxyWorkflows extends GalaxyAPIService {
       $history_input = 'hist_id=' . $params['hist_id'];
     }
 
+    print_r($input_ids);
     $elements = array(
       'inputs' => json_encode($input_ids, JSON_FORCE_OBJECT),
       'dataset_map' => json_encode($input_ids, JSON_FORCE_OBJECT),
@@ -471,7 +472,8 @@ class GalaxyWorkflows extends GalaxyAPIService {
     if (array_key_exists('parameters', $params)) {
       $elements['parameters'] = json_encode($params['parameters'], JSON_FORCE_OBJECT);
     }
-
+    //print_r($params['parameters']);
+    
     $response = $this->galaxy->httpPOST($URL, $elements);
     return $this->galaxy->expectArray($response);
   }
