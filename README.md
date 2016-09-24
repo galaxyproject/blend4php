@@ -75,4 +75,4 @@ blend4php contains unit testing using the PHPUnit framework.  It is recommended 
 This work is supported by the US National Science Foundation (NSF) award #1443040, titled “CIF21 DIBBS: Tripal Gateway, a Platform for Next-Generation Data Analysis and Sharing.” 
 
 # License
-blend4php is available under version 2 of the GNU General Public License
+blend4php is made available under version 3 of the GNU Lesser General Public License
