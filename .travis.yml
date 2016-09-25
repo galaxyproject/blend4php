@@ -25,7 +25,7 @@ before_script:
  - cd galaxy-${GALAXY_VERSION}/
  # ------------------------------------------------
  # Create a PostgreSQL database for Galaxy. The default SQLite3 database makes test fail randomly because of "database locked" error.
- - sudo /etc/init.d/postgresql start
+ # sudo /etc/init.d/postgresql start
  - createdb -U postgres galaxy-travis
  - if [ -f universe_wsgi.ini.sample ]; then GALAXY_CONFIG_FILE=universe_wsgi.ini; else GALAXY_CONFIG_FILE=config/galaxy.ini; fi
  - if [ -f universe_wsgi.ini.sample ]; then GALAXY_CONFIG_DIR=.; else GALAXY_CONFIG_DIR=config; fi
