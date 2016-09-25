@@ -36,7 +36,8 @@ before_script:
  # Setup Galaxy master API key and admin user
  - GALAXY_MASTER_API_KEY=`date --rfc-3339=ns | md5sum | cut -f 1 -d ' '`
  - GALAXY_USER_EMAIL=${USER}@localhost.localdomain
- - sed -i -e "s/^#master_api_key.*/master_api_key = $GALAXY_MASTER_API_KEY/" -e "s/^#admin_users.*/admin_users = $GALAXY_USER_EMAIL/" $GALAXY_CONFIG_FILE
+ - sed -i -e "s/^#master_api_key.*/master_api_key = $GALAXY_MASTER_API_KEY/" $GALAXY_CONFIG_FILE
+ - sed -i -e "s/^#admin_users.*/admin_users = $GALAXY_USER_EMAIL/" $GALAXY_CONFIG_FILE
  # ------------------------------------------------
  # Change Galaxy configuration needed by many tests
  - sed -i -e 's/^#allow_user_dataset_purge.*/allow_user_dataset_purge = True/' $GALAXY_CONFIG_FILE
