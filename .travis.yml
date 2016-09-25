@@ -62,13 +62,14 @@ before_script:
  - echo "Created new Galaxy user $GALAXY_USER with email $GALAXY_USER_EMAIL, password $GALAXY_USER_PASSWD and API key $GALAXY_MASTER_API_KEY"
  # Setup the config file
  - cd $TRAVIS_BUILD_DIR/tests
- - perl -pi -e "s/(\"host\"\s+=>\s+').*?(',)/\1$localhost\2/" testConfig.inc
- - perl -pi -e "s/(\"port\"\s+=>\s+').*?(',)/\1$8080\2/" testConfig.inc
- - perl -pi -e "s/(\"user\"\s+=>\s+').*?(',)/\1$GALAXY_USER\2/" testConfig.inc
- - perl -pi -e "s/(\"pass\"\s+=>\s+').*?(',)/\1$GALAXY_USER_PASSWD\2/" testConfig.inc
- - perl -pi -e "s/(\"email\"\s+=>\s+').*?(',)/\1$GALAXY_USER_EMAIL\2/" testConfig.inc
- - perl -pi -e "s/(\"api_key\"\s+=>\s+').*?(',)/\1$GALAXY_MASTER_API_KEY\2/" testConfig.inc
+ - sed -i -e "s/^.*\"host\".*$/\'host' => 'localhost',/" testConfig.inc
+ - sed -i -e "s/^.*\"port\".*$/\'port' => '8080',/" testConfig.inc
+ - sed -i -e "s/^.*\"user\".*$/\'user' => '$GALAXY_USER',/" testConfig.inc
+ - sed -i -e "s/^.*\"pass\".*$/\'pass' => '$GALAXY_USER_PASSWD',/" testConfig.inc
+ - sed -i -e "s/^.*\"email\".*$/\'email' => '$GALAXY_USER_EMAIL',/" testConfig.inc
+ - sed -i -e "s/^.*\"api_key\".*$/\'api_key' => '$GALAXY_MASTER_API_KEY',/" testConfig.inc
+
  
 script:
  - cd $TRAVIS_BUILD_DIR/tests
- - phpunit GalaxyInstanceTest.php 
+ - phpunit 
