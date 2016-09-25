@@ -18,12 +18,19 @@ install:
  - cp run_galaxy.sh $HOME
 
 before_script:
+ # Copied from the BioBlend .travis.yml file: https://github.com/galaxyproject/bioblend
  # Install Galaxy
  - cd $HOME
  - wget https://github.com/galaxyproject/galaxy/archive/${GALAXY_VERSION}.tar.gz
  - tar xvzf ${GALAXY_VERSION}.tar.gz | tail
  # Releases/dev branch are named differently
  - cd galaxy-${GALAXY_VERSION}/
+ # Create a PostgreSQL database for Galaxy. The default SQLite3 database makes test fail randomly because of "database locked" error.
+ - createdb -U postgres galaxy-travis
+ - if [ -f universe_wsgi.ini.sample ]; then GALAXY_CONFIG_FILE=universe_wsgi.ini; else GALAXY_CONFIG_FILE=config/galaxy.ini; fi
+ - if [ -f universe_wsgi.ini.sample ]; then GALAXY_CONFIG_DIR=.; else GALAXY_CONFIG_DIR=config; fi
+ # Change Galaxy configuration to use the newly created PostgreSQL database
+ - sed -e 's|^#database_connection.*|database_connection = postgresql://postgres:@localhost/galaxy-travis|' $GALAXY_CONFIG_FILE.sample > $GALAXY_CONFIG_FILE
  # Setup Galaxy master API key and admin user
  - GALAXY_MASTER_API_KEY=`date --rfc-3339=ns | md5sum | cut -f 1 -d ' '`
  - GALAXY_USER_EMAIL=${USER}@localhost.localdomain
@@ -40,11 +47,12 @@ before_script:
  # Start Galaxy and wait for successful server start
  - GALAXY_RUN_ALL=1 ../run_galaxy.sh --daemon --wait
  # Use the master API key to create the admin user and get its API key
- - export GALAXY_URL=http://localhost:8080
+ - export BIOBLEND_GALAXY_URL=http://localhost:8080
  - GALAXY_USER=$USER
  - GALAXY_USER_PASSWD=`date --rfc-3339=ns | md5sum | cut -f 1 -d ' '`
- - export GALAXY_API_KEY=`python $TRAVIS_BUILD_DIR/docs/examples/create_user_get_api_key.py $GALAXY_URL $GALAXY_MASTER_API_KEY $GALAXY_USER $GALAXY_USER_EMAIL $GALAXY_USER_PASSWD`
- - echo "Created new Galaxy user $GALAXY_USER with email $GALAXY_USER_EMAIL , password $GALAXY_USER_PASSWD and API key $GALAXY_API_KEY"
+ - export BIOBLEND_GALAXY_API_KEY=`python $TRAVIS_BUILD_DIR/docs/examples/create_user_get_api_key.py $BIOBLEND_GALAXY_URL $GALAXY_MASTER_API_KEY $GALAXY_USER $GALAXY_USER_EMAIL $GALAXY_USER_PASSWD`
+ - echo "Created new Galaxy user $GALAXY_USER with email $GALAXY_USER_EMAIL , password $GALAXY_USER_PASSWD and API key $BIOBLEND_GALAXY_API_KEY"
+
 
  
 script:
