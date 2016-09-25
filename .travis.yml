@@ -55,12 +55,11 @@ before_script:
  - GALAXY_RUN_ALL=1 ../run_galaxy.sh --daemon --wait
  # ------------------------------------------------
  # Use the master API key to create the admin user and get its API key
- - export BIOBLEND_GALAXY_URL=http://localhost:8080
  - GALAXY_USER=$USER
  - GALAXY_USER_PASSWD=`date --rfc-3339=ns | md5sum | cut -f 1 -d ' '`
  - cd $TRAVIS_BUILD_DIR/examples
  - php ./create_user_get_api_key.php localhost 8080 0 $GALAXY_MASTER_API_KEY $GALAXY_USER $GALAXY_USER_EMAIL $GALAXY_USER_PASSWD
- - echo "Created new Galaxy user $GALAXY_USER with email $GALAXY_USER_EMAIL , password $GALAXY_USER_PASSWD and API key $BIOBLEND_GALAXY_API_KEY"
+ - echo "Created new Galaxy user $GALAXY_USER with email $GALAXY_USER_EMAIL, password $GALAXY_USER_PASSWD and API key $GALAXY_MASTER_API_KEY"
  # Setup the config file
  - cd $TRAVIS_BUILD_DIR/tests
  - perl -pi -e "s/(\"host\"\s+=>\s+').*?(',)/\1$localhost\2/" testConfig.inc
