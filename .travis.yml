@@ -25,13 +25,13 @@ before_script:
  - cd galaxy-${GALAXY_VERSION}/
  # ------------------------------------------------
  # Create a PostgreSQL database for Galaxy. The default SQLite3 database makes test fail randomly because of "database locked" error.
+ - sudo /etc/init.d/postgresql start
  - createdb -U postgres galaxy-travis
  - if [ -f universe_wsgi.ini.sample ]; then GALAXY_CONFIG_FILE=universe_wsgi.ini; else GALAXY_CONFIG_FILE=config/galaxy.ini; fi
  - if [ -f universe_wsgi.ini.sample ]; then GALAXY_CONFIG_DIR=.; else GALAXY_CONFIG_DIR=config; fi
  # ------------------------------------------------
  # Change Galaxy configuration to use the newly created PostgreSQL database
  - sed -e 's|^#database_connection.*|database_connection = postgresql://postgres:@localhost/galaxy-travis|' $GALAXY_CONFIG_FILE.sample > $GALAXY_CONFIG_FILE
- -cat $GALAXY_CONFIG_FILE
  # ------------------------------------------------
  # Setup Galaxy master API key and admin user
  - GALAXY_MASTER_API_KEY=`date --rfc-3339=ns | md5sum | cut -f 1 -d ' '`
@@ -58,10 +58,17 @@ before_script:
  - export BIOBLEND_GALAXY_URL=http://localhost:8080
  - GALAXY_USER=$USER
  - GALAXY_USER_PASSWD=`date --rfc-3339=ns | md5sum | cut -f 1 -d ' '`
- - export BIOBLEND_GALAXY_API_KEY=`python $TRAVIS_BUILD_DIR/docs/examples/create_user_get_api_key.py $BIOBLEND_GALAXY_URL $GALAXY_MASTER_API_KEY $GALAXY_USER $GALAXY_USER_EMAIL $GALAXY_USER_PASSWD`
+ - cd $TRAVIS_BUILD_DIR/examples
+ - php ./create_user_get_api_key.php localhost 8080 0 $GALAXY_MASTER_API_KEY $GALAXY_USER $GALAXY_USER_EMAIL $GALAXY_USER_PASSWD
  - echo "Created new Galaxy user $GALAXY_USER with email $GALAXY_USER_EMAIL , password $GALAXY_USER_PASSWD and API key $BIOBLEND_GALAXY_API_KEY"
-
-
+ # Setup the config file
+ - cd $TRAVIS_BUILD_DIR/tests
+ - perl -pi -e "s/(\"host\"\s+=>\s+').*?(',)/\1$localhost\2/" testConfig.inc
+ - perl -pi -e "s/(\"port\"\s+=>\s+').*?(',)/\1$8080\2/" testConfig.inc
+ - perl -pi -e "s/(\"user\"\s+=>\s+').*?(',)/\1$GALAXY_USER\2/" testConfig.inc
+ - perl -pi -e "s/(\"pass\"\s+=>\s+').*?(',)/\1$GALAXY_USER_PASSWD\2/" testConfig.inc
+ - perl -pi -e "s/(\"email\"\s+=>\s+').*?(',)/\1$GALAXY_USER_EMAIL\2/" testConfig.inc
+ - perl -pi -e "s/(\"api_key\"\s+=>\s+').*?(',)/\1$GALAXY_MASTER_API_KEY\2/" testConfig.inc
  
 script:
  - cd $TRAVIS_BUILD_DIR/tests
