@@ -14,12 +14,12 @@ $password  = $argv[7];
 
 # Instantiate the Galaxy object.
 $galaxy = new GalaxyInstance($hostname, $port, $use_https);
-$galaxy->setAPIKey($api_key);
 
 # Test the connection to Galaxy.
 $version = $galaxy->getVersion();
 if (!$version) {
-  print "Cannot connect to the Galaxy server. Exiting.\n";
+  print $galaxy->getErrorMessage() . "\n";
+  exit -1;
 }
 
 # Instantiate the User's API object.
@@ -31,10 +31,20 @@ $user = $usersAPI->create(array(
   'email' => $email,
   'password' => $password,
 ));
+if (!$user) {
+  print $galaxy->getErrorMessage() . "\n";
+  exit -1;
+}
 
 # Set the API Key for this user. It is the
 # current API associated with the galaxy object.
-$usersAPI->apiKey(array(
+$galaxy->setAPIKey($api_key);
+$success = $usersAPI->apiKey(array(
   'user_id' => $user['id'],
 ));
+
+if (!$success) {
+  print $galaxy->getErrorMessage() . "\n";
+  exit -1;
+}
 
