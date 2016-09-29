@@ -179,10 +179,10 @@ class JobsTest extends PHPUnit_Framework_TestCase {
     // Case 1: Successfully build for rerun given a correct job id
     $inputs = array();
     if(!empty($default))
-      $inputs['job_id'] ='f2db41e1fa331b3e';
+      $inputs['id'] = $default[0]['id'];
 
     $rerun_job = $jobs->buildForRerun($inputs);
-    $this->assertFalse($rerun_job);
+    $this->assertTrue(is_array($rerun_job));
   }
 
   /**
@@ -200,7 +200,6 @@ class JobsTest extends PHPUnit_Framework_TestCase {
 
     $job = $jobs->search(array(
       'tool_id' => 'upload1',
-      'history_id' => 'dff4190d282fb07a',
 //       'inputs' => array('id' => '03501d7626bd192f', 'dataset_id' => '03501d7626bd192f'),
 //       'status' => 'ok',
     ));

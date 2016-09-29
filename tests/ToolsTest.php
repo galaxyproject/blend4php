@@ -103,13 +103,14 @@ class ToolsTest extends PHPUnit_Framework_TestCase {
   public function testDiagnostics($galaxy){
     $tools = new GalaxyTools ($galaxy);
 
-    $tools_list = $tools->index();
-    $this->assertTrue(is_array($tools_list), $galaxy->getErrorMessage());
-    $tool = $tools_list[0];
-    $tool_id = $tool['elems'][0]['id'];
+    // Hardcoding the 'upload1' because some of the tools will be without
+    // the diagnostics, rendering this test to throw an error
+    $upload_tool= $tools->show(array('tool_id' => 'upload1'));
+    $this->assertTrue(is_array($upload_tool), $galaxy->getErrorMessage());
+   
+    
+    $tool_id = $upload_tool['id'];
 
-    // TODO this test returns an error, but it's not clear why because
-    // the paramter is correct and is the same used for the show() test.
     $diagnostics = $tools->diagnostics(array('tool_id' => $tool_id));
     $this->assertTrue(is_array($diagnostics), $galaxy->getErrorMessage());
   }

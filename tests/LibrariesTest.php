@@ -75,34 +75,34 @@ class LibrariesTest extends PHPUnit_Framework_TestCase {
     $libraries = new GalaxyLibraries($galaxy);
 
     // Case 1: The delete function should return an array.
-    $libParams = array(
+    $libParams1 = array(
       "library_id" => $library['id'],
     );
 
-    $library = $libraries->delete($libParams);
-    $this->assertTrue(is_array($library), $galaxy->getErrorMessage());
-    $this->assertTrue($library['deleted'], "The library should be deleted but it's not: " . print_r($library, TRUE));
+    $dlibrary = $libraries->delete($libParams1);
+    $this->assertTrue(is_array($dlibrary), $galaxy->getErrorMessage());
+    $this->assertTrue($dlibrary['deleted'], "The library should be deleted but it's not: " . print_r($dlibrary, TRUE));
 
     // Case 2:  Try not passing a library_id.  The function should return FALSE.
     $empty = array();
-    $library = $libraries->delete($empty);
-    $this->assertTrue($library === FALSE, $galaxy->getErrorMessage());
+    $dlibrary = $libraries->delete($empty);
+    $this->assertTrue($dlibrary === FALSE, $galaxy->getErrorMessage());
 
     // TODO: The 'undelete' argument doesn't seem to work, and I suspect
     // this is a Galaxy API issue, so the test below is commented out until
     // we can verify.
 
     // Case 3: Undelete the library deleted in case #1.
-//     $libParams = array(
-//       "library_id" => $library['id'],
-//       "undelete" => TRUE,
-//     );
-//     $library = $libraries->delete($libParams);
-//     $this->assertTrue(is_array($library), $galaxy->getErrorMessage());
-//     $this->assertFalse($library['deleted'], "The library should be undeleted but it's not: " . print_r($library, TRUE));
+    $libParams2 = array(
+      "library_id" => $library['id'],
+      "undelete" => true,
+    );
+    $dlibrary = $libraries->delete($libParams2);
+    $this->assertTrue(is_array($dlibrary), $galaxy->getErrorMessage());
+    //$this->assertFalse($library['deleted'], "The library should be undeleted but it's not: " . print_r($library, TRUE));
 
-//     // Mark the library as deleted again for further testing
-//     $library = $libraries->delete($library_id);
+    // Mark the library as deleted again for further testing
+    $dlibrary = $libraries->delete($libParams1);
 
   }
 
