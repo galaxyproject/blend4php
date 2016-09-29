@@ -32,14 +32,14 @@ class GalaxyWorkflows extends GalaxyAPIService {
    *   An array containing all of the workflows in Galaxy.
    */
   public function index($params = array()) {
-    
+
     if(array_key_exists('is_published', $params)){
       $URL = $this->galaxy->getURL() . '/api/workflows/?is_published=' . $params['is_published'] .'/&key=' . $this->galaxy->getAPIKey(); ;
       $response = $this->galaxy->httpGET($URL);
       return $this->galaxy->expectArray($response);
     }
-    
-    
+
+
     $URL = $this->galaxy->getURL() . '/api/workflows/?' . 'key=' . $this->galaxy->getAPIKey();
     $response = $this->galaxy->httpGET($URL);
     return $this->galaxy->expectArray($response);
@@ -62,12 +62,12 @@ class GalaxyWorkflows extends GalaxyAPIService {
    *   An array containing the details of a workflow.
    */
   public function show($params) {
-    
+
     // Check for required fields.
     if (!$this->checkRequiredParams($params, array('workflow_id'))) {
       return FALSE;
     }
-    
+
     // Check for allowed fields.
     if (!$this->checkAllowedParams($params, array('workflow_id', 'show_published'))) {
       return FALSE;
@@ -88,24 +88,24 @@ class GalaxyWorkflows extends GalaxyAPIService {
    *
    * Corresponds to an HTTP DELETE on the Galaxy API path
    *   /api/workflows/{encoded_workflow_id}
-   *   
+   *
    * @param $params
    *   An associative array containing the input parameters for this function.
    *   The following parameters are available:
    *
    * - workflow_id: The ID of the workflow to delete. To obtain a workflow ID
    *     use Workflows::index().
-   * 
+   *
    * @return
    *
    */
   public function delete($params) {
-    
+
     // Check for required fields.
     if (!$this->checkRequiredParams($params, array('workflow_id'))) {
       return FALSE;
     }
-    
+
     // Check for allowed fields.
     if (!$this->checkAllowedParams($params, array('workflow_id'))) {
       return FALSE;
@@ -118,10 +118,10 @@ class GalaxyWorkflows extends GalaxyAPIService {
 
   /**
    * Returns a selected workflow (using a filepath) to download.
-   * 
+   *
    * Corresponds to an HTTP GET on the Galaxy API path
    *   /api/workflows/{encoded_workflow_id}/download
-   *   
+   *
    * It is similar to the export function except the returned array does not
    * include a 'inputs' field.
    *
@@ -141,12 +141,12 @@ class GalaxyWorkflows extends GalaxyAPIService {
     if (!$this->checkRequiredParams($params, array('workflow_id'))) {
       return FALSE;
     }
-    
+
     // Check for allowed fields.
     if (!$this->checkAllowedParams($params, array('workflow_id'))) {
       return FALSE;
     }
-    
+
     $URL = $this->galaxy->getURL() . '/api/workflows/' . $params['workflow_id'] . '/download/?key=' . $this->galaxy->getAPIKey();
 
     $response = $this->galaxy->httpGET($URL);
@@ -164,9 +164,9 @@ class GalaxyWorkflows extends GalaxyAPIService {
    *   An associative array containing the input parameters for this function.
    *   The following parameters are available:
    *
-   * - workflow_id: The ID of the workflow to update. Obtain a workflow ID 
+   * - workflow_id: The ID of the workflow to update. Obtain a workflow ID
    *     using Workflows::index().
-   * - workflow: The JSON representation of what the final workflow should 
+   * - workflow: The JSON representation of what the final workflow should
    *     look like, including the updates.
    *
    * @return
@@ -178,12 +178,12 @@ class GalaxyWorkflows extends GalaxyAPIService {
     if (!$this->checkRequiredParams($params, array('workflow_id'))) {
       return FALSE;
     }
-    
+
     // Check for allowed fields.
     if (!$this->checkAllowedParams($params, array('workflow_id', 'workflow'))) {
       return FALSE;
     }
-    
+
     $URL = $this->galaxy->getURL() . '/api/workflows/'. $params['workflow_id'] . '/?key=' . $this->galaxy->getAPIKey();
 
     unset($params['workflow_id']);
@@ -251,12 +251,12 @@ class GalaxyWorkflows extends GalaxyAPIService {
      if (!$this->checkRequiredParams($params, array('workflow_id'))) {
        return FALSE;
      }
-     
+
      // Check for allowed fields.
      if (!$this->checkAllowedParams($params, array('workflow_id'))) {
        return FALSE;
      }
-     
+
      $URL = $this->galaxy->getURL() . '/api/workflows/' . $params['workflow_id'] . '/invocations/?key=' . $this->galaxy->getAPIKey();
      $response = $this->galaxy->httpGET($URL);
      return $this->galaxy->expectArray($response);
@@ -274,19 +274,19 @@ class GalaxyWorkflows extends GalaxyAPIService {
    *
    * - workflow_id: The specified workflow of the invocation to show. To obtain
    *     a workflow ID use Workflows::index().
-   * - invocation_id: The ID of the invocaiton. To obtain an invocation ID, 
+   * - invocation_id: The ID of the invocaiton. To obtain an invocation ID,
    *     use Workflows::index().
    *
    * @return
    *   An array containing details of the specified invocation.
    */
    public function showInvocations($params) {
-     
+
      // Check for required fields.
      if (!$this->checkRequiredParams($params, array('workflow_id', 'invocation_id'))) {
        return FALSE;
      }
-      
+
      // Check for allowed fields.
      if (!$this->checkAllowedParams($params, array('workflow_id', 'invocation_id'))) {
        return FALSE;
@@ -307,7 +307,7 @@ class GalaxyWorkflows extends GalaxyAPIService {
    *   An associative array containing the input parameters for this function.
    *   The following parameters are available:
    *
-   * - workflow_id: The ID of the workflow that the invocation belongs to. To 
+   * - workflow_id: The ID of the workflow that the invocation belongs to. To
    *     obtain a workflow invocation, use Workflows::index().
    * - invocation_id: The ID of the invocation to delete.
    *
@@ -330,9 +330,9 @@ class GalaxyWorkflows extends GalaxyAPIService {
    *   An associative array containing the input parameters for this function.
    *   The following parameters are available:
    *
-   * - workflow_id: The ID of the workflow's invocation steps to retreive. To 
+   * - workflow_id: The ID of the workflow's invocation steps to retreive. To
    *     obtain a workflow ID, use Workflows::index().
-   *  - invocation_id: The ID of the invocation the step belongs to. To obtain 
+   *  - invocation_id: The ID of the invocation the step belongs to. To obtain
    *      an invocaiton ID, use Workflows::indexInvocation().
    *  - step_id: The ID of the step to retreive.
    *
@@ -341,17 +341,17 @@ class GalaxyWorkflows extends GalaxyAPIService {
    *   the given workflow invocation.
    */
    public function invocationSteps($params) {
-     
+
      // Check for required fields.
      if (!$this->checkRequiredParams($params, array('workflow_id', 'invocation_id' , 'step_id'))) {
        return FALSE;
      }
-     
+
      // Check for allowed fields.
      if (!$this->checkAllowedParams($params, array('workflow_id', 'invocation_id', 'step_id'))) {
        return FALSE;
      }
-     
+
      $URL = $this->galaxy->getURL() . '/api/workflows/' . $params['workflow_id'] . '/invocations/'. $params['invocation_id'] . '/steps/' . $params['step_id'] .'/?key=' . $this->galaxy->getAPIKey();
 
      $response = $this->galaxy->httpGET($URL);
@@ -430,12 +430,12 @@ class GalaxyWorkflows extends GalaxyAPIService {
    *   An array containing information on the workflow invoked.
    */
   public function invoke($params) {
-    
+
     // Check for required fields.
     if (!$this->checkRequiredParams($params, array('workflow_id', 'input_dataset_ids'))) {
       return FALSE;
     }
-     
+
     // Check for allowed fields.
     if (!$this->checkAllowedParams($params, array('workflow_id', 'input_dataset_ids' , 'parameters', 'hist_id'))) {
       return FALSE;
@@ -460,6 +460,7 @@ class GalaxyWorkflows extends GalaxyAPIService {
       $history_input = 'hist_id=' . $params['hist_id'];
     }
 
+    //print_r($input_ids);
     $elements = array(
       'inputs' => json_encode($input_ids, JSON_FORCE_OBJECT),
       'dataset_map' => json_encode($input_ids, JSON_FORCE_OBJECT),
@@ -471,6 +472,7 @@ class GalaxyWorkflows extends GalaxyAPIService {
     if (array_key_exists('parameters', $params)) {
       $elements['parameters'] = json_encode($params['parameters'], JSON_FORCE_OBJECT);
     }
+    //print_r($params['parameters']);
 
     $response = $this->galaxy->httpPOST($URL, $elements);
     return $this->galaxy->expectArray($response);
@@ -531,7 +533,7 @@ class GalaxyWorkflows extends GalaxyAPIService {
    *   An array containing the created workflow.
    */
   public function create($params) {
-    
+
     // Check for allowed fields.
     if (!$this->checkAllowedParams($params, array('workflow', 'workflow_id', 'parameters', 'ds_map', 'no_add_to_history', 'replacement_params',
       'history', 'from_history_id', 'job_ids', 'dataset_collection_ids', 'workflow_name', 'allow_tool_state_corrections'))) {

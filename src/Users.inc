@@ -18,7 +18,7 @@ class GalaxyUsers extends GalaxyAPIService {
    * Displays a collection of Galaxy users.
    *
    * Corresponds to an HTTP GET on the Galaxy API paths
-   *   /api/users 
+   *   /api/users
    *   and
    *   /api/users/deleted
    *
@@ -70,14 +70,14 @@ class GalaxyUsers extends GalaxyAPIService {
    *   - deleted: (Optional) If set to TRUE, will show deleted users.
    *   - current: (Default) If neither of the above parameters are set then
    *       present details of current user.
-   *       
+   *
    * @return
    *   An array containing the details of the user.
    */
   function show($params) {
 
     if(array_key_exists('deleted', $params) and $params['deleted'] == TRUE)
-      $URL = $this->galaxy->getURL() . '/api/users/deleted/' . $params['user_id'];
+      $URL = $this->galaxy->getURL() . '/api/users/deleted/';
 
     else if(array_key_exists('user_id', $params))
       $URL = $this->galaxy->getURL() . '/api/users/' . $params['user_id'];
@@ -108,17 +108,17 @@ class GalaxyUsers extends GalaxyAPIService {
    *   The API key of the user.
    */
   function apiKey($params) {
-    
+
     // Check for required fields.
     if (!$this->checkRequiredParams($params, array('user_id'))) {
       return FALSE;
     }
-    
+
     // Check for allowed fields.
     if (!$this->checkAllowedParams($params, array('user_id'))) {
       return FALSE;
     }
-    
+
     $URL = $this->galaxy->getURL() . '/api/users/' . $params['user_id'] . '/api_key/?key=' . $this->galaxy->getAPIKey();
     return $this->galaxy->httpPOST($URL);
   }
@@ -128,7 +128,7 @@ class GalaxyUsers extends GalaxyAPIService {
    *
    * Corresponds to an HTTP POST on the Galaxy API path
    *   /api/users
-   *   
+   *
    * For this method to work, the Galaxy instance must have the allow_user_creation
    * option set to True and use_remote_user option set to False in the
    * config/galaxy.ini configuration file.
@@ -146,17 +146,17 @@ class GalaxyUsers extends GalaxyAPIService {
    *   returned.
    */
   function create($params) {
-    
+
     // Check for required fields.
     if (!$this->checkRequiredParams($params, array('username', 'email', 'password'))) {
       return FALSE;
     }
-    
+
     // Check for allowed fields.
     if (!$this->checkAllowedParams($params, array('username', 'email', 'password'))) {
       return FALSE;
     }
-    
+
     $URL = $this->galaxy->getURL() . '/api/users/' . '?key=' . $this->galaxy->getAPIKey();
 
     $response = $this->galaxy->httpPOST($URL, $params);
@@ -193,17 +193,17 @@ class GalaxyUsers extends GalaxyAPIService {
    *   An array containing details of the deleted user, or FALSE on failure.
    */
   function delete($params) {
-    
+
     // Check for required fields.
     if (!$this->checkRequiredParams($params, array('user_id'))) {
       return FALSE;
     }
-    
+
     // Check for allowed fields.
     if (!$this->checkAllowedParams($params, array('username', 'user_id', 'purge'))) {
       return FALSE;
     }
-    
+
     $URL = $this->galaxy->getURL() . '/api/users/' . $params['user_id'] . '?key=' . $this->galaxy->getAPIKey();
 
     if (array_key_exists('purge', $params) and $params['purge'] == TRUE)
@@ -237,7 +237,7 @@ class GalaxyUsers extends GalaxyAPIService {
     }
 
     // Get the index and iterate through until we find our user.
-    $users = $this->index(array());
+    $users = $this->index(array('fname' => $params['username']));
 
     foreach($users as $user){
       if($user['username'] == $params['username']){
@@ -246,6 +246,6 @@ class GalaxyUsers extends GalaxyAPIService {
     }
     return FALSE;
   }
-  
+
 }
 

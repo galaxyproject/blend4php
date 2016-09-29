@@ -1,0 +1,75 @@
+sudo: false
+language: php
+php:
+ - 7.0
+ - 5.6
+env:
+ - GALAXY_VERSION=dev
+ - GALAXY_VERSION=release_16.07
+ - GALAXY_VERSION=release_16.04
+ - GALAXY_VERSION=release_16.01
+
+install:
+ - cp run_galaxy.sh $HOME
+
+before_script:
+ # Copied from the BioBlend .travis.yml file: https://github.com/galaxyproject/bioblend
+ # ------------------------------------------------
+ # Install Galaxy
+ # ------------------------------------------------
+ - cd $HOME
+ - wget https://github.com/galaxyproject/galaxy/archive/${GALAXY_VERSION}.tar.gz
+ - tar xvzf ${GALAXY_VERSION}.tar.gz | tail
+ # ------------------------------------------------
+ # Releases/dev branch are named differently
+ - cd galaxy-${GALAXY_VERSION}/
+ # ------------------------------------------------
+ # Create a PostgreSQL database for Galaxy. The default SQLite3 database makes test fail randomly because of "database locked" error.
+ #- createdb -U postgres galaxy-travis
+ - if [ -f universe_wsgi.ini.sample ]; then GALAXY_CONFIG_FILE=universe_wsgi.ini; else GALAXY_CONFIG_FILE=config/galaxy.ini; fi
+ - if [ -f universe_wsgi.ini.sample ]; then GALAXY_CONFIG_DIR=.; else GALAXY_CONFIG_DIR=config; fi
+ # ------------------------------------------------
+ # Change Galaxy configuration to use the newly created PostgreSQL database
+ #- sed -e 's|^#database_connection.*|database_connection = postgresql://postgres:@localhost/galaxy-travis|' $GALAXY_CONFIG_FILE.sample > $GALAXY_CONFIG_FILE
+ # ------------------------------------------------
+ # Setup Galaxy master API key and admin user
+ - GALAXY_MASTER_API_KEY=`date --rfc-3339=ns | md5sum | cut -f 1 -d ' '`
+ - GALAXY_USER_EMAIL=${USER}@localhost.localdomain
+ - sed -i -e "s/^#master_api_key.*/master_api_key = $GALAXY_MASTER_API_KEY/" $GALAXY_CONFIG_FILE
+ - sed -i -e "s/^#admin_users.*/admin_users = $GALAXY_USER_EMAIL/" $GALAXY_CONFIG_FILE
+ # ------------------------------------------------
+ # Change Galaxy configuration needed by many tests
+ - sed -i -e 's/^#allow_user_dataset_purge.*/allow_user_dataset_purge = True/' $GALAXY_CONFIG_FILE
+ # ------------------------------------------------
+ # Change Galaxy configuration needed by some library tests
+ - sed -i -e 's/^#allow_library_path_paste.*/allow_library_path_paste = True/' $GALAXY_CONFIG_FILE
+ # ------------------------------------------------
+ # Change Galaxy configuration needed by some workflow tests
+ - sed -i -e 's/^#enable_beta_workflow_modules.*/enable_beta_workflow_modules = True/' $GALAXY_CONFIG_FILE
+ # ------------------------------------------------
+ # Change Galaxy configuration needed by some user tests
+ - sed -i -e 's/^#allow_user_deletion.*/allow_user_deletion = True/' $GALAXY_CONFIG_FILE
+ - if [ -f test/functional/tools/samples_tool_conf.xml ]; then sed -i -e "s/^#tool_config_file.*/tool_config_file = $GALAXY_CONFIG_DIR\/tool_conf.xml.sample,$GALAXY_CONFIG_DIR\/shed_tool_conf.xml.sample,test\/functional\/tools\/samples_tool_conf.xml/" $GALAXY_CONFIG_FILE; fi
+ # ------------------------------------------------
+ # Start Galaxy and wait for successful server start
+ - GALAXY_RUN_ALL=1 ../run_galaxy.sh --daemon --wait
+ # ------------------------------------------------
+ # Use the master API key to create the admin user and get its API key
+ - GALAXY_USER=$USER
+ - GALAXY_USER_PASSWD=`date --rfc-3339=ns | md5sum | cut -f 1 -d ' '`
+ - cd $TRAVIS_BUILD_DIR/examples
+ - php ./create_user_get_api_key.php localhost 8080 0 $GALAXY_MASTER_API_KEY $GALAXY_USER $GALAXY_USER_EMAIL $GALAXY_USER_PASSWD
+ - echo "Created new Galaxy user $GALAXY_USER with email $GALAXY_USER_EMAIL, password $GALAXY_USER_PASSWD and API key $GALAXY_MASTER_API_KEY"
+ # Setup the config file
+ - cd $TRAVIS_BUILD_DIR/tests
+ - sed -i -e "s/^.*\"host\".*$/\'host' => 'localhost',/" testConfig.inc
+ - sed -i -e "s/^.*\"port\".*$/\'port' => '8080',/" testConfig.inc
+ - sed -i -e "s/^.*\"user\".*$/\'user' => '$GALAXY_USER',/" testConfig.inc
+ - sed -i -e "s/^.*\"pass\".*$/\'pass' => '$GALAXY_USER_PASSWD',/" testConfig.inc
+ - sed -i -e "s/^.*\"email\".*$/\'email' => '$GALAXY_USER_EMAIL',/" testConfig.inc
+ - sed -i -e "s/^.*\"api_key\".*$/\'api_key' => '$GALAXY_MASTER_API_KEY',/" testConfig.inc
+
+ 
+script:
+ - cd $TRAVIS_BUILD_DIR/tests
+ - phpunit 

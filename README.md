@@ -1,5 +1,7 @@
 ![alt tag](https://raw.githubusercontent.com/galaxyproject/blend4php/master/misc/logo_500px.png)
 
+![alt tag](https://travis-ci.org/galaxyproject/blend4php.svg?branch=master)
+    
 # About
 The blend4php package is a PHP wrapper for the [Galaxy API](https://docs.galaxyproject.org/en/master/api_doc.html).  It follows the lead of [BioBlend](https://bioblend.readthedocs.io/en/latest/) which provides a Python package for interacting with Galaxy and CloudMan--hence the use of 'blend' in the name of this package.   blend4php currently offers a partial implementation of the Galaxy API and includes support for datasets, data types, folder contents, folders,  genomes, group roles, groups, group users, histories, history contents, jobs, libraries, library contents, requests, roles, search, tools, toolshed repositories, users, visualizations and workflows.  
 
@@ -75,4 +77,4 @@ blend4php contains unit testing using the PHPUnit framework.  It is recommended 
 This work is supported by the US National Science Foundation (NSF) award #1443040, titled “CIF21 DIBBS: Tripal Gateway, a Platform for Next-Generation Data Analysis and Sharing.” 
 
 # License
-blend4php is available under version 2 of the GNU General Public License
+blend4php is made available under version 3 of the GNU Lesser General Public License
