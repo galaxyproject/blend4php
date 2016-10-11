@@ -201,7 +201,7 @@ class GalaxyWorkflows extends GalaxyAPIService {
        $tool_version = NULL, $annotation=NULL) {
 
     $URL = $this->galaxy->getURL() . '/api/workflows/build_module/?key=' . $this->galaxy->getAPIKey();
-    $i =0;
+    $i = 0;
     // Follow same formating at imputting ids as invoke
     $input_ids = array();
     if ($tool_input_ids != NULL) {
@@ -226,7 +226,7 @@ class GalaxyWorkflows extends GalaxyAPIService {
       }
     }
 
-    $this->galaxy->setError('API', "The PHP implementation of this is not yet complete. Please see our 'issues' page on github for more informaiton");
+    $this->galaxy->setError('API', "The PHP implementation of this is not yet complete. Please see our 'issues' page on github for more information");
     return FALSE;
   }
 

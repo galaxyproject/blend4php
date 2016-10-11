@@ -178,12 +178,14 @@ class GalaxyLibraries extends GalaxyAPIService {
     }
      
     // Check for allowed fields.
-    if (!$this->checkAllowedParams($params, array('library_id', 'deleted'))) {
+    if (!$this->checkAllowedParams($params, array('library_id', 'undelete'))) {
       return FALSE;
     }
     
-    $URL = $this->galaxy->getURL() . '/api/libraries/' . $params['library_id'] . '/?key=' . $this->galaxy->getAPIKey();
+    if(array_key_exists('undelete', $params))
+    	$URL = $this->galaxy->getURL() . '/api/libraries/' . $params['library_id'] . '/?key=' . $this->galaxy->getAPIKey() . '&' . $params['undelete'];
 
+    $URL = $this->galaxy->getURL() . '/api/libraries/' . $params['library_id'] . '/?key=' . $this->galaxy->getAPIKey();
     $response = $this->galaxy->httpDELETE($URL, $params);
     return $this->galaxy->expectArray($response);
   }

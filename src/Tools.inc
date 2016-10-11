@@ -124,7 +124,7 @@ class GalaxyTools extends GalaxyAPIService {
      }
 
      // Contruct the basic URL to the Galaxy API.
-     $URL = $this->galaxy->getURL() . '/api/tools/'. urlencode($params['tool_id']) . '/diagnostics/';
+     $URL = $this->galaxy->getURL() . '/api/tools/'. urlencode($params['tool_id']) . '/diagnostics';
      $URL .= '?key=' . $this->galaxy->getAPIKey();
 
      // Get the response from the Galaxy server.
