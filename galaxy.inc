@@ -1,5 +1,4 @@
 <?php
-
 require_once "src/Annotations.inc";
 require_once "src/Configuration.inc";
 require_once "src/DataSetCollections.inc";

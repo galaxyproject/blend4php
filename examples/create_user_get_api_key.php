@@ -1,9 +1,9 @@
 <?php
 
-# Include the blend4php library.
+// Include the blend4php library.
 require_once('../galaxy.inc');
 
-# Get the incoming arguments.
+// Get the incoming arguments.
 $hostname  = $argv[1];
 $port      = $argv[2];
 $use_https = $argv[3];
@@ -12,11 +12,11 @@ $username  = $argv[5];
 $email     = $argv[6];
 $password  = $argv[7];
 
-# Instantiate the Galaxy object.
+// Instantiate the Galaxy object.
 $galaxy = new GalaxyInstance($hostname, $port, $use_https);
 $galaxy->setAPIKey($api_key);
 
-# Test the connection to Galaxy.
+// Test the connection to Galaxy.
 $version = $galaxy->getVersion();
 if (!$version) {
   print $galaxy->getErrorMessage() . "\n";
@@ -24,10 +24,10 @@ if (!$version) {
 }
 print "Found Galaxy version: " . $version['version_major'] . "\n";
 
-# Instantiate the User's API object.
+// Instantiate the User's API object.
 $usersAPI = new GalaxyUsers($galaxy);
 
-# Create the new User
+// Create the new User
 $user = $usersAPI->create(array(
   'username' => $username,
   'email' => $email,
