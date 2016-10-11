@@ -12,7 +12,7 @@ Please see the [API documentation page](http://galaxyproject.github.io/blend4php
 
 To use blend4php, first include the galaxy.inc file in your program.  For example:
 
-    require_once('[blend4php installation dir]/galaxy.inc')
+    require_once('[blend4php installation dir]/galaxy.inc');
 
 Where [blend4php installation dir] is where the blend4php package is installed.  
 
@@ -24,7 +24,7 @@ The variables $hostname and $port should be the hostname (or IP address) and por
 
 To authenticate and retrieve the user's API key for future requests:
 
-    $success = $galaxy->authenticate($username, $password, $error)
+    $success = $galaxy->authenticate($username, $password, $error);
     if (!$success) {
       // Handle a failed authentication.
     }
@@ -39,13 +39,55 @@ Where the $api_key variable contains the API key of the user on the remote Galax
 
 To interact with Galaxy regarding jobs, workflows, users, etc.  Please see the [blend4php API documentation](http://galaxyproject.github.io/blend4php/docs-v0.1a/html/index.html).
 
+# Example
+## Connecting to an existing Galaxy Server
+The following is an example script that can be executed on the command-line. It is contained in the examples directory of this repository and named 'check_job_status.php'.  Typically PHP scripts are not used on the command-line but here we do so for the sake of demonstration.  The following script receives as its first argument the API key of a user on the public Galaxy server at https://usegalaxy.org.  It authenticates the user using the API key, queries the remote server to find the list of workflows that the user has created and prints the names of those workflows.
+
+    <?php
+    
+    // Include the blend4php library.
+    require_once('../galaxy.inc');
+    
+    // The domain name of the host to connect to.
+    $hostname  = 'usegalaxy.org';
+    // Port 443 is the typical port for HTTPS.
+    $port      = '443';
+    // The remote server uses HTTPS for secure connections.
+    $use_https = TRUE;
+    // The API key to use for connections will be provided on the command-line
+    // by the user calling this script.
+    $api_key   = $argv[1];
+    
+    // Instantiate the Galaxy object.
+    $galaxy = new GalaxyInstance($hostname, $port, $use_https);
+    $galaxy->setAPIKey($api_key);
+    
+    // Check the version of Galaxy.
+    $version = $galaxy->getVersion();
+    if (!$version) {
+      print $galaxy->getErrorMessage() . "\n";
+      exit -1;
+    }
+    print "Found Galaxy version: " . $version['version_major'] . "\n";
+
+    // Instantiate a GalaxyWorkflows object.
+    $gwf = new GalaxyWorkflows($galaxy);
+
+    // Get the list of workflows that the user currently has on the remote Galaxy
+    // server.
+    $workflows = $gwf->index();
+    print "You have the following workflows:\n";
+    foreach ($workflows as $index => $workflow) {
+      print ($index + 1) . ". " . $workflow['name'] . "\n";
+    }
+
 # Error Handling
 All functions in the blend4php library return FALSE on failure. If failure
 occurs then the most recent error can be retrieved using the following:
 
     $error = $galaxy->getError();
-    $emessage = $error['message']
-    $etype = $error['type']
+    $emessage = $error['message'];
+    $etype = $error['type'];
 
 Alternatively, the message and type can be retrieved independently:
 
