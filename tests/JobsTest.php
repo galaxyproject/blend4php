@@ -159,6 +159,7 @@ class JobsTest extends PHPUnit_Framework_TestCase {
     $show = $jobs->show($params);
 
     $this->assertTrue(is_array($show), $galaxy->getErrorMessage());
+
   }
 
   /**
@@ -203,7 +204,7 @@ class JobsTest extends PHPUnit_Framework_TestCase {
 //       'inputs' => array('id' => '03501d7626bd192f', 'dataset_id' => '03501d7626bd192f'),
 //       'status' => 'ok',
     ));
-    print_r($job);
+    //print_r($job);
     //$this->assertTrue(is_array($job), $galaxy->getErrorMessage());
     //$this->assertTrue(!empty($job), "Job search returned no results.");
 

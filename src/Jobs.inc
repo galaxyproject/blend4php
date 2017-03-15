@@ -20,7 +20,7 @@ class GalaxyJobs extends GalaxyAPIService {
    *
    * Corresponds to an HTTP GET on the Galaxy API path
    *   /api/jobs/{encoded_job_id}/build_for_rerun
-   *   
+   *
    *   This function is suitable for rerunning or rendering parameters of
    *   the job.
    *
@@ -41,7 +41,7 @@ class GalaxyJobs extends GalaxyAPIService {
     if (!$this->checkRequiredParams($params, array('id'))) {
       return FALSE;
     }
-    
+
     // Check for allowed fields.
     if (!$this->checkAllowedParams($params, array('id'))) {
       return FALSE;
@@ -73,12 +73,12 @@ class GalaxyJobs extends GalaxyAPIService {
   *   An array containing ouput informaiton of the job input.
   */
   public function inputs($params) {
-    
+
     // Check for required fields.
     if (!$this->checkRequiredParams($params, array('job_id'))) {
       return FALSE;
     }
-    
+
     // Check for allowed fields.
     if (!$this->checkAllowedParams($params, array('job_id'))) {
       return FALSE;
@@ -116,12 +116,12 @@ class GalaxyJobs extends GalaxyAPIService {
     if (!$this->checkRequiredParams($params, array('job_id'))) {
       return FALSE;
     }
-    
+
     // Check for allowed fields.
     if (!$this->checkAllowedParams($params, array('job_id'))) {
       return FALSE;
     }
-    
+
     // Contruct the basic URL to the Galaxy API.
     $URL = $this->galaxy->getURL() . '/api/jobs/'. $params['job_id'] . '/outputs/';
     $URL .= '?key=' . $this->galaxy->getAPIKey();
@@ -152,14 +152,14 @@ class GalaxyJobs extends GalaxyAPIService {
     if (!$this->checkRequiredParams($params, array('job_id'))) {
       return FALSE;
     }
-    
+
     // Check for allowed fields.
     if (!$this->checkAllowedParams($params, array('job_id'))) {
       return FALSE;
     }
 
     // Contruct the basic URL to the Galaxy API.
-    $URL = $this->galaxy->getURL() . '/api/jobs/'. $params['job_id'] . '/inputs/';
+    $URL = $this->galaxy->getURL() . '/api/jobs/'. $params['job_id'];
     $URL .= '?key=' . $this->galaxy->getAPIKey();
 
     // Get the response from the Galaxy server.
@@ -189,14 +189,14 @@ class GalaxyJobs extends GalaxyAPIService {
   *     (viii) 'paused'
   *     (ix)   'deleted'
   *     (x)    'deleted_now'
-  *   - tool_ids: (Optional) A list of tool IDs that limit the search to 
-  *       include only those with given tool_ids. To find tool IDs, refer to 
+  *   - tool_ids: (Optional) A list of tool IDs that limit the search to
+  *       include only those with given tool_ids. To find tool IDs, refer to
   *       Tools::index().
   *   - date_range_min: (Optional) Limit the search of jobs updated after this
   *       date.
   *   - date_range_max: (Optional) Limit the search of jobs updated before this
   *       date.
-  *   - history_id: (Optional) Limit listing of jobs to those that match 
+  *   - history_id: (Optional) Limit listing of jobs to those that match
   *       history_id. To find the history id, refer to Histories::index().
   *
   * @return
@@ -207,7 +207,7 @@ class GalaxyJobs extends GalaxyAPIService {
 
     // Contruct the basic URL to the Galaxy API.
     $URL = $this->galaxy->getURL() . '/api/jobs/?key=' . $this->galaxy->getAPIKey();
-    
+
     // Check for allowed fields.
     if (!$this->checkAllowedParams($params, array('state', 'tool_ids', 'date_range_min', 'date_range_max', 'history_id'))) {
       return FALSE;
@@ -316,12 +316,12 @@ class GalaxyJobs extends GalaxyAPIService {
     if (!$this->checkRequiredParams($params, array('tool_id', 'inputs'))) {
       return FALSE;
     }
-    
+
     // Check for allowed fields.
     if (!$this->checkAllowedParams($params, array('tool_id', 'inputs', 'state'))) {
       return FALSE;
     }
-    
+
     $URL = $this->galaxy->getURL() . '/api/jobs/search/?key=' . $this->galaxy->getAPIKey();
 
     // Check that incoming arguments are appropriate.
@@ -344,5 +344,5 @@ class GalaxyJobs extends GalaxyAPIService {
         more information");
     return FALSE;
   }
-  
+
 }

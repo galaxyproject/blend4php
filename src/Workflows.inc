@@ -407,11 +407,13 @@ class GalaxyWorkflows extends GalaxyAPIService {
    *
    *  - workflow_id
    *    The ID of the workflow to invoke.
+   *
    *  - input_dataset_ids
    *    The list of id's of the datasets to enter into the workflow.
    *    These id's can be found using the dataset class's index() function.
    *    The dataset must be present in a history, and the dataset 'state' must
    *    be 'ok' and 'deleted' must be set to FALSE.
+   *
    *  - parameters
    *    A mapping of tool parameters that are non-datasets parameters. The map
    *    must be in the following format:
@@ -421,6 +423,7 @@ class GalaxyWorkflows extends GalaxyAPIService {
    *      [step_id_or_UUID] => array([param_name] => [value])
    *    );
    *    @endcode
+   *
    *  - hist_id
    *    Optional. The id of the history to export the results to.
    *    If a new history is not created. Leave this ommitted if a new history
