@@ -142,6 +142,7 @@ class GalaxyJobs extends GalaxyAPIService {
   *   The following parameters are available:
   *
   *   - job_id: The job to present. See the Jobs::index() to obtain job IDs.
+  *   - full:  Set to TRUE to retrieve the full information about a job.
   *
   * @return
   *   An array containing information about the specified job.
@@ -154,13 +155,17 @@ class GalaxyJobs extends GalaxyAPIService {
     }
 
     // Check for allowed fields.
-    if (!$this->checkAllowedParams($params, array('job_id'))) {
+    if (!$this->checkAllowedParams($params, array('job_id', 'full'))) {
       return FALSE;
     }
 
     // Contruct the basic URL to the Galaxy API.
     $URL = $this->galaxy->getURL() . '/api/jobs/'. $params['job_id'];
     $URL .= '?key=' . $this->galaxy->getAPIKey();
+
+    if (array_key_exists('full', $params) and $params['full'] == TRUE){
+      $URL .= '&full=True';
+    }
 
     // Get the response from the Galaxy server.
     $response = $this->galaxy->httpGET($URL);
