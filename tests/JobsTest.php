@@ -159,7 +159,7 @@ class JobsTest extends PHPUnit_Framework_TestCase {
     $show = $jobs->show($params);
 
     $this->assertTrue(is_array($show), $galaxy->getErrorMessage());
-
+    $this->assertTrue(array_key_exists('tool_id', $show), 'Did not return a valid job.');
   }
 
   /**
