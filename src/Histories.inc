@@ -19,7 +19,7 @@ class GalaxyHistories  extends GalaxyAPIService {
   /**
    *  Create a new History component in Galaxy.
    *
-   *  Corresponds to an HTTP POST on the Galaxy API path 
+   *  Corresponds to an HTTP POST on the Galaxy API path
    *    /api/histories
    *
    *  Creates a new history in a galaxy instance
@@ -42,7 +42,7 @@ class GalaxyHistories  extends GalaxyAPIService {
    *    An array containing information about the new History component.
    */
   public function create($params){
-    
+
     // Check for required fields.
     if (!$this->checkRequiredParams($params, array('name'))) {
       return FALSE;
@@ -62,7 +62,7 @@ class GalaxyHistories  extends GalaxyAPIService {
    *  Displays a collection of history components in Galaxy.
    *
    *  Corresponds to an HTTP GET on the Galaxy API paths
-   *    GET /api/histories 
+   *    GET /api/histories
    *    GET /api/histories/deleted
    *
    *  This function can present the list of active and deleted histories.
@@ -77,7 +77,7 @@ class GalaxyHistories  extends GalaxyAPIService {
    *    An array containing list of histories in galaxy instance.
    */
   public function index($params = array()) {
-     
+
     // Check for allowed fields.
     if (!$this->checkAllowedParams($params, array('deleted'))) {
       return FALSE;
@@ -115,19 +115,19 @@ class GalaxyHistories  extends GalaxyAPIService {
    *    An array containing information about the specified history
    */
   public function show($params) {
-    
+
     // Check for required fields.
     if (!$this->checkRequiredParams($params, array('history_id'))) {
       return FALSE;
     }
-    
+
     // Check for allowed fields.
     if (!$this->checkAllowedParams($params, array('history_id'))) {
       return FALSE;
     }
-    
+
     $URL = $this->galaxy->getURL() . '/api/histories/' . $params['history_id'] . '/?key=' . $this->galaxy->getAPIKey();
-    
+
     $response = $this->galaxy->httpGET($URL);
     return $this->galaxy->expectArray($response);
   }
@@ -155,7 +155,7 @@ class GalaxyHistories  extends GalaxyAPIService {
    *    TRUE if the download was successful and FALSE otherwise.
    */
   public function archiveDownload($params) {
-     
+
      // Check for required fields.
      if (!$this->checkRequiredParams($params, array('history_id', 'file_path'))) {
        return FALSE;
@@ -165,10 +165,10 @@ class GalaxyHistories  extends GalaxyAPIService {
      if (!$this->checkAllowedParams($params, array('history_id', 'file_path'))) {
        return FALSE;
      }
-     
+
     // Obtain download URL, with the necessary jeha_id
     $download_url = $this->archiveExport($params);
-    
+
     // Generate the URL and download
     $URL = $this->galaxy->getURL() . '/' . $download_url['download_url'] . '?key=' . $this->galaxy->getAPIKey();
     $file_contents = $this->galaxy->getRemoteFile($URL, $params['file_path']);
@@ -191,13 +191,13 @@ class GalaxyHistories  extends GalaxyAPIService {
    *   A URL of where to download the export.
    */
   public function archiveExport($params) {
-    
-    
+
+
     // Check for required fields.
     if (!$this->checkRequiredParams($params, array('history_id'))) {
       return FALSE;
     }
-    
+
     // Check for allowed fields.
     if (!$this->checkAllowedParams($params, array('history_id'))) {
       return FALSE;
@@ -226,17 +226,17 @@ class GalaxyHistories  extends GalaxyAPIService {
    *   An array of deleted histories.
    */
   public function deleteHistory($params) {
-     
+
     // Check for required fields.
     if (!$this->checkRequiredParams($params, array('history_id'))) {
       return FALSE;
     }
-     
+
     // Check for allowed fields.
     if (!$this->checkAllowedParams($params, array('history_id'))) {
       return FALSE;
     }
-     
+
     $URL = $this->galaxy->getURL() . '/api/histories/'. $params['history_id'] . '/?key=' . $this->galaxy->getAPIKey();
     $response =  $this->galaxy->httpDELETE($URL);
     return $this->galaxy->expectArray($response);
@@ -260,17 +260,17 @@ class GalaxyHistories  extends GalaxyAPIService {
    *   An array of undeleted histories.
    */
   public function undelete($params) {
-     
+
     // Check for required fields.
     if (!$this->checkRequiredParams($params, array('history_id'))) {
       return FALSE;
     }
-    
+
     // Check for allowed fields.
     if (!$this->checkAllowedParams($params, array('history_id'))) {
       return FALSE;
     }
-     
+
     $URL = $this->galaxy->getURL() . '/api/histories/deleted/'. $params['history_id'] . '/undelete?key=' . $this->galaxy->getAPIKey();
     $response = $this->galaxy->httpPOST($URL);
     return $this->galaxy->expectArray($response);
@@ -293,17 +293,17 @@ class GalaxyHistories  extends GalaxyAPIService {
    *   An array of citations.
    */
   public function citations($params) {
-     
+
     // Check for required fields.
     if (!$this->checkRequiredParams($params, array('history_id'))) {
       return FALSE;
     }
-     
+
     // Check for allowed fields.
     if (!$this->checkAllowedParams($params, array('history_id'))) {
       return FALSE;
     }
-     
+
     $URL = $this->galaxy->getURL() . '/api/histories/'. $params['history_id'] . '/citations?key=' . $this->galaxy->getAPIKey();
     $response = $this->galaxy->httpGET($URL);
     return $this->galaxy->expectArray($response);
@@ -319,7 +319,7 @@ class GalaxyHistories  extends GalaxyAPIService {
    *   An array of published histories.
    */
   public function published() {
-     
+
     $URL = $this->galaxy->getURL() . '/api/histories/published/?key=' . $this->galaxy->getAPIKey();
     $response = $this->galaxy->httpGET($URL);
     return $this->galaxy->expectArray($response);
@@ -335,22 +335,22 @@ class GalaxyHistories  extends GalaxyAPIService {
    *   An array histories shared with the current user.
    */
   public function sharedWithMe() {
-    
+
     $URL = $this->galaxy->getURL() . '/api/histories/shared_with_me/?key=' . $this->galaxy->getAPIKey();
     $response = $this->galaxy->httpGET($URL);
     return $this->galaxy->expectArray($response);
   }
-  
-  
+
+
   /**
-   * Retreive the last used history found in the right pane of the galaxy 
+   * Retreive the last used history found in the right pane of the galaxy
    *   server gui.
-   *   
-   * For now the user should have the history that will be 
-   *   
+   *
+   * For now the user should have the history that will be
+   *
    *   TODO: https://github.com/galaxyproject/blend4php/issues/18
-   *   This is a workaround right now till 
-   *   https://github.com/galaxyproject/galaxy/issues/2404 is 
+   *   This is a workaround right now till
+   *   https://github.com/galaxyproject/galaxy/issues/2404 is
    *   fixed as well.
    *
    * Corresponds to an HTTP GET on the Galaxy API path
@@ -361,9 +361,9 @@ class GalaxyHistories  extends GalaxyAPIService {
    */
   public function getMostRecentlyUsed() {
     $URL = $this->galaxy->getURL() . '/api/histories/most_recently_used?key=' . $this->galaxy->getAPIKey();
-    
+
     $response = $this->galaxy->httpGET($URL);
     return $this->galaxy->expectArray($response);
   }
-  
+
 }

@@ -110,7 +110,7 @@ class GalaxyTools extends GalaxyAPIService {
    *
    * @return
    *   An array containin diagnostic information.
-   */ 
+   */
    public function diagnostics($params) {
 
      // Make sure only allowed parameters are included.
@@ -190,12 +190,12 @@ class GalaxyTools extends GalaxyAPIService {
    *
    */
   public function build($params) {
-     
+
     // Make sure only allowed parameters are included.
     if (!$this->checkRequiredParams($params, array('tool_id', 'history_id'))) {
       return FALSE;
     }
-     
+
     // Check for required fields.
     if (!$this->checkAllowedParams($params, array('tool_id', 'history_id', 'tool_version'))) {
       return FALSE;
@@ -240,12 +240,12 @@ class GalaxyTools extends GalaxyAPIService {
     if (!$this->checkAllowedParams($params, array('tool_id'))) {
       return FALSE;
     }
-      
+
     // Check for required fields.
     if (!$this->checkRequiredParams($params, array('tool_id'))) {
       return FALSE;
     }
-     
+
     // Contruct the basic URL to the Galaxy API.
     $URL = $this->galaxy->getURL() . '/api/tools/' . urlencode($params['tool_id']) . '/citations/';
     $URL .= '?key=' . $this->galaxy->getAPIKey();
@@ -278,7 +278,7 @@ class GalaxyTools extends GalaxyAPIService {
     if (!$this->checkRequiredParams($params, array('tool_id', 'file_path'))) {
       return FALSE;
     }
-      
+
     // Make sure only allowed parameters are included.
     if (!$this->checkAllowedParams($params, array('tool_id', 'file_path'))) {
       return FALSE;
@@ -323,7 +323,7 @@ class GalaxyTools extends GalaxyAPIService {
    *      @endcode
    *  - input_dataset_ids: (Optional) An array of dataset IDs where the tool
    *      should grab its inputs. Use Datasets::index() to obtain IDs. Each
-   *      element of the array is itself an associative array with a key of 
+   *      element of the array is itself an associative array with a key of
    *      'id' containing the dataset ID and an optional 'src' key if the src
    *       is anything other than 'hda'.
    *  - tool_version: (Optional) Specify a build version of the tool.
@@ -334,12 +334,12 @@ class GalaxyTools extends GalaxyAPIService {
    *   An array containing information about the created or executed tool.
    */
   public function create($params) {
-     
+
     // Check for required fields.
     if (!$this->checkRequiredParams($params, array('tool_id', 'history_id'))) {
       return FALSE;
     }
-     
+
     // Make sure only allowed parameters are included.
     if (!$this->checkAllowedParams($params, array('tool_id', 'history_id', 'files', 'input_dataset_ids', 'tool_version', 'region', 'action'))) {
       return FALSE;
@@ -400,5 +400,5 @@ class GalaxyTools extends GalaxyAPIService {
       return $this->galaxy->expectArray($response);
     }
   }
-   
+
  }
