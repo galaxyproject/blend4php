@@ -266,7 +266,7 @@ class GalaxyWorkflows extends GalaxyAPIService {
    * Retreive a detailed specific workflow invocation
    *
    * Corresponds to an HTTP GET on the Galaxy API path
-   *   /api/workflows/{workflow_id}/invocation/{invocation_id}
+   *   /api/workflows/{workflow_id}/invocations/{invocation_id}
    *
    * @param $params
    *   An associative array containing the input parameters for this function.
@@ -301,7 +301,7 @@ class GalaxyWorkflows extends GalaxyAPIService {
    * Cancel an invocation request.
    *
    * Corresponds to an HTTP DELETE on the Galaxy API path
-   *   /api/workflows/{workflow_id}/invocation/{invocation_id}
+   *   /api/workflows/{workflow_id}/invocations/{invocation_id}
    *
    * @param $params
    *   An associative array containing the input parameters for this function.
@@ -315,9 +315,19 @@ class GalaxyWorkflows extends GalaxyAPIService {
    *   An array containing details of the specified invocation.
    */
    public function cancelInvocation($params) {
-     $URL = $this->galaxy->getURL() . '/api/workflows/' . $params['workflow_id'] . 'invocations/'. $params['invocation_id'] . '/?key=' . $this->galaxy->getAPIKey();
-      $this->galaxy->setError("API", "This function has not yet been implemented by PHP. Please see our issues thread on github to learn more.");
-      return FALSE;
+     // Check for required fields.
+     if (!$this->checkRequiredParams($params, array('workflow_id', 'invocation_id'))) {
+       return FALSE;
+     }
+
+     // Check for allowed fields.
+     if (!$this->checkAllowedParams($params, array('workflow_id', 'invocation_id'))) {
+       return FALSE;
+     }
+
+     $URL = $this->galaxy->getURL() . '/api/workflows/' . $params['workflow_id'] . '/invocations/'. $params['invocation_id'] . '/?key=' . $this->galaxy->getAPIKey();
+     $response = $this->galaxy->httpDELETE($URL);
+     return $this->galaxy->expectArray($response);
    }
 
   /**
@@ -408,11 +418,23 @@ class GalaxyWorkflows extends GalaxyAPIService {
    *  - workflow_id
    *    The ID of the workflow to invoke.
    *
-   *  - input_dataset_ids
-   *    The list of id's of the datasets to enter into the workflow.
-   *    These id's can be found using the dataset class's index() function.
-   *    The dataset must be present in a history, and the dataset 'state' must
-   *    be 'ok' and 'deleted' must be set to FALSE.
+   *  - inputs
+   *    A mapping of workflow inputs to datasets and dataset collections.
+   *    The datasets source can be a LibraryDatasetDatasetAssociation (ldda),
+   *    LibraryDataset (ld), HistoryDatasetAssociation (hda), or
+   *    HistoryDatasetCollectionAssociation (hdca). The map must be in the
+   *    following format
+   *    @code
+   *    array(
+   *      <input_index> => array(
+   *        'id' => <encoded dataset ID>,
+   *        'src' => '[ldda, ld, hda, hdca]'
+   *      )
+   *    );
+   *    @endcode
+   *    The id's are dataset IDs and can be found using the dataset class's
+   *    index() function. The dataset must be present in a history, and the
+   *    dataset 'state' must be 'ok' and 'deleted' must be set to FALSE.
    *
    *  - parameters
    *    A mapping of tool parameters that are non-datasets parameters. The map
@@ -424,10 +446,9 @@ class GalaxyWorkflows extends GalaxyAPIService {
    *    );
    *    @endcode
    *
-   *  - hist_id
+   *  - history_id
    *    Optional. The id of the history to export the results to.
-   *    If a new history is not created. Leave this ommitted if a new history
-   *    is to be created.
+   *    Leave this ommitted if a new history is to be created.
    *
    * @return
    *   An array containing information on the workflow invoked.
@@ -435,40 +456,25 @@ class GalaxyWorkflows extends GalaxyAPIService {
   public function invoke($params) {
 
     // Check for required fields.
-    if (!$this->checkRequiredParams($params, array('workflow_id', 'input_dataset_ids'))) {
+    if (!$this->checkRequiredParams($params, array('workflow_id', 'inputs'))) {
       return FALSE;
     }
 
     // Check for allowed fields.
-    if (!$this->checkAllowedParams($params, array('workflow_id', 'input_dataset_ids' , 'parameters', 'hist_id'))) {
+    if (!$this->checkAllowedParams($params, array('workflow_id', 'inputs' ,
+        'parameters', 'history_id'))) {
       return FALSE;
     }
 
     $URL = $this->galaxy->getURL() . '/api/workflows/' . $params['workflow_id'] . '/invocations/?key=' . $this->galaxy->getAPIKey();
 
-    $input_ids = array();
-    $i = 0;
-
-    foreach($params['input_dataset_ids'] as &$input_dataset_id){
-      $input_ids[$i] = array(
-        'id' => $input_dataset_id,
-        'src'=>'hda'
-      );
-      $i++;
-    }
-
-    $history_input = '';
-
-    if (array_key_exists('hist_id', $params)) {
-      $history_input = 'hist_id=' . $params['hist_id'];
-    }
-
-    //print_r($input_ids);
     $elements = array(
-      'inputs' => json_encode($input_ids, JSON_FORCE_OBJECT),
-      'dataset_map' => json_encode($input_ids, JSON_FORCE_OBJECT),
-      'history' => $history_input,
+      'inputs' => json_encode($params['inputs'], JSON_FORCE_OBJECT),
+      'dataset_map' => json_encode($params['inputs'], JSON_FORCE_OBJECT),
+      'history_id' => $params['history_id'],
     );
+
+    //print_r($elements);
 
     // If the user provided parameters we want to add them to the elements
     // that get passed to the POST.

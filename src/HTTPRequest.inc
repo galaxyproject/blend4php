@@ -150,18 +150,18 @@ class GalaxyHTTPRequest  {
    */
   public function httpGET($URL, $curl_options = array()) {
     $ch = curl_init();
-    
+
     foreach ($curl_options as $option => $value) {
       curl_setopt($ch, $option, $value);
     }
-    
+
     curl_setopt($ch, CURLOPT_URL, $URL);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-    
+
     // TODO: https://github.com/galaxyproject/blend4php/issues/18
     // This is a hack to make sure cookie information is gathered for getting
     // Histories::getCurrentHistory()
-    
+
     $response = $this->getCURLResponse($ch);
     curl_close($ch);
 
@@ -302,10 +302,8 @@ class GalaxyHTTPRequest  {
       curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
     }
 
-    $i = 0;
-    foreach ($files as $cfile){
-      $data[array_keys($files)[$i]] = curl_file_create($cfile);
-      $i++;
+    foreach ($files as $findex => $cfile){
+      $data[$findex] = curl_file_create($cfile);
     }
 
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
