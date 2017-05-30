@@ -22,7 +22,7 @@ class GalaxyHistoryContents extends GalaxyAPIService {
    *
    * Corresponds to an HTTP POST on the Galaxy API path
    *   /api/histories/{history_id}/contents/{type}
-   *  
+   *
    *  Types will be "datasets" by default. The other option "dataset_collection"
    *  is currently not supported.
    *
@@ -47,24 +47,24 @@ class GalaxyHistoryContents extends GalaxyAPIService {
    *   - type: (Optional) Type of history content, defaults to 'dataset', alternative is
    *       'dataset_collection'
    *   - content: (Optional) The id of the content associated to the selected source to
-   *       add to the history. To obtain content IDs refer to 
+   *       add to the history. To obtain content IDs refer to
    *       HistoryContents::index().
    *
    * @return
    *   An array containing information about the new History content component.
    */
   public function create($params) {
-    
+
     // Check for required fields.
     if (!$this->checkRequiredParams($params, array('history_id', 'source'))) {
       return FALSE;
     }
-    
+
     // Check for allowed fields.
     if (!$this->checkAllowedParams($params, array('history_id', 'source', 'type', 'content'))) {
       return FALSE;
     }
-    
+
     $URL = $this->galaxy->getURL() . '/api/histories/' . $params['history_id'] . '/contents/datasets/?key=' . $this->galaxy->getAPIKey();
     $response = $this->galaxy->httpPOST($URL, $params);
     return $this->galaxy->expectArray($response);
@@ -90,17 +90,17 @@ class GalaxyHistoryContents extends GalaxyAPIService {
    *   An array containing detailed HDA (history dataset association) information.
    */
   public function show($params) {
-    
+
     // Check for required fields.
     if (!$this->checkRequiredParams($params, array('history_id', 'id'))) {
       return FALSE;
     }
-    
+
     // Check for allowed fields.
     if (!$this->checkAllowedParams($params, array('history_id', 'id'))) {
       return FALSE;
     }
-    
+
     $URL = $this->galaxy->getURL() . '/api/histories/' . $params['history_id'] . '/contents/' . $params['id'] .'/?key=' . $this->galaxy->getAPIKey();
     $response = $this->galaxy->httpGET($URL);
     return $this->galaxy->expectArray($response);
@@ -138,23 +138,23 @@ class GalaxyHistoryContents extends GalaxyAPIService {
    *       (v)    annotation: The new genome annotation for the hda.
    *       (vi)   deleted: A boolean value if the hda is deleted or not.
    *       (vii)  visible: A boolean value if the hda is visible or not.
-   *       
+   *
    * @return
    *   An array containing detailed HDA (history dataset association)
    *   information.
    */
   public function update($params) {
-    
+
     // Check for required fields.
     if (!$this->checkRequiredParams($params, array('history_id', 'id'))) {
       return FALSE;
     }
-    
+
     // Check for allowed fields.
     if (!$this->checkAllowedParams($params, array('history_id', 'id', 'annotation', 'payload'))) {
       return FALSE;
     }
-    
+
     $URL = $this->galaxy->getURL() . '/api/histories/' . $params['history_id'] . '/contents/' . $params['id'] . '/?key=' . $this->galaxy->getAPIKey();
 
     // Clear these params to prevent them from being put in the request.
@@ -189,17 +189,17 @@ class GalaxyHistoryContents extends GalaxyAPIService {
    *   information.
    */
   public function delete($params) {
-    
+
     // Check for required fields.
     if (!$this->checkRequiredParams($params, array('history_id', 'id'))) {
       return FALSE;
     }
-    
+
     // Check for allowed fields.
     if (!$this->checkAllowedParams($params, array('history_id', 'id', 'purge'))) {
       return FALSE;
     }
-    
+
     $URL = $this->galaxy->getURL() . '/api/histories/' . $params['history_id'] . '/contents/' . $params['id'] . '/?key=' . $this->galaxy->getAPIKey();
 
     if(array_key_exists('purge', $params) and $params['purge'] == TRUE)
@@ -221,7 +221,7 @@ class GalaxyHistoryContents extends GalaxyAPIService {
    *
    *   - history_id: The ID of the history in order to view the contents.
    *   - ids: A comma separated string of encoded history content IDs. If
-   *       the specified content does not exist then all contents of the 
+   *       the specified content does not exist then all contents of the
    *       history will be included.
    *
    * @return
@@ -229,26 +229,72 @@ class GalaxyHistoryContents extends GalaxyAPIService {
    *   association) of all the history contents.
    */
   public function index($params) {
-    
+
     // Check for required fields.
     if (!$this->checkRequiredParams($params, array('history_id'))) {
       return FALSE;
     }
-    
+
     // Check for allowed fields.
     if (!$this->checkAllowedParams($params, array('history_id', 'ids'))) {
       return FALSE;
     }
-    
+
     $URL = $this->galaxy->getURL() . '/api/histories/' . $params['history_id'] . '/contents' . '/?key=' . $this->galaxy->getAPIKey();
-    
+
     // Check if the user asks for any specific content ids
     if(array_key_exists('ids', $params)){
       $URL .= '/&ids=' . json_encode($params['ids']);
     }
-    
+
     $response = $this->galaxy->httpGET($URL);
     return $this->galaxy->expectArray($response);
   }
-  
+
+  /**
+   * Download history as a tgz compressed file.
+   *
+   * Corresponds to an HTTP GET on the Galaxy API path
+   *   /api/histories/{history_id}/contents/archive/{filename}
+   *   /api/histories/{history_id}/contents/archive/{filename}.{format}
+   *
+   *
+   * @param $params
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
+   *
+   *   - history_id: The ID of the history in order to view the contents.
+   *   - filename: (Optional) The string to name the compressed file.
+   *   XXX This does not work as intended, ONLY downloads as *.tgz file.
+   *   - format: (Optional) The preferred compressed format of the file.
+   *
+   * @return
+   *   A tgz compressed history.
+   */
+  public function download($params) {
+
+    // Check for required fields.
+    if (!$this->checkRequiredParams($params, array('history_id'))) {
+      return FALSE;
+    }
+
+    // Check for allowed fields.
+    if (!$this->checkAllowedParams($params, array('history_id', 'filename'))) {
+      return FALSE;
+    }
+
+    $URL = $URL = $this->galaxy->getURL() . '/api/histories/' . $params['history_id'] . '/contents/archive/';
+
+    if(array_key_exists('filename', $params)){
+      $URL .= $params['filename'] . '/';
+    }
+
+    $URL .= '?key=' . $this->galaxy->getAPIKey();
+
+    $response = $this->galaxy->httpGET($URL);
+
+    return $this->galaxy->expectArray($response);
+
+  }
+
 }
