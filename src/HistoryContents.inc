@@ -271,7 +271,7 @@ class GalaxyHistoryContents extends GalaxyAPIService {
    * @return
    *   A tgz compressed history.
    */
-  public function download($params) {
+  public function download_history($params) {
 
     // Check for required fields.
     if (!$this->checkRequiredParams($params, array('history_id'))) {
@@ -283,7 +283,7 @@ class GalaxyHistoryContents extends GalaxyAPIService {
       return FALSE;
     }
 
-    $URL = $URL = $this->galaxy->getURL() . '/api/histories/' . $params['history_id'] . '/contents/archive/';
+    $URL = $this->galaxy->getURL() . '/api/histories/' . $params['history_id'] . '/contents/archive/';
 
     if(array_key_exists('filename', $params)){
       $URL .= $params['filename'] . '/';
@@ -296,5 +296,37 @@ class GalaxyHistoryContents extends GalaxyAPIService {
     return $this->galaxy->expectArray($response);
 
   }
+
+  /**
+   * Download history content from a history.
+   *
+   * Corresponds to an HTTP GET on the Galaxy API path
+   *   /api/histories/{history_id}/contents/{history_content_id}
+   *
+   * @param $params
+   *   An associative array containing the input parameters for this function.
+   *   The following parameters are available:
+   *
+   *   - history_id: The ID of the history in order to view the contents.
+   *   - history_content_id: The history_content_id to download as a file.
+   *
+   * @return
+   *   A file of the history content.
+   */
+   public function download_history_content($params){
+
+     // Check for required fields.
+     if (!$this->checkRequiredParams($params, array('history_id', 'history_content_id'))) {
+       return FALSE;
+     }
+
+     $content = show($params);
+
+     $URL = $this->galaxy->getURL() . '/api/histories/' . $params['history_id'] . '/contents/' . $params['history_content_id'] . '/display/to_ext=' . $content['file_ext'] . '/?key=' . $this->galaxy->getAPIKey();
+
+     $response = $this->galaxy->httpGET($URL);
+
+     return $this->galaxy->expectArray($response);
+   }
 
 }
