@@ -335,7 +335,7 @@ class GalaxyHistoryContents extends GalaxyAPIService {
    $content_params['history_id'] = $params['history_id'];
    $content_params['id'] = $params['history_content_id'];
    $content = $this->show($content_params);
-   dpm($content);
+
    $URL = $this->galaxy->getURL() . '/api/histories/' . $params['history_id'] . '/contents/' . $params['history_content_id'] . '/display?to_ext=' . $content['file_ext'] . '&key=' . $this->galaxy->getAPIKey();
 
    // Do you only want the URL?
