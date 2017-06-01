@@ -344,14 +344,7 @@ class GalaxyHistories  extends GalaxyAPIService {
 
   /**
    * Retreive the last used history found in the right pane of the galaxy
-   *   server gui.
-   *
-   * For now the user should have the history that will be
-   *
-   *   TODO: https://github.com/galaxyproject/blend4php/issues/18
-   *   This is a workaround right now till
-   *   https://github.com/galaxyproject/galaxy/issues/2404 is
-   *   fixed as well.
+   *   GUI.
    *
    * Corresponds to an HTTP GET on the Galaxy API path
    *   /api/histories/most_recently_used:

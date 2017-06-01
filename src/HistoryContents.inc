@@ -225,7 +225,7 @@ class GalaxyHistoryContents extends GalaxyAPIService {
    *       history will be included.
    *
    * @return
-   *   An array containing a summary or detailed HDA(history dataset
+   *   An array containing a summary or detailed HDA (history dataset
    *   association) of all the history contents.
    */
   public function index($params) {
@@ -265,6 +265,7 @@ class GalaxyHistoryContents extends GalaxyAPIService {
    *
    *   - history_id: The ID of the history in order to view the contents.
    *   - filename: (Optional) The string to name the compressed file.
+   *   - url_only: (Optional) Boolean value, if TRUE then return only the URL.
    *   XXX This does not work as intended, ONLY downloads as *.tgz file.
    *   - format: (Optional) The preferred compressed format of the file.
    *
@@ -279,7 +280,7 @@ class GalaxyHistoryContents extends GalaxyAPIService {
     }
 
     // Check for allowed fields.
-    if (!$this->checkAllowedParams($params, array('history_id', 'filename'))) {
+    if (!$this->checkAllowedParams($params, array('history_id', 'filename', 'format', 'url_only'))) {
       return FALSE;
     }
 
@@ -291,9 +292,14 @@ class GalaxyHistoryContents extends GalaxyAPIService {
 
     $URL .= '?key=' . $this->galaxy->getAPIKey();
 
-    $response = $this->galaxy->httpGET($URL);
+    // Do you only want the URL?
+    if(array_key_exists('url_only', $params) && $params['url_only']) {
+      return $URL;
+    }
 
-    return $this->galaxy->expectArray($response);
+    $response = $this->galaxy->httpGET($URL);
+    // This won't be an array
+    return $response;
 
   }
 
@@ -309,24 +315,38 @@ class GalaxyHistoryContents extends GalaxyAPIService {
    *
    *   - history_id: The ID of the history in order to view the contents.
    *   - history_content_id: The history_content_id to download as a file.
+   *   - url_only: (Optional) Boolean value, if TRUE then return only the URL.
    *
    * @return
    *   A file of the history content.
    */
-   public function download_history_content($params){
+ public function download_history_content($params) {
 
-     // Check for required fields.
-     if (!$this->checkRequiredParams($params, array('history_id', 'history_content_id'))) {
-       return FALSE;
-     }
-
-     $content = show($params);
-
-     $URL = $this->galaxy->getURL() . '/api/histories/' . $params['history_id'] . '/contents/' . $params['history_content_id'] . '/display/to_ext=' . $content['file_ext'] . '/?key=' . $this->galaxy->getAPIKey();
-
-     $response = $this->galaxy->httpGET($URL);
-
-     return $this->galaxy->expectArray($response);
+   // Check for required fields.
+   if (!$this->checkRequiredParams($params, array('history_id', 'history_content_id'))) {
+     return FALSE;
    }
+
+   // Check for allowed fields.
+   if (!$this->checkAllowedParams($params, array('history_id', 'history_content_id', 'url_only'))) {
+     return FALSE;
+   }
+
+   $content_params['history_id'] = $params['history_id'];
+   $content_params['id'] = $params['history_content_id'];
+   $content = $this->show($content_params);
+   dpm($content);
+   $URL = $this->galaxy->getURL() . '/api/histories/' . $params['history_id'] . '/contents/' . $params['history_content_id'] . '/display?to_ext=' . $content['file_ext'] . '&key=' . $this->galaxy->getAPIKey();
+
+   // Do you only want the URL?
+   if(array_key_exists('url_only', $params) && $params['url_only']) {
+     return $URL;
+   }
+
+   $response = $this->galaxy->httpGET($URL);
+
+   // This won't be an array
+   return $response;
+ }
 
 }
