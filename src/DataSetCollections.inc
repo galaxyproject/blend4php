@@ -1,5 +1,8 @@
 <?php
 
+require_once('GalaxyAPIService.inc');
+
+
 class GalaxyDatasetCollections extends GalaxyAPIService{
 
   // POST /api/datasetcollections
