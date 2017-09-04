@@ -370,16 +370,16 @@ class GalaxyTools extends GalaxyAPIService {
       $index = 0;
       foreach ($params['files'] as $file) {
         if (array_key_exists('name', $file) and array_key_exists('path', $file)) {
-          $file_data = "files_" . $index . "|file_data";
-          $file_name = "files_" . $index . "|NAME";
-          $files_type = "files_" . $index . "|type";
           //The inputs should look like:
           //  files_0|file_data => /path/to/file
           //  files_0|NAME => file_name
           // ... etc
+          $file_data = "files_" . $index . "|file_data";
+          $file_name = "files_" . $index . "|NAME";
+          $files_type = "files_" . $index . "|type";
           $files[$file_data] = $file['path'];
-          if(array_key_exists('type', $params))
-            $inputs[$files_type] = $params['type'];
+          if(array_key_exists('type', $file))
+            $inputs[$files_type] = $file['type'];
 
           $inputs[$file_name] = $file['name'];
           $index++;

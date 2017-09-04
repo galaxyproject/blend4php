@@ -70,7 +70,6 @@ class GalaxyHistories  extends GalaxyAPIService {
    *  @param $params
    *    An associative array containing the input parameters for this function.
    *    The following parameters are available:
-   *
    *      - deleted: If set true this will show deleted histories only.
    *
    * @return

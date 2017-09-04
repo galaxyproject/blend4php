@@ -70,7 +70,7 @@ class GalaxyJobs extends GalaxyAPIService {
   *        The job id can be obtained from Jobs::index().
   *
   * @return
-  *   An array containing ouput informaiton of the job input.
+  *   An array containing ouput information of the job input.
   */
   public function inputs($params) {
 

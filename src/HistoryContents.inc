@@ -219,7 +219,7 @@ class GalaxyHistoryContents extends GalaxyAPIService {
    *   An associative array containing the input parameters for this function.
    *   The following parameters are available:
    *
-   *   - history_id: The ID of the history in order to view the contents.
+   *   - history_id: The ID of the history.
    *   - ids: A comma separated string of encoded history content IDs. If
    *       the specified content does not exist then all contents of the
    *       history will be included.
