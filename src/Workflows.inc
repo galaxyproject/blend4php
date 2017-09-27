@@ -474,14 +474,11 @@ class GalaxyWorkflows extends GalaxyAPIService {
       'history_id' => $params['history_id'],
     );
 
-    //print_r($elements);
-
     // If the user provided parameters we want to add them to the elements
     // that get passed to the POST.
     if (array_key_exists('parameters', $params)) {
       $elements['parameters'] = json_encode($params['parameters'], JSON_FORCE_OBJECT);
     }
-    //print_r($params['parameters']);
 
     $response = $this->galaxy->httpPOST($URL, $elements);
     return $this->galaxy->expectArray($response);
