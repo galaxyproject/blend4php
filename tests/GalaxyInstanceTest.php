@@ -9,6 +9,7 @@
 
 require_once '../src/GalaxyInstance.inc';
 require_once './testConfig.inc';
+require_once 'PHPUnit/Autoload.php';
 
 
 class GalaxyInstanceTest extends PHPUnit_Framework_TestCase {
