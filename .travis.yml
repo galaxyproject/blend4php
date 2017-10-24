@@ -68,7 +68,6 @@ before_script:
  - sed -i -e "s/^.*\"pass\".*$/\'pass' => '$GALAXY_USER_PASSWD',/" testConfig.inc
  - sed -i -e "s/^.*\"email\".*$/\'email' => '$GALAXY_USER_EMAIL',/" testConfig.inc
  - sed -i -e "s/^.*\"api_key\".*$/\'api_key' => '$GALAXY_MASTER_API_KEY',/" testConfig.inc
-
  
 script:
  - cd $TRAVIS_BUILD_DIR/tests
