@@ -18,7 +18,7 @@ before_script:
  # Install Galaxy
  # ------------------------------------------------
  - cd $HOME
- - pip install repoze.lru==0.6
+ - sudo pip install repoze.lru==0.6
  - wget https://github.com/galaxyproject/galaxy/archive/${GALAXY_VERSION}.tar.gz
  - tar xvzf ${GALAXY_VERSION}.tar.gz | tail
  # ------------------------------------------------
