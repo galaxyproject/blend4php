@@ -2,6 +2,6 @@
 require_once '../src/Provenance.inc';
 
 
-class ProvenanceTest extends phpunit_5.6_Class {
+class ProvenanceTest extends phpunit56Class {
 
 }

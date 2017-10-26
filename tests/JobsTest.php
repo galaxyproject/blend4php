@@ -3,7 +3,7 @@ require_once '../galaxy.inc';
 require_once 'testConfig.inc';
 
 
-class JobsTest extends phpunit_5.6_Class {
+class JobsTest extends phpunit56Class {
 
 
   /**

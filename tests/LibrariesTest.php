@@ -2,7 +2,7 @@
 require_once '../galaxy.inc';
 require_once './testConfig.inc';
 
-class LibrariesTest extends phpunit_5.6_Class {
+class LibrariesTest extends phpunit56Class {
   /**
    * Intializes the Galaxy object for all of the tests.
    *

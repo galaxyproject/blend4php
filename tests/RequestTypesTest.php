@@ -2,6 +2,6 @@
 require_once '../src/RequestTypes.inc';
 
 
-class RequestTypesTest extends phpunit_5.6_Class {
+class RequestTypesTest extends phpunit56Class {
 
 }

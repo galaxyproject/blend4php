@@ -5,7 +5,7 @@ require_once 'testConfig.inc';
 /**
  * Unit test for the Histories class.
  */
-class HistoriesTest extends phpunit_5.6_Class {
+class HistoriesTest extends phpunit56Class {
 
   /**
    * Intializes the Galaxy object for all of the tests.

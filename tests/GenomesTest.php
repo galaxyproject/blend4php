@@ -3,7 +3,7 @@ require_once '../galaxy.inc';
 require_once 'testConfig.inc';
 
 
-class GenomesTest extends phpunit_5.6_Class {
+class GenomesTest extends phpunit56Class {
 
   /**
    * Intializes the Galaxy object for all of the tests.

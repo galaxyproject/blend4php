@@ -2,6 +2,6 @@
 require_once '../src/ItemTags.inc';
 
 
-class ItemTagsTest extends phpunit_5.6_Class {
+class ItemTagsTest extends phpunit56Class {
 
 }

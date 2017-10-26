@@ -10,7 +10,7 @@ require_once '../src/DataSets.inc';
 
 
 
-class DataSetsTest extends phpunit_5.6_Class {
+class DataSetsTest extends phpunit56Class {
 
 
   /**

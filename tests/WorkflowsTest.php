@@ -5,7 +5,7 @@ require_once './testConfig.inc';
 
 
 
-class WorkflowsTest extends phpunit_5.6_Class {
+class WorkflowsTest extends phpunit56Class {
 
   /**
    * Intializes the Galaxy object for all of the tests.

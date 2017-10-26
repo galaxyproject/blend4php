@@ -3,7 +3,7 @@
 require_once './testConfig.inc';
 require_once '../galaxy.inc';
 
-class GroupRolesTest extends phpunit_5.6_Class {
+class GroupRolesTest extends phpunit56Class {
 
   /**
    * Intializes the Galaxy object for all of the tests.

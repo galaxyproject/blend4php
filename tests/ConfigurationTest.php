@@ -2,6 +2,6 @@
 require_once '../src/Configuration.inc';
 
 
-class ConfigurationTest extends phpunit_5.6_Class {
+class ConfigurationTest extends phpunit56Class {
 
 }

@@ -2,7 +2,7 @@
 require_once './testConfig.inc';
 require_once '../galaxy.inc';
 
-class HistoryContentsTest extends phpunit_5.6_Class {
+class HistoryContentsTest extends phpunit56Class {
 
   /**
    * Intializes the Galaxy object for all of the tests.

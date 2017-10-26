@@ -9,7 +9,7 @@ require_once "../src/Error.inc";
  */
 
 
-class ErrorTest extends phpunit_5.6_Class {
+class ErrorTest extends phpunit56Class {
 
   /**
    * Tests the setError() and getError() functions.

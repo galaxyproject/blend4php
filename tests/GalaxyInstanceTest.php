@@ -8,10 +8,10 @@
  */
 require_once '../src/GalaxyInstance.inc';
 require_once './testConfig.inc';
-define("phpunit_5.6_Class", "PHPUnit_Framework_TestCase");
+define("phpunit56Class", "PHPUnit_Framework_TestCase");
 
 
-class GalaxyInstanceTest extends phpunit_5.6_Class {
+class GalaxyInstanceTest extends phpunit56Class {
 
   /**
    * Tests the getURL function.
