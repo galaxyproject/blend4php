@@ -2,6 +2,6 @@
 require_once '../src/DataSetCollections.inc';
 
 
-class DataSetCollectionsTest extends PHPUnit_Framework_TestCase {
+class DataSetCollectionsTest extends phpunit_5.6_Class {
 
 }

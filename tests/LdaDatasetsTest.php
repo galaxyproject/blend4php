@@ -2,6 +2,6 @@
 require_once '../src/LdaDatasets.inc';
 
 
-class LdaDatasetsTest extends PHPUnit_Framework_TestCase {
+class LdaDatasetsTest extends phpunit_5.6_Class {
 
 }

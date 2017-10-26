@@ -2,6 +2,6 @@
 require_once '../src/ItemTags.inc';
 
 
-class ItemTagsTest extends PHPUnit_Framework_TestCase {
+class ItemTagsTest extends phpunit_5.6_Class {
 
 }

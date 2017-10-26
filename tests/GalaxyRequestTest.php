@@ -12,7 +12,7 @@ require_once '../src/GalaxyInstance.inc';
  *
  */
 
-class GalaxyRequestTest extends PHPUnit_Framework_TestCase {
+class GalaxyRequestTest extends phpunit_5.6_Class {
 
   public function testgetError(){
     global $config;

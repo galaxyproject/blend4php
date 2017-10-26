@@ -2,6 +2,6 @@
 require_once '../src/Pages.inc';
 
 
-class PagesTest extends PHPUnit_Framework_TestCase {
+class PagesTest extends phpunit_5.6_Class {
 
 }

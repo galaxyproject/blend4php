@@ -2,6 +2,6 @@
 require_once '../src/Configuration.inc';
 
 
-class ConfigurationTest extends PHPUnit_Framework_TestCase {
+class ConfigurationTest extends phpunit_5.6_Class {
 
 }
