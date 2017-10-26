@@ -1,7 +1,7 @@
 sudo: false
 language: php
 php:
- - 7.0 # uses the class PHPUnit\Framework\TestCase
+ #- 7.0 # uses the class PHPUnit\Framework\TestCase
  - 5.6 # uses the class PHPUnit_Framework_TestCase
 env:
  - GALAXY_VERSION=release_17.01
