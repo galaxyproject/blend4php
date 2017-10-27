@@ -1,4 +1,6 @@
 <?php
+class_alias("phpunit56Class", "PHPUnit_Framework_TestCase");
+
 
 $config = array(
   "host"=> 'localhost',

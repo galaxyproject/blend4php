@@ -8,7 +8,6 @@
  */
 require_once '../src/GalaxyInstance.inc';
 require_once './testConfig.inc';
-define("phpunit56Class", "PHPUnit_Framework_TestCase");
 
 
 class GalaxyInstanceTest extends phpunit56Class {
