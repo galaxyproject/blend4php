@@ -171,6 +171,8 @@ class WorkflowsTest extends phpunitClass {
     }
     // Check to make sure history has the outputted dataset
     $content_list = $history_content->index(array('history_id' => $history_id));
+	
+	print_r($content_list);
     $this->assertTrue(count($content_list) > 1 and
         array_key_exists('name', $content_list[1]) and $content_list[1]['name'] ==
         'Line/Word/Character count on data 1', "Content not in the desired history");
