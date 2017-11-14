@@ -3,7 +3,7 @@ require_once  '../galaxy.inc';
 require_once './testConfig.inc';
 
 
-class GroupUsersTest extends PHPUnit_Framework_TestCase {
+class GroupUsersTest extends phpunitClass {
 
   /**
    * Intializes the Galaxy object for all of the tests.

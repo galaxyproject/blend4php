@@ -387,7 +387,9 @@ class GalaxyTools extends GalaxyAPIService {
       }
     }
     unset($params['files']);
-    $params['inputs'] = json_encode($inputs);
+	
+	if(!empty($inputs))
+      $params['inputs'] = json_encode($inputs);
 
     // If we have files to upload with the tool, then call the 'uploadFile'
     // function, otherwise just use an httpPOST.

@@ -4,7 +4,7 @@ require_once './testConfig.inc';
 require_once '../src/DataTypes.inc';
 
 
-class DataTypesTest extends PHPUnit_Framework_TestCase {
+class DataTypesTest extends phpunitClass {
 
   /**
    * Intializes the Galaxy object for all of the tests.

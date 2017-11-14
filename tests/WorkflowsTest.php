@@ -5,7 +5,7 @@ require_once './testConfig.inc';
 
 
 
-class WorkflowsTest extends PHPUnit_Framework_TestCase {
+class WorkflowsTest extends phpunitClass {
 
   /**
    * Intializes the Galaxy object for all of the tests.
@@ -140,10 +140,9 @@ class WorkflowsTest extends PHPUnit_Framework_TestCase {
     // Make sure the count of this list is greater than 0
     $this->assertTrue((count($content_list) > 0) , "Content was not added to history.");
     $content_id = $content_list[0]['id'];
-
-
-    // Case 1: Successfully execute workflow with defualt perameters
-    $invocation = $workflows->invoke(array('workflow_id' => $workflow_id, 'input_dataset_ids' => array($content_id)));
+	
+    // Case 1: Successfully execute workflow with default parameters
+    $invocation = $workflows->invoke(array('workflow_id' => $workflow_id, 'inputs' => array(array('id' => $content_id, 'src' => 'hda'))));
     $this->assertTrue(is_array($invocation), $galaxy->getErrorMessage());
     $this->assertTrue(array_key_exists('state', $invocation) and $invocation['state'] == 'new',
         "Workflow invoked returned an array but the workflow is not in the proper state.");
@@ -158,8 +157,8 @@ class WorkflowsTest extends PHPUnit_Framework_TestCase {
     // Case 2: Successfully execute workflow with history id
     $invocation = $workflows->invoke(array(
       'workflow_id' => $workflow_id,
-      'input_dataset_ids' => array($content_id),
-      'hist_id' => $history_id
+      'inputs' => array(array('id' => $content_id, 'src' => 'hda')),
+      'history_id' => $history_id
       
     ));
     $this->assertTrue(is_array($invocation), $galaxy->getErrorMessage());
@@ -194,7 +193,7 @@ class WorkflowsTest extends PHPUnit_Framework_TestCase {
     // Case 1: correctly return a list of invocations upon a correct workflow_id
     $invocations = $workflows->indexInvocations(array('workflow_id' => $workflow_id));
     $this->assertTrue(is_array($invocations), $galaxy->getErrorMessage());
-    $invocation_id = $invocations[0]['id'];
+	$invocation_id = $invocations[0]['id'];
 
     // Case 2: correctly return false upon an incorrect workflow_id
     $invocations = $workflows->indexInvocations(array('workflow_id' => "@@@"));

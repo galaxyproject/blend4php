@@ -1,9 +1,9 @@
-<?php
+5<?php
 require_once '../galaxy.inc';
 require_once 'testConfig.inc';
 
 
-class JobsTest extends PHPUnit_Framework_TestCase {
+class JobsTest extends phpunitClass {
 
 
   /**
@@ -91,8 +91,9 @@ class JobsTest extends PHPUnit_Framework_TestCase {
     $inputs['state'] = 'paused';
     if(!empty($default))
       $inputs['tool_ids'] = $default[0]['tool_id'];
-    $inputs['date_range_min'] = '2015-12-09';
-    $inputs['date_range_max'] = '2016-03-09';
+	  
+    $inputs['date_range_min'] = '2014-12-09';
+//    $inputs['date_range_max'] = '2017-06-09';
 
     $index = $jobs->index($inputs );
     $this->assertTrue(is_array($index), $galaxy->getErrorMessage());
@@ -176,14 +177,26 @@ class JobsTest extends PHPUnit_Framework_TestCase {
    */
   public function testBuildForReRun($default, $galaxy){
     $jobs = new GalaxyJobs($galaxy);
-
+	$tool = new GalaxyTools($galaxy);
+	$history = new GalaxyHistories($galaxy);
+	$history_contents = new GalaxyHistoryContents($galaxy);
+	
+	$hist_id = $history->getMostRecentlyUsed()['id'];
+	$content  = $history_contents->index(array('history_id' => $hist_id));
+	
+	$test = $tool->create( array('tool_id' => 'wc_gnu',
+															'history_id' => $hist_id));
+	// the wc_gnu tool is default to galaxy so use that for rerun
+	// because you can't use upload1 to  build for rerun
+	
     // Case 1: Successfully build for rerun given a correct job id
     $inputs = array();
-    if(!empty($default))
-      $inputs['id'] = $default[0]['id'];
+    
+	// Grab the wc_gnu tool from the top as it should be the must recently queued/running job
+	$inputs['id'] = $jobs->index(array())[0]['id'];
 
     $rerun_job = $jobs->buildForRerun($inputs);
-    $this->assertTrue(is_array($rerun_job));
+    $this->assertTrue(is_array($rerun_job), $galaxy->getErrorMessage());
   }
 
   /**
