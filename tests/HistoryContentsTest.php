@@ -2,7 +2,7 @@
 require_once './testConfig.inc';
 require_once '../galaxy.inc';
 
-class HistoryContentsTest extends PHPUnit_Framework_TestCase {
+class HistoryContentsTest extends phpunitClass {
 
   /**
    * Intializes the Galaxy object for all of the tests.
@@ -17,6 +17,7 @@ class HistoryContentsTest extends PHPUnit_Framework_TestCase {
     $galaxy = new GalaxyInstance($config['host'], $config['port'], FALSE);
 
     $response = $galaxy->authenticate($config['email'], $config['pass']);
+	$this->assertTrue($response == 1, $galaxy->getErrorMessage());
 
     return $galaxy;
   }

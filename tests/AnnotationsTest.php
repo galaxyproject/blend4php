@@ -2,6 +2,6 @@
 require_once '../src/Annotations.inc';
 
 
-class AnnotationsTest extends PHPUnit_Framework_TestCase {
+class AnnotationsTest extends phpunitClass {
 
 }

@@ -6,11 +6,13 @@ if(version_compare(phpversion(), '7.0.0') >= 0)
 {
 	class_alias("PHPUnit\Framework\TestCase", "phpunitClass");
 }
+
 // Else less than php 7.0 (must be at least php 5.6 for phpunit to run)
 else
 {
 	class_alias("PHPUnit_Framework_TestCase", "phpunitClass");
 }
+
 // Example of what the config array  should look like
 $config = array(
   "host"=> 'localhost',

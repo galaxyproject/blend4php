@@ -12,7 +12,7 @@ require_once './testConfig.inc';
 use PHPUnit\Framework\TestCase;
 
 
-class GalaxyInstanceTest extends PHPUnit_Framework_TestCase {
+class GalaxyInstanceTest extends phpunitClass {
 
   /**
    * Tests the getURL function.

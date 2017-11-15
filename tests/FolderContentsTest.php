@@ -3,7 +3,7 @@ require_once '../galaxy.inc';
 require_once 'testConfig.inc';
 
 
-class FolderContentsTest extends PHPUnit_Framework_TestCase {
+class FolderContentsTest extends phpunitClass {
   /**
    * Intializes the Galaxy object for all of the tests.
    *

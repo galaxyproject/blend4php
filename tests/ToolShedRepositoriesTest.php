@@ -2,7 +2,7 @@
 require_once './testConfig.inc';
 require_once '../galaxy.inc';
 
-class ToolShedRepositoriesTest extends PHPUnit_Framework_TestCase {
+class ToolShedRepositoriesTest extends phpunitClass {
   /**
    * Intializes the Galaxy object for all of the tests.
    *

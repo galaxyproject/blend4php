@@ -4,7 +4,7 @@ require_once '../src/Visualizations.inc';
 require_once '../src/GalaxyInstance.inc';
 require_once './testConfig.inc';
 
-class VisualizationsTest extends PHPUnit_Framework_TestCase {
+class VisualizationsTest extends phpunitClass {
 
 
   /**

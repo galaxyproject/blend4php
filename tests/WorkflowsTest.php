@@ -140,9 +140,10 @@ class WorkflowsTest extends phpunitClass {
     // Make sure the count of this list is greater than 0
     $this->assertTrue((count($content_list) > 0) , "Content was not added to history.");
     $content_id = $content_list[0]['id'];
-	
-    // Case 1: Successfully execute workflow with default parameters
-    $invocation = $workflows->invoke(array('workflow_id' => $workflow_id, 'inputs' => array(array('id' => $content_id, 'src' => 'hda'))));
+
+
+    // Case 1: Successfully execute workflow with defualt perameters
+    $invocation = $workflows->invoke(array('workflow_id' => $workflow_id, 'input_dataset_ids' => array($content_id)));
     $this->assertTrue(is_array($invocation), $galaxy->getErrorMessage());
     $this->assertTrue(array_key_exists('state', $invocation) and $invocation['state'] == 'new',
         "Workflow invoked returned an array but the workflow is not in the proper state.");
@@ -157,22 +158,20 @@ class WorkflowsTest extends phpunitClass {
     // Case 2: Successfully execute workflow with history id
     $invocation = $workflows->invoke(array(
       'workflow_id' => $workflow_id,
-      'inputs' => array(array('id' => $content_id, 'src' => 'hda')),
-      'history_id' => $history_id
+      'input_dataset_ids' => array($content_id),
+      'hist_id' => $history_id
       
     ));
     $this->assertTrue(is_array($invocation), $galaxy->getErrorMessage());
     // Make sure the newly created invoke workflow is not of state 'new' or state
     // 'running'.
-    while ($invocation['state'] == 'running' or $invocation['state'] == 'new'  or $invocation['state'] == 'queued') {
+    while ($invocation['state'] == 'running' or $invocation['state'] == 'new' ) {
       sleep(1);
       $invocation =  $workflows->showInvocations(array('workflow_id' => $workflow_id, 'invocation_id' => $invocation['id']));
       $this->assertTrue(is_array($invocation), $galaxy->getErrorMessage());
     }
     // Check to make sure history has the outputted dataset
     $content_list = $history_content->index(array('history_id' => $history_id));
-	print_r($invocation);
-	print_r($content_list);
     $this->assertTrue(count($content_list) > 1 and
         array_key_exists('name', $content_list[1]) and $content_list[1]['name'] ==
         'Line/Word/Character count on data 1', "Content not in the desired history");
@@ -195,7 +194,7 @@ class WorkflowsTest extends phpunitClass {
     // Case 1: correctly return a list of invocations upon a correct workflow_id
     $invocations = $workflows->indexInvocations(array('workflow_id' => $workflow_id));
     $this->assertTrue(is_array($invocations), $galaxy->getErrorMessage());
-	$invocation_id = $invocations[0]['id'];
+    $invocation_id = $invocations[0]['id'];
 
     // Case 2: correctly return false upon an incorrect workflow_id
     $invocations = $workflows->indexInvocations(array('workflow_id' => "@@@"));
