@@ -455,6 +455,8 @@ class GalaxyWorkflows extends GalaxyAPIService {
    */
   public function invoke($params) {
 
+	  //print_r($params);
+	  
     // Check for required fields.
     if (!$this->checkRequiredParams($params, array('workflow_id', 'inputs'))) {
       return FALSE;
