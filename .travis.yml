@@ -3,9 +3,9 @@ sudo: false
 language: php
 php:
  - 7.0
-# - 5.6
+ - 5.6
 env:
- #- GALAXY_VERSION=release_17.01
+ - GALAXY_VERSION=release_17.01
  - GALAXY_VERSION=release_16.07
 # - GALAXY_VERSION=release_16.04
 # - GALAXY_VERSION=release_16.01
