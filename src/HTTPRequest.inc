@@ -154,7 +154,7 @@ class GalaxyHTTPRequest  {
     foreach ($curl_options as $option => $value) {
       curl_setopt($ch, $option, $value);
     }
-
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Cookie: galaxysession=c6ca0ddb55be603aecae1b144986932a1629286f5394f1bd2460ce1ddd98a3e1e8912fa08f49700c"));
     curl_setopt($ch, CURLOPT_URL, $URL);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
 
@@ -353,13 +353,25 @@ class GalaxyHTTPRequest  {
     $ch = curl_init();
 
     // Set the curl options for this API call.
+	curl_setopt($ch, CURLINFO_HEADER_OUT, true);
     curl_setopt($ch, CURLOPT_URL, $URL);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
     curl_setopt($ch, CURLOPT_USERPWD, $username . ':' . $password);
-
     // Execute the connection.
+   
     $response = $this->getCURLResponse($ch);
+	//print_r($response);
+	$info = (curl_getinfo($ch));
+	//print_r($info['request_header']);
+	$auth_header="/Authorization: (\w+) (.*)/";
+	$matches = "";
+	preg_match($auth_header, $info['request_header'], $matches);
+    
     curl_close($ch);
+	// Along with the api key being there, append the Authorization
+	$response['Authorization'] = "Authorizaion: "  . $matches[1] . " ".  $matches[2];
+	
+	print_r($response);
 
     return $response;
   }

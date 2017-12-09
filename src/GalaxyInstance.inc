@@ -145,6 +145,7 @@ class GalaxyInstance extends GalaxyHTTPRequest {
     $this->port = $port;
     $this->use_https  = $use_https;
     $this->api_key = '';
+	$this->auth_header = '';
 
   }
 
@@ -197,7 +198,7 @@ class GalaxyInstance extends GalaxyHTTPRequest {
       return FALSE;
     }
     $this->setAPIKey($response['api_key']);
-
+	$this->setauthHeader($response['Authorization']);
     return TRUE;
   }
 
@@ -243,5 +244,13 @@ class GalaxyInstance extends GalaxyHTTPRequest {
    */
   public function getAPIKey(){
     return $this->api_key;
+  }
+  
+  public function setauthHeader($auth_header){
+	  $this->auth_header = $auth_header;
+  }
+  
+  public function getauthHeader(){
+	  return $this->auth_header;
   }
 }

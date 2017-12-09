@@ -46,13 +46,17 @@ class GalaxyJobs extends GalaxyAPIService {
     if (!$this->checkAllowedParams($params, array('id'))) {
       return FALSE;
     }
-
-    // Contruct the basic URL to the Galaxy API.
+	
+	    // Contruct the basic URL to the Galaxy API.
     $URL = $this->galaxy->getURL() . '/api/jobs/'. $params['id'] . '/build_for_rerun';
-    $URL .= '?key=' . $this->galaxy->getAPIKey();
+   // $URL .= '?key=' . $this->galaxy->getAPIKey() . '&history_id='. '59ace41fc068d3ad';
+	
+	//$curl_options = array(
+	//	2107 => $this->galaxy->getauthHeader(),
+	//);
 
     // Get the response from the Galaxy server.
-    $response = $this->galaxy->httpGET($URL);
+    $response = $this->galaxy->httpGET($URL);//$curl_options);
     return $this->galaxy->expectArray($response);
   }
 
