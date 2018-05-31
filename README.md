@@ -120,3 +120,8 @@ This work is supported by the US National Science Foundation (NSF) award #144304
 
 # License
 blend4php is made available under version 3 of the GNU Lesser General Public License
+
+# Cite
+If you find blend4php useful in your publishable work. Please include this reference in your citation list:
+
+Wytko, C., Soto, B., & Ficklin, S. P. (2017). blend4php: a PHP API for galaxy. Database: The Journal of Biological Databases and Curation, 2017, baw154. http://doi.org/10.1093/database/baw154
