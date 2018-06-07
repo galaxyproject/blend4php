@@ -470,22 +470,19 @@ class GalaxyWorkflows extends GalaxyAPIService {
 
     $URL = $this->galaxy->getURL() . '/api/workflows/' . $params['workflow_id'] . '/invocations/?key=' . $this->galaxy->getAPIKey();
 
-	if(array_key_exists('history_id', $params))
-	{
-		$elements = array(
-			'inputs' => json_encode($params['inputs'], JSON_FORCE_OBJECT),
-			'dataset_map' => json_encode($params['inputs'], JSON_FORCE_OBJECT),
-			'history_id' => $params['history_id'],
-		);
-	}
-	
-    else
-	{
-		$elements = array(
-			'inputs' => json_encode($params['inputs'], JSON_FORCE_OBJECT),
-			'dataset_map' => json_encode($params['inputs'], JSON_FORCE_OBJECT),
-		);
-	}
+  	if(array_key_exists('history_id', $params)) {
+  		$elements = array(
+  			'inputs' => json_encode($params['inputs'], JSON_FORCE_OBJECT),
+  			'dataset_map' => json_encode($params['inputs'], JSON_FORCE_OBJECT),
+  			'history_id' => $params['history_id'],
+  		);
+  	}
+    else {
+  		$elements = array(
+  			'inputs' => json_encode($params['inputs'], JSON_FORCE_OBJECT),
+  			'dataset_map' => json_encode($params['inputs'], JSON_FORCE_OBJECT),
+  		);
+  	}
 
     // If the user provided parameters we want to add them to the elements
     // that get passed to the POST.

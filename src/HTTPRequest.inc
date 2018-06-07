@@ -68,14 +68,15 @@ class GalaxyHTTPRequest  {
     }
 
     // Check the header to see how to deal with the content.  Normally will
-    // alawys have JSON but in case not we should handle it gracefully.
+    // always have JSON but in case not we should handle it gracefully.
     $content_type = $headers['content-type'][0];
+    
     if (preg_match('/x-gzip/', $content_type)) {
       return $body;
     }
     // Automatically convert JSON format to an array and deal with any errors.
     else if(preg_match('/application\/json/', $content_type)) {
-
+     
       // Case 1: Galaxy just returns 'null'.
       if ($body == "null") {
         $this->error->setError('Galaxy', 'Unknown response from Galaxy: null');
@@ -84,6 +85,7 @@ class GalaxyHTTPRequest  {
 
       // All other cases we can decode the JSON.
       $response = json_decode($body, TRUE);
+
 
       // Case 2:  The message is not in JSON format.
       if ($response === NULL) {
@@ -108,12 +110,11 @@ class GalaxyHTTPRequest  {
       if (array_key_exists('traceback', $response)) {
         // Case 4a: The traceback had an error message.
         if (array_key_exists('err_msg', $response)) {
-          $this->error->setError('Galaxy', $response['err_msg']);
+          $this->error->setError('Galaxy', $response['err_msg'] . ' ' .  $response['traceback']);
           return FALSE;
         }
         // Case 4b: The traceback did not have an error.
         else {
-
           $this->error->setError('Galaxy', 'A galaxy error was detected, though its contents are unknown');
           return FALSE;
         }
@@ -186,8 +187,9 @@ class GalaxyHTTPRequest  {
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_SAFE_UPLOAD, 1);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, True);
-    if ($input !== NULL)
+    if ($input !== NULL) {
       curl_setopt($ch, CURLOPT_POSTFIELDS, $input);
+    }
 
     $response = $this->getCURLResponse($ch);
 
