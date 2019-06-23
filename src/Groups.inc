@@ -148,10 +148,10 @@ class GalaxyGroups extends GalaxyAPIService {
     $URL = $this->galaxy->getURL() . '/api/groups/' . $params['group_id'] . '/?key=' . $this->galaxy->getAPIKey();
 
     if (array_key_exists('user_ids', $params))
-      $params['user_ids'] = json_encode($user_ids);
+      $params['user_ids'] = json_encode($params['user_ids']);
 
     if (array_key_exists('role_ids', $params))
-      $params['role_ids'] = json_encode($role_ids);
+      $params['role_ids'] = json_encode($params['role_ids']);
 
     $response = $this->galaxy->httpPUT($URL, $params);
     return $response;
